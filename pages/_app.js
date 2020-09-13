@@ -6,6 +6,26 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Layout from '../src/components/Layout';
 import theme from '../src/theme';
 
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import '../styles/nprogress.css';
+
+NProgress.configure({
+  showSpinner: false
+})
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+
+Router.onRouteChangeComplete = (url) => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
+
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
