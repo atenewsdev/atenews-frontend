@@ -8,28 +8,28 @@ const theme = createMuiTheme({
       'Open Sans',
     ].join(','),
     h1: {
-      fontFamily: 'Oswald',
-      fontWeight: 600
+      fontFamily: 'Montserrat',
+      fontWeight: 700
     },
     h2: {
-      fontFamily: 'Oswald',
-      fontWeight: 600
+      fontFamily: 'Montserrat',
+      fontWeight: 700
     },
     h3: {
-      fontFamily: 'Oswald',
-      fontWeight: 500
+      fontFamily: 'Montserrat',
+      fontWeight: 700
     },
     h4: {
-      fontFamily: 'Oswald',
-      fontWeight: 500
+      fontFamily: 'Montserrat',
+      fontWeight: 600
     },
     h5: {
-      fontFamily: 'Oswald',
-      fontWeight: 400
+      fontFamily: 'Montserrat',
+      fontWeight: 600
     },
     h6: {
-      fontFamily: 'Oswald',
-      fontWeight: 400
+      fontFamily: 'Montserrat',
+      fontWeight: 600
     }
   },
   palette: {
@@ -37,7 +37,7 @@ const theme = createMuiTheme({
       main: '#195EA9',
     },
     secondary: {
-      main: '#19857b',
+      main: '#fff',
     },
     error: {
       main: red.A400,
@@ -45,6 +45,13 @@ const theme = createMuiTheme({
     background: {
       default: '#fff',
     },
+    atenews: {
+      news: '#263E8E',
+      features: '#FAB417',
+      highlight: '#972E34',
+      montage: '#40AE4B',
+      diversions: '#F9761D'
+    }
   },
 });
 

@@ -9,6 +9,9 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 
+import ProfileView from './PopoutViews/Profile';
+import NotificationView from './PopoutViews/Notification';
+import SearchView from './PopoutViews/Search';
 
 const useStyles = makeStyles({
   account: {
@@ -18,18 +21,13 @@ const useStyles = makeStyles({
     alignItems: 'center',
     textAlign: 'center',
     right: 0,
-    marginRight: 20,
+    marginRight: '1vw',
     height: 65,
   },
   button: {
     height: 65,
     width: 65,
     borderRadius: 0
-  },
-  viewContainer: {
-    background: '#195EA9',
-    color: '#ffffff',
-    padding: 20
   }
 });
 
@@ -39,26 +37,20 @@ export default function AccountBar() {
 
   const profileView = () => {
     return (
-      <div className={classes.viewContainer}>
-        This is profile view.
-      </div>
+      <ProfileView />
     )
   }
   
   
   const notificationView = () => {
     return (
-      <div className={classes.viewContainer}>
-        This is notification view.
-      </div>
+      <NotificationView />
     )
   }
   
   const searchView = () => {
     return (
-      <div className={classes.viewContainer}>
-        This is search view.
-      </div>
+      <SearchView />
     )
   }
 

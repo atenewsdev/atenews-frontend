@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import Menu from './Menu';
 import SubMenu from './SubMenu';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     position: 'fixed'
   },
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     width: '15vw',
     minHeight: 65
   },
-});
+}));
 
 export default function Navigation() {
   const classes = useStyles();

@@ -25,7 +25,7 @@ export default function Page() {
         <title>University News - Atenews</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Typography variant="h1">University News</Typography>
+      <Typography variant="h3">Ateneans ‘mostly dissatisfied’ with tuition fees, survey shows</Typography>
       <Typography>
         Hello World
       </Typography>
