@@ -25,7 +25,7 @@ const theme = createMuiTheme({
     },
     h5: {
       fontFamily: 'Montserrat',
-      fontWeight: 600
+      fontWeight: 700
     },
     h6: {
       fontFamily: 'Montserrat',

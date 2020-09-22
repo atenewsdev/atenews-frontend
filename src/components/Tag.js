@@ -8,11 +8,9 @@ const useStyles = makeStyles((theme) => ({
     width: 'max-content',
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    height: 25,
+    height: 20,
     color: 'white',
-    fontSize: 10,
-    textAlign: 'center',
-    marginBottom: theme.spacing(1)
+    textAlign: 'center'
   }
 }));
 
@@ -45,7 +43,7 @@ const Tag = ({ type }) => {
 
   return (
     <div className={classes.tag} style={{ backgroundColor: color }}>
-      <Typography variant="body1">{type}</Typography>
+      <Typography variant="body2">{type}</Typography>
     </div>
   )
 }
