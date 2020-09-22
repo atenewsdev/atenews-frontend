@@ -51,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     borderLeft: 0,
     borderTop: 0,
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   trendingStats: {
     position: 'absolute',

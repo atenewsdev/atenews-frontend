@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
-    zIndex: -9999
+    zIndex: -9999,
+    marginBottom: theme.spacing(4)
   },
   title: {
     color: '#ffffff',

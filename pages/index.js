@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Trending from 'src/components/Home/Trending';
 import Title from 'src/components/Home/Title';
+import ArticleGrid from 'src/components/Home/ArticleGrid';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,12 +50,12 @@ export default function Home() {
 
       <div className={classes.section}>
         <Title color={theme.palette.atenews.news}>News</Title>
-        <div style={{ height: 500 }} />
+        <ArticleGrid />
       </div>
 
       <div className={classes.section}>
         <Title color={theme.palette.atenews.features}>Features</Title>
-        <div style={{ height: 500 }} />
+        <ArticleGrid />
       </div>
 
       <div style={{ height: 500 }} />
