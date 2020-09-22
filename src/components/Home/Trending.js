@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Hidden from '@material-ui/core/Hidden';
+
 import Tag from 'src/components/Tag';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
@@ -49,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: 100,
     borderRadius: 0,
-    borderLeft: 0,
     borderTop: 0,
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     borderTop: '20px solid transparent',
     borderBottom: '20px solid transparent',
-    borderRight: '20px solid white',
+    borderRight: `20px solid white`,
     zIndex: 9999
   },
   twoLineText: {
@@ -107,50 +108,52 @@ const Trending = () => {
 
   return (
     <Grid container spacing={0}>
-      <Grid item xs={8} style={{ position: 'relative', zIndex: -9999 }}>
-        <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
-        <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
-          <div className={classes.bannerDetailsContainer}>
-            <div className={classes.bannerDetails}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type={hoveredData.type} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h5" style={{ marginTop: theme.spacing(1) }}>{hoveredData.title}</Typography>
-                </Grid>
-              </Grid>
-              <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
-                <Grid container xs={4} spacing={1}>
-                  <Grid item xs={2}>
-                    <AccountIcon />
+      <Hidden xsDown>
+        <Grid item sm={8} style={{ position: 'relative', zIndex: -9999 }}>
+          <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
+          <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
+            <div className={classes.bannerDetailsContainer}>
+              <div className={classes.bannerDetails}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Tag type={hoveredData.type} />
                   </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.author}</Typography>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" style={{ marginTop: theme.spacing(1) }}>{hoveredData.title}</Typography>
                   </Grid>
                 </Grid>
-                <Grid container xs={4} spacing={1}>
-                  <Grid item xs={2}>
-                    <ClockIcon />
+                <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
+                  <Grid container xs={4} spacing={1}>
+                    <Grid item xs={2}>
+                      <AccountIcon />
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.author}</Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.date}</Typography>
+                  <Grid container xs={4} spacing={1}>
+                    <Grid item xs={2}>
+                      <ClockIcon />
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.date}</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container xs={4} spacing={1}>
+                    <Grid item xs={2}>
+                      <PhotoIcon />
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.photojournalist}</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container xs={4} spacing={1}>
-                  <Grid item xs={2}>
-                    <PhotoIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.photojournalist}</Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
+              </div>
             </div>
           </div>
-        </div>
-      </Grid>
-      <Grid item xs={4}>
+        </Grid>
+      </Hidden>
+      <Grid item sm={4}>
         <div className={classes.trendingHead}>
           <Typography variant="h6">Trending Articles</Typography>
         </div>

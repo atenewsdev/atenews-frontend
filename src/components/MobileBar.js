@@ -32,7 +32,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(12)
   },
   menuButton: {
     marginLeft: theme.spacing(0.5),
@@ -227,7 +227,7 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky" color="transparent" elevation={0}>
+      <AppBar color="white" elevation={0} style={{ paddingTop: 5, paddingBottom: 5, zIndex: 20 }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />

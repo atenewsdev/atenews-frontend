@@ -51,10 +51,10 @@ const Trending = () => {
   return (
     <div>
       <Grid container xs={12} spacing={2} alignItems="center">
-        <Grid item xs={6}>
+        <Grid item sm={6}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={6}>
           <Typography variant="h5">Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
             <Grid container xs={6}>
@@ -115,7 +115,7 @@ const Trending = () => {
       </Grid>
 
       <Grid container xs={12} spacing={2} alignItems="center">
-        <Grid item xs={4}>
+        <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
           <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
@@ -172,7 +172,7 @@ const Trending = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
           <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
@@ -229,7 +229,7 @@ const Trending = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
           <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
