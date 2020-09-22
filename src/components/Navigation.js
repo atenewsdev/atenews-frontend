@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url("/logo.png")',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
+    backgroundSize: '80%',
     width: 65,
     height: 65,
     margin: 'auto',
@@ -66,11 +66,8 @@ export default function Navigation() {
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant='body1'>University</Typography>} color='#263E8E' onClick={() => handleClick('/news/university')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Local</Typography>} color='#263E8E' onClick={() => handleClick('/news/local')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>National</Typography>} color='#263E8E' onClick={() => handleClick('/news/national')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Sports</Typography>} color='#263E8E' onClick={() => handleClick('/news/sports')}/>
         </div>
       </Menu>
@@ -82,9 +79,7 @@ export default function Navigation() {
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant='body1'>Features</Typography>} color='#fab417' onClick={() => handleClick('/features')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Montage</Typography>} color='#fab417' onClick={() => handleClick('/features/montage')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Artists</Typography>} color='#fab417' onClick={() => handleClick('/features/artists')}/>
         </div>
       </Menu>
@@ -96,9 +91,7 @@ export default function Navigation() {
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant='body1'>Column</Typography>} color='#972e34' onClick={() => handleClick('/opinion/column')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Editorial</Typography>} color='#972e34' onClick={() => handleClick('/opinion/editorial')}/>
-          <Divider />
           <SubMenu label={<Typography variant='body1'>Blueblood</Typography>} color='#972e34' onClick={() => handleClick('/opinion/blueblood')}/>
         </div>
       </Menu>

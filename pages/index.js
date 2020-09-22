@@ -10,7 +10,9 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     textAlign: 'center',
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
+    height: 65,
+    padding: 5
   },
   account: {
     position: 'absolute',
@@ -38,8 +40,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={ classes.header }>
-        <img src="/atenews-header.svg" height="40"></img>
-        <Typography variant="subtitle2">
+        <img src="/atenews-header.svg" height="35"></img>
+        <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
           The official student publication of the Ateneo de Davao University
         </Typography>
       </div>

@@ -10,10 +10,21 @@ const useStyles = makeStyles((theme) => ({
   bannerImage: {
     width: '100%',
     height: 570,
-    backgroundImage: 'url(https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg)',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover'
+  },
+  bannerDetailsContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 570,
+    backgroundImage: 'linear-gradient(180deg, transparent, black)'
+  },
+  bannerDetails: {
+    position: 'absolute',
+    bottom: 0,
+    color: 'white',
+    padding: theme.spacing(4)
   },
   trendingHead: {
     background: '#195EA9',
@@ -38,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     borderTop: '20px solid transparent',
     borderBottom: '20px solid transparent',
-    borderRight: '20px solid white'
+    borderRight: '20px solid white',
+    zIndex: 9999
   }
 }));
 
@@ -46,37 +58,50 @@ const useStyles = makeStyles((theme) => ({
 const Trending = () => {
   const classes = useStyles();
 
+  const [hoveredData, setHoveredData] = React.useState({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?' });
+  
+
+  const onHover = (data) => {
+    setHoveredData(data);
+  }
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={8} style={{ position: 'relative', zIndex: -9999 }}>
-        <div className={classes.arrow} />
-        <div className={classes.bannerImage} />
+        <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
+        <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
+          <div className={classes.bannerDetailsContainer}>
+            <div className={classes.bannerDetails}>
+              <Typography variant="h4">{hoveredData.title}</Typography>
+            </div>
+          </div>
+        </div>
       </Grid>
       <Grid item xs={4}>
         <div className={classes.trendingHead}>
-          <Typography variant="h5">Trending Articles</Typography>
+          <Typography variant="h6">Trending Articles</Typography>
         </div>
-        <CardActionArea>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/open-sports.jpg', index: 1, title: 'PH Olympian highlights effort and excellence for sports and academic success' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/C4391BC7-8A79-4062-B1C7-41023DACA962-2048x1068.jpeg', index: 2, title: '‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/E8EBE884-674A-46DA-95E8-92AF65AACC7D-2048x1068.jpeg', index: 3, title: 'Satellite use key to internet democracy in PH—ICT researcher' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/319F7398-AEDE-4475-A46A-A780D3AAFCEA.jpeg', index: 4, title: 'LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
