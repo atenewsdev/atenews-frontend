@@ -1,10 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Tag from 'src/components/Tag';
 
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
@@ -57,8 +58,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Trending = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
-  const [hoveredData, setHoveredData] = React.useState({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?' });
+  const [hoveredData, setHoveredData] = React.useState({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?', type: 'Features' });
   
 
   const onHover = (data) => {
@@ -72,6 +74,7 @@ const Trending = () => {
         <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
           <div className={classes.bannerDetailsContainer}>
             <div className={classes.bannerDetails}>
+              <Tag type={hoveredData.type} />
               <Typography variant="h4">{hoveredData.title}</Typography>
             </div>
           </div>
@@ -81,27 +84,27 @@ const Trending = () => {
         <div className={classes.trendingHead}>
           <Typography variant="h6">Trending Articles</Typography>
         </div>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?' })}>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?', type: 'Features' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/open-sports.jpg', index: 1, title: 'PH Olympian highlights effort and excellence for sports and academic success' })}>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/open-sports.jpg', index: 1, title: 'PH Olympian highlights effort and excellence for sports and academic success', type: 'News' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/C4391BC7-8A79-4062-B1C7-41023DACA962-2048x1068.jpeg', index: 2, title: '‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure' })}>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/C4391BC7-8A79-4062-B1C7-41023DACA962-2048x1068.jpeg', index: 2, title: '‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure', type: 'News' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/E8EBE884-674A-46DA-95E8-92AF65AACC7D-2048x1068.jpeg', index: 3, title: 'Satellite use key to internet democracy in PH—ICT researcher' })}>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/E8EBE884-674A-46DA-95E8-92AF65AACC7D-2048x1068.jpeg', index: 3, title: 'Satellite use key to internet democracy in PH—ICT researcher', type: 'News' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
         </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/319F7398-AEDE-4475-A46A-A780D3AAFCEA.jpeg', index: 4, title: 'LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant' })}>
+        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/319F7398-AEDE-4475-A46A-A780D3AAFCEA.jpeg', index: 4, title: 'LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant', type: 'News' })}>
           <Paper variant="outlined" className={classes.trendingItem}>
             test
           </Paper>
