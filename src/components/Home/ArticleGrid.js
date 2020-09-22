@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Tag from 'src/components/Tag';
+import Link from 'src/components/Link';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
@@ -50,12 +52,12 @@ const Trending = () => {
 
   return (
     <div>
-      <Grid container xs={12} spacing={2} alignItems="center">
+      <Grid container xs={12} spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
         <Grid item sm={6}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
         </Grid>
         <Grid item sm={6}>
-          <Typography variant="h5">Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
+          <Link href=""><Typography variant="h5">Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
             <Grid container xs={6}>
               <Grid item xs={2}>
@@ -77,7 +79,7 @@ const Trending = () => {
 
           <Typography variant="body1">To address the pandemic response issues of the Filipinos, renowned Sociologist Nicole Curato Ph.D. in the 2nd Social Sciences Online Conversation last August 29 stated that ‘deliberative democracy’ was a necessary component.</Typography>
 
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
+          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
             <Grid container xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
@@ -117,7 +119,7 @@ const Trending = () => {
       <Grid container xs={12} spacing={2} alignItems="center">
         <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
-          <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
+          <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
             <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
@@ -174,7 +176,7 @@ const Trending = () => {
         </Grid>
         <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
-          <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
+          <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
             <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
@@ -231,7 +233,7 @@ const Trending = () => {
         </Grid>
         <Grid item sm={4}>
           <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
-          <Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography>
+          <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
             <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
