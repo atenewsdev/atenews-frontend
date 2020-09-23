@@ -80,7 +80,7 @@ const Trending = () => {
           <Typography variant="body1">To address the pandemic response issues of the Filipinos, renowned Sociologist Nicole Curato Ph.D. in the 2nd Social Sciences Online Conversation last August 29 stated that ‘deliberative democracy’ was a necessary component.</Typography>
 
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
               </Grid>
@@ -88,7 +88,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">192</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <DislikeIcon />
               </Grid>
@@ -96,7 +96,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">168</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <CommentIcon />
               </Grid>
@@ -104,7 +104,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">254</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <ShareIcon />
               </Grid>
@@ -140,7 +140,7 @@ const Trending = () => {
           </Grid>
 
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
               </Grid>
@@ -148,7 +148,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">192</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <DislikeIcon />
               </Grid>
@@ -156,7 +156,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">168</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <CommentIcon />
               </Grid>
@@ -164,7 +164,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">254</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <ShareIcon />
               </Grid>
@@ -197,7 +197,7 @@ const Trending = () => {
           </Grid>
 
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
               </Grid>
@@ -205,7 +205,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">192</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <DislikeIcon />
               </Grid>
@@ -213,7 +213,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">168</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <CommentIcon />
               </Grid>
@@ -221,7 +221,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">254</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <ShareIcon />
               </Grid>
@@ -254,7 +254,7 @@ const Trending = () => {
           </Grid>
 
           <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
               </Grid>
@@ -262,7 +262,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">192</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <DislikeIcon />
               </Grid>
@@ -270,7 +270,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">168</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <CommentIcon />
               </Grid>
@@ -278,7 +278,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">254</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={3} spacing={1}>
+            <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <ShareIcon />
               </Grid>

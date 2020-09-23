@@ -15,10 +15,9 @@ const useStyles = makeStyles({
     userSelect: 'none',
     textDecoration: 'none',
     color: 'white',
-    background: '#195EA9',
+    background: '#195EA9'
   },
   menuLabel: {
-    zIndex: 0,
     color: 'white'
   },
 });

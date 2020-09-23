@@ -7,7 +7,6 @@ import ArticleGrid from 'src/components/Home/ArticleGrid';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    zIndex: -1
   },
   header: {
     textAlign: 'center',
@@ -57,8 +56,6 @@ export default function Home() {
         <Title color={theme.palette.atenews.features}>Features</Title>
         <ArticleGrid />
       </div>
-
-      <div style={{ height: 500 }} />
 
     </div>
   )

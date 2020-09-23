@@ -74,8 +74,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     borderTop: '20px solid transparent',
     borderBottom: '20px solid transparent',
-    borderRight: `20px solid white`,
-    zIndex: 9999
+    borderRight: `20px solid white`
   },
   twoLineText: {
     overflow: 'hidden',
@@ -109,7 +108,7 @@ const Trending = () => {
   return (
     <Grid container spacing={0}>
       <Hidden xsDown>
-        <Grid item sm={8} style={{ position: 'relative', zIndex: -9999 }}>
+        <Grid item sm={8} style={{ position: 'relative' }}>
           <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
           <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
             <div className={classes.bannerDetailsContainer}>
@@ -123,7 +122,7 @@ const Trending = () => {
                   </Grid>
                 </Grid>
                 <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
-                  <Grid container xs={4} spacing={1}>
+                  <Grid container item xs={4} spacing={1}>
                     <Grid item xs={2}>
                       <AccountIcon />
                     </Grid>
@@ -131,7 +130,7 @@ const Trending = () => {
                       <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.author}</Typography>
                     </Grid>
                   </Grid>
-                  <Grid container xs={4} spacing={1}>
+                  <Grid container item xs={4} spacing={1}>
                     <Grid item xs={2}>
                       <ClockIcon />
                     </Grid>
@@ -139,7 +138,7 @@ const Trending = () => {
                       <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.date}</Typography>
                     </Grid>
                   </Grid>
-                  <Grid container xs={4} spacing={1}>
+                  <Grid container item xs={4} spacing={1}>
                     <Grid item xs={2}>
                       <PhotoIcon />
                     </Grid>
@@ -170,7 +169,7 @@ const Trending = () => {
               </Grid>
             </Grid>
             <Grid container className={classes.trendingStats}>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <LikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -178,7 +177,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <DislikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -186,7 +185,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -194,7 +193,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <ShareIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -218,7 +217,7 @@ const Trending = () => {
               </Grid>
             </Grid>
             <Grid container className={classes.trendingStats}>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <LikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -226,7 +225,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <DislikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -234,7 +233,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -242,7 +241,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <ShareIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -266,7 +265,7 @@ const Trending = () => {
               </Grid>
             </Grid>
             <Grid container className={classes.trendingStats}>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <LikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -274,7 +273,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <DislikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -282,7 +281,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -290,7 +289,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <ShareIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -314,7 +313,7 @@ const Trending = () => {
               </Grid>
             </Grid>
             <Grid container className={classes.trendingStats}>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <LikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -322,7 +321,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <DislikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -330,7 +329,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -338,7 +337,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <ShareIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -362,7 +361,7 @@ const Trending = () => {
               </Grid>
             </Grid>
             <Grid container className={classes.trendingStats}>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <LikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -370,7 +369,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <DislikeIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -378,7 +377,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
@@ -386,7 +385,7 @@ const Trending = () => {
                   <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
                 </Grid>
               </Grid>
-              <Grid container xs={3} spacing={1} alignItems="center">
+              <Grid container item xs={3} spacing={1} alignItems="center">
                 <Grid item>
                   <ShareIcon className={classes.trendingStatsText} />
                 </Grid>

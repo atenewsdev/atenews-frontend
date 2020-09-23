@@ -227,7 +227,7 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar color="white" elevation={0} style={{ paddingTop: 5, paddingBottom: 5, zIndex: 20 }}>
+      <AppBar color="white" elevation={0} style={{ paddingTop: 5, paddingBottom: 5 }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />

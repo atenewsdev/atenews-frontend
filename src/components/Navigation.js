@@ -10,7 +10,8 @@ import SubMenu from './SubMenu';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    position: 'fixed'
+    position: 'fixed',
+    zIndex: 1500
   },
   logo: {
     backgroundImage: 'url("/logo.png")',

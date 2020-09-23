@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
@@ -17,13 +18,14 @@ const useStyles = makeStyles((theme) => ({
       width: '90%',
     },
     margin: 'auto',
-    zIndex: -9999
+    minHeight: 500
   },
   homeContainer: {
     width: '65%',
     [theme.breakpoints.down('sm')]: {
       width: '90%',
     },
+    minHeight: 500,
     margin: 'auto'
   },
 }));
@@ -52,6 +54,7 @@ const Layout = ({ children }) => {
       <div className={isHome ? classes.homeContainer : classes.contentContainer}>
         {children}
       </div>
+      <Footer />
     </div>
   )
 }

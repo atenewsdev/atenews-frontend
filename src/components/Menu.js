@@ -24,10 +24,9 @@ const useStyles = makeStyles({
     cursor: 'pointer',
     touchAction: 'manipulation',
     userSelect: 'none',
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   menuLabel: {
-    zIndex: 0,
     color: 'white'
   },
   '@keyframes showSelector': {
@@ -63,7 +62,9 @@ export default function Menu({color, children, label, active, onClick}) {
           {label}
         </div>
       </CardActionArea>
-      {submenu ? children : null}
+      <div style={{ visibility: submenu ? 'visible' : 'hidden' }}>
+        {children}
+      </div>
     </div>
   );
 }
