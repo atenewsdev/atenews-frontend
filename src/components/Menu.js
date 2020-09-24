@@ -43,20 +43,23 @@ export default function Menu({color, children, label, active, onClick}) {
   const classes = useStyles();
 
   const [submenu, setSubmenu] = React.useState(false);
+  const [currentColor, setCurrentColor] = React.useState(color);
 
   const handleHover = () => {
     setSubmenu(true);
+    setCurrentColor('#195EA9');
   }
 
   const handleClose = () => {
     setSubmenu(false);
+    setCurrentColor(color);
   };
 
   return (
-    <div className={classes.menu} onMouseOver={handleHover} onMouseLeave={handleClose}>
+    <div className={classes.menu} onMouseOver={handleHover} onMouseLeave={handleClose} onClick={handleClose}>
       <CardActionArea onClick={onClick} style={{ height: 65 }}>
         { active ? 
-          <div className={classes.selector} style={{ background: color }} />
+          <div className={classes.selector} style={{ background: currentColor }} />
         : null }
         <div className={classes.menuLabel} style={{ color: active ? 'white' : '#195EA9' }}>
           {label}
