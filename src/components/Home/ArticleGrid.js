@@ -52,14 +52,14 @@ const Trending = () => {
 
   return (
     <div>
-      <Grid container xs={12} spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
+      <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
         <Grid item sm={6}>
-          <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
+          <Link href=""><img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" /></Link>
         </Grid>
         <Grid item sm={6}>
           <Link href=""><Typography variant="h5">Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-            <Grid container xs={6}>
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
+            <Grid container item xs={6}>
               <Grid item xs={2}>
                 <AccountIcon />
               </Grid>
@@ -67,7 +67,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={6}>
+            <Grid container item xs={6}>
               <Grid item xs={2}>
                 <ClockIcon />
               </Grid>
@@ -79,7 +79,7 @@ const Trending = () => {
 
           <Typography variant="body1">To address the pandemic response issues of the Filipinos, renowned Sociologist Nicole Curato Ph.D. in the 2nd Social Sciences Online Conversation last August 29 stated that ‘deliberative democracy’ was a necessary component.</Typography>
 
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
             <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
@@ -116,12 +116,12 @@ const Trending = () => {
         </Grid>
       </Grid>
 
-      <Grid container xs={12} spacing={2} alignItems="center">
+      <Grid container spacing={2} alignItems="center">
         <Grid item sm={4}>
-          <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
+          <Link href=""><img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" /></Link>
           <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-            <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
+            <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
                 <AccountIcon />
               </Grid>
@@ -129,7 +129,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={12}>
+            <Grid container item xs={12}>
               <Grid item xs={2}>
                 <ClockIcon />
               </Grid>
@@ -139,7 +139,7 @@ const Trending = () => {
             </Grid>
           </Grid>
 
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
             <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
@@ -175,10 +175,10 @@ const Trending = () => {
           </Grid>
         </Grid>
         <Grid item sm={4}>
-          <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
+          <Link href=""><img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" /></Link>
           <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-            <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
+            <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
                 <AccountIcon />
               </Grid>
@@ -186,7 +186,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={12}>
+            <Grid container item xs={12}>
               <Grid item xs={2}>
                 <ClockIcon />
               </Grid>
@@ -196,7 +196,7 @@ const Trending = () => {
             </Grid>
           </Grid>
 
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
             <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />
@@ -232,10 +232,10 @@ const Trending = () => {
           </Grid>
         </Grid>
         <Grid item sm={4}>
-          <img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" />
+          <Link href=""><img src="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" width="100%" /></Link>
           <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-            <Grid container xs={12} style={{ marginBottom: theme.spacing(1) }}>
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
+            <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
               <Grid item xs={2}>
                 <AccountIcon />
               </Grid>
@@ -243,7 +243,7 @@ const Trending = () => {
                 <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
               </Grid>
             </Grid>
-            <Grid container xs={12}>
+            <Grid container item xs={12}>
               <Grid item xs={2}>
                 <ClockIcon />
               </Grid>
@@ -253,7 +253,7 @@ const Trending = () => {
             </Grid>
           </Grid>
 
-          <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
+          <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2), width: '100%' }} justify="space-evenly">
             <Grid container item xs={3} spacing={1}>
               <Grid item>
                 <LikeIcon />

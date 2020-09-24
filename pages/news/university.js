@@ -2,11 +2,16 @@ import Head from 'next/head'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import FollowIcon from '@material-ui/icons/Add';
+import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
+import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
+import CommentIcon from '@material-ui/icons/CommentOutlined';
+import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -105,6 +110,24 @@ export default function Page() {
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
         “Ang study is sana magamit ng SAMAHAN or mga Student Executive Councils sa dialogue,” he added.
       </Typography>
+
+      <div style={{ height: theme.spacing(10) }} />
+
+      
+      <Divider />
+      <Grid container>
+        <Grid item xs={4}>
+          <Button variant="text" color="primary" size="large" fullWidth><LikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button variant="text" color="primary" size="large" fullWidth><DislikeIcon style={{ marginRight: theme.spacing(1) }} />168</Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button variant="text" color="primary" size="large" fullWidth><ShareIcon style={{ marginRight: theme.spacing(1) }} />254</Button>
+        </Grid>
+      </Grid>
+      <Divider />
+
     </div>
   )
 }

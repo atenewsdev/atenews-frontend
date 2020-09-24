@@ -6,7 +6,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Grid from '@material-ui/core/Grid';
 
+import Avatar from '@material-ui/core/Avatar';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
@@ -50,17 +52,13 @@ const useStyles = makeStyles((theme) => ({
     width: 65,
     borderRadius: 0
   },
-  title: {
-    flexGrow: 1,
-  },
   logo: {
-    marginLeft: theme.spacing(2),
     backgroundImage: 'url("/logo-blue.png")',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
-    width: 65,
-    height: 65,
+    width: 40,
+    height: 40,
   },
   list: {
     width: 250
@@ -227,31 +225,25 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar color="white" elevation={0} style={{ paddingTop: 5, paddingBottom: 5 }}>
+      <AppBar color="secondary" elevation={0}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <div className={classes.title}>
-            <div className={classes.logo} />
-          </div>
+          <Grid container style={{ width: '100%' }} justify="center">
+            <Grid item>
+              <div className={classes.logo} />
+            </Grid>
+          </Grid>
           <ClickAwayListener onClickAway={handleClose}>
             <div className={classes.account}>
-              <Button className={classes.button}
-                variant={activeButton === 'Notifications' ? 'contained' : 'text'}
-                color='primary'
-                disableElevation
-                onClick={(e) => handleClick(e, 'Notifications')}
-              >
-                <BellIcon />
-              </Button>
               <Button className={classes.button}
                 variant={activeButton === 'Account' ? 'contained' : 'text'}
                 color='primary'
                 disableElevation
                 onClick={(e) => handleClick(e, 'Account')}
               >
-                <AccountIcon />
+                <Avatar style={{ width: 40, height: 40 }} src="https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/109357379_3800608606621682_4436730203378985831_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=8FgzSOAJeLcAX_b5n3x&_nc_ht=scontent-hkg4-1.xx&oh=a626c619a053c914a8728dae4a86684c&oe=5F91EEDF" />
               </Button>
               <Popper
                 open={Boolean(anchorEl)}

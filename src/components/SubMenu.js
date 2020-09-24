@@ -36,7 +36,7 @@ export default function Menu({color, children, label, onClick}) {
   };
 
   return (
-    <div className={classes.menu} onMouseOver={handleHover} onMouseLeave={handleClose} style={{ background: color }}>
+    <div className={classes.menu} onMouseOver={handleHover} onMouseLeave={handleClose}>
       <CardActionArea onClick={onClick} style={{ height: 65 }}>
         <div className={classes.menuLabel}>
           {label}
