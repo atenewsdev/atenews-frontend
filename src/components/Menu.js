@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   selector: {
     position: 'absolute',
     animation: '$showSelector 0.5s',
@@ -41,7 +41,16 @@ const useStyles = makeStyles({
       transform: 'translatex(0px)'
     }
   },
-});
+  arrowLeft: {
+    width: 0,
+    height: 0,
+    borderTop: '10px solid transparent',
+    borderBottom: '10px solid transparent',
+    borderRight: `10px solid ${theme.palette.primary.main}`,
+    position: 'absolute',
+    top: 20
+  }
+}));
 
 export default function Menu({color, children, label, active, onClick}) {
   const classes = useStyles();
@@ -74,7 +83,8 @@ export default function Menu({color, children, label, active, onClick}) {
           {label}
         </div>
       </CardActionArea>
-      <div style={{ visibility: submenu ? 'visible' : 'hidden', borderRadius: 20, overflow: 'hidden' }}>
+      <div style={{ visibility: submenu ? 'visible' : 'hidden', borderRadius: 10, overflow: 'hidden' }}>
+        { children ? <div className={classes.arrowLeft} /> : null }
         {children}
       </div>
     </div>

@@ -109,7 +109,7 @@ const RecentArticles = () => {
   }
 
   return (
-    <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 20, overflow: 'hidden' }}>
+    <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
       <Hidden xsDown>
         <Grid item sm={8} style={{ position: 'relative' }}>
           <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />

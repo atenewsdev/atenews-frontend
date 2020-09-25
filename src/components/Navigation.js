@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     right: 'calc(-15vw - 10px)',
     top: 0,
     width: '15vw',
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: 'hidden',
     minHeight: 65
   },

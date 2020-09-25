@@ -7,7 +7,7 @@ const useStyles = makeStyles({
   viewContainer: {
     marginTop: 5,
     padding: 20,
-    borderRadius: 20
+    borderRadius: 10
   }
 });
 

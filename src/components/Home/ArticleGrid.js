@@ -59,7 +59,7 @@ const Trending = () => {
 
   return (
     <div>
-      <Card style={{ marginBottom: theme.spacing(2), borderRadius: 20 }} variant="outlined">
+      <Card style={{ marginBottom: theme.spacing(2), borderRadius: 10 }} variant="outlined">
         <Grid container alignItems="center">
           <Grid item xs={12} sm={6}>
             <CardActionArea>
@@ -131,7 +131,7 @@ const Trending = () => {
 
       <Grid container spacing={2} justify="space-between">
         <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 20 }}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
             <CardActionArea>
               <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
             </CardActionArea>
@@ -194,7 +194,7 @@ const Trending = () => {
           </Card>
         </Grid>
         <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 20 }}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
             <CardActionArea>
               <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
             </CardActionArea>
@@ -257,7 +257,7 @@ const Trending = () => {
           </Card>
         </Grid>
         <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 20 }}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
             <CardActionArea>
               <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
             </CardActionArea>

@@ -83,7 +83,7 @@ const Trending = () => {
 
   return (
     <Hidden mdDown>
-      <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 20, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
+      <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
         <Paper variant="outlined" square className={classes.trendingHead}>
           <Typography variant="h5">Trending</Typography>
         </Paper>

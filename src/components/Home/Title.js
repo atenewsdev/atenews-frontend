@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: '#ffffff',
     height: 65,
-    borderRadius: 20
+    borderRadius: 10
   },
   design: {
     position: 'absolute',
