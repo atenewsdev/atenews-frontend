@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: '#ffffff',
     height: 65,
+    borderRadius: 20
   },
   design: {
     position: 'absolute',
@@ -32,9 +33,11 @@ const Title = ({ color, children }) => {
   return (
     <div className={classes.root}>
       <div className={classes.title} style={{ backgroundColor: color }}>
-        <Typography style={{ paddingLeft: 40 }} variant="h3">{ children }</Typography>
+        <Typography style={{ paddingLeft: 40, paddingTop: 10 }} variant="h4">{ children }</Typography>
       </div>
-      <div className={classes.design} style={{ backgroundColor: color }}/>
+      {/*
+        <div className={classes.design} style={{ backgroundColor: color }}/>
+      */}
     </div>
   )
 }

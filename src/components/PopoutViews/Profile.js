@@ -1,11 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Paper from '@material-ui/core/Paper';
+
 const useStyles = makeStyles({
   viewContainer: {
-    background: '#195EA9',
-    color: '#ffffff',
-    padding: 20
+    marginTop: 5,
+    padding: 20,
+    borderRadius: 20
   }
 });
 
@@ -14,9 +16,9 @@ const PopoutView = () => {
   const classes = useStyles();
   
   return (
-    <div className={classes.viewContainer}>
+    <Paper variant="outlined" className={classes.viewContainer}>
       This is Profile view.
-    </div>
+    </Paper>
   )
 }
 

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Grid from '@material-ui/core/Grid';
 
@@ -18,6 +17,7 @@ import NotificationView from './PopoutViews/Notification';
 import SearchView from './PopoutViews/Search';
 
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
@@ -49,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     height: 65,
-    width: 65,
-    borderRadius: 0
+    width: 65
   },
   logo: {
     backgroundImage: 'url("/logo-blue.png")',
@@ -237,14 +236,13 @@ export default function MenuAppBar() {
           </Grid>
           <ClickAwayListener onClickAway={handleClose}>
             <div className={classes.account}>
-              <Button className={classes.button}
-                variant={activeButton === 'Account' ? 'contained' : 'text'}
+              <IconButton className={classes.button}
                 color='primary'
                 disableElevation
                 onClick={(e) => handleClick(e, 'Account')}
               >
                 <Avatar style={{ width: 40, height: 40 }} src="https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/109357379_3800608606621682_4436730203378985831_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=8FgzSOAJeLcAX_b5n3x&_nc_ht=scontent-hkg4-1.xx&oh=a626c619a053c914a8728dae4a86684c&oe=5F91EEDF" />
-              </Button>
+              </IconButton>
               <Popper
                 open={Boolean(anchorEl)}
                 anchorEl={anchorEl}

@@ -9,6 +9,7 @@ import theme from '../src/theme';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import '../styles/nprogress.css';
+import '../styles/main.css';
 
 NProgress.configure({
   showSpinner: false

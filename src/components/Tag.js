@@ -10,7 +10,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
     height: 20,
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    borderRadius: 10,
+    overflow: 'hidden'
   }
 }));
 

@@ -53,8 +53,8 @@ const Layout = ({ children }) => {
       <Header />
       <div className={isHome ? classes.homeContainer : classes.contentContainer}>
         {children}
+        <Footer />
       </div>
-      <Footer />
     </div>
   )
 }

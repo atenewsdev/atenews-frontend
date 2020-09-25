@@ -24,9 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submenu: {
     position: 'absolute',
-    right: '-15vw',
+    right: 'calc(-15vw - 10px)',
     top: 0,
     width: '15vw',
+    borderRadius: 20,
+    overflow: 'hidden',
     minHeight: 65
   },
 }));

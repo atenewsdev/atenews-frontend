@@ -7,11 +7,13 @@ const useStyles = makeStyles({
     position: 'absolute',
     animation: '$showSelector 0.5s',
     top: 0,
-    left: 0,
+    left: '-15vw',
     background: '#195EA9',
     height: 65,
-    width: '15vw',
-    zIndex: -1
+    width: '30vw',
+    zIndex: -1,
+    borderRadius: 40,
+    overflow: 'hidden'
   },
   menu: {
     display: 'flex',
@@ -25,6 +27,8 @@ const useStyles = makeStyles({
     touchAction: 'manipulation',
     userSelect: 'none',
     textDecoration: 'none',
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40
   },
   menuLabel: {
     color: 'white'
@@ -45,19 +49,24 @@ export default function Menu({color, children, label, active, onClick}) {
   const [submenu, setSubmenu] = React.useState(false);
   const [currentColor, setCurrentColor] = React.useState(color);
 
+  let timer = null;
+
   const handleHover = () => {
+    clearTimeout(timer);
     setSubmenu(true);
     setCurrentColor('#195EA9');
   }
 
   const handleClose = () => {
-    setSubmenu(false);
-    setCurrentColor(color);
+    timer = setTimeout(() => {
+      setSubmenu(false);
+      setCurrentColor(color);
+    }, 50);
   };
 
   return (
     <div className={classes.menu} onMouseOver={handleHover} onMouseLeave={handleClose} onClick={handleClose}>
-      <CardActionArea onClick={onClick} style={{ height: 65 }}>
+      <CardActionArea onClick={onClick} style={{ height: 65, borderTopRightRadius: 40, borderBottomRightRadius: 40 }}>
         { active ? 
           <div className={classes.selector} style={{ background: currentColor }} />
         : null }
@@ -65,7 +74,7 @@ export default function Menu({color, children, label, active, onClick}) {
           {label}
         </div>
       </CardActionArea>
-      <div style={{ visibility: submenu ? 'visible' : 'hidden' }}>
+      <div style={{ visibility: submenu ? 'visible' : 'hidden', borderRadius: 20, overflow: 'hidden' }}>
         {children}
       </div>
     </div>

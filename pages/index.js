@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Trending from 'src/components/Home/Trending';
+import RecentArticles from 'src/components/Home/RecentArticles';
 import Title from 'src/components/Home/Title';
 import ArticleGrid from 'src/components/Home/ArticleGrid';
+import Trending from 'src/components/Home/Trending';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     marginTop: 80
+  },
+  trending: {
+    position: 'fixed',
+    width: 'calc(15vw - 10px)',
+    top: '20vh',
+    right: 10
   }
 }));
 
@@ -45,7 +52,10 @@ export default function Home() {
           The official student publication of the Ateneo de Davao University
         </Typography>
       </div>
-      <Trending />
+      <div className={classes.trending}>
+        <Trending />
+      </div>
+      <RecentArticles />
 
       <div className={classes.section}>
         <Title color={theme.palette.atenews.news}>News</Title>
