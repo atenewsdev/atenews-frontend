@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   trending: {
     position: 'fixed',
     width: 'calc(15vw - 10px)',
-    top: '20vh',
+    top: 'calc(65px + 4vh)',
     right: 10
   }
 }));

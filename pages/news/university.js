@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import FollowIcon from '@material-ui/icons/Add';
 import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
@@ -10,8 +10,19 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Button from 'src/components/Button';
 import Divider from '@material-ui/core/Divider';
+import StockTextField from '@material-ui/core/TextField';
+
+const TextField = withStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderRadius: 40,
+      },
+    },
+  },
+})(StockTextField);
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 60,
     width: 60
+  },
+  avatarComments: {
+    height: 'clamp(35px, 8vw, 60px)',
+    width: 'clamp(35px, 8vw, 60px)'
   }
 }));
 
@@ -111,22 +126,41 @@ export default function Page() {
         “Ang study is sana magamit ng SAMAHAN or mga Student Executive Councils sa dialogue,” he added.
       </Typography>
 
-      <div style={{ height: theme.spacing(10) }} />
+      <div style={{ height: theme.spacing(8) }} />
 
-      
       <Divider />
-      <Grid container>
+
+      <div style={{ height: theme.spacing(2) }} />
+
+      <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Button variant="text" color="primary" size="large" fullWidth><LikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
+          <Button variant="outlined" color="primary" size="large" fullWidth><LikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
         </Grid>
         <Grid item xs={4}>
-          <Button variant="text" color="primary" size="large" fullWidth><DislikeIcon style={{ marginRight: theme.spacing(1) }} />168</Button>
+          <Button variant="outlined" color="primary" size="large" fullWidth><DislikeIcon style={{ marginRight: theme.spacing(1) }} />168</Button>
         </Grid>
         <Grid item xs={4}>
-          <Button variant="text" color="primary" size="large" fullWidth><ShareIcon style={{ marginRight: theme.spacing(1) }} />254</Button>
+          <Button variant="outlined" color="primary" size="large" fullWidth><ShareIcon style={{ marginRight: theme.spacing(1) }} />254</Button>
         </Grid>
       </Grid>
-      <Divider />
+
+      <div style={{ height: theme.spacing(4) }} />
+
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs={2} md={1}>
+          <Avatar className={classes.avatar}></Avatar>
+        </Grid>
+        <Grid item xs={10} md={11} style={{ paddingLeft: theme.spacing(2) }}>
+          <TextField
+            variant="outlined"
+            placeholder="Write a comment..."
+            multiline
+            rows={1}
+            rowsMax={5}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
 
     </div>
   )
