@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
+  },
+  iconList: {
+    padding: 0, margin: 0
   }
 }));
 
@@ -143,7 +146,7 @@ const Trending = () => {
             </CardActionArea>
             <CardContent>
               <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <List>
+              <List disablePadding>
                 <ListItem>
                   <ListItemIcon>
                     <AccountIcon color="primary" />
@@ -157,36 +160,28 @@ const Trending = () => {
                   <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                 </ListItem>
               </List>
-              <Grid container>
+              <Grid container spacing={0}>
                 <Grid item xs={3}>
                   <ListItem>
-                    <ListItemIcon>
-                      <LikeIcon color="primary" />
-                    </ListItemIcon>
+                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                     <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                   </ListItem>
                 </Grid>
                 <Grid item xs={3}>
                   <ListItem>
-                    <ListItemIcon>
-                      <DislikeIcon color="primary" />
-                    </ListItemIcon>
+                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                     <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                   </ListItem>
                 </Grid>
                 <Grid item xs={3}>
                   <ListItem>
-                    <ListItemIcon>
-                      <CommentIcon color="primary" />
-                    </ListItemIcon>
+                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                     <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                   </ListItem>
                 </Grid>
                 <Grid item xs={3}>
                   <ListItem>
-                    <ListItemIcon>
-                      <ShareIcon color="primary" />
-                    </ListItemIcon>
+                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                     <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                   </ListItem>
                 </Grid>
@@ -201,57 +196,44 @@ const Trending = () => {
             </CardActionArea>
             <CardContent>
               <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-                <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
-                  <Grid item xs={2}>
-                    <AccountIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
-                  </Grid>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <AccountIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+              <Grid container spacing={0}>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={2}>
-                    <ClockIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">September 2, 2020</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-              </Grid>
-
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <LikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">192</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <DislikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">168</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <CommentIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <ShareIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
               </Grid>
             </CardContent>
@@ -264,57 +246,44 @@ const Trending = () => {
             </CardActionArea>
             <CardContent>
               <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-                <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
-                  <Grid item xs={2}>
-                    <AccountIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
-                  </Grid>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <AccountIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+              <Grid container spacing={0}>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={2}>
-                    <ClockIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">September 2, 2020</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-              </Grid>
-
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <LikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">192</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <DislikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">168</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <CommentIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <ShareIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
               </Grid>
             </CardContent>

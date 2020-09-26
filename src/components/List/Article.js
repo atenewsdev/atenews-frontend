@@ -85,36 +85,28 @@ const Trending = () => {
               <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
             </ListItem>
           </List>
-          <Grid container>
+          <Grid container spacing={0}>
             <Grid item xs={3}>
               <ListItem>
-                <ListItemIcon>
-                  <LikeIcon color="primary" />
-                </ListItemIcon>
+                <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
               <ListItem>
-                <ListItemIcon>
-                  <DislikeIcon color="primary" />
-                </ListItemIcon>
+                <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
               <ListItem>
-                <ListItemIcon>
-                  <CommentIcon color="primary" />
-                </ListItemIcon>
+                <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
               <ListItem>
-                <ListItemIcon>
-                  <ShareIcon color="primary" />
-                </ListItemIcon>
+                <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
