@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(20),
+    marginTop: theme.spacing(5),
     padding: theme.spacing(6),
     display: 'flex'
   }

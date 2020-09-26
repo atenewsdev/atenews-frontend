@@ -24,6 +24,8 @@ import CommentField from 'src/components/Social/CommentField';
 import SideWriter from 'src/components/Article/SideWriter';
 import MoreArticles from 'src/components/Article/MoreArticles';
 
+import Hidden from '@material-ui/core/Hidden';
+
 import handleViewport from 'react-in-viewport';
 
 const TextField = withStyles({
@@ -147,9 +149,11 @@ export default function Page() {
         </div>
       : null }
       { showMoreArticlesBlock ?
-        <div className={classes.readMore}>
-          <MoreArticles />
-        </div>
+        <Hidden xsDown>
+          <div className={classes.readMore}>
+            <MoreArticles />
+          </div>
+        </Hidden>
       : null }
       <ViewportWriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
@@ -225,6 +229,12 @@ export default function Page() {
       <div style={{ height: theme.spacing(4) }} />
 
       <ViewportCommentsBlock onLeaveViewport={leaveCommentsViewport} onEnterViewport={enterCommentsViewport} />
+
+      <Hidden smUp>
+        <div style={{ marginTop: theme.spacing(4) }}>
+          <MoreArticles />
+        </div>
+      </Hidden>
     </div>
   )
 }
