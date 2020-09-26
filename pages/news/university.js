@@ -14,11 +14,19 @@ import Button from 'src/components/Button';
 import Divider from '@material-ui/core/Divider';
 import StockTextField from '@material-ui/core/TextField';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import Comment from 'src/components/Social/Comment';
+import CommentField from 'src/components/Social/CommentField';
+
 const TextField = withStyles({
   root: {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderRadius: 40,
+        borderRadius: 30,
       },
     },
   },
@@ -40,10 +48,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 60,
     width: 60
-  },
-  avatarComments: {
-    height: 'clamp(35px, 8vw, 60px)',
-    width: 'clamp(35px, 8vw, 60px)'
   }
 }));
 
@@ -146,22 +150,15 @@ export default function Page() {
 
       <div style={{ height: theme.spacing(4) }} />
 
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={2} md={1}>
-          <Avatar className={classes.avatar}></Avatar>
-        </Grid>
-        <Grid item xs={10} md={11} style={{ paddingLeft: theme.spacing(2) }}>
-          <TextField
-            variant="outlined"
-            placeholder="Write a comment..."
-            multiline
-            rows={1}
-            rowsMax={5}
-            fullWidth
-          />
-        </Grid>
-      </Grid>
+      <List component="div">
+        <CommentField />
 
+        <Comment>
+          <Comment reply></Comment>
+          <CommentField reply />
+        </Comment>
+
+      </List>
     </div>
   )
 }
