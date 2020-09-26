@@ -71,22 +71,13 @@ export default function Page({ children, reply }) {
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>
               <Grid item>
-                <LikeIcon />
+                <Button variant="text" color="primary" size="small"><LikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
               </Grid>
               <Grid item>
-                <Typography>192</Typography>
+                <Button variant="text" color="primary" size="small"><DislikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
               </Grid>
               <Grid item>
-                <DislikeIcon />
-              </Grid>
-              <Grid item>
-                <Typography>192</Typography>
-              </Grid>
-              <Grid item>
-                <CommentIcon />
-              </Grid>
-              <Grid item>
-                <Typography>Reply</Typography>
+                <Button variant="text" color="primary" size="small"><CommentIcon style={{ marginRight: theme.spacing(1) }} />Reply</Button>
               </Grid>
             </Grid>
             { children ? 
