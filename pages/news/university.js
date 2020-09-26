@@ -78,7 +78,7 @@ export default function Page() {
     const { forwardedRef } = props;
 
     return (
-      <Grid container direction="row" alignItems="center" spacing={2} style={{ marginTop: theme.spacing(1), width: 450 }} component="div" ref={forwardedRef}>
+      <Grid container direction="row" alignItems="center" spacing={2} style={{ marginBottom: theme.spacing(2), width: 450 }} component="div" ref={forwardedRef}>
         <Grid item xs={2}>
           <Avatar className={classes.avatar}></Avatar>
         </Grid>
@@ -137,12 +137,10 @@ export default function Page() {
     <div className={classes.container}>
       <Head>
         <title>University News - Atenews</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Typography variant="h3">Ateneans ‘mostly dissatisfied’ with tuition fees, survey shows</Typography>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>June 6, 2020</Typography>
-      <ViewportWriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
-      <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
+      <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }} />
       { showSideWriterBlock ?
         <div className={classes.sideWriter}>
           <SideWriter />
@@ -153,6 +151,7 @@ export default function Page() {
           <MoreArticles />
         </div>
       : null }
+      <ViewportWriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
         Most college students of AdDU are not satisfied with the tuition fees, a recent survey by the SAMAHAN Research & Development department said Tuesday night.
       </Typography>

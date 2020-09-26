@@ -9,16 +9,13 @@ import Hidden from '@material-ui/core/Hidden';
 
 import Tag from 'src/components/Tag';
 
-import AccountIcon from '@material-ui/icons/AccountCircle';
-import ClockIcon from '@material-ui/icons/AccessTime';
-import PhotoIcon from '@material-ui/icons/PhotoCamera';
-
-import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
-import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
-import ShareIcon from '@material-ui/icons/ShareOutlined';
-
 const useStyles = makeStyles((theme) => ({
+  container: {
+    position: 'fixed',
+    width: 'calc(15vw - 10px)',
+    top: 'calc(65px + 4vh)',
+    right: 10
+  },
   trendingHead: {
     color: '#195EA9',
     padding: 20,
@@ -83,81 +80,83 @@ const Trending = () => {
 
   return (
     <Hidden smDown>
-      <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
-        <Paper variant="outlined" square className={classes.trendingHead}>
-          <Typography variant="h5">Trending</Typography>
-        </Paper>
-        <CardActionArea>
-          <Paper variant="outlined" square className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="Features" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.threeLineText}>
-                  Did the pandemic stop the sex trade?
-                </Typography>
-              </Grid>
-            </Grid>
+      <div className={classes.container}>
+        <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
+          <Paper variant="outlined" square className={classes.trendingHead}>
+            <Typography variant="h5">Trending</Typography>
           </Paper>
-        </CardActionArea>
-        <CardActionArea>
-          <Paper variant="outlined" square className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
+          <CardActionArea>
+            <Paper variant="outlined" square className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type="Features" />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.threeLineText}>
+                    Did the pandemic stop the sex trade?
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.threeLineText}>
-                  PH Olympian highlights effort and excellence for sports and academic success
-                </Typography>
+            </Paper>
+          </CardActionArea>
+          <CardActionArea>
+            <Paper variant="outlined" square className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type="News" />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.threeLineText}>
+                    PH Olympian highlights effort and excellence for sports and academic success
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea>
-          <Paper variant="outlined" square className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
+            </Paper>
+          </CardActionArea>
+          <CardActionArea>
+            <Paper variant="outlined" square className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type="News" />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.threeLineText}>
+                    ‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.threeLineText}>
-                  ‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure
-                </Typography>
+            </Paper>
+          </CardActionArea>
+          <CardActionArea>
+            <Paper variant="outlined" square className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type="News" />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.threeLineText}>
+                    Satellite use key to internet democracy in PH—ICT researcher
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea>
-          <Paper variant="outlined" square className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
+            </Paper>
+          </CardActionArea>
+          <CardActionArea>
+            <Paper variant="outlined" square className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type="News" />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.threeLineText}>
+                    LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.threeLineText}>
-                  Satellite use key to internet democracy in PH—ICT researcher
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea>
-          <Paper variant="outlined" square className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.threeLineText}>
-                  LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-      </Grid>
+            </Paper>
+          </CardActionArea>
+        </Grid>
+      </div>
     </Hidden>
   )
 }

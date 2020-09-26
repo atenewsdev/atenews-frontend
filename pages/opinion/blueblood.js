@@ -1,7 +1,9 @@
 import Head from 'next/head'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
+import Article from 'src/components/List/Article';
+import Trending from 'src/components/Home/Trending';
 
 const useStyles = makeStyles({
   account: {
@@ -18,17 +20,19 @@ const useStyles = makeStyles({
 
 export default function Page() {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <div className={classes.container}>
       <Head>
         <title>Blueblood - Atenews</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Typography variant="h1">Blueblood</Typography>
-      <Typography>
-        Hello World
-      </Typography>
+      <Typography variant="h2" style={{ marginBottom: theme.spacing(4) }}>Blueblood</Typography>
+      <Trending />
+      <Article />
+      <Article />
+      <Article />
+      <Article />
       
     </div>
   )

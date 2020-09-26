@@ -12,6 +12,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Tag from 'src/components/Tag';
 import Link from 'src/components/Link';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
 import PhotoIcon from '@material-ui/icons/PhotoCamera';
@@ -137,57 +143,52 @@ const Trending = () => {
             </CardActionArea>
             <CardContent>
               <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-                <Grid container item xs={12} style={{ marginBottom: theme.spacing(1) }}>
-                  <Grid item xs={2}>
-                    <AccountIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
-                  </Grid>
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <AccountIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+              <Grid container>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <LikeIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={2}>
-                    <ClockIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">September 2, 2020</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <DislikeIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-              </Grid>
-
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <LikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">192</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CommentIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <DislikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">168</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <CommentIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <ShareIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
-                  </Grid>
+                <Grid item xs={3}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <ShareIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                  </ListItem>
                 </Grid>
               </Grid>
             </CardContent>

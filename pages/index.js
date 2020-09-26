@@ -27,12 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     marginTop: 80
-  },
-  trending: {
-    position: 'fixed',
-    width: 'calc(15vw - 10px)',
-    top: 'calc(65px + 4vh)',
-    right: 10
   }
 }));
 
@@ -44,7 +38,6 @@ export default function Home() {
     <div className={classes.container}>
       <Head>
         <title>Home - Atenews</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={ classes.header }>
         <img src="/atenews-header.svg" height="35"></img>
@@ -52,9 +45,7 @@ export default function Home() {
           The official student publication of the Ateneo de Davao University
         </Typography>
       </div>
-      <div className={classes.trending}>
-        <Trending />
-      </div>
+      <Trending />
       <RecentArticles />
 
       <div className={classes.section}>
