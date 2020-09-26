@@ -27,6 +27,8 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
+Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
+
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 

@@ -21,6 +21,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import Comment from 'src/components/Social/Comment';
 import CommentField from 'src/components/Social/CommentField';
+import SideWriter from 'src/components/Article/SideWriter';
+import MoreArticles from 'src/components/Article/MoreArticles';
+
+import handleViewport from 'react-in-viewport';
 
 const TextField = withStyles({
   root: {
@@ -48,6 +52,18 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 60,
     width: 60
+  },
+  readMore: {
+    position: 'fixed',
+    width: 'calc(15vw - 10px)',
+    top: 'calc(65px + 8vh)',
+    right: 10
+  },
+  sideWriter: {
+    position: 'fixed',
+    width: 'calc(20vw - 10px)',
+    top: 'calc(65px + 8vh)',
+    right: 40
   }
 }));
 
@@ -55,15 +71,14 @@ export default function Page() {
   const classes = useStyles();
   const theme = useTheme();
 
-  return (
-    <div className={classes.container}>
-      <Head>
-        <title>University News - Atenews</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Typography variant="h3">Ateneans ‘mostly dissatisfied’ with tuition fees, survey shows</Typography>
-      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>June 6, 2020</Typography>
-      <Grid container direction="row" alignItems="center" spacing={2} style={{ marginTop: theme.spacing(1), width: 450 }}>
+  const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
+  const [showMoreArticlesBlock, setShowMoreArticlesBlock] = React.useState(false);
+
+  const WriterBlock = (props) => {
+    const { forwardedRef } = props;
+
+    return (
+      <Grid container direction="row" alignItems="center" spacing={2} style={{ marginTop: theme.spacing(1), width: 450 }} component="div" ref={forwardedRef}>
         <Grid item xs={2}>
           <Avatar className={classes.avatar}></Avatar>
         </Grid>
@@ -76,8 +91,68 @@ export default function Page() {
           </Grid>
         </Grid>
       </Grid>
-      <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
+    )
+  }
 
+  const ViewportWriterBlock = handleViewport(WriterBlock);
+
+  const CommentsBlock = (props) => {
+    const { forwardedRef } = props;
+
+    return (
+      <List component="div" ref={forwardedRef}>
+        <CommentField />
+
+        <Comment>
+          <Comment reply></Comment>
+          <CommentField reply />
+        </Comment>
+
+      </List>
+    )
+  }
+
+  const ViewportCommentsBlock = handleViewport(CommentsBlock);
+
+  const enterWriterViewport = () => {
+    setShowSideWriterBlock(false);
+    setShowMoreArticlesBlock(false);
+  }
+
+  const leaveWriterViewport = () => {
+    setShowSideWriterBlock(true);
+  }
+
+  const enterCommentsViewport = () => {
+    setShowSideWriterBlock(false);
+    setShowMoreArticlesBlock(true);
+  }
+
+  const leaveCommentsViewport = () => {
+    setShowSideWriterBlock(true);
+    setShowMoreArticlesBlock(false);
+  }
+
+  return (
+    <div className={classes.container}>
+      <Head>
+        <title>University News - Atenews</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Typography variant="h3">Ateneans ‘mostly dissatisfied’ with tuition fees, survey shows</Typography>
+      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>June 6, 2020</Typography>
+      <ViewportWriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
+      { showSideWriterBlock ?
+        <div className={classes.sideWriter}>
+          <SideWriter />
+        </div>
+      : null }
+      { showMoreArticlesBlock ?
+        <div className={classes.readMore}>
+          <MoreArticles />
+        </div>
+      : null }
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
         Most college students of AdDU are not satisfied with the tuition fees, a recent survey by the SAMAHAN Research & Development department said Tuesday night.
       </Typography>
@@ -150,15 +225,7 @@ export default function Page() {
 
       <div style={{ height: theme.spacing(4) }} />
 
-      <List component="div">
-        <CommentField />
-
-        <Comment>
-          <Comment reply></Comment>
-          <CommentField reply />
-        </Comment>
-
-      </List>
+      <ViewportCommentsBlock onLeaveViewport={leaveCommentsViewport} onEnterViewport={enterCommentsViewport} />
     </div>
   )
 }

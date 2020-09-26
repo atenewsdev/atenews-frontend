@@ -85,7 +85,7 @@ const Trending = () => {
     <Hidden smDown>
       <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
         <Paper variant="outlined" square className={classes.trendingHead}>
-          <Typography variant="h5">Trending</Typography>
+          <Typography variant="h5">Read More</Typography>
         </Paper>
         <CardActionArea>
           <Paper variant="outlined" square className={classes.trendingItem}>

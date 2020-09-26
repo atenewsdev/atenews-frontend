@@ -60,7 +60,7 @@ export default function Page({ reply }) {
           rowsMax={5}
           fullWidth
         />
-      } style={{ paddingLeft: theme.spacing(1) }} />
+      } style={{ paddingLeft: theme.spacing(1) }} disableTypography />
     </ListItem>
   )
 }

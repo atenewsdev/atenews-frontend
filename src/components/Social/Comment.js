@@ -64,8 +64,7 @@ export default function Page({ children, reply }) {
         primary={
           <Paper elevation={0}>
             <Typography variant="body2"><b>Son Roy Almerol</b></Typography>
-            <Typography variant="body1">I definitely agree Gwyn. More is expected of Samahan as leaders than just be content with its privileges…
-  Hope they will learn sooner…</Typography>
+            <Typography variant="body1">This is totally not a Facebook comment section clone!</Typography>
           </Paper>
         } 
         secondary={
@@ -91,13 +90,14 @@ export default function Page({ children, reply }) {
               </Grid>
             </Grid>
             { children ? 
-              <List component="div">
+              <List>
                 {children}
               </List>
             : null}
           </div>
         }
-        style={{ paddingLeft: theme.spacing(1) }} 
+        style={{ paddingLeft: theme.spacing(1) }}
+        disableTypography
       />
     </ListItem>
   )
