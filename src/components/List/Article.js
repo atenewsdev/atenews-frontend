@@ -72,13 +72,13 @@ const Trending = () => {
         <CardContent>
           <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
           <List>
-            <ListItem>
+            <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItemIcon>
                 <AccountIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
             </ListItem>
-            <ListItem>
+            <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItemIcon>
                 <ClockIcon color="primary" />
               </ListItemIcon>
@@ -87,25 +87,25 @@ const Trending = () => {
           </List>
           <Grid container spacing={0}>
             <Grid item xs={3}>
-              <ListItem>
+              <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
-              <ListItem>
+              <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
-              <ListItem>
+              <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
             </Grid>
             <Grid item xs={3}>
-              <ListItem>
+              <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
                 <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
               </ListItem>
