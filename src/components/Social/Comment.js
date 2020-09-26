@@ -6,10 +6,12 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import Button from 'src/components/Button';
 import Divider from '@material-ui/core/Divider';
 import StockTextField from '@material-ui/core/TextField';
@@ -62,11 +64,18 @@ export default function Page({ children, reply }) {
       </ListItemAvatar>
       <ListItemText 
         primary={
-          <Paper elevation={0}>
-            <Typography variant="body2"><b>Son Roy Almerol</b></Typography>
-            <Typography variant="body1">This is totally not a Facebook comment section clone!</Typography>
-          </Paper>
-        } 
+          <>
+            <ListItem style={{ padding: 0 }}>
+              <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
+                <Typography variant="body2"><b>Son Roy Almerol</b></Typography>
+                <Typography variant="body1">This is totally not a Facebook comment section clone!</Typography>
+              </Paper>
+              <IconButton style={{ marginLeft: theme.spacing(1) }}>
+                <MoreHorizIcon />
+              </IconButton>
+            </ListItem>
+          </>
+        }
         secondary={
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>

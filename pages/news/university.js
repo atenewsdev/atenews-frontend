@@ -9,6 +9,7 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from 'src/components/Button';
 import Divider from '@material-ui/core/Divider';
@@ -142,7 +143,12 @@ export default function Page() {
       </Head>
       <Typography variant="h3">Ateneans ‘mostly dissatisfied’ with tuition fees, survey shows</Typography>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>June 6, 2020</Typography>
-      <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }} />
+      <Paper elevation={0} style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: '#F0F2F5', borderRadius: 0 }}>
+        <img src="https://atenews.ph/wp-content/uploads/2020/08/E245FF82-0C09-4A12-B48B-93CBF7987C82-2048x1536.jpeg" width="100%" />
+        <div style={{ padding: theme.spacing(2) }}>
+          <Typography variant="body2"><i>IN TUITION. Survey conducted by the SAMAHAN Research & Development department shows dissatisfied ratings from the university students on the tuition rates as AdDU shifts online. Photo by Jeni Anne Rosario</i></Typography>
+        </div>
+      </Paper>
       { showSideWriterBlock ?
         <div className={classes.sideWriter}>
           <SideWriter />
