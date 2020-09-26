@@ -7,6 +7,10 @@ import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
+import SendIcon from '@material-ui/icons/Send';
+
+import IconButton from '@material-ui/core/IconButton';
+
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +22,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 import Comment from 'src/components/Social/Comment';
 
@@ -59,6 +65,15 @@ export default function Page({ reply }) {
           rows={1}
           rowsMax={5}
           fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <IconButton>
+                  <SendIcon color="primary" />
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
         />
       } style={{ paddingLeft: theme.spacing(1) }} disableTypography />
     </ListItem>
