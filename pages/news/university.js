@@ -27,6 +27,7 @@ import MoreArticles from 'src/components/Article/MoreArticles';
 
 import Hidden from '@material-ui/core/Hidden';
 
+import Article from 'src/components/List/Article';
 import handleViewport from 'react-in-viewport';
 
 const TextField = withStyles({
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   sideWriter: {
     position: 'fixed',
     width: 'calc(20vw - 10px)',
-    top: 'calc(65px + 8vh)',
+    top: 'calc(35px + 8vh)',
     right: 40
   }
 }));
@@ -75,9 +76,8 @@ export default function Page() {
   const theme = useTheme();
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
-  const [showMoreArticlesBlock, setShowMoreArticlesBlock] = React.useState(false);
 
-  const WriterBlock = (props) => {
+  const WriterBlock = handleViewport((props) => {
     const { forwardedRef } = props;
 
     return (
@@ -95,45 +95,27 @@ export default function Page() {
         </Grid>
       </Grid>
     )
-  }
+  })
 
-  const ViewportWriterBlock = handleViewport(WriterBlock);
-
-  const CommentsBlock = (props) => {
+  const ReadMoreBlock = handleViewport((props) => {
     const { forwardedRef } = props;
 
     return (
-      <List component="div" ref={forwardedRef}>
-        <CommentField />
-
-        <Comment>
-          <Comment reply></Comment>
-          <CommentField reply />
-        </Comment>
-
-      </List>
+      <div ref={forwardedRef}>
+        <Typography variant="h4">More articles for you</Typography>
+        <div style={{ marginTop: theme.spacing(4) }}>
+          <Article />
+        </div>
+      </div>
     )
-  }
-
-  const ViewportCommentsBlock = handleViewport(CommentsBlock);
+  });
 
   const enterWriterViewport = () => {
     setShowSideWriterBlock(false);
-    setShowMoreArticlesBlock(false);
   }
 
   const leaveWriterViewport = () => {
     setShowSideWriterBlock(true);
-  }
-
-  const enterCommentsViewport = () => {
-    setShowSideWriterBlock(false);
-    setShowMoreArticlesBlock(true);
-  }
-
-  const leaveCommentsViewport = () => {
-    setShowSideWriterBlock(true);
-    setShowMoreArticlesBlock(false);
   }
 
   return (
@@ -154,14 +136,7 @@ export default function Page() {
           <SideWriter />
         </div>
       : null }
-      { showMoreArticlesBlock ?
-        <Hidden xsDown>
-          <div className={classes.readMore}>
-            <MoreArticles />
-          </div>
-        </Hidden>
-      : null }
-      <ViewportWriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      <WriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
         Most college students of AdDU are not satisfied with the tuition fees, a recent survey by the SAMAHAN Research & Development department said Tuesday night.
       </Typography>
@@ -234,13 +209,24 @@ export default function Page() {
 
       <div style={{ height: theme.spacing(4) }} />
 
-      <ViewportCommentsBlock onLeaveViewport={leaveCommentsViewport} onEnterViewport={enterCommentsViewport} />
+      <List component="div">
+        <CommentField />
 
-      <Hidden smUp>
-        <div style={{ marginTop: theme.spacing(4) }}>
-          <MoreArticles />
-        </div>
-      </Hidden>
+        <Comment>
+          <Comment reply></Comment>
+          <CommentField reply />
+        </Comment>
+
+      </List>
+
+      <div style={{ height: theme.spacing(2) }} />
+
+      <Divider />
+
+      <div style={{ height: theme.spacing(8) }} />
+      
+      <ReadMoreBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      
     </div>
   )
 }

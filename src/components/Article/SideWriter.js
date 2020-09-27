@@ -45,7 +45,7 @@ const Trending = () => {
     <Hidden smDown>
       <List>
         <Typography>Written by:</Typography>
-        <ListItem style={{ padding: 0, paddingBottom: theme.spacing(2), paddingTop: theme.spacing(1) }}>
+        <ListItem style={{ padding: 0, paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }}>
           <ListItemAvatar>
             <Avatar className={classes.avatar}></Avatar>
           </ListItemAvatar>
@@ -57,9 +57,9 @@ const Trending = () => {
             style={{ marginLeft: theme.spacing(2) }}
           />
         </ListItem>
-        <Divider style={{ marginBottom: theme.spacing(2) }}/>
-        <Typography style={{ marginBottom: theme.spacing(1) }}>Article Stats:</Typography>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }}>
+        <Divider style={{ marginBottom: theme.spacing(1) }}/>
+        <Typography>Article Stats:</Typography>
+        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
           <ListItemIcon>
             <LikeIcon />
           </ListItemIcon>
@@ -67,7 +67,7 @@ const Trending = () => {
             primary="192"
           />
         </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }}>
+        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1)}} dense>
           <ListItemIcon>
             <DislikeIcon />
           </ListItemIcon>
@@ -75,7 +75,7 @@ const Trending = () => {
             primary="192"
           />
         </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }}>
+        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
           <ListItemIcon>
             <CommentIcon />
           </ListItemIcon>
@@ -83,7 +83,7 @@ const Trending = () => {
             primary="192"
           />
         </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }}>
+        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
           <ListItemIcon>
             <ShareIcon />
           </ListItemIcon>
@@ -91,8 +91,8 @@ const Trending = () => {
             primary="192"
           />
         </ListItem>
-        <Divider style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(2),  }}/>
-        <Typography style={{ marginBottom: theme.spacing(2) }}>Tags:</Typography>
+        <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }}/>
+        <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
         <Tag type="News" />
       </List>
     </Hidden>

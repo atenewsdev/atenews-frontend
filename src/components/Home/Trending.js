@@ -105,6 +105,8 @@ const Trending = () => {
           return prev + (currY - prevY);
         })
       }
+    } else {
+      setTopPosition(0);
     }
   });
 
