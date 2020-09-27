@@ -88,25 +88,27 @@ const Trending = () => {
   useScrollPosition(({ prevPos, currPos }) => {
     let currY = 0 - (currPos.y);
     let prevY = 0 - (prevPos.y);
-    let divHeight = rootRef.current.getBoundingClientRect().height;
-    if (height < divHeight + 100) {
-      if (currY < prevY) {
-        setTopPosition((prev) => {
-          if (prev - (prevY - currY) <= 0) {
-            return 0;
-          }
-          return prev - (prevY - currY);
-        })
+    if (rootRef.current) {
+      let divHeight = rootRef.current.getBoundingClientRect().height;
+      if (height < divHeight + 100) {
+        if (currY < prevY) {
+          setTopPosition((prev) => {
+            if (prev - (prevY - currY) <= 0) {
+              return 0;
+            }
+            return prev - (prevY - currY);
+          })
+        } else {
+          setTopPosition((prev) => {
+            if (currY >= divHeight - (height / 3)) {
+              return divHeight - (height / 3);
+            }
+            return prev + (currY - prevY);
+          })
+        }
       } else {
-        setTopPosition((prev) => {
-          if (currY >= divHeight - (height / 3)) {
-            return divHeight - (height / 3);
-          }
-          return prev + (currY - prevY);
-        })
+        setTopPosition(0);
       }
-    } else {
-      setTopPosition(0);
     }
   });
 
