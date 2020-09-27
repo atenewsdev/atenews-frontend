@@ -71,44 +71,44 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const WriterBlock = handleViewport((props) => {
+  const { forwardedRef, theme, classes } = props;
+
+  return (
+    <Grid container direction="row" alignItems="center" spacing={2} style={{ marginBottom: theme.spacing(2), width: 450 }} component="div" ref={forwardedRef}>
+      <Grid item xs={2}>
+        <Avatar className={classes.avatar}></Avatar>
+      </Grid>
+      <Grid container item direction="column" justify="center" spacing={1} xs={10}>
+        <Grid item>
+          <Typography variant="body1">Percival Cyber Vargas</Typography>
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+})
+
+const ReadMoreBlock = handleViewport((props) => {
+  const { forwardedRef, theme } = props;
+
+  return (
+    <div ref={forwardedRef}>
+      <Typography variant="h4">More articles for you</Typography>
+      <div style={{ marginTop: theme.spacing(4) }}>
+        <Article />
+      </div>
+    </div>
+  )
+});
+
 export default function Page() {
   const classes = useStyles();
   const theme = useTheme();
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
-
-  const WriterBlock = handleViewport((props) => {
-    const { forwardedRef } = props;
-
-    return (
-      <Grid container direction="row" alignItems="center" spacing={2} style={{ marginBottom: theme.spacing(2), width: 450 }} component="div" ref={forwardedRef}>
-        <Grid item xs={2}>
-          <Avatar className={classes.avatar}></Avatar>
-        </Grid>
-        <Grid container item direction="column" justify="center" spacing={1} xs={10}>
-          <Grid item>
-            <Typography variant="body1">Percival Cyber Vargas</Typography>
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    )
-  })
-
-  const ReadMoreBlock = handleViewport((props) => {
-    const { forwardedRef } = props;
-
-    return (
-      <div ref={forwardedRef}>
-        <Typography variant="h4">More articles for you</Typography>
-        <div style={{ marginTop: theme.spacing(4) }}>
-          <Article />
-        </div>
-      </div>
-    )
-  });
 
   const enterWriterViewport = () => {
     setShowSideWriterBlock(false);
@@ -136,7 +136,7 @@ export default function Page() {
           <SideWriter />
         </div>
       : null }
-      <WriterBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      <WriterBlock theme={theme} classes={classes} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       <Typography variant="body1" component="p" style={{ marginTop: theme.spacing(2) }}>
         Most college students of AdDU are not satisfied with the tuition fees, a recent survey by the SAMAHAN Research & Development department said Tuesday night.
       </Typography>
@@ -225,7 +225,7 @@ export default function Page() {
 
       <div style={{ height: theme.spacing(8) }} />
       
-      <ReadMoreBlock onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      <ReadMoreBlock theme={theme} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       
     </div>
   )

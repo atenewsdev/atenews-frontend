@@ -58,7 +58,7 @@ export default function Page({ children, reply }) {
   const theme = useTheme();
 
   return (
-    <ListItem style={{ padding: 0 }} alignItems="flex-start">
+    <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
         <Avatar className={reply ? classes.avatarReply : classes.avatar}></Avatar>
       </ListItemAvatar>
