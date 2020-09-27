@@ -95,18 +95,9 @@ const Trending = () => {
   const [seenEnd, setSeenEnd] = React.useState(false);
 
   React.useEffect(() => {
-    console.log('at end', seenEnd);
     setTopPosition((prev) => {
-      /* if ((seenEnd && prev < scrollY) || (scrollY <= 0)) {
+      if (prev < scrollY && seenEnd) {
         return prev;
-      } */
-      if (prev < scrollY) {
-        console.log('scrolling down', seenEnd);
-        if (seenEnd) {
-          return prev;
-        }
-      } else {
-        console.log('scrolling up');
       }
       return scrollY;
     });
