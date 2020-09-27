@@ -89,26 +89,28 @@ const Trending = () => {
     let currY = 0 - (currPos.y);
     let prevY = 0 - (prevPos.y);
     let divHeight = rootRef.current.getBoundingClientRect().height;
-    if (currY < prevY) {
-      setTopPosition((prev) => {
-        if (prev <= 0) {
-          return 0;
-        }
-        return prev - (prevY - currY);
-      })
-    } else {
-      setTopPosition((prev) => {
-        if (prev <= divHeight - (height / 3)) {
-          return divHeight - (height / 3);
-        }
-        return prev + (currY - prevY);
-      })
+    if (height < divHeight + 100) {
+      if (currY < prevY) {
+        setTopPosition((prev) => {
+          if (prev - (prevY - currY) <= 0) {
+            return 0;
+          }
+          return prev - (prevY - currY);
+        })
+      } else {
+        setTopPosition((prev) => {
+          if (currY >= divHeight - (height / 3)) {
+            return divHeight - (height / 3);
+          }
+          return prev + (currY - prevY);
+        })
+      }
     }
   });
 
   return (
     <Hidden smDown>
-      <div className={classes.container} style={{ top: `calc((65px + 4vh) - ${topPosition}px)` }} ref={rootRef}>
+      <div className={classes.container} style={{ top: `calc((80px + 4vh) - ${topPosition}px)` }} ref={rootRef}>
         <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
           <Paper variant="outlined" square className={classes.trendingHead}>
             <Typography variant="h5">Trending</Typography>
