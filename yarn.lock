@@ -1090,6 +1090,11 @@
     prop-types "^15.7.2"
     react-is "^16.8.0"
 
+"@n8tb1t/use-scroll-position@^1.0.47":
+  version "1.0.47"
+  resolved "https://registry.yarnpkg.com/@n8tb1t/use-scroll-position/-/use-scroll-position-1.0.47.tgz#6b471ecb2fdc09179fd93791680ddd9714df1935"
+  integrity sha512-qilO+6vtiwP5L9Oqphee0XRXPOpOOQ9W/jNSZaf1Gx3v/EWrVOXxVRxEPv377BGw9Cf1/Rj13bBu+YVAjHk+gw==
+
 "@next/react-dev-overlay@9.5.3":
   version "9.5.3"
   resolved "https://registry.yarnpkg.com/@next/react-dev-overlay/-/react-dev-overlay-9.5.3.tgz#3275301f08045ecc709e3273031973a1f5e81427"

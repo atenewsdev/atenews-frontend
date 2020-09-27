@@ -9,8 +9,8 @@ import Hidden from '@material-ui/core/Hidden';
 
 import Tag from 'src/components/Tag';
 
-import useScrollPosition from '@react-hook/window-scroll';
-import handleViewport from 'react-in-viewport';
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
+import useWindowDimensions from 'src/utils/useWindowDimensions';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,37 +75,40 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const EndBlock = handleViewport((props) => {
-  const { forwardedRef } = props;
-
-  return (
-    <div ref={forwardedRef} style={{ background: 'transparent', height: 65, width: '-15vw' }} />
-  )
-});
-
 
 const Trending = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const scrollY = useScrollPosition(60);
 
   const [topPosition, setTopPosition] = React.useState(0);
+  
+  const { height } = useWindowDimensions();
+  const rootRef = React.useRef();
 
-
-  const [seenEnd, setSeenEnd] = React.useState(false);
-
-  React.useEffect(() => {
-    setTopPosition((prev) => {
-      if (prev < scrollY && seenEnd) {
-        return prev;
-      }
-      return scrollY;
-    });
-  }, [scrollY])
+  useScrollPosition(({ prevPos, currPos }) => {
+    let currY = 0 - (currPos.y);
+    let prevY = 0 - (prevPos.y);
+    let divHeight = rootRef.current.getBoundingClientRect().height;
+    if (currY < prevY) {
+      setTopPosition((prev) => {
+        if (prev <= 0) {
+          return 0;
+        }
+        return prev - (prevY - currY);
+      })
+    } else {
+      setTopPosition((prev) => {
+        if (prev <= divHeight - (height / 3)) {
+          return divHeight - (height / 3);
+        }
+        return prev + (currY - prevY);
+      })
+    }
+  });
 
   return (
     <Hidden smDown>
-      <div className={classes.container} style={{ top: `calc((65px + 4vh) - ${topPosition}px)` }}>
+      <div className={classes.container} style={{ top: `calc((65px + 4vh) - ${topPosition}px)` }} ref={rootRef}>
         <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2) }}>
           <Paper variant="outlined" square className={classes.trendingHead}>
             <Typography variant="h5">Trending</Typography>
@@ -181,7 +184,6 @@ const Trending = () => {
             </Paper>
           </CardActionArea>
         </Grid>
-        <EndBlock onLeaveViewport={() => setSeenEnd(false)} onEnterViewport={() => setSeenEnd(true)} />
       </div>
     </Hidden>
   )
