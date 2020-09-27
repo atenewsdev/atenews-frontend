@@ -55,8 +55,8 @@ export default function Navigation() {
     <div className={classes.container}>
       <Menu
         color='#195EA9'
-        label={<div className={classes.logo} style={{ backgroundImage: activeMenu === '/' ? 'url("/logo.png")' : 'url("/logo-blue.png")' }} />}
-        active={activeMenu === '/'}
+        label={<div className={classes.logo} style={{ backgroundImage: activeMenu === '/' || activeMenu === '/profile' ? 'url("/logo.png")' : 'url("/logo-blue.png")' }} />}
+        active={activeMenu === '/' || activeMenu === '/profile'}
         onClick={() => handleClick('/')}
       >
         

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
+import Link from 'src/components/Link';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -29,7 +30,9 @@ const PopoutView = () => {
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
       <div className={classes.arrowUp} />
-      This is Profile view.
+      <Link href="/profile">
+        Click here to view sample profile.
+      </Link>
     </Paper>
   )
 }

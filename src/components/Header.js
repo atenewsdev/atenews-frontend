@@ -13,7 +13,10 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     top: 0,
     zIndex: 1500,
-    background: 'white'
+    background: 'white',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   },
   container: {
     marginTop: 20

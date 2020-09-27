@@ -10,7 +10,10 @@ const useStyles = makeStyles(() => ({
     touchAction: 'manipulation',
     userSelect: 'none',
     textDecoration: 'none',
-    color: 'black'
+    color: 'black',
+    '&:hover': {
+      textDecoration: 'underline',
+    }
   }
 }));
 
