@@ -6,6 +6,15 @@ import AccountBar from './AccountBar';
 import MobileBar from './MobileBar';
 
 const useStyles = makeStyles((theme) => ({
+  margin: {
+    position: 'fixed',
+    width: '15vw',
+    height: 20,
+    right: 0,
+    top: 0,
+    zIndex: 1500,
+    background: 'white'
+  },
   container: {
     marginTop: 20
   },
@@ -26,6 +35,7 @@ export default function Header() {
 
   return (
     <div className={classes.container}>
+      <div className={classes.margin} />
       <div className={classes.desktop}>
         <Navigation />
         <AccountBar />

@@ -35,6 +35,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const [isHome, setIsHome] = React.useState(false);
+  const [isProfile, setIsProfile] = React.useState(false);
 
   const baseUrlMenu = (url) => {
     return url !== '/' ? `${url.split('/').slice(0, 2).join('/')}` : '/';
@@ -46,12 +47,17 @@ const Layout = ({ children }) => {
     } else {
       setIsHome(false);
     }
+    if (baseUrlMenu(router.pathname) === '/profile') {
+      setIsProfile(true);
+    } else {
+      setIsProfile(false);
+    }
   }, [router.pathname])
 
   return (
     <div className={classes.layoutContainer}>
       <Header />
-      <div className={isHome ? classes.homeContainer : classes.contentContainer}>
+      <div className={isHome || isProfile ? classes.homeContainer : classes.contentContainer}>
         {children}
         <Footer />
       </div>

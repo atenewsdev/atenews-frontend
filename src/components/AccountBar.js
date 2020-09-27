@@ -23,8 +23,11 @@ const useStyles = makeStyles({
     alignItems: 'center',
     textAlign: 'center',
     right: 0,
-    marginRight: '1vw',
+    marginRight: '0.5vw',
     height: 65,
+    zIndex: 1500,
+    width: '15vw',
+    background: 'white'
   },
   button: {
     height: 65,
