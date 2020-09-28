@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -26,6 +27,8 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+
+import { formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -59,30 +62,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Trending = () => {
+const Trending = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <div>
       <Card variant="outlined" style={{ borderRadius: 10, marginBottom: theme.spacing(4) }}>
-        <CardActionArea>
-          <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+        <CardActionArea onClick={() => router.push(`/${article.slug}`)}>
+          <CardMedia className={classes.media} image={article.featured_image_src ? article.featured_image_src : null} />
         </CardActionArea>
         <CardContent>
-          <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+          <Link href={`/${article.slug}`}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
           <List>
             <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItemIcon>
                 <AccountIcon color="primary" />
               </ListItemIcon>
-              <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+              <ListItemText primary={
+                article.coauthors.map((author, i) => {
+                  if (i === article.coauthors.length - 2) {
+                    return `${author.display_name} `
+                  } else if (i !== article.coauthors.length - 1) {
+                    return `${author.display_name}, `
+                  } else if (article.coauthors.length === 1) {
+                    return author.display_name
+                  } else {
+                    return `and ${author.display_name}`
+                  }
+                })
+              } primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
             </ListItem>
             <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItemIcon>
                 <ClockIcon color="primary" />
               </ListItemIcon>
-              <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+              <ListItemText primary={ formatDistanceToNow(new Date(article.date), { addSuffix: true }) } primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
             </ListItem>
           </List>
           <Grid container spacing={0}>

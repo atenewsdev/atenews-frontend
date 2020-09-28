@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useRouter } from 'next/router';
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -17,6 +18,8 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+
+import { formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
@@ -98,11 +101,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const RecentArticles = () => {
+const RecentArticles = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
-  const [hoveredData, setHoveredData] = React.useState({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?', type: 'Features', author: 'Anna Mae Escobar', date: 'September 14, 2020', photojournalist: 'Raphael Eddmon Tiu' });
+  const [hoveredData, setHoveredData] = React.useState({ image: articles[0].featured_image_src, index: 0, title: articles[0].title.rendered, type: articles[0].categories[0], author: articles[0].coauthors[0].display_name, date: articles[0].date });
   
 
   const onHover = (data) => {
@@ -122,7 +126,7 @@ const RecentArticles = () => {
                     <Tag type={hoveredData.type} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="h5" style={{ marginTop: theme.spacing(1) }}>{hoveredData.title}</Typography>
+                    <Typography variant="h5" style={{ marginTop: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: hoveredData.title }}></Typography>
                   </Grid>
                 </Grid>
                 <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
@@ -139,16 +143,10 @@ const RecentArticles = () => {
                       <ClockIcon />
                     </Grid>
                     <Grid item xs={9}>
-                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.date}</Typography>
+                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{formatDistanceToNow(new Date(hoveredData.date), { addSuffix: true })}</Typography>
                     </Grid>
                   </Grid>
                   <Grid container item xs={4} spacing={1}>
-                    <Grid item xs={2}>
-                      <PhotoIcon />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.photojournalist}</Typography>
-                    </Grid>
                   </Grid>
                 </Grid>
               </div>
@@ -160,246 +158,54 @@ const RecentArticles = () => {
         <div className={classes.trendingHead}>
           <Typography variant="h5">Recent Articles</Typography>
         </div>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/IMG_5676.jpg', index: 0, title: 'Did the pandemic stop the sex trade?', type: 'Features', author: 'Anna Mae Escobar', date: 'September 14, 2020', photojournalist: 'Raphael Eddmon Tiu' })}>
-          <Paper variant="outlined" className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="Features" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.twoLineText}>
-                  Did the pandemic stop the sex trade?
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container className={classes.trendingStats}>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <LikeIcon className={classes.trendingStatsText} />
+        { articles.map((article, index) => (
+          <CardActionArea key={index} onClick={() => router.push(`/${article.slug}`)} onMouseOver={() => onHover({ image: article.featured_image_src, index, title: article.title.rendered, type: article.categories[0], author: article.coauthors[0].display_name, date: article.date })}>
+            <Paper variant="outlined" className={classes.trendingItem}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Tag type={article.categories[0]} />
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
+                <Grid item xs={12}>
+                  <Typography variant="body1" component="div" className={classes.twoLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
                 </Grid>
               </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <DislikeIcon className={classes.trendingStatsText} />
+              <Grid container className={classes.trendingStats}>
+                <Grid container item xs={3} spacing={1} alignItems="center">
+                  <Grid item>
+                    <LikeIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
+                <Grid container item xs={3} spacing={1} alignItems="center">
+                  <Grid item>
+                    <DislikeIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
+                <Grid container item xs={3} spacing={1} alignItems="center">
+                  <Grid item>
+                    <CommentIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/open-sports.jpg', index: 1, title: 'PH Olympian highlights effort and excellence for sports and academic success', type: 'News', author: 'Tom Aaron Rica', date: 'September 21, 2020', photojournalist: 'Tom Aaron Rica' })}>
-          <Paper variant="outlined" className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.twoLineText}>
-                  PH Olympian highlights effort and excellence for sports and academic success
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container className={classes.trendingStats}>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <LikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
+                <Grid container item xs={3} spacing={1} alignItems="center">
+                  <Grid item>
+                    <ShareIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <DislikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/C4391BC7-8A79-4062-B1C7-41023DACA962-2048x1068.jpeg', index: 2, title: '‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure', type: 'News', author: 'Johanna Vaughn Dejito and Julia Alessandra Trinidad', date: 'September 15, 2020', photojournalist: 'Julia Alessandra Trinidad' })}>
-          <Paper variant="outlined" className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.twoLineText}>
-                  ‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container className={classes.trendingStats}>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <LikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <DislikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/E8EBE884-674A-46DA-95E8-92AF65AACC7D-2048x1068.jpeg', index: 3, title: 'Satellite use key to internet democracy in PH—ICT researcher', type: 'News', author: 'Percival Cyber Vargas and Tom Aaron Rica', date: 'September 13, 2020', photojournalist: '@WinGatchalian74' })}>
-          <Paper variant="outlined" className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.twoLineText}>
-                  Satellite use key to internet democracy in PH—ICT researcher
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container className={classes.trendingStats}>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <LikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <DislikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-        <CardActionArea onMouseOver={() => onHover({ image: 'https://atenews.ph/wp-content/uploads/2020/09/319F7398-AEDE-4475-A46A-A780D3AAFCEA.jpeg', index: 4, title: 'LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant', type: 'News', author: 'Jared Joshua Bangcaya', date: 'September 10, 2020', photojournalist: 'Johanna Vaughn Dejito' })}>
-          <Paper variant="outlined" className={classes.trendingItem}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Tag type="News" />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div" className={classes.twoLineText}>
-                  LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container className={classes.trendingStats}>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <LikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <DislikeIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-              <Grid container item xs={3} spacing={1} alignItems="center">
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
+            </Paper>
+          </CardActionArea>
+        )) }
       </Grid>
     </Grid>
   )

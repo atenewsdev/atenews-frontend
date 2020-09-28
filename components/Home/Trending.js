@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useRouter } from 'next/router';
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -76,9 +77,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Trending = () => {
+const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   const [topPosition, setTopPosition] = React.useState(0);
   
@@ -119,76 +121,20 @@ const Trending = () => {
           <Paper variant="outlined" square className={classes.trendingHead}>
             <Typography variant="h5">Trending</Typography>
           </Paper>
-          <CardActionArea>
-            <Paper variant="outlined" square className={classes.trendingItem}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type="Features" />
+          { articles.map((article) => (
+            <CardActionArea key={article.id} onClick={() => router.push(`/${article.slug}`)}>
+              <Paper variant="outlined" square className={classes.trendingItem}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Tag type={article.categories[0]} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" component="div" className={classes.threeLineText}>
-                    Did the pandemic stop the sex trade?
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </CardActionArea>
-          <CardActionArea>
-            <Paper variant="outlined" square className={classes.trendingItem}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type="News" />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" component="div" className={classes.threeLineText}>
-                    PH Olympian highlights effort and excellence for sports and academic success
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </CardActionArea>
-          <CardActionArea>
-            <Paper variant="outlined" square className={classes.trendingItem}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type="News" />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" component="div" className={classes.threeLineText}>
-                    ‘Forget your limitations’, says alumnus-entrepreneur on overcoming failure
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </CardActionArea>
-          <CardActionArea>
-            <Paper variant="outlined" square className={classes.trendingItem}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type="News" />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" component="div" className={classes.threeLineText}>
-                    Satellite use key to internet democracy in PH—ICT researcher
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </CardActionArea>
-          <CardActionArea>
-            <Paper variant="outlined" square className={classes.trendingItem}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Tag type="News" />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" component="div" className={classes.threeLineText}>
-                    LGBTQIA+ orgs condemn Pemberton’s ‘absolute pardon’ grant
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </CardActionArea>
+              </Paper>
+            </CardActionArea>
+          ))}
         </Grid>
       </div>
     </Hidden>

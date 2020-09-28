@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -26,6 +27,8 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+
+import { formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -65,26 +68,41 @@ const useStyles = makeStyles((theme) => ({
 const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <div>
       <Card style={{ marginBottom: theme.spacing(2), borderRadius: 10 }} variant="outlined">
         <Grid container alignItems="center">
           <Grid item xs={12} sm={6}>
-            <CardActionArea>
-              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            <CardActionArea onClick={() => router.push(`/${articles[0].slug}`)}>
+              <CardMedia className={classes.media} image={articles[0].featured_image_src} />
             </CardActionArea>
           </Grid>
           <Grid item xs={12} sm={6}>
             <CardContent>
-              <Link href=""><Typography variant="h5">Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <Link href={`/${articles[0].slug}`}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
               <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
                 <Grid container item xs={6}>
                   <Grid item xs={2}>
                     <AccountIcon />
                   </Grid>
                   <Grid item xs={9}>
-                    <Typography variant="subtitle2">Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad</Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        articles[0].coauthors.map((author, i) => {
+                          if (i === articles[0].coauthors.length - 2) {
+                            return `${author.display_name} `
+                          } else if (i !== articles[0].coauthors.length - 1) {
+                            return `${author.display_name}, `
+                          } else if (articles[0].coauthors.length === 1) {
+                            return author.display_name
+                          } else {
+                            return `and ${author.display_name}`
+                          }
+                        })
+                      }
+                    </Typography>
                   </Grid>
                 </Grid>
                 <Grid container item xs={6}>
@@ -92,12 +110,12 @@ const Trending = ({ articles }) => {
                     <ClockIcon />
                   </Grid>
                   <Grid item xs={9}>
-                    <Typography variant="subtitle2">September 2, 2020</Typography>
+                    <Typography variant="subtitle2">{ formatDistanceToNow(new Date(articles[0].date), { addSuffix: true }) }</Typography>
                   </Grid>
                 </Grid>
               </Grid>
 
-              <Typography variant="body1">To address the pandemic response issues of the Filipinos, renowned Sociologist Nicole Curato Ph.D. in the 2nd Social Sciences Online Conversation last August 29 stated that ‘deliberative democracy’ was a necessary component.</Typography>
+              <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
 
               <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
                 <Grid container item xs={3} spacing={1}>
@@ -139,156 +157,75 @@ const Trending = ({ articles }) => {
       </Card>
 
       <Grid container spacing={2} justify="space-between">
-        <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 10 }}>
-            <CardActionArea>
-              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-            </CardActionArea>
-            <CardContent>
-              <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <List disablePadding>
-                <ListItem>
-                  <ListItemIcon>
-                    <AccountIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <ClockIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-              </List>
-              <Grid container spacing={0}>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
+        { articles.map((article, i) => {
+          if (i !== 0) {
+            return (
+              <Grid item sm={4} key={article.id}>
+                <Card variant="outlined" style={{ borderRadius: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <CardActionArea onClick={() => router.push(`/${article.slug}`)}>
+                    <CardMedia className={classes.media} image={article.featured_image_src} />
+                  </CardActionArea>
+                  <div style={{ padding: theme.spacing(2) }}>
+                    <Link href={`/${article.slug}`}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
+                  </div>
+                  <List disablePadding>
+                    <ListItem dense>
+                      <ListItemIcon>
+                        <AccountIcon color="primary" />
+                      </ListItemIcon>
+                      <ListItemText primary={
+                        article.coauthors.map((author, i) => {
+                          if (i === article.coauthors.length - 2) {
+                            return `${author.display_name} `
+                          } else if (i !== article.coauthors.length - 1) {
+                            return `${author.display_name}, `
+                          } else if (article.coauthors.length === 1) {
+                            return author.display_name
+                          } else {
+                            return `and ${author.display_name}`
+                          }
+                        })
+                      } primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                    </ListItem>
+                    <ListItem dense>
+                      <ListItemIcon>
+                        <ClockIcon color="primary" />
+                      </ListItemIcon>
+                      <ListItemText primary={formatDistanceToNow(new Date(articles[0].date), { addSuffix: true })} primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                    </ListItem>
+                  </List>
+                  <div style={{ flexGrow: 1 }} />
+                  <Grid container spacing={0} style={{ padding: theme.spacing(2) }}>
+                    <Grid item xs={3}>
+                      <ListItem dense>
+                        <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                        <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                      </ListItem>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <ListItem dense>
+                        <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                        <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                      </ListItem>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <ListItem dense>
+                        <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                        <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                      </ListItem>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <ListItem dense>
+                        <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
+                        <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                      </ListItem>
+                    </Grid>
+                  </Grid>
+                </Card>
               </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 10 }}>
-            <CardActionArea>
-              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-            </CardActionArea>
-            <CardContent>
-              <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <List disablePadding>
-                <ListItem>
-                  <ListItemIcon>
-                    <AccountIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <ClockIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-              </List>
-              <Grid container spacing={0}>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item sm={4}>
-          <Card variant="outlined" style={{ borderRadius: 10 }}>
-            <CardActionArea>
-              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-            </CardActionArea>
-            <CardContent>
-              <Link href=""><Typography variant="h5" className={classes.twoLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-              <List disablePadding>
-                <ListItem>
-                  <ListItemIcon>
-                    <AccountIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Daniel Dave Gomez, Tom Aaron Rica and Julia Alessandra Trinidad" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <ClockIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                </ListItem>
-              </List>
-              <Grid container spacing={0}>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItem>
-                    <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                    <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                  </ListItem>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+            );
+          }
+        })}
       </Grid>
     </div>
   )

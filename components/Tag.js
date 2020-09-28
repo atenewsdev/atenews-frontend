@@ -21,18 +21,22 @@ const Tag = ({ type }) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const [text, setText] = React.useState('');
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
     switch (type) {
-      case 'News':
+      case 3:
         setColor(theme.palette.atenews.news);
+        setText('News');
         break;
-      case 'Features':
+      case 4:
         setColor(theme.palette.atenews.features);
+        setText('Features');
         break;
-      case 'Opinion':
+      case 13:
         setColor(theme.palette.atenews.highlight);
+        setText('Opinion');
         break;
       case 'Montage':
         setColor(theme.palette.atenews.montage);
@@ -45,7 +49,7 @@ const Tag = ({ type }) => {
 
   return (
     <div className={classes.tag} style={{ backgroundColor: color }}>
-      <Typography variant="body2">{type}</Typography>
+      <Typography variant="body2">{text}</Typography>
     </div>
   )
 }

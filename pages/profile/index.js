@@ -30,6 +30,8 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Title from 'components/Home/Title';
 
+import WP from 'utils/wordpress';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: 80

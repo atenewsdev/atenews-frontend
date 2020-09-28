@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Trending = () => {
+const Trending = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -50,7 +50,19 @@ const Trending = () => {
             <Avatar className={classes.avatar}></Avatar>
           </ListItemAvatar>
           <ListItemText 
-            primary="Percival Cyber Vargas"
+            primary={
+              article.coauthors.map((author, i) => {
+                if (i === article.coauthors.length - 2) {
+                  return `${author.display_name} `
+                } else if (i !== article.coauthors.length - 1) {
+                  return `${author.display_name}, `
+                } else if (article.coauthors.length === 1) {
+                  return author.display_name
+                } else {
+                  return `and ${author.display_name}`
+                }
+              })
+            }
             secondary={
               <Button variant="outlined" color="primary" size="small" style={{ marginTop: theme.spacing(1) }}><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
             }

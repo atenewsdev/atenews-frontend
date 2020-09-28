@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Article from 'components/List/Article';
 import Trending from 'components/Home/Trending';
 
+import WP from 'utils/wordpress';
+
 const useStyles = makeStyles({
   account: {
     position: 'absolute',
@@ -18,9 +20,13 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Page() {
+export default function Page({ trending, articles }) {
   const classes = useStyles();
   const theme = useTheme();
+
+  React.useEffect(() => {
+    console.log(trending);
+  }, [])
 
   return (
     <div className={classes.container}>
@@ -28,12 +34,24 @@ export default function Page() {
         <title>Local News - Atenews</title>
       </Head>
       <Typography variant="h2" style={{ marginBottom: theme.spacing(4) }}>Local News</Typography>
-      <Trending />
-      <Article />
-      <Article />
-      <Article />
-      <Article />
-      
+      <Trending articles={trending} />
+      { articles.map((article) => (
+        <Article key={article.id} article={article} />
+      )) }
     </div>
   )
+}
+
+export async function getStaticProps(ctx) {
+  try {
+    const [trending, articles] = await Promise.all([
+      WP.posts().perPage(5),
+      WP.posts().categories(18)
+    ]);
+    console.log('success');
+    return { props: { trending, articles }, revalidate: 10 };
+  } catch (err) {
+    console.log('failed');
+    return { props: { trending: [], articles: [] }, revalidate: 10 };
+  }
 }
