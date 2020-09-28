@@ -7,10 +7,10 @@ import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
-import Tag from 'src/components/Tag';
+import Tag from 'components/Tag';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
-import useWindowDimensions from 'src/utils/useWindowDimensions';
+import useWindowDimensions from 'utils/useWindowDimensions';
 
 const useStyles = makeStyles((theme) => ({
   container: {

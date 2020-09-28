@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Layout from '../src/components/Layout';
-import theme from '../src/theme';
+import Layout from 'components/Layout';
+import theme from 'styles/theme';
 
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import '../styles/nprogress.css';
-import '../styles/main.css';
+import 'styles/nprogress.css';
+import 'styles/main.css';
 
 NProgress.configure({
   showSpinner: false

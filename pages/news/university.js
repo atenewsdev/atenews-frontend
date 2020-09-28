@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Button from 'src/components/Button';
+import Button from 'components/Button';
 import Divider from '@material-ui/core/Divider';
 import StockTextField from '@material-ui/core/TextField';
 
@@ -20,14 +20,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Comment from 'src/components/Social/Comment';
-import CommentField from 'src/components/Social/CommentField';
-import SideWriter from 'src/components/Article/SideWriter';
-import MoreArticles from 'src/components/Article/MoreArticles';
+import Comment from 'components/Social/Comment';
+import CommentField from 'components/Social/CommentField';
+import SideWriter from 'components/Article/SideWriter';
+import MoreArticles from 'components/Article/MoreArticles';
 
 import Hidden from '@material-ui/core/Hidden';
 
-import Article from 'src/components/List/Article';
+import Article from 'components/List/Article';
 import handleViewport from 'react-in-viewport';
 
 const TextField = withStyles({

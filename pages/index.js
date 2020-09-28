@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import RecentArticles from 'src/components/Home/RecentArticles';
-import Title from 'src/components/Home/Title';
-import ArticleGrid from 'src/components/Home/ArticleGrid';
-import Trending from 'src/components/Home/Trending';
+import RecentArticles from 'components/Home/RecentArticles';
+import Title from 'components/Home/Title';
+import ArticleGrid from 'components/Home/ArticleGrid';
+import Trending from 'components/Home/Trending';
 
 const useStyles = makeStyles((theme) => ({
   container: {

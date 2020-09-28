@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
-import Link from 'src/components/Link';
+import Link from 'components/Link';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {

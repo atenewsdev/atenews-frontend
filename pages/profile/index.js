@@ -16,7 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Link from 'src/components/Link';
+import Link from 'components/Link';
 
 import LikeIcon from '@material-ui/icons/ThumbUp';
 import DislikeIcon from '@material-ui/icons/ThumbDown';
@@ -28,7 +28,7 @@ import PhotoIcon from '@material-ui/icons/PhotoCamera';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
-import Title from 'src/components/Home/Title';
+import Title from 'components/Home/Title';
 
 const useStyles = makeStyles((theme) => ({
   container: {

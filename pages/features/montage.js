@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import Article from 'src/components/List/Article';
-import Trending from 'src/components/Home/Trending';
+import Article from 'components/List/Article';
+import Trending from 'components/Home/Trending';
 
 const useStyles = makeStyles({
   account: {

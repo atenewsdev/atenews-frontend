@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
-import Button from 'src/components/Button';
+import Button from 'components/Button';
 import Divider from '@material-ui/core/Divider';
 import StockTextField from '@material-ui/core/TextField';
 
@@ -25,7 +25,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 
-import Comment from 'src/components/Social/Comment';
+import Comment from 'components/Social/Comment';
 
 const TextField = withStyles({
   root: {
