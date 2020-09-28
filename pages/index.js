@@ -36,10 +36,6 @@ export default function Home({ recentArticles, news, features }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  React.useEffect(() => {
-    console.log(recentArticles);
-  }, [])
-
   return (
     <div className={classes.container}>
       <Head>

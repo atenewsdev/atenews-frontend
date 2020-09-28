@@ -10,6 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Divider from '@material-ui/core/Divider';
 import Tag from 'components/Tag';
 import Link from 'components/Link';
 
@@ -117,7 +118,7 @@ const Trending = ({ articles }) => {
               </Grid>
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
-
+              <Divider style={{ marginTop: theme.spacing(2) }} />
               <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
                 <Grid container item xs={3} spacing={1}>
                   <Grid item>
@@ -196,6 +197,7 @@ const Trending = ({ articles }) => {
                     </ListItem>
                   </List>
                   <div style={{ flexGrow: 1 }} />
+                  <Divider style={{ marginTop: theme.spacing(2) }} />
                   <Grid container spacing={0} style={{ padding: theme.spacing(2) }}>
                     <Grid item xs={3}>
                       <ListItem dense>

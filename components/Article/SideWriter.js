@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Trending = ({ article }) => {
+const Trending = ({ authors, tags }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -45,30 +45,20 @@ const Trending = ({ article }) => {
     <Hidden smDown>
       <List>
         <Typography>Written by:</Typography>
-        <ListItem style={{ padding: 0, paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }}>
-          <ListItemAvatar>
-            <Avatar className={classes.avatar}></Avatar>
-          </ListItemAvatar>
-          <ListItemText 
-            primary={
-              article.coauthors.map((author, i) => {
-                if (i === article.coauthors.length - 2) {
-                  return `${author.display_name} `
-                } else if (i !== article.coauthors.length - 1) {
-                  return `${author.display_name}, `
-                } else if (article.coauthors.length === 1) {
-                  return author.display_name
-                } else {
-                  return `and ${author.display_name}`
-                }
-              })
-            }
-            secondary={
-              <Button variant="outlined" color="primary" size="small" style={{ marginTop: theme.spacing(1) }}><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
-            }
-            style={{ marginLeft: theme.spacing(2) }}
-          />
-        </ListItem>
+        { authors.map((author) => (
+          <ListItem style={{ padding: 0, paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }} key={author.user_nicename}>
+            <ListItemAvatar>
+              <Avatar className={classes.avatar} src={author.avatar}></Avatar>
+            </ListItemAvatar>
+            <ListItemText 
+              primary={author.display_name}
+              secondary={
+                <Button variant="outlined" color="primary" size="small" style={{ marginTop: theme.spacing(1) }}><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
+              }
+              style={{ marginLeft: theme.spacing(2) }}
+            />
+          </ListItem>
+        )) }
         <Divider style={{ marginBottom: theme.spacing(1) }}/>
         <Typography>Article Stats:</Typography>
         <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
@@ -105,7 +95,7 @@ const Trending = ({ article }) => {
         </ListItem>
         <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }}/>
         <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
-        <Tag type="News" />
+        <Tag type={tags[0]} />
       </List>
     </Hidden>
   )
