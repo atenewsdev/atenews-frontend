@@ -12,6 +12,7 @@ import Tag from 'components/Tag';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import useWindowDimensions from 'utils/useWindowDimensions';
+import slugGenerator from 'utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -122,7 +123,7 @@ const Trending = ({ articles }) => {
             <Typography variant="h5">Trending</Typography>
           </Paper>
           { articles.map((article) => (
-            <CardActionArea key={article.id} onClick={() => router.push(`/${article.slug}`)}>
+            <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
               <Paper variant="outlined" square className={classes.trendingItem}>
                 <Grid container>
                   <Grid item xs={12}>

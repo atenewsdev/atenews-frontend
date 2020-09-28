@@ -29,6 +29,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import { formatDistanceToNow } from 'date-fns';
+import slugGenerator from 'utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -75,13 +76,13 @@ const Trending = ({ articles }) => {
       <Card style={{ marginBottom: theme.spacing(2), borderRadius: 10 }} variant="outlined">
         <Grid container alignItems="center">
           <Grid item xs={12} sm={6}>
-            <CardActionArea onClick={() => router.push(`/${articles[0].slug}`)}>
+            <CardActionArea onClick={() => router.push(slugGenerator(articles[0]))}>
               <CardMedia className={classes.media} image={articles[0].featured_image_src} />
             </CardActionArea>
           </Grid>
           <Grid item xs={12} sm={6}>
             <CardContent>
-              <Link href={`/${articles[0].slug}`}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
+              <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
               <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
                 <Grid container item xs={6}>
                   <Grid item xs={2}>
@@ -162,11 +163,11 @@ const Trending = ({ articles }) => {
             return (
               <Grid item sm={4} key={article.id}>
                 <Card variant="outlined" style={{ borderRadius: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <CardActionArea onClick={() => router.push(`/${article.slug}`)}>
+                  <CardActionArea onClick={() => router.push(slugGenerator(article))}>
                     <CardMedia className={classes.media} image={article.featured_image_src} />
                   </CardActionArea>
                   <div style={{ padding: theme.spacing(2) }}>
-                    <Link href={`/${article.slug}`}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
+                    <Link href={slugGenerator(article)}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   </div>
                   <List disablePadding>
                     <ListItem dense>

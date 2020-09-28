@@ -20,6 +20,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import { formatDistanceToNow } from 'date-fns';
+import slugGenerator from 'utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
@@ -159,7 +160,7 @@ const RecentArticles = ({ articles }) => {
           <Typography variant="h5">Recent Articles</Typography>
         </div>
         { articles.map((article, index) => (
-          <CardActionArea key={index} onClick={() => router.push(`/${article.slug}`)} onMouseOver={() => onHover({ image: article.featured_image_src, index, title: article.title.rendered, type: article.categories[0], author: article.coauthors[0].display_name, date: article.date })}>
+          <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ image: article.featured_image_src, index, title: article.title.rendered, type: article.categories[0], author: article.coauthors[0].display_name, date: article.date })}>
             <Paper variant="outlined" className={classes.trendingItem}>
               <Grid container>
                 <Grid item xs={12}>

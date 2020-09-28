@@ -29,6 +29,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import { formatDistanceToNow } from 'date-fns';
+import slugGenerator from 'utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -70,11 +71,11 @@ const Trending = ({ article }) => {
   return (
     <div>
       <Card variant="outlined" style={{ borderRadius: 10, marginBottom: theme.spacing(4) }}>
-        <CardActionArea onClick={() => router.push(`/${article.slug}`)}>
+        <CardActionArea onClick={() => router.push(slugGenerator(article))}>
           <CardMedia className={classes.media} image={article.featured_image_src ? article.featured_image_src : null} />
         </CardActionArea>
         <CardContent>
-          <Link href={`/${article.slug}`}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
+          <Link href={slugGenerator(article)}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
           <List>
             <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItemIcon>

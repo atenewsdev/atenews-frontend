@@ -38,6 +38,7 @@ import WP from 'utils/wordpress';
 import WPGBlocks from 'react-gutenberg';
 
 import { formatDistanceToNow } from 'date-fns';
+import ReactHtmlParser from 'react-html-parser';
 
 const TextField = withStyles({
   root: {
@@ -173,7 +174,16 @@ export default function Page({ post }) {
   return (
     <div className={classes.container}>
       <Head>
-        <title>University News - Atenews</title>
+        <title>{ReactHtmlParser(post.title.rendered)} - Atenews</title>
+        <meta name="description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
+        <meta name="twitter:card" value="summary" />
+        <meta property="og:title" content={ReactHtmlParser(post.title.rendered)} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content={post.featured_image_src} /> 
+        <meta name="twitter:image" content={post.featured_image_src} />
+
+        <meta property="og:url" content={`https://beta.atenews.ph/${post.slug}`} />
+        <meta property="og:description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
       </Head>
       <Typography variant="h3" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ formatDistanceToNow(new Date(post.date), { addSuffix: true }) }</Typography>
