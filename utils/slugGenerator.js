@@ -8,6 +8,9 @@ const generator = (article) => {
       category = '/features';
       break;
     case 13:
+    case 21:
+    case 428:
+    case 590:
       category = '/opinion';
       break;
     case 431:
