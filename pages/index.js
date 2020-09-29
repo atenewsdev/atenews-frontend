@@ -47,7 +47,7 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
   return (
     <div className={classes.container}>
       <Head>
-        <title>Home - Atenews</title>
+        <title>Atenews - The official student publication of the Ateneo de Davao University</title>
       </Head>
       <div className={ classes.header }>
         <img src="/atenews-header.svg" height="35"></img>
