@@ -19,11 +19,12 @@ export default class MyDocument extends Document {
           <meta name='mobile-web-app-capable' content='yes' />
           <meta name='theme-color' content='#195EA9' />
 
+          <link rel='manifest' href='/manifest.json' />
           <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-          <link rel="icon" href="/cropped-atenews-header-logo-1-32x32.png" sizes="32x32" />
-          <link rel="icon" href="/cropped-atenews-header-logo-1-192x192.png" sizes="192x192" />
-          <link rel="apple-touch-icon" href="/cropped-atenews-header-logo-1-180x180.png" />
+          <link rel="icon" href="/icons/cropped-atenews-header-logo-1-32x32.png" sizes="32x32" />
+          <link rel="icon" href="/icons/cropped-atenews-header-logo-1-192x192.png" sizes="192x192" />
+          <link rel="apple-touch-icon" href="/icons/cropped-atenews-header-logo-1-180x180.png" />
         </Head>
         <body>
           <Main />
