@@ -76,25 +76,31 @@ const WriterBlock = handleViewport((props) => {
 
   return (
     <div ref={forwardedRef}>
-    {
-      authors.map((author) => (
-        <Grid container direction="row" alignItems="center" spacing={2} style={{ marginBottom: theme.spacing(2), width: 450 }} component="div" key={author.user_nicename}>
-          <Grid item xs={2}>
-            <Avatar className={classes.avatar} src={author.avatar}></Avatar>
-          </Grid>
-          <Grid container item direction="column" justify="center" spacing={1} xs={10}>
+      <Grid container spacing={4}>
+        {
+          authors.map((author) => (
             <Grid item>
-              <Typography variant="body1">
-                {author.display_name}
-              </Typography>
+              <Grid container direction="row" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(2) }} component="div" key={author.user_nicename}>
+                <Grid item>
+                  <Avatar className={classes.avatar} src={author.avatar}></Avatar>
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" justify="center" spacing={1}>
+                    <Grid item>
+                      <Typography variant="body1">
+                        {author.display_name}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      ))
-    }
+          ))
+        }
+      </Grid>
     </div>
   )
 })
