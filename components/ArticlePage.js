@@ -28,7 +28,7 @@ import handleViewport from 'react-in-viewport';
 import WP from 'utils/wordpress';
 import WPGBlocks from 'react-gutenberg';
 
-import { formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import ReactHtmlParser from 'react-html-parser';
 import slugGenerator from 'utils/slugGenerator';
 
@@ -131,7 +131,7 @@ export default function Page({ post }) {
   return (
     <div className={classes.container}>
       <Typography variant="h3" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ formatDistanceToNow(new Date(post.date), { addSuffix: true }) }</Typography>
+      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
       <Paper elevation={0} style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: '#F0F2F5', borderRadius: 0 }}>
         <img src={post.featured_image_src} width="100%" />
         {/*<div style={{ padding: theme.spacing(2) }}>

@@ -53,7 +53,7 @@ export default function Page({ post }) {
         <title>{ReactHtmlParser(post.title.rendered)} - Atenews</title>
         <meta name="description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
         <meta name="twitter:card" value="summary" />
-        <meta property="og:title" content={ReactHtmlParser(post.title.rendered)} />
+        <meta property="og:title" content={`${ReactHtmlParser(post.title.rendered)} - Atenews`} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content={post.featured_image_src} /> 
         <meta name="twitter:image" content={post.featured_image_src} />

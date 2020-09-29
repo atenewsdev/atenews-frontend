@@ -10,7 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
 import Tag from 'components/Tag';
 import Link from 'components/Link';
 
@@ -63,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
   },
   iconList: {
     padding: 0, margin: 0
+  },
+  bannerImage: {
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
   }
 }));
 
@@ -75,81 +80,98 @@ const Trending = ({ articles }) => {
   return (
     <div>
       <Card style={{ marginBottom: theme.spacing(2), borderRadius: 10 }} variant="outlined">
-        <Grid container alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <CardActionArea onClick={() => router.push(slugGenerator(articles[0]))}>
-              <CardMedia className={classes.media} image={articles[0].featured_image_src} />
-            </CardActionArea>
-          </Grid>
+        <Grid container alignItems="stretch">
+          <Hidden smUp>
+            <Grid item xs={12}>
+              <CardActionArea onClick={() => router.push(slugGenerator(articles[0]))}>
+                <CardMedia className={classes.media} image={articles[0].featured_image_src} />
+              </CardActionArea>
+            </Grid>
+          </Hidden>
+          <Hidden xsDown>
+            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${articles[0].featured_image_src})` }} onClick={() => router.push(slugGenerator(articles[0]))}>
+            </Grid>
+          </Hidden>
           <Grid item xs={12} sm={6}>
             <CardContent>
               <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}>
-                <Grid container item xs={6}>
-                  <Grid item xs={2}>
-                    <AccountIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">
-                      {
-                        articles[0].coauthors.map((author, i) => {
-                          if (i === articles[0].coauthors.length - 2) {
-                            return `${author.display_name} `
-                          } else if (i !== articles[0].coauthors.length - 1) {
-                            return `${author.display_name}, `
-                          } else if (articles[0].coauthors.length === 1) {
-                            return author.display_name
-                          } else {
-                            return `and ${author.display_name}`
-                          }
-                        })
-                      }
-                    </Typography>
+              <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
+                <Grid item xs>
+                  <Grid container spacing={1} wrap="nowrap">
+                    <Grid item>
+                      <AccountIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">
+                        {
+                          articles[0].coauthors.map((author, i) => {
+                            if (i === articles[0].coauthors.length - 2) {
+                              return `${author.display_name} `
+                            } else if (i !== articles[0].coauthors.length - 1) {
+                              return `${author.display_name}, `
+                            } else if (articles[0].coauthors.length === 1) {
+                              return author.display_name
+                            } else {
+                              return `and ${author.display_name}`
+                            }
+                          })
+                        }
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container item xs={6}>
-                  <Grid item xs={2}>
-                    <ClockIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Typography variant="subtitle2">{ formatDistanceToNow(new Date(articles[0].date), { addSuffix: true }) }</Typography>
+                <Grid item xs>
+                  <Grid container spacing={1} wrap="nowrap">
+                    <Grid item>
+                      <ClockIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">{ formatDistanceToNow(new Date(articles[0].date), { addSuffix: true }) }</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
-              <Divider style={{ marginTop: theme.spacing(2) }} />
-              <Grid container item xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} justify="space-evenly">
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <LikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">192</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <DislikeIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">168</Typography>
+              <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="center">
+                <Grid item>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <LikeIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">192</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <CommentIcon />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
+                <Grid item>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <DislikeIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">168</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container item xs={3} spacing={1}>
-                  <Grid item>
-                    <ShareIcon />
+                <Grid item>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <CommentIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">254</Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2">254</Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <ShareIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle2">254</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -170,58 +192,82 @@ const Trending = ({ articles }) => {
                   <div style={{ padding: theme.spacing(2) }}>
                     <Link href={slugGenerator(article)}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   </div>
-                  <List disablePadding>
-                    <ListItem dense>
-                      <ListItemIcon>
-                        <AccountIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary={
-                        article.coauthors.map((author, i) => {
-                          if (i === article.coauthors.length - 2) {
-                            return `${author.display_name} `
-                          } else if (i !== article.coauthors.length - 1) {
-                            return `${author.display_name}, `
-                          } else if (article.coauthors.length === 1) {
-                            return author.display_name
-                          } else {
-                            return `and ${author.display_name}`
-                          }
-                        })
-                      } primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                    <ListItem dense>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary={formatDistanceToNow(new Date(article.date), { addSuffix: true })} primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                  <div style={{ flexGrow: 1 }} />
-                  <Divider style={{ marginTop: theme.spacing(2) }} />
-                  <Grid container spacing={0} style={{ padding: theme.spacing(2) }}>
-                    <Grid item xs={3}>
-                      <ListItem dense>
-                        <LikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                        <ListItemText primary="192" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                      </ListItem>
+                  <Grid container style={{ color: theme.palette.primary.main, paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingBottom: theme.spacing(1) }} spacing={2}>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <AccountIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">
+                            {
+                              article.coauthors.map((author, i) => {
+                                if (i === article.coauthors.length - 2) {
+                                  return `${author.display_name} `
+                                } else if (i !== article.coauthors.length - 1) {
+                                  return `${author.display_name}, `
+                                } else if (article.coauthors.length === 1) {
+                                  return author.display_name
+                                } else {
+                                  return `and ${author.display_name}`
+                                }
+                              })
+                            }
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={3}>
-                      <ListItem dense>
-                        <DislikeIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                        <ListItemText primary="168" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                      </ListItem>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <ClockIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={3}>
-                      <ListItem dense>
-                        <CommentIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                        <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                      </ListItem>
+                  </Grid>
+                  <Grid container xs={12} spacing={2} component="div" style={{ color: theme.palette.primary.main, padding: theme.spacing(1) }} justify="center" alignItems="flex-end">
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <LikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">192</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={3}>
-                      <ListItem dense>
-                        <ShareIcon color="primary" style={{ marginRight: theme.spacing(1) }} />
-                        <ListItemText primary="256" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                      </ListItem>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <DislikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">168</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <CommentIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <ShareIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Card>
