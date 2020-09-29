@@ -5,10 +5,12 @@ import RecentArticles from 'components/Home/RecentArticles';
 import Title from 'components/Home/Title';
 import ArticleGrid from 'components/Home/ArticleGrid';
 import Trending from 'components/Home/Trending';
+import CardActionArea from '@material-ui/core/CardActionArea';
 
 import Article from 'components/List/Article';
 import Column from 'components/List/Column';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import WPGBlocks from 'react-gutenberg';
 
@@ -114,12 +116,35 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
             <Article article={editorial} topImage />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h4" style={{ fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4) }}>Columns</Typography>
-            {
-              columns.map((column) => (
-                <Column article={column} />
-              ))
-            }
+              <Typography variant="h4" style={{ fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4) }}>Columns</Typography>
+              {
+                columns.map((column) => (
+                  <Column article={column} key={column.id} />
+                ))
+              }
+          </Grid>
+        </Grid>
+      </div>
+
+      <div className={classes.section}>
+        <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
+          <Grid item xs>
+            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+          </Grid>
+          <Grid item xs>
+            <Typography variant="h4" style={{ fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center' }}>LATEST RELEASE</Typography>
+          </Grid>
+          <Grid item xs>
+            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+          </Grid>
+        </Grid>
+        <Grid container justify="center">
+          <Grid item xs={12} sm={6}>
+            <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
+              <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
+                <img src="/issuu-demo.png" style={{ width: '100%' }} />
+              </Paper>
+            </CardActionArea>
           </Grid>
         </Grid>
       </div>
