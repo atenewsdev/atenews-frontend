@@ -18,12 +18,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const LinkCustom = ({ children, href }) => {
+const LinkCustom = ({ children, href, color }) => {
   const classes = useStyles();
 
   return (
     <Link href={href} passHref>
-      <a className={classes.link}>
+      <a className={classes.link} style={{ color }}>
         {children}
       </a>
     </Link>

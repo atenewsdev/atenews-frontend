@@ -9,6 +9,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
 import Tag from 'components/Tag';
+import Link from 'components/Link';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
@@ -107,7 +108,7 @@ const RecentArticles = ({ articles }) => {
   const theme = useTheme();
   const router = useRouter();
 
-  const [hoveredData, setHoveredData] = React.useState({ image: articles[0].featured_image_src, index: 0, title: articles[0].title.rendered, type: articles[0].categories[0], author: articles[0].coauthors[0].display_name, date: articles[0].date });
+  const [hoveredData, setHoveredData] = React.useState(articles[0]);
   
 
   const onHover = (data) => {
@@ -117,37 +118,55 @@ const RecentArticles = ({ articles }) => {
   return (
     <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
       <Hidden xsDown>
-        <Grid item sm={8} style={{ position: 'relative' }}>
+        <Grid item sm={6} md={8} style={{ position: 'relative' }}>
           <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
-          <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.image})` }}>
+          <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.featured_image_src})` }}>
             <div className={classes.bannerDetailsContainer}>
               <div className={classes.bannerDetails}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Tag type={hoveredData.type} />
+                    <Tag type={hoveredData.categories[0]} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="h5" style={{ marginTop: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: hoveredData.title }}></Typography>
+                    <Link href={slugGenerator(hoveredData)} color="white"><Typography variant="h5" style={{ marginTop: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: hoveredData.title.rendered }}></Typography></Link>
                   </Grid>
                 </Grid>
                 <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
-                  <Grid container item xs={4} spacing={1}>
-                    <Grid item xs={2}>
-                      <AccountIcon />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{hoveredData.author}</Typography>
+                  <Grid item xs={4}>
+                    <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                      <Grid item>
+                        <AccountIcon />
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
+                          {
+                            hoveredData.coauthors.map((author, i) => {
+                              if (i === hoveredData.coauthors.length - 2) {
+                                return `${author.display_name} `
+                              } else if (i !== hoveredData.coauthors.length - 1) {
+                                return `${author.display_name}, `
+                              } else if (hoveredData.coauthors.length === 1) {
+                                return author.display_name
+                              } else {
+                                return `and ${author.display_name}`
+                              }
+                            })
+                          }
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
-                  <Grid container item xs={4} spacing={1}>
-                    <Grid item xs={2}>
-                      <ClockIcon />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{formatDistanceToNow(new Date(hoveredData.date), { addSuffix: true })}</Typography>
+                  <Grid item xs={4}>
+                    <Grid container spacing={1} wrap="nowrap" alignItems="center">
+                      <Grid item>
+                        <ClockIcon />
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>{formatDistanceToNow(new Date(hoveredData.date), { addSuffix: true })}</Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
-                  <Grid container item xs={4} spacing={1}>
+                  <Grid item xs={4}>
                   </Grid>
                 </Grid>
               </div>
@@ -155,12 +174,12 @@ const RecentArticles = ({ articles }) => {
           </div>
         </Grid>
       </Hidden>
-      <Grid item sm={4}>
+      <Grid item sm={6} md={4}>
         <div className={classes.trendingHead}>
           <Typography variant="h5">Recent Articles</Typography>
         </div>
         { articles.map((article, index) => (
-          <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ image: article.featured_image_src, index, title: article.title.rendered, type: article.categories[0], author: article.coauthors[0].display_name, date: article.date })}>
+          <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ index, ...article })}>
             <Paper variant="outlined" className={classes.trendingItem}>
               <Grid container>
                 <Grid item xs={12}>
@@ -170,37 +189,45 @@ const RecentArticles = ({ articles }) => {
                   <Typography variant="body1" component="div" className={classes.twoLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
                 </Grid>
               </Grid>
-              <Grid container className={classes.trendingStats}>
-                <Grid container item xs={3} spacing={1} alignItems="center">
-                  <Grid item>
-                    <LikeIcon className={classes.trendingStatsText} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" className={classes.trendingStatsText}>192</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={3} spacing={1} alignItems="center">
-                  <Grid item>
-                    <DislikeIcon className={classes.trendingStatsText} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" className={classes.trendingStatsText}>168</Typography>
+              <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
+                <Grid item>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <LikeIcon className={classes.trendingStatsText} />
+                    </Grid>
+                    <Grid item>
+                      <Typography className={classes.trendingStatsText} variant="subtitle2">192</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container item xs={3} spacing={1} alignItems="center">
-                  <Grid item>
-                    <CommentIcon className={classes.trendingStatsText} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
+                <Grid item>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <DislikeIcon className={classes.trendingStatsText} />
+                    </Grid>
+                    <Grid item>
+                      <Typography className={classes.trendingStatsText} variant="subtitle2">168</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid container item xs={3} spacing={1} alignItems="center">
-                  <Grid item>
-                    <ShareIcon className={classes.trendingStatsText} />
+                <Grid item>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <CommentIcon className={classes.trendingStatsText} />
+                    </Grid>
+                    <Grid item>
+                      <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" className={classes.trendingStatsText}>254</Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <ShareIcon className={classes.trendingStatsText} />
+                    </Grid>
+                    <Grid item>
+                      <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
