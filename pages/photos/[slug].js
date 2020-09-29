@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Page({ post }) {
+export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -61,7 +61,7 @@ export default function Page({ post }) {
         <meta property="og:url" content={`https://beta.atenews.ph/photos/${post.slug}`} />
         <meta property="og:description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
       </Head>
-      <ArticlePage post={post} />
+      <ArticlePage post={post} relatedPosts={relatedPosts} />
     </div>
   )
 }
@@ -87,14 +87,16 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async (ctx) => {
-  let res = []
+  let res = [];
+  let relatedPosts = [];
   try {
     res = await WP.posts().slug(ctx.params.slug);
   } catch (err) {
-    res = []
+    res = [];
   }
   if (res.length > 0) {
-    return { props: { post: res[0] }, revalidate: 10 };
+    relatedPosts = await WP.relatedPosts().id(res[0].id);
+    return { props: { post: res[0], relatedPosts }, revalidate: 10 };
   }
-  return { props: { post: {} }, revalidate: 10 };
+  return { props: { post: {}, relatedPosts }, revalidate: 10 };
 }

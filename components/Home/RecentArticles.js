@@ -125,7 +125,7 @@ const RecentArticles = ({ articles }) => {
               <div className={classes.bannerDetails}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Tag type={hoveredData.categories[0]} />
+                    <Tag type={hoveredData.categories_detailed[0]} />
                   </Grid>
                   <Grid item xs={12}>
                     <Link href={slugGenerator(hoveredData)} color="white"><Typography variant="h5" style={{ marginTop: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: hoveredData.title.rendered }}></Typography></Link>
@@ -183,7 +183,7 @@ const RecentArticles = ({ articles }) => {
             <Paper variant="outlined" className={classes.trendingItem}>
               <Grid container>
                 <Grid item xs={12}>
-                  <Tag type={article.categories[0]} />
+                  <Tag type={article.categories_detailed[0]} />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="body1" component="div" className={classes.twoLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />

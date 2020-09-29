@@ -25,7 +25,7 @@ const Tag = ({ type }) => {
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
-    switch (type) {
+    switch (type.term_id) {
       case 3:
         setColor(theme.palette.atenews.news);
         setText('News');

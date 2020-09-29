@@ -100,19 +100,34 @@ const WriterBlock = handleViewport((props) => {
 })
 
 const ReadMoreBlock = handleViewport((props) => {
-  const { forwardedRef, theme } = props;
+  const { forwardedRef, theme, relatedPosts } = props;
 
   return (
     <div ref={forwardedRef}>
       <Typography variant="h4">More articles for you</Typography>
       <div style={{ marginTop: theme.spacing(4) }}>
-        {/*<Article />*/}
+        {
+          relatedPosts.map((post) => (
+            <Article key={post.ID} article={{ 
+              featured_image_src: post.featured_image_url,
+              coauthors: post.coauthors,
+              title: {
+                rendered: post.post_title
+              },
+              date: post.post_date,
+              excerpt: {
+                rendered: post.excerpt
+              },
+              categories_detailed: post.categories
+             }} />
+          ))
+        }
       </div>
     </div>
   )
 });
 
-export default function Page({ post }) {
+export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -134,13 +149,13 @@ export default function Page({ post }) {
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
       <Paper elevation={0} style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: '#F0F2F5', borderRadius: 0 }}>
         <img src={post.featured_image_src} width="100%" />
-        {/*<div style={{ padding: theme.spacing(2) }}>
-          <Typography variant="body2"><i>IN TUITION. Survey conducted by the SAMAHAN Research & Development department shows dissatisfied ratings from the university students on the tuition rates as AdDU shifts online. Photo by Jeni Anne Rosario</i></Typography>
-        </div>*/}
+        <div style={{ padding: theme.spacing(2) }}>
+          <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
+        </div>
       </Paper>
       { showSideWriterBlock ?
         <div className={classes.sideWriter}>
-          <SideWriter authors={post.coauthors} tags={post.categories} />
+          <SideWriter authors={post.coauthors} tags={post.categories_detailed} />
         </div>
       : null }
       <WriterBlock theme={theme} classes={classes} authors={post.coauthors} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
@@ -184,7 +199,7 @@ export default function Page({ post }) {
 
       <div style={{ height: theme.spacing(8) }} />
       
-      <ReadMoreBlock theme={theme} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
+      <ReadMoreBlock theme={theme} relatedPosts={relatedPosts} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       
     </div>
   )

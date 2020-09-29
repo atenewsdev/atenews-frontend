@@ -1,6 +1,6 @@
 const generator = (article) => {
   let category = '';
-  switch (article.categories[0]) {
+  switch (article.categories_detailed[0].term_id) {
     case 3:
       category = '/news';
       break;
