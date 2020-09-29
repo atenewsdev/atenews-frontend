@@ -50,7 +50,8 @@ const Tag = ({ type }) => {
         setColor(theme.palette.atenews.montage);
         setText(type.cat_name);
         break;
-      case 'Diversions':
+      case 430:
+      case 431:
         setColor(theme.palette.atenews.diversions);
         setText(type.cat_name);
         break;

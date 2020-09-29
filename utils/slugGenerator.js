@@ -19,6 +19,7 @@ const generator = (article) => {
     case 590:
       category = '/opinion';
       break;
+    case 430:
     case 431:
       category = '/photos';
       break;
