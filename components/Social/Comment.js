@@ -68,7 +68,7 @@ export default function Page({ children, reply }) {
             <ListItem style={{ padding: 0 }}>
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
                 <Typography variant="body2"><b>Son Roy Almerol</b></Typography>
-                <Typography variant="body1">This is totally not a Facebook comment section clone!</Typography>
+                <Typography variant="body1">This is a sample comment. Familiarity is vital in designing for good user experience.</Typography>
               </Paper>
               <IconButton style={{ marginLeft: theme.spacing(1) }}>
                 <MoreHorizIcon />

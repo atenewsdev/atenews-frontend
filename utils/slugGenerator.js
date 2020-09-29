@@ -2,9 +2,15 @@ const generator = (article) => {
   let category = '';
   switch (article.categories_detailed[0].term_id) {
     case 3:
+    case 20:
+    case 18:
+    case 19:
+    case 7:
       category = '/news';
       break;
     case 4:
+    case 437:
+    case 31:
       category = '/features';
       break;
     case 13:

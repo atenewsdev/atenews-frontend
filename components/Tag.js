@@ -27,22 +27,32 @@ const Tag = ({ type }) => {
   React.useEffect(() => {
     switch (type.term_id) {
       case 3:
+      case 20:
+      case 18:
+      case 19:
+      case 7:
         setColor(theme.palette.atenews.news);
-        setText('News');
+        setText(type.cat_name);
         break;
       case 4:
+      case 437:
         setColor(theme.palette.atenews.features);
-        setText('Features');
+        setText(type.cat_name);
         break;
       case 13:
+      case 21:
+      case 428:
+      case 590:
         setColor(theme.palette.atenews.highlight);
-        setText('Opinion');
+        setText(type.cat_name);
         break;
-      case 'Montage':
+      case 31:
         setColor(theme.palette.atenews.montage);
+        setText(type.cat_name);
         break;
       case 'Diversions':
         setColor(theme.palette.atenews.diversions);
+        setText(type.cat_name);
         break;
     }
   }, [type])

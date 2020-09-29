@@ -95,7 +95,15 @@ const Trending = ({ authors, tags }) => {
         </ListItem>
         <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }}/>
         <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
-        <Tag type={tags[0]} />
+        <Grid container spacing={1}>
+          {
+            tags.map((tag, i) => (
+              <Grid item key={i}>
+                <Tag type={tag} />
+              </Grid>
+            ))
+          }
+        </Grid>
       </List>
     </Hidden>
   )
