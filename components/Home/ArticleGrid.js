@@ -133,7 +133,7 @@ const Trending = ({ articles }) => {
               </Grid>
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
-              <Grid container xs={12} style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
+              <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
                 <Grid item>
                   <Grid container spacing={1}>
                     <Grid item>
@@ -228,7 +228,7 @@ const Trending = ({ articles }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid container xs={12} spacing={2} component="div" style={{ color: theme.palette.primary.main, paddingBottom: theme.spacing(2), paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingTop: theme.spacing(1) }} justify="space-evenly" alignItems="flex-end">
+                  <Grid container spacing={2} component="div" style={{ color: theme.palette.primary.main, paddingBottom: theme.spacing(2), paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingTop: theme.spacing(1) }} justify="space-evenly" alignItems="flex-end">
                     <Grid item>
                       <Grid container spacing={1}>
                         <Grid item>
