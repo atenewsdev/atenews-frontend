@@ -134,7 +134,7 @@ const Trending = ({ articles }) => {
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
               <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1}>
                     <Grid item>
                       <LikeIcon />
@@ -144,7 +144,7 @@ const Trending = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1}>
                     <Grid item>
                       <DislikeIcon />
@@ -154,7 +154,7 @@ const Trending = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1}>
                     <Grid item>
                       <CommentIcon />
@@ -164,7 +164,7 @@ const Trending = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1}>
                     <Grid item>
                       <ShareIcon />
@@ -229,7 +229,7 @@ const Trending = ({ articles }) => {
                     </Grid>
                   </Grid>
                   <Grid container spacing={2} component="div" style={{ color: theme.palette.primary.main, paddingBottom: theme.spacing(2), paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingTop: theme.spacing(1) }} justify="space-evenly" alignItems="flex-end">
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <LikeIcon />
@@ -239,7 +239,7 @@ const Trending = ({ articles }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <DislikeIcon />
@@ -249,7 +249,7 @@ const Trending = ({ articles }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <CommentIcon />
@@ -259,7 +259,7 @@ const Trending = ({ articles }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <ShareIcon />

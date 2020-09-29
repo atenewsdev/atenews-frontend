@@ -44,8 +44,6 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
   const classes = useStyles();
   const theme = useTheme();
 
-  console.log(editorial)
-
   return (
     <div className={classes.container}>
       <Head>

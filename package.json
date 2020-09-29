@@ -22,6 +22,7 @@
     "react-gutenberg": "^0.5.2",
     "react-html-parser": "^2.0.2",
     "react-in-viewport": "^1.0.0-alpha.14",
+    "react-spring": "^8.0.27",
     "react-transition-group": "^4.4.1",
     "wpapi": "^1.2.1"
   }

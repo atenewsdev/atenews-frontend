@@ -105,7 +105,7 @@ const Column = ({ article }) => {
               </Grid>
             </Grid>
             <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
-              <Grid item>
+              <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
                   <Grid item>
                     <LikeIcon className={classes.trendingStatsText} />
@@ -115,7 +115,7 @@ const Column = ({ article }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
                   <Grid item>
                     <DislikeIcon className={classes.trendingStatsText} />
@@ -125,7 +125,7 @@ const Column = ({ article }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
                   <Grid item>
                     <CommentIcon className={classes.trendingStatsText} />
@@ -135,7 +135,7 @@ const Column = ({ article }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
                   <Grid item>
                     <ShareIcon className={classes.trendingStatsText} />

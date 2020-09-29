@@ -1,6 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import { useSpring, animated } from 'react-spring';
 
 const useStyles = makeStyles((theme) => ({
   selector: {
@@ -54,20 +55,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Menu({color, children, label, active, onClick}) {
   const classes = useStyles();
+  const theme = useTheme();
 
   const [submenu, setSubmenu] = React.useState(false);
   const [currentColor, setCurrentColor] = React.useState(color);
+
+  const [props, set, stop] = useSpring(() => ({ opacity: 0, borderRadius: 10, overflow: 'hidden', config: { duration: 80 } }));
 
   let timer = null;
 
   const handleHover = () => {
     clearTimeout(timer);
     setSubmenu(true);
-    setCurrentColor('#195EA9');
+    set({ opacity: 1, borderRadius: 10, overflow: 'hidden', config: { duration: 80 } });
+    setCurrentColor(theme.palette.primary.main);
   }
 
   const handleClose = () => {
     timer = setTimeout(() => {
+      set({ opacity: 0, borderRadius: 10, overflow: 'hidden', config: { duration: 80 } });
       setSubmenu(false);
       setCurrentColor(color);
     }, 50);
@@ -79,14 +85,18 @@ export default function Menu({color, children, label, active, onClick}) {
         { active ? 
           <div className={classes.selector} style={{ background: currentColor }} />
         : null }
-        <div className={classes.menuLabel} style={{ color: active ? 'white' : '#195EA9' }}>
+        <div className={classes.menuLabel} style={{ color: active ? 'white' : theme.palette.primary.main }}>
           {label}
         </div>
       </CardActionArea>
-      <div style={{ visibility: submenu ? 'visible' : 'hidden', borderRadius: 10, overflow: 'hidden' }}>
-        { children ? <div className={classes.arrowLeft} /> : null }
-        {children}
-      </div>
+      <animated.div style={props}>
+        { submenu ?
+          <>
+            { children ? <div className={classes.arrowLeft} /> : null }
+            {children}
+          </>
+        : null }
+      </animated.div>
     </div>
   );
 }

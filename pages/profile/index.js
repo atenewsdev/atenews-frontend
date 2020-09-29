@@ -15,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import Hidden from '@material-ui/core/Hidden';
 
 import Link from 'components/Link';
 
@@ -29,6 +30,9 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Title from 'components/Home/Title';
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
+
+import { useSpring, animated } from 'react-spring';
 
 import WP from 'utils/wordpress';
 
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '56.25%', // 16:9
   },
   leftSide: {
-    position: 'fixed',
+    position: 'relative',
     [theme.breakpoints.down('sm')]: {
       position: 'relative',
     },
@@ -70,18 +74,29 @@ export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
 
+  const [props, set, stop] = useSpring(() => ({ width: 250, height: 0, backgroundColor: 'transparent' }));
+
+  useScrollPosition(({ currPos }) => {
+    if (-(currPos.y) <= (document.body.scrollHeight/2) - 20) {
+      set({ width: 250, height: -(currPos.y), backgroundColor: 'transparent' });
+    }
+  });
+
   return (
     <div className={classes.container}>
       <Head>
         <title>Profile - Atenews</title>
       </Head>
       <Grid container spacing={6} justify="center">
-        <Grid item sm={3}>
+        <Grid item>
+          <Hidden xsDown>
+            <animated.div style={props} />
+          </Hidden>
           <div className={classes.leftSide}>
             <Avatar className={classes.avatar} />
           </div>
         </Grid>
-        <Grid item sm={9}>
+        <Grid item xs>
           <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Joeshua Dequina</Typography>
           <Grid container>
             <Grid item>

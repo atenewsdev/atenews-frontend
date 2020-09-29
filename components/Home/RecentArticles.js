@@ -20,6 +20,7 @@ import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
+import { useSpring, animated } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from 'utils/slugGenerator';
 
@@ -109,9 +110,10 @@ const RecentArticles = ({ articles }) => {
   const router = useRouter();
 
   const [hoveredData, setHoveredData] = React.useState(articles[0]);
-  
+  const [props, set, stop] = useSpring(() => ({ top: `calc(70px + 25px)` }));
 
   const onHover = (data) => {
+    set({ top: `calc(70px + ${(100 * data.index) + 25}px)` });
     setHoveredData(data);
   }
 
@@ -119,7 +121,7 @@ const RecentArticles = ({ articles }) => {
     <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
       <Hidden xsDown>
         <Grid item sm={6} md={8} style={{ position: 'relative' }}>
-          <div className={classes.arrow} style={{ top: `calc(70px + ${(100 * hoveredData.index) + 25}px)` }} />
+          <animated.div className={classes.arrow} style={props} />
           <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.featured_image_src})` }}>
             <div className={classes.bannerDetailsContainer}>
               <div className={classes.bannerDetails}>
@@ -189,18 +191,18 @@ const RecentArticles = ({ articles }) => {
                   <Typography variant="body1" component="div" className={classes.twoLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
                 </Grid>
               </Grid>
-              <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
-                <Grid item>
+              <Grid container spacing={2} className={classes.trendingStats}>
+                <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
                       <LikeIcon className={classes.trendingStatsText} />
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Typography className={classes.trendingStatsText} variant="subtitle2">192</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
                       <DislikeIcon className={classes.trendingStatsText} />
@@ -210,7 +212,7 @@ const RecentArticles = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
                       <CommentIcon className={classes.trendingStatsText} />
@@ -220,7 +222,7 @@ const RecentArticles = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
                       <ShareIcon className={classes.trendingStatsText} />
