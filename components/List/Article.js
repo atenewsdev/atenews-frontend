@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Trending = ({ article }) => {
+const Trending = ({ article, topImage }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -77,102 +77,199 @@ const Trending = ({ article }) => {
     <div>
       <Card style={{ marginBottom: theme.spacing(4), borderRadius: 10 }} variant="outlined">
         <Grid container alignItems="stretch">
-          <Hidden smUp>
-            <Grid item xs={12}>
-              <CardActionArea onClick={() => router.push(slugGenerator(article))}>
-                <CardMedia className={classes.media} image={article.featured_image_src} />
-              </CardActionArea>
-            </Grid>
-          </Hidden>
-          <Hidden xsDown>
-            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${article.featured_image_src})` }} onClick={() => router.push(slugGenerator(article))}>
-            </Grid>
-          </Hidden>
-          <Grid item xs={12} sm={6}>
-            <CardContent>
-              <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
-              <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
-                <Grid item xs>
-                  <Grid container spacing={1} wrap="nowrap">
-                    <Grid item>
-                      <AccountIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle2">
-                        {
-                          article.coauthors.map((author, i) => {
-                            if (i === article.coauthors.length - 2) {
-                              return `${author.display_name} `
-                            } else if (i !== article.coauthors.length - 1) {
-                              return `${author.display_name}, `
-                            } else if (article.coauthors.length === 1) {
-                              return author.display_name
-                            } else {
-                              return `and ${author.display_name}`
+          { topImage ? 
+            <>
+              <Grid item xs={12}>
+                <CardActionArea onClick={() => router.push(slugGenerator(article))}>
+                  <CardMedia className={classes.media} image={article.featured_image_src} />
+                </CardActionArea>
+              </Grid>
+              <Grid item xs={12}>
+                <CardContent>
+                  <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
+                  <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <AccountIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">
+                            {
+                              article.coauthors.map((author, i) => {
+                                if (i === article.coauthors.length - 2) {
+                                  return `${author.display_name} `
+                                } else if (i !== article.coauthors.length - 1) {
+                                  return `${author.display_name}, `
+                                } else if (article.coauthors.length === 1) {
+                                  return author.display_name
+                                } else {
+                                  return `and ${author.display_name}`
+                                }
+                              })
                             }
-                          })
-                        }
-                      </Typography>
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <ClockIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-                <Grid item xs>
-                  <Grid container spacing={1} wrap="nowrap">
-                    <Grid item>
-                      <ClockIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
 
-              <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
-              <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="center">
-                <Grid item>
-                  <Grid container spacing={1}>
+                  <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
+                  <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="center">
                     <Grid item>
-                      <LikeIcon />
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <LikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">192</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">192</Typography>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <DislikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">168</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <CommentIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <ShareIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-                <Grid item>
-                  <Grid container spacing={1}>
-                    <Grid item>
-                      <DislikeIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle2">168</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <Grid container spacing={1}>
-                    <Grid item>
-                      <CommentIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <Grid container spacing={1}>
-                    <Grid item>
-                      <ShareIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                </CardContent>
               </Grid>
-            </CardContent>
-          </Grid>
+            </>
+          :
+            <>
+              <Hidden smUp>
+                <Grid item xs={12}>
+                  <CardActionArea onClick={() => router.push(slugGenerator(article))}>
+                    <CardMedia className={classes.media} image={article.featured_image_src} />
+                  </CardActionArea>
+                </Grid>
+              </Hidden>
+              <Hidden xsDown>
+                <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${article.featured_image_src})` }} onClick={() => router.push(slugGenerator(article))}>
+                </Grid>
+              </Hidden>
+              <Grid item xs={12} sm={6}>
+                <CardContent>
+                  <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
+                  <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <AccountIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">
+                            {
+                              article.coauthors.map((author, i) => {
+                                if (i === article.coauthors.length - 2) {
+                                  return `${author.display_name} `
+                                } else if (i !== article.coauthors.length - 1) {
+                                  return `${author.display_name}, `
+                                } else if (article.coauthors.length === 1) {
+                                  return author.display_name
+                                } else {
+                                  return `and ${author.display_name}`
+                                }
+                              })
+                            }
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <ClockIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
+                  <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="center">
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <LikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">192</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <DislikeIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">168</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <CommentIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <ShareIcon />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Grid>
+            </>
+          }
         </Grid>
       </Card>
     </div>

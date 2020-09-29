@@ -46,7 +46,7 @@ export default function MyApp(props) {
         <title>Atenews - The official student publication of the Ateneo de Davao University</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="icon" type="image/png" href="/logo-blue.png"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <link rel="preload" href="/logo.png" as="image"></link>
         <link rel="preload" href="/logo-blue.png" as="image"></link>
