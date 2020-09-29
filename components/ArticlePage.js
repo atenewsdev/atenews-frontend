@@ -118,7 +118,8 @@ const ReadMoreBlock = handleViewport((props) => {
               excerpt: {
                 rendered: post.excerpt
               },
-              categories_detailed: post.categories
+              categories_detailed: post.categories,
+              slug: post.post_name
              }} />
           ))
         }
