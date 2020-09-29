@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -77,8 +77,17 @@ const Trending = ({ article }) => {
     <div>
       <Card style={{ marginBottom: theme.spacing(4), borderRadius: 10 }} variant="outlined">
         <Grid container alignItems="stretch">
-          <Grid item xs={12} sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${article.featured_image_src})` }} onClick={() => router.push(slugGenerator(article))}>
-          </Grid>
+          <Hidden smUp>
+            <Grid item xs={12}>
+              <CardActionArea onClick={() => router.push(slugGenerator(article))}>
+                <CardMedia className={classes.media} image={article.featured_image_src} />
+              </CardActionArea>
+            </Grid>
+          </Hidden>
+          <Hidden xsDown>
+            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${article.featured_image_src})` }} onClick={() => router.push(slugGenerator(article))}>
+            </Grid>
+          </Hidden>
           <Grid item xs={12} sm={6}>
             <CardContent>
               <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
