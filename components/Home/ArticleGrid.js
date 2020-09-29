@@ -193,7 +193,7 @@ const Trending = ({ articles }) => {
                       <ListItemIcon>
                         <ClockIcon color="primary" />
                       </ListItemIcon>
-                      <ListItemText primary={formatDistanceToNow(new Date(articles[0].date), { addSuffix: true })} primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                      <ListItemText primary={formatDistanceToNow(new Date(article.date), { addSuffix: true })} primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
                     </ListItem>
                   </List>
                   <div style={{ flexGrow: 1 }} />
