@@ -46,7 +46,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    zIndex: 1100
+    zIndex: 1100,
+    borderRadius: 0,
+    borderLeft: 0,
+    borderRight: 0,
+    borderBottom: 0
   },
   appBar: {
     position: 'relative',
@@ -98,6 +102,7 @@ const Layout = ({ children }) => {
         <Footer />
       </div>
       <Hidden mdUp>
+        <div style={{ height: theme.spacing(8) }} />
         <BottomNavigation
           value={value}
           onChange={(event, newValue) => {
@@ -110,10 +115,12 @@ const Layout = ({ children }) => {
           }}
           showLabels
           className={classes.root}
+          component={Paper}
+          variant="outlined"
         >
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Search" icon={<SearchIcon />} />
-          <BottomNavigationAction label="Notification" icon={<NotificationIcon />} />
+          <BottomNavigationAction icon={<HomeIcon />} />
+          <BottomNavigationAction icon={<SearchIcon />} />
+          <BottomNavigationAction icon={<NotificationIcon />} />
         </BottomNavigation>
 
         <Dialog fullScreen open={open} TransitionComponent={Transition} style={{ zIndex: 1000 }}>

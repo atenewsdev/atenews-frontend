@@ -82,8 +82,13 @@ export default function MenuAppBar() {
   const [openSubMenu, setOpenSubMenu] = React.useState(null);
 
   const handleClick = (event, button) => {
-    setAnchorEl(event.currentTarget);
-    setActiveButton(button);
+    if (activeButton === button) {
+      setActiveButton(null);
+      setAnchorEl(null);
+    } else {
+      setActiveButton(button);
+      setAnchorEl(event.currentTarget);
+    }
   }
 
   const handleClose = () => {
@@ -224,7 +229,7 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar color="secondary" elevation={0}>
+      <AppBar color="secondary" elevation={0} variant="outlined" style={{ borderLeft: 0, borderRight: 0, borderTop: 0 }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />

@@ -63,8 +63,13 @@ export default function AccountBar() {
   const [currentView, setCurrentView] = React.useState(profileView);
 
   const handleClick = (event, button) => {
-    setAnchorEl(event.currentTarget);
-    setActiveButton(button);
+    if (activeButton === button) {
+      setActiveButton(null);
+      setAnchorEl(null);
+    } else {
+      setActiveButton(button);
+      setAnchorEl(event.currentTarget);
+    }
   }
 
   const handleClose = () => {
