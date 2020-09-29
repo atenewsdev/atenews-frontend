@@ -84,7 +84,11 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
           <img src={featuredPhoto.featured_image_src} style={{ width: '100%' }} />
         </div>
         <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
-          <WPGBlocks blocks={featuredPhoto.blocks} />
+          <Grid container justify="center">
+            <Grid item>
+              <WPGBlocks blocks={featuredPhoto.blocks} />
+            </Grid>
+          </Grid>
         </Typography>
 
         <Typography variant="body2" style={{ textAlign: 'center' }}>
