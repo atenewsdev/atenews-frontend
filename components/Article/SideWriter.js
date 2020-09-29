@@ -17,15 +17,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import Tag from 'components/Tag';
 
-import AccountIcon from '@material-ui/icons/AccountCircle';
-import ClockIcon from '@material-ui/icons/AccessTime';
-import PhotoIcon from '@material-ui/icons/PhotoCamera';
 import FollowIcon from '@material-ui/icons/Add';
 
-import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
-import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
-import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Button from 'components/Button';
 
@@ -59,40 +52,6 @@ const Trending = ({ authors, tags }) => {
             />
           </ListItem>
         )) }
-        <Divider style={{ marginBottom: theme.spacing(1) }}/>
-        <Typography>Article Stats:</Typography>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
-          <ListItemIcon>
-            <LikeIcon />
-          </ListItemIcon>
-          <ListItemText 
-            primary="192"
-          />
-        </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1)}} dense>
-          <ListItemIcon>
-            <DislikeIcon />
-          </ListItemIcon>
-          <ListItemText 
-            primary="192"
-          />
-        </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
-          <ListItemIcon>
-            <CommentIcon />
-          </ListItemIcon>
-          <ListItemText 
-            primary="192"
-          />
-        </ListItem>
-        <ListItem style={{ padding: 0, paddingTop: theme.spacing(1) }} dense>
-          <ListItemIcon>
-            <ShareIcon />
-          </ListItemIcon>
-          <ListItemText 
-            primary="192"
-          />
-        </ListItem>
         <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }}/>
         <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
         <Grid container spacing={1}>

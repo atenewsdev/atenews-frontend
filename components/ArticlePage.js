@@ -32,6 +32,8 @@ import { format } from 'date-fns';
 import ReactHtmlParser from 'react-html-parser';
 import slugGenerator from 'utils/slugGenerator';
 
+import { CSSTransition } from 'react-transition-group';
+
 const TextField = withStyles({
   root: {
     '& .MuiOutlinedInput-root': {
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sideWriter: {
     position: 'fixed',
-    width: 'calc(20vw - 10px)',
+    width: 'calc(15vw - 10px)',
     top: 'calc(35px + 8vh)',
     right: 40
   }
@@ -76,7 +78,7 @@ const WriterBlock = handleViewport((props) => {
 
   return (
     <div ref={forwardedRef}>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} direction="row">
         {
           authors.map((author) => (
             <Grid item>
@@ -160,11 +162,16 @@ export default function Page({ post, relatedPosts }) {
           <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
         </div>
       </Paper>
-      { showSideWriterBlock ?
+      <CSSTransition
+        in={showSideWriterBlock}
+        timeout={300}
+        classNames="side"
+        unmountOnExit
+      >
         <div className={classes.sideWriter}>
           <SideWriter authors={post.coauthors} tags={post.categories_detailed} />
         </div>
-      : null }
+      </CSSTransition>
       <WriterBlock theme={theme} classes={classes} authors={post.coauthors} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
       <Typography variant="body1" component="div" style={{ marginTop: theme.spacing(2) }}>
         <WPGBlocks blocks={post.blocks} />
