@@ -73,47 +73,9 @@ export default function MenuAppBar() {
 
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const [activeButton, setActiveButton] = React.useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [currentView, setCurrentView] = React.useState(<></>);
-
   const [sideMenu, setSideMenu] = React.useState(false);
 
   const [openSubMenu, setOpenSubMenu] = React.useState(null);
-
-  const handleClick = (event, button) => {
-    if (activeButton === button) {
-      setActiveButton(null);
-      setAnchorEl(null);
-    } else {
-      setActiveButton(button);
-      setAnchorEl(event.currentTarget);
-    }
-  }
-
-  const handleClose = () => {
-    setActiveButton(null);
-    setAnchorEl(null);
-  }
-
-  const profileView = () => {
-    return (
-      <ProfileView />
-    )
-  }
-  
-  
-  const notificationView = () => {
-    return (
-      <NotificationView />
-    )
-  }
-  
-  const searchView = () => {
-    return (
-      <SearchView />
-    )
-  }
 
   const toggleDrawer = (open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -215,18 +177,6 @@ export default function MenuAppBar() {
     </div>
   );
 
-  React.useEffect(() => {
-    if (activeButton === 'Search') {
-      setCurrentView(searchView);
-    } else if (activeButton === 'Notifications') {
-      setCurrentView(notificationView);
-    } else if (activeButton === 'Account') {
-      setCurrentView(profileView);
-    } else {
-      setCurrentView(profileView);
-    }
-  }, [activeButton])
-
   return (
     <div className={classes.root}>
       <AppBar color="secondary" elevation={0} variant="outlined" style={{ borderLeft: 0, borderRight: 0, borderTop: 0 }}>
@@ -239,33 +189,14 @@ export default function MenuAppBar() {
               <div className={classes.logo} />
             </Grid>
           </Grid>
-          <ClickAwayListener onClickAway={handleClose}>
-            <div className={classes.account}>
-              <IconButton className={classes.button}
-                color='primary'
-                onClick={(e) => handleClick(e, 'Account')}
-              >
-                <Avatar style={{ width: 40, height: 40 }} src="https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/109357379_3800608606621682_4436730203378985831_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=8FgzSOAJeLcAX_b5n3x&_nc_ht=scontent-hkg4-1.xx&oh=a626c619a053c914a8728dae4a86684c&oe=5F91EEDF" />
-              </IconButton>
-              <Popper
-                open={Boolean(anchorEl)}
-                anchorEl={anchorEl}
-                placement="bottom-end"
-                disablePortal={false}
-                modifiers={{
-                  flip: {
-                    enabled: false
-                  },
-                  preventOverflow: {
-                    enabled: true,
-                    boundariesElement: "scrollParent"
-                  }
-                }}
-              >
-                {currentView}
-              </Popper>
-            </div>
-          </ClickAwayListener>
+          <div className={classes.account}>
+            <IconButton className={classes.button}
+              color='primary'
+              onClick={() => router.push('/profile')}
+            >
+              <Avatar style={{ width: 40, height: 40 }} src="https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/109357379_3800608606621682_4436730203378985831_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=8FgzSOAJeLcAX_b5n3x&_nc_ht=scontent-hkg4-1.xx&oh=a626c619a053c914a8728dae4a86684c&oe=5F91EEDF" />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
