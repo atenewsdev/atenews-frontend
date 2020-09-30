@@ -162,7 +162,7 @@ export default function Home() {
                       <BirthdayIcon color="primary" />
                     </Grid>
                     <Grid item>
-                      <Typography variant="body1">May 21, 1999</Typography>
+                      <Typography variant="body1">June 15, 2018</Typography>
                     </Grid>
                   </Grid>
                 </div>
