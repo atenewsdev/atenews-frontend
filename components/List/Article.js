@@ -225,7 +225,7 @@ const Trending = ({ article, topImage }) => {
 
                   <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <LikeIcon />
@@ -235,7 +235,7 @@ const Trending = ({ article, topImage }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <DislikeIcon />
@@ -245,7 +245,7 @@ const Trending = ({ article, topImage }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <CommentIcon />
@@ -255,7 +255,7 @@ const Trending = ({ article, topImage }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <Grid container spacing={1}>
                         <Grid item>
                           <ShareIcon />
