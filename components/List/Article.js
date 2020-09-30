@@ -27,6 +27,7 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+import ReactInfo from 'components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from 'utils/slugGenerator';
@@ -127,24 +128,7 @@ const Trending = ({ article, topImage }) => {
                   <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
                     <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <LikeIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">192</Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <DislikeIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">168</Typography>
-                        </Grid>
-                      </Grid>
+                      <ReactInfo />
                     </Grid>
                     <Grid item xs>
                       <Grid container spacing={1}>
@@ -226,24 +210,7 @@ const Trending = ({ article, topImage }) => {
                   <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
                     <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <LikeIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">192</Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <DislikeIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">168</Typography>
-                        </Grid>
-                      </Grid>
+                      <ReactInfo />
                     </Grid>
                     <Grid item xs>
                       <Grid container spacing={1}>

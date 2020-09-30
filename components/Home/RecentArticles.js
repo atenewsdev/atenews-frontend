@@ -19,6 +19,7 @@ import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
 import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+import ReactInfo from 'components/Social/ReactInfo';
 
 import { useSpring, animated } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
@@ -193,24 +194,7 @@ const RecentArticles = ({ articles }) => {
               </Grid>
               <Grid container spacing={2} className={classes.trendingStats}>
                 <Grid item xs>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <LikeIcon className={classes.trendingStatsText} />
-                    </Grid>
-                    <Grid item xs>
-                      <Typography className={classes.trendingStatsText} variant="subtitle2">192</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <DislikeIcon className={classes.trendingStatsText} />
-                    </Grid>
-                    <Grid item>
-                      <Typography className={classes.trendingStatsText} variant="subtitle2">168</Typography>
-                    </Grid>
-                  </Grid>
+                  <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
