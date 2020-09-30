@@ -7,6 +7,10 @@ import Trending from 'components/Home/Trending';
 
 import WP from 'utils/wordpress';
 
+import Grid from '@material-ui/core/Grid';
+import FollowIcon from '@material-ui/icons/Add';
+import Button from 'components/Button';
+
 const useStyles = makeStyles({
   account: {
     position: 'absolute',
@@ -33,7 +37,15 @@ export default function Page({ trending, articles }) {
       <Head>
         <title>Local News - Atenews</title>
       </Head>
-      <Typography variant="h2" style={{ marginBottom: theme.spacing(4) }}>Local News</Typography>
+      <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
+        <Grid item>
+          <Typography variant="h2">Local News</Typography>
+        </Grid>
+        <Grid item xs>
+          <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
+        </Grid>
+      </Grid>
+      
       <Trending articles={trending} />
       { articles.map((article) => (
         <Article key={article.id} article={article} />
