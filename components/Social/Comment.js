@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import FollowIcon from '@material-ui/icons/Add';
-import LikeIcon from '@material-ui/icons/ThumbUpOutlined';
-import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
+import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
+import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';

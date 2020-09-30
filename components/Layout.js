@@ -24,6 +24,7 @@ import Tag from 'components/Tag';
 
 import StockTextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const TextField = withStyles({
   root: {
@@ -181,6 +182,15 @@ const Layout = ({ children, trending }) => {
                   <Paper variant="outlined" square className={classes.trendingHead}>
                     <Typography variant="h5">Trending</Typography>
                   </Paper>
+                  {
+                    trending.length === 0 ? 
+                      <Grid container justify="center" alignItems="center">
+                        <Grid item>
+                          <CircularProgress color="primary" />
+                        </Grid>
+                      </Grid>
+                    : null
+                  }
                   { trending.map((article) => (
                     <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
                       <Paper variant="outlined" square className={classes.trendingItem}>

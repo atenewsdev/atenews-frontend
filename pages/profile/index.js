@@ -19,8 +19,8 @@ import Hidden from '@material-ui/core/Hidden';
 
 import Link from 'components/Link';
 
-import LikeIcon from '@material-ui/icons/ThumbUp';
-import DislikeIcon from '@material-ui/icons/ThumbDown';
+import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
+import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
 import BirthdayIcon from '@material-ui/icons/Cake';
 import AccountIcon from '@material-ui/icons/AccountCircle';
@@ -97,7 +97,7 @@ export default function Home() {
                         <Typography variant="h5" color="primary">192</Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2">Received</Typography>
+                        <Typography variant="body2">Upvotes</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -116,7 +116,7 @@ export default function Home() {
                         <Typography variant="h5" color="primary">168</Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2">Received</Typography>
+                        <Typography variant="body2">Downvotes</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
