@@ -93,11 +93,11 @@ export default function Home() {
             <animated.div style={props} />
           </Hidden>
           <div className={classes.leftSide}>
-            <Avatar className={classes.avatar} />
+            <Avatar className={classes.avatar} src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" />
           </div>
         </Grid>
         <Grid item xs>
-          <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Joeshua Dequina</Typography>
+          <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>The Impostor</Typography>
           <Grid container>
             <Grid item>
               <div className={classes.iconStats}>
@@ -150,7 +150,7 @@ export default function Home() {
                       <MailIcon color="primary" />
                     </Grid>
                     <Grid item>
-                      <Typography variant="body1">jrdequina@addu.edu.ph</Typography>
+                      <Typography variant="body1">theimpostor@amongus.com</Typography>
                     </Grid>
                   </Grid>
                 </div>

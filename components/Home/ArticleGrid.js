@@ -96,7 +96,7 @@ const Trending = ({ articles }) => {
             <CardContent>
               <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
               <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
-                <Grid item xs>
+                <Grid item sm>
                   <Grid container spacing={1} wrap="nowrap">
                     <Grid item>
                       <AccountIcon />
@@ -120,7 +120,7 @@ const Trending = ({ articles }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs>
+                <Grid item sm>
                   <Grid container spacing={1} wrap="nowrap">
                     <Grid item>
                       <ClockIcon />
@@ -193,7 +193,7 @@ const Trending = ({ articles }) => {
                     <Link href={slugGenerator(article)}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   </div>
                   <Grid container style={{ color: theme.palette.primary.main, paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingBottom: theme.spacing(1) }} spacing={2}>
-                    <Grid item xs>
+                    <Grid item sm>
                       <Grid container spacing={1} wrap="nowrap">
                         <Grid item>
                           <AccountIcon />
@@ -217,7 +217,7 @@ const Trending = ({ articles }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item xs>
+                    <Grid item sm>
                       <Grid container spacing={1} wrap="nowrap">
                         <Grid item>
                           <ClockIcon />

@@ -72,38 +72,43 @@ const Column = ({ article }) => {
           </Grid>
           <Grid item xs>
             <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
-
-            <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
-              <Grid item>
-                <AccountIcon />
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">
-                  {
-                    article.coauthors.map((author, i) => {
-                      if (i === article.coauthors.length - 2) {
-                        return `${author.display_name} `
-                      } else if (i !== article.coauthors.length - 1) {
-                        return `${author.display_name}, `
-                      } else if (article.coauthors.length === 1) {
-                        return author.display_name
-                      } else {
-                        return `and ${author.display_name}`
+            <Grid container spacing={2}>
+              <Grid item sm>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                  <Grid item>
+                    <AccountIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2">
+                      {
+                        article.coauthors.map((author, i) => {
+                          if (i === article.coauthors.length - 2) {
+                            return `${author.display_name} `
+                          } else if (i !== article.coauthors.length - 1) {
+                            return `${author.display_name}, `
+                          } else if (article.coauthors.length === 1) {
+                            return author.display_name
+                          } else {
+                            return `and ${author.display_name}`
+                          }
+                        })
                       }
-                    })
-                  }
-                </Typography>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item sm>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                  <Grid item>
+                    <ClockIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-
-            <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
-              <Grid item>
-                <ClockIcon />
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
-              </Grid>
-            </Grid>
+            
             <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
               <Grid item xs>
                 <Grid container spacing={1} alignItems="center">

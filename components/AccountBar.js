@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { useRouter } from 'next/router';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -38,6 +41,7 @@ const useStyles = makeStyles({
 
 export default function AccountBar() {
   const classes = useStyles();
+  const router = useRouter();
 
   const profileView = () => {
     return (
@@ -104,9 +108,9 @@ export default function AccountBar() {
         </IconButton>
         <IconButton className={classes.button}
           color='primary'
-          onClick={(e) => handleClick(e, 'Account')}
+          onClick={() => router.push('/profile')}
         >
-          <Avatar src="https://scontent-hkg4-1.xx.fbcdn.net/v/t1.0-9/109357379_3800608606621682_4436730203378985831_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=8FgzSOAJeLcAX_b5n3x&_nc_ht=scontent-hkg4-1.xx&oh=a626c619a053c914a8728dae4a86684c&oe=5F91EEDF" style={{ width: 40, height: 40 }} />
+          <Avatar src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" style={{ width: 40, height: 40 }} />
         </IconButton>
         <Popper
           open={Boolean(anchorEl)}
