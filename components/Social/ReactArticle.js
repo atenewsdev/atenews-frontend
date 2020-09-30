@@ -46,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
     height: 57,
     overflow: 'visible',
   },
+  buttonReacts: {
+    width: 19,
+    height: 26,
+    backgroundColor: 'transparent',
+    overflow: 'visible',
+    border: 0
+  },
   infoReacts: {
     width: 30,
     height: 43,
@@ -68,6 +75,9 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const [buttonText, setButtonText] = React.useState('React');
+  const [react, setReact] = React.useState(null);
+
   const handlePopoverOpen = (event) => {
     if (!disableHover) {
       setAnchorEl(event.currentTarget);
@@ -80,18 +90,61 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
     }
   };
 
+  const handleReact = (reactX) => {
+    handlePopoverClose();
+    if (react === reactX) {
+      setReact(null);
+      setButtonText('React');
+      return;
+    }
+
+    setReact(reactX);
+    switch (reactX) {
+      case 'happy':
+        setButtonText('Happy');
+        break;
+      case 'sad':
+        setButtonText('Sad');
+        break;
+      case 'angry':
+        setButtonText('Angry');
+        break;
+      case 'disgust':
+        setButtonText('Disgusted');
+        break;
+      case 'worried':
+        setButtonText('Worried');
+        break;
+    }
+  }
+
   return (
     <ClickAwayListener onClickAway={handlePopoverClose}>
       <div>
         <Button variant="text" color="primary" size="large" fullWidth onClick={handlePopoverOpen}>
-          <AvatarGroup style={{ marginRight: theme.spacing(1) }} spacing="medium">
-            <Avatar className={classes.infoReacts} src="/reacts/happy.svg" />
-            <Avatar className={classes.infoReacts} src="/reacts/angry.svg" />
-            <Avatar className={classes.infoReacts} src="/reacts/sad.svg" />
-            <Avatar className={classes.infoReacts} src="/reacts/disgust.svg" />
-            <Avatar className={classes.infoReacts} src="/reacts/worried.svg" />
-          </AvatarGroup>
-          192
+          { !react ?
+            <InsertEmoticonIcon style={{ marginRight: theme.spacing(1) }} />
+          :
+            react === 'happy' ?
+              <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/happy.svg" />
+            :
+              react === 'sad' ?
+                <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/sad.svg" />
+              :
+                react === 'angry' ?
+                  <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/angry.svg" />
+                :
+                  react === 'disgust' ?
+                    <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/disgust.svg" />
+                  :
+                    react === 'worried' ?
+                      <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/worried.svg" />
+                    :
+                      null
+          }
+          { buttonText === 'React' ? buttonText : 
+            <b>{buttonText}</b>
+          }
         </Button>
 
         <Popper
@@ -99,6 +152,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
           anchorEl={anchorEl}
           placement="top"
           disablePortal={false}
+          style={{ zIndex: 2000 }}
           modifiers={{
             flip: {
               enabled: false
@@ -110,67 +164,44 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
           }}
         >
           <Grow in={Boolean(anchorEl)}>
-            <Card elevation={0} variant="outlined">
-              <CardActionArea onClick={handlePopoverClose}>
-                <CardContent>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+            <Card elevation={0} variant="outlined" style={{ borderRadius: 40, marginBottom: theme.spacing(1) }}>
+              <Grid container>
+                <Grid item>
+                  <CardActionArea onClick={() => handleReact('happy')}>
+                    <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/happy.svg" />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1">38</Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-              <CardActionArea onClick={handlePopoverClose}>
-                <CardContent>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+                    </CardContent>
+                  </CardActionArea>
+                </Grid>
+                <Grid item>
+                  <CardActionArea onClick={() => handleReact('sad')}>
+                    <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/sad.svg" />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1">38</Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-              <CardActionArea onClick={handlePopoverClose}>
-                <CardContent>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+                    </CardContent>
+                  </CardActionArea>
+                </Grid>
+                <Grid item>
+                  <CardActionArea onClick={() => handleReact('angry')}>
+                    <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/angry.svg" />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1">38</Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-              <CardActionArea onClick={handlePopoverClose}>
-                <CardContent>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+                    </CardContent>
+                  </CardActionArea>
+                </Grid>
+                <Grid item>
+                  <CardActionArea onClick={() => handleReact('disgust')}>
+                    <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1">38</Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-              <CardActionArea onClick={handlePopoverClose}>
-                <CardContent>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+                    </CardContent>
+                  </CardActionArea>
+                </Grid>
+                <Grid item>
+                  <CardActionArea onClick={() => handleReact('worried')}>
+                    <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/worried.svg" />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1">2</Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
+                    </CardContent>
+                  </CardActionArea>
+                </Grid>
+              </Grid>
             </Card>
           </Grow>
         </Popper>

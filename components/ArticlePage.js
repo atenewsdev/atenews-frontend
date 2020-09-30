@@ -25,6 +25,7 @@ import MoreArticles from 'components/Article/MoreArticles';
 
 import Article from 'components/List/Article';
 import ReactArticle from 'components/Social/ReactArticle';
+import ReactInfoArticle from 'components/Social/ReactInfoArticle';
 import handleViewport from 'react-in-viewport';
 
 import WP from 'utils/wordpress';
@@ -181,6 +182,9 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(8) }} />
 
+      <ReactInfoArticle />
+
+      <div style={{ height: theme.spacing(2) }} />
       <Divider />
 
       <Grid container spacing={2}>
