@@ -47,18 +47,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
+const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    if (!disableHover) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handlePopoverClose = () => {
-    setAnchorEl(null);
+    if (!disableHover) {
+      setAnchorEl(null);
+    }
   };
 
   return (

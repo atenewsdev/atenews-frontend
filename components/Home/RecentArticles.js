@@ -194,7 +194,7 @@ const RecentArticles = ({ articles }) => {
               </Grid>
               <Grid container spacing={2} className={classes.trendingStats}>
                 <Grid item xs>
-                  <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} />
+                  <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} disableHover />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1} alignItems="center">
