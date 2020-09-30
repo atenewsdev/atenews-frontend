@@ -21,6 +21,7 @@ import SearchView from './PopoutViews/Search';
 
 import { useSpring, animated } from 'react-spring';
 
+import Grow from '@material-ui/core/Grow';
 import StockTextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
@@ -187,7 +188,9 @@ export default function AccountBar() {
               }
             }}
           >
-            {currentView}
+            <Grow in={Boolean(anchorEl)}>
+              {currentView}
+            </Grow>
           </Popper>
         </div>
       </>

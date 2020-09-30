@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import DefaultButton from '@material-ui/core/Button';
 import Button from 'components/Button';
 import Divider from '@material-ui/core/Divider';
 import StockTextField from '@material-ui/core/TextField';
@@ -23,6 +24,7 @@ import SideWriter from 'components/Article/SideWriter';
 import MoreArticles from 'components/Article/MoreArticles';
 
 import Article from 'components/List/Article';
+import ReactArticle from 'components/Social/ReactArticle';
 import handleViewport from 'react-in-viewport';
 
 import WP from 'utils/wordpress';
@@ -181,20 +183,16 @@ export default function Page({ post, relatedPosts }) {
 
       <Divider />
 
-      <div style={{ height: theme.spacing(2) }} />
-
       <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Button variant="outlined" color="primary" size="large" fullWidth><LikeIcon style={{ marginRight: theme.spacing(1) }} />192</Button>
+        <Grid item xs={6}>
+          <ReactArticle />
         </Grid>
-        <Grid item xs={4}>
-          <Button variant="outlined" color="primary" size="large" fullWidth><DislikeIcon style={{ marginRight: theme.spacing(1) }} />168</Button>
-        </Grid>
-        <Grid item xs={4}>
-          <Button variant="outlined" color="primary" size="large" fullWidth><ShareIcon style={{ marginRight: theme.spacing(1) }} />254</Button>
+        <Grid item xs={6}>
+          <DefaultButton variant="text" color="primary" size="large" fullWidth style={{ height: '100%' }}><ShareIcon style={{ marginRight: theme.spacing(1) }} />254</DefaultButton>
         </Grid>
       </Grid>
 
+      <Divider />
       <div style={{ height: theme.spacing(4) }} />
 
       <List component="div">
