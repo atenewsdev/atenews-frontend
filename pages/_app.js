@@ -12,6 +12,8 @@ import 'styles/nprogress.css';
 import 'styles/main.css';
 import 'react-gutenberg/default.css';
 
+import WP from 'utils/wordpress';
+
 NProgress.configure({
   showSpinner: false
 })
@@ -33,12 +35,18 @@ Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
+  const [trending, setTrending] = React.useState([]);
+
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+
+    WP.posts().perPage(5).then((articles) => {
+      setTrending(articles);
+    })
   }, []);
 
   return (
@@ -53,7 +61,7 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Layout>
+        <Layout trending={trending}>
           <Component {...pageProps} />
         </Layout>
       </ThemeProvider>

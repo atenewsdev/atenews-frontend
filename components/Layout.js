@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
 import Hidden from '@material-ui/core/Hidden';
@@ -11,12 +11,29 @@ import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
+
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Tag from 'components/Tag';
+
+import StockTextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+const TextField = withStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderRadius: 30,
+      },
+    },
+  },
+})(StockTextField);
 
 const useStyles = makeStyles((theme) => ({
   layoutContainer: {
@@ -59,14 +76,33 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
-  }
+  },
+  trendingHead: {
+    color: '#195EA9',
+    padding: 20,
+    height: 65,
+    textAlign: 'center',
+    width: '100%',
+    border: 0
+  },
+  trendingItem: {
+    position: 'relative',
+    width: '100%',
+    height: 100,
+    borderBottom: 0,
+    borderLeft: 0,
+    borderRight: 0,
+    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(4),
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Layout = ({ children }) => {
+const Layout = ({ children, trending }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
@@ -103,8 +139,10 @@ const Layout = ({ children }) => {
         <BottomNavigation
           value={value}
           onChange={(event, newValue) => {
-            if (newValue === 0) {
+            if (newValue === 0 && value !== newValue) {
               setOpen(false);
+            } else if (newValue === 0 && value === newValue) {
+              router.push('/');
             } else {
               setOpen(true);
             }
@@ -121,12 +159,48 @@ const Layout = ({ children }) => {
         </BottomNavigation>
 
         <Dialog fullScreen open={open} TransitionComponent={Transition} style={{ zIndex: 1000 }}>
-          <AppBar className={classes.appBar} color="secondary" elevation={0}>
-            <Toolbar>
-            </Toolbar>
-          </AppBar>
-          <Paper elevation={0} style={{ padding: theme.spacing(2) }}>
-            <Typography>Search/Notification Sheet Test</Typography>
+          <AppBar className={classes.appBar} color="secondary" elevation={0} />
+          <Paper elevation={0} style={{ padding: theme.spacing(2), paddingBottom: 70 }}>
+            { value === 1 ?
+              <>
+                <TextField
+                  variant="outlined"
+                  placeholder='Search Atenews'
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment>
+                        <IconButton>
+                          <SearchIcon color="primary" />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>
+                  <Paper variant="outlined" square className={classes.trendingHead}>
+                    <Typography variant="h5">Trending</Typography>
+                  </Paper>
+                  { trending.map((article) => (
+                    <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
+                      <Paper variant="outlined" square className={classes.trendingItem}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Tag type={article.categories_detailed[0]} />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </CardActionArea>
+                  ))}
+                </Grid>
+              </>
+            : null }
+            { value === 2 ?
+              <Typography>Notification Sheet Test</Typography>
+            : null }
           </Paper>
         </Dialog>
       </Hidden>
