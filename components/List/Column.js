@@ -72,8 +72,8 @@ const Column = ({ article }) => {
           </Grid>
           <Grid item xs>
             <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
-            <Grid container spacing={2}>
-              <Grid item sm>
+            <Grid container spacing={1}>
+              <Grid item sm={12}>
                 <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
                   <Grid item>
                     <AccountIcon />
@@ -97,7 +97,7 @@ const Column = ({ article }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sm>
+              <Grid item sm={12}>
                 <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
                   <Grid item>
                     <ClockIcon />
