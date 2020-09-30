@@ -88,7 +88,7 @@ const Trending = ({ article, topImage }) => {
                 <CardContent>
                   <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={1}>
-                    <Grid item xs={12}>
+                    <Grid item xs>
                       <Grid container spacing={1} wrap="nowrap">
                         <Grid item>
                           <AccountIcon />
@@ -112,7 +112,7 @@ const Trending = ({ article, topImage }) => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs>
                       <Grid container spacing={1} wrap="nowrap">
                         <Grid item>
                           <ClockIcon />
