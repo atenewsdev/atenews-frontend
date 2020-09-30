@@ -30,9 +30,6 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import Title from 'components/Home/Title';
-import { useScrollPosition } from '@n8tb1t/use-scroll-position';
-
-import { useSpring, animated } from 'react-spring';
 
 import WP from 'utils/wordpress';
 
@@ -74,14 +71,6 @@ export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [props, set, stop] = useSpring(() => ({ width: 250, height: 0, backgroundColor: 'transparent' }));
-
-  useScrollPosition(({ currPos }) => {
-    if (-(currPos.y) <= (document.body.scrollHeight/2) - 20) {
-      set({ width: 250, height: -(currPos.y), backgroundColor: 'transparent' });
-    }
-  });
-
   return (
     <div className={classes.container}>
       <Head>
@@ -89,9 +78,6 @@ export default function Home() {
       </Head>
       <Grid container spacing={6} justify="center">
         <Grid item>
-          <Hidden xsDown>
-            <animated.div style={props} />
-          </Hidden>
           <div className={classes.leftSide}>
             <Avatar className={classes.avatar} src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" />
           </div>
@@ -169,135 +155,133 @@ export default function Home() {
               </Grid>
             </Grid>
           </div>
-
-          <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
-
-          <Typography variant="h5">Followed Tags</Typography>
-
-          <div style={{ height: theme.spacing(2) }} />
-          <Title color={theme.palette.atenews.news} small><b>University News</b></Title>
-          <Grid container spacing={2} justify="space-between">
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-          <div style={{ height: theme.spacing(4) }} />
-          <Title color={theme.palette.atenews.features} small><b>Features</b></Title>
-          <Grid container spacing={2} justify="space-between">
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Card variant="outlined" style={{ borderRadius: 10 }}>
-                <CardActionArea>
-                  <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
-                </CardActionArea>
-                <CardContent>
-                  <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
-                  <List disablePadding>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ClockIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-          
-          <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
-
-          <Typography variant="h5">Followed Staff</Typography>
-
         </Grid>
       </Grid>
+      <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
+
+      <Typography variant="h5">Followed Tags</Typography>
+
+      <div style={{ height: theme.spacing(2) }} />
+      <Title color={theme.palette.atenews.news} small><b>University News</b></Title>
+      <Grid container spacing={2} justify="space-between">
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      <div style={{ height: theme.spacing(4) }} />
+      <Title color={theme.palette.atenews.features} small><b>Features</b></Title>
+      <Grid container spacing={2} justify="space-between">
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card variant="outlined" style={{ borderRadius: 10 }}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image="https://atenews.ph/wp-content/uploads/2020/09/578B2798-4333-45B4-9C8F-AC5C6A470537-768x401.jpeg" />
+            </CardActionArea>
+            <CardContent>
+              <Link href=""><Typography variant="h5" className={classes.threeLineText}>Sociologist highlights ‘deliberative democracy’ as response to pandemic issues</Typography></Link>
+              <List disablePadding>
+                <ListItem>
+                  <ListItemIcon>
+                    <ClockIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="September 2, 2020" primaryTypographyProps={{ variant: 'subtitle2', color: 'primary' }} />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      
+      <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
+
+      <Typography variant="h5">Followed Staff</Typography>
     </div>
   )
 }
