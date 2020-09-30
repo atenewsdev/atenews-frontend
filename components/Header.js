@@ -8,8 +8,8 @@ import MobileBar from './MobileBar';
 const useStyles = makeStyles((theme) => ({
   margin: {
     position: 'fixed',
-    width: '15vw',
-    height: 20,
+    width: '15.5vw',
+    height: 85,
     right: 0,
     top: 0,
     zIndex: 1500,
