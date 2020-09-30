@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Title = ({ color, children, small }) => {
+const Title = ({ color, children, small, avatar }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <div className={classes.title} style={{ backgroundColor: color, height: !small ? 65 : 40 }}>
-        <Typography style={{ paddingLeft: !small ? 40 : 20, paddingTop: !small ? 10 : 5 }} variant={!small ? "h4" : "h6"}>{ children }</Typography>
+      <div className={classes.title} style={{ backgroundColor: color, height: !small && !avatar ? 65 : 40 }}>
+        <Typography style={{ paddingLeft: !small && !avatar ? 40 : 20, paddingTop: !small && !avatar ? 10 : 5 }} variant={!small && !avatar ? "h4" : "h6"}>{ children }</Typography>
       </div>
       {/*
         <div className={classes.design} style={{ backgroundColor: color }}/>

@@ -71,8 +71,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
   const theme = useTheme();
 
-  const [isHome, setIsHome] = React.useState(false);
-  const [isProfile, setIsProfile] = React.useState(false);
+  const [isLargeWidth, setIsLargeWidth] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
   const baseUrlMenu = (url) => {
@@ -82,22 +81,20 @@ const Layout = ({ children }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (baseUrlMenu(router.pathname) === '/') {
-      setIsHome(true);
+    if (
+      baseUrlMenu(router.pathname) === '/' ||
+      baseUrlMenu(router.pathname) === '/profile'
+    ) {
+      setIsLargeWidth(true);
     } else {
-      setIsHome(false);
-    }
-    if (baseUrlMenu(router.pathname) === '/profile') {
-      setIsProfile(true);
-    } else {
-      setIsProfile(false);
+      setIsLargeWidth(false);
     }
   }, [router.pathname])
 
   return (
     <div className={classes.layoutContainer}>
       <Header />
-      <div className={isHome || isProfile ? classes.homeContainer : classes.contentContainer}>
+      <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
         {children}
         <Footer />
       </div>

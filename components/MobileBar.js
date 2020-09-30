@@ -173,6 +173,9 @@ export default function MenuAppBar() {
             </ListItem>
           </List>
         </Collapse>
+        <ListItem button>
+          <ListItemText primary="Staff" onClick={() => handleClickLink('/staff')} />
+        </ListItem>
       </List>
     </div>
   );

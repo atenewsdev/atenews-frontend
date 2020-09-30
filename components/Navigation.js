@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation() {
   const classes = useStyles();
   const router = useRouter();
+  const theme = useTheme();
 
   const [activeMenu, setActiveMenu] = React.useState('/');
 
@@ -54,7 +55,7 @@ export default function Navigation() {
   return (
     <div className={classes.container}>
       <Menu
-        color='#195EA9'
+        color={theme.palette.primary.main}
         label={<div className={classes.logo} style={{ backgroundImage: activeMenu === '/' || activeMenu === '/profile' ? 'url("/logo.png")' : 'url("/logo-blue.png")' }} />}
         active={activeMenu === '/' || activeMenu === '/profile'}
         onClick={() => handleClick('/')}
@@ -63,50 +64,58 @@ export default function Navigation() {
       </Menu>
 
       <Menu
-        color='#263E8E'
+        color={theme.palette.atenews.news}
         label={<Typography variant='body1'>News</Typography>}
         active={activeMenu === '/news'}
       >
         <div className={classes.submenu}>
-          <SubMenu label={<Typography variant='body1'>University</Typography>} color='#263E8E' onClick={() => handleClick('/news/university')}/>
-          <SubMenu label={<Typography variant='body1'>Local</Typography>} color='#263E8E' onClick={() => handleClick('/news/local')}/>
-          <SubMenu label={<Typography variant='body1'>National</Typography>} color='#263E8E' onClick={() => handleClick('/news/national')}/>
-          <SubMenu label={<Typography variant='body1'>Sports</Typography>} color='#263E8E' onClick={() => handleClick('/news/sports')}/>
+          <SubMenu label={<Typography variant='body1'>University</Typography>} color={theme.palette.atenews.news} onClick={() => handleClick('/news/university')}/>
+          <SubMenu label={<Typography variant='body1'>Local</Typography>} color={theme.palette.atenews.news} onClick={() => handleClick('/news/local')}/>
+          <SubMenu label={<Typography variant='body1'>National</Typography>} color={theme.palette.atenews.news} onClick={() => handleClick('/news/national')}/>
+          <SubMenu label={<Typography variant='body1'>Sports</Typography>} color={theme.palette.atenews.news} onClick={() => handleClick('/news/sports')}/>
         </div>
       </Menu>
 
       <Menu
-        color='#fab417'
+        color={theme.palette.atenews.features}
         label={<Typography variant='body1'>Features</Typography>}
         active={activeMenu === '/features'}
       >
         <div className={classes.submenu}>
-          <SubMenu label={<Typography variant='body1'>Features</Typography>} color='#fab417' onClick={() => handleClick('/features')}/>
-          <SubMenu label={<Typography variant='body1'>Montage</Typography>} color='#fab417' onClick={() => handleClick('/features/montage')}/>
-          <SubMenu label={<Typography variant='body1'>Artists</Typography>} color='#fab417' onClick={() => handleClick('/features/artists')}/>
+          <SubMenu label={<Typography variant='body1'>Features</Typography>} color={theme.palette.atenews.features} onClick={() => handleClick('/features')}/>
+          <SubMenu label={<Typography variant='body1'>Montage</Typography>} color={theme.palette.atenews.features} onClick={() => handleClick('/features/montage')}/>
+          <SubMenu label={<Typography variant='body1'>Artists</Typography>} color={theme.palette.atenews.features} onClick={() => handleClick('/features/artists')}/>
         </div>
       </Menu>
 
       <Menu
-        color='#972e34'
+        color={theme.palette.atenews.highlight}
         label={<Typography variant='body1'>Opinion</Typography>}
         active={activeMenu === '/opinion'}
       >
         <div className={classes.submenu}>
-          <SubMenu label={<Typography variant='body1'>Column</Typography>} color='#972e34' onClick={() => handleClick('/opinion/column')}/>
-          <SubMenu label={<Typography variant='body1'>Editorial</Typography>} color='#972e34' onClick={() => handleClick('/opinion/editorial')}/>
-          <SubMenu label={<Typography variant='body1'>Blueblood</Typography>} color='#972e34' onClick={() => handleClick('/opinion/blueblood')}/>
+          <SubMenu label={<Typography variant='body1'>Column</Typography>} color={theme.palette.atenews.highlight} onClick={() => handleClick('/opinion/column')}/>
+          <SubMenu label={<Typography variant='body1'>Editorial</Typography>} color={theme.palette.atenews.highlight} onClick={() => handleClick('/opinion/editorial')}/>
+          <SubMenu label={<Typography variant='body1'>Blueblood</Typography>} color={theme.palette.atenews.highlight} onClick={() => handleClick('/opinion/blueblood')}/>
         </div>
       </Menu>
 
       <Menu
-        color='#f9761d'
+        color={theme.palette.atenews.diversions}
         label={<Typography variant='body1'>Photos</Typography>}
         active={activeMenu === '/photos'}
       >
         <div className={classes.submenu}>
-          <SubMenu label={<Typography variant='body1'>Featured Photos</Typography>} color='#f9761d' onClick={() => handleClick('/photos/featured')}/>
+          <SubMenu label={<Typography variant='body1'>Featured Photos</Typography>} color={theme.palette.atenews.diversions} onClick={() => handleClick('/photos/featured')}/>
         </div>
+      </Menu>
+
+      <Menu
+        color={theme.palette.primary.main}
+        label={<Typography variant='body1'>Staff</Typography>}
+        active={activeMenu === '/staff'}
+        onClick={() => handleClick('/staff')}
+      >
       </Menu>
     </div>
   );
