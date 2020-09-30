@@ -133,8 +133,8 @@ const RecentArticles = ({ articles }) => {
                     <Link href={slugGenerator(hoveredData)} color="white"><Typography variant="h5" style={{ marginTop: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: hoveredData.title.rendered }}></Typography></Link>
                   </Grid>
                 </Grid>
-                <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between">
-                  <Grid item xs={4}>
+                <Grid container style={{ marginTop: theme.spacing(2) }} justify="space-between" spacing={2}>
+                  <Grid item xs={6} sm={5}>
                     <Grid container spacing={1} wrap="nowrap" alignItems="center">
                       <Grid item>
                         <AccountIcon />
@@ -158,7 +158,7 @@ const RecentArticles = ({ articles }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={6} sm={5}>
                     <Grid container spacing={1} wrap="nowrap" alignItems="center">
                       <Grid item>
                         <ClockIcon />
@@ -168,7 +168,7 @@ const RecentArticles = ({ articles }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={0} sm={2}>
                   </Grid>
                 </Grid>
               </div>

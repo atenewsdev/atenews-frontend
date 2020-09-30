@@ -53,22 +53,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Page({ children, reply }) {
+export default function Page({ children, reply, user, comment }) {
   const classes = useStyles();
   const theme = useTheme();
 
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
-        <Avatar className={reply ? classes.avatarReply : classes.avatar}></Avatar>
+        <Avatar className={reply ? classes.avatarReply : classes.avatar} src={user.avatar}></Avatar>
       </ListItemAvatar>
       <ListItemText 
         primary={
           <>
             <ListItem style={{ padding: 0 }}>
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
-                <Typography variant="body2"><b>Son Roy Almerol</b></Typography>
-                <Typography variant="body1">This is a sample comment. Familiarity is vital in designing for good user experience.</Typography>
+                <Typography variant="body2"><b>{user.name}</b></Typography>
+                <Typography variant="body1">{comment}</Typography>
               </Paper>
               <IconButton style={{ marginLeft: theme.spacing(1) }}>
                 <MoreHorizIcon />

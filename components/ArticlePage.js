@@ -200,8 +200,14 @@ export default function Page({ post, relatedPosts }) {
       <List component="div">
         <CommentField />
 
-        <Comment>
-          <Comment reply></Comment>
+        <Comment user={{
+          name: 'Green',
+          avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/3/34/3_green.png/revision/latest/top-crop/width/360/height/450?cb=20200912125201'
+        }} comment="Cyan sus">
+          <Comment user={{ name: 'Cyan', avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/f/f2/11_cyan.png/revision/latest/top-crop/width/360/height/450?cb=20200912125246' }} comment="No green sus. I was at electrical." reply></Comment>
+          
+        </Comment>
+        <Comment user={{ name: 'Red', avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/a/a6/1_red.png/revision/latest/top-crop/width/360/height/450?cb=20200912125145' }} comment="Lol. Both of u sus">
           <CommentField reply />
         </Comment>
 
