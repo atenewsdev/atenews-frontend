@@ -120,7 +120,18 @@ const Layout = ({ children, trending }) => {
   React.useEffect(() => {
     if (
       baseUrlMenu(router.pathname) === '/' ||
-      baseUrlMenu(router.pathname) === '/profile'
+      baseUrlMenu(router.pathname) === '/profile' ||
+      router.pathname === '/news/university' ||
+      router.pathname === '/news/local' ||
+      router.pathname === '/news/national' ||
+      router.pathname === '/news/sports' ||
+      router.pathname === '/features' ||
+      router.pathname === '/features/montage' ||
+      router.pathname === '/features/artists' ||
+      router.pathname === '/opinion/column' ||
+      router.pathname === '/opinion/editorial' ||
+      router.pathname === '/opinion/blueblood' ||
+      router.pathname === '/photos/featured'
     ) {
       setIsLargeWidth(true);
     } else {

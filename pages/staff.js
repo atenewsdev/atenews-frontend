@@ -102,8 +102,8 @@ export default function Home() {
       <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Staff</Typography>
 
       <Grid container spacing={2}>
-        { staffSample.map((staff) => (
-          <Grid item xs={12} sm={6}>
+        { staffSample.map((staff, i) => (
+          <Grid item xs={12} sm={6} key={i}>
             <Staff details={staff} />
           </Grid>
         )) }

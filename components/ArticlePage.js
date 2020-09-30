@@ -83,8 +83,8 @@ const WriterBlock = handleViewport((props) => {
     <div ref={forwardedRef}>
       <Grid container spacing={4} direction="row">
         {
-          authors.map((author) => (
-            <Grid item>
+          authors.map((author, i) => (
+            <Grid item key={i}>
               <Grid container direction="row" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(2) }} component="div" key={author.user_nicename}>
                 <Grid item>
                   <Avatar className={classes.avatar} src={author.avatar}></Avatar>
