@@ -40,8 +40,8 @@ import Popper from '@material-ui/core/Popper';
 
 const useStyles = makeStyles((theme) => ({
   reacts: {
-    width: 25,
-    height: 25,
+    width: 40,
+    height: 56,
     overflow: 'visible'
   }
 }));
@@ -77,7 +77,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
       <Popper
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        placement="top-center"
+        placement="top"
         disablePortal={false}
         modifiers={{
           flip: {
@@ -91,7 +91,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
       >
         <Card elevation={0} variant="outlined">
           <CardContent>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar className={classes.reacts} src="/reacts/happy.svg" />
               </Grid>
@@ -99,7 +99,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
                 <Typography variant="subtitle1">38</Typography>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar className={classes.reacts} src="/reacts/sad.svg" />
               </Grid>
@@ -107,7 +107,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
                 <Typography variant="subtitle1">38</Typography>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar className={classes.reacts} src="/reacts/angry.svg" />
               </Grid>
@@ -115,15 +115,15 @@ const ReactInfo = ({ IconProps, TextProps, GridProps }) => {
                 <Typography variant="subtitle1">38</Typography>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item>
-                <Avatar className={classes.reacts} src="/reacts/disgusted.svg" />
+                <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
               </Grid>
               <Grid item>
                 <Typography variant="subtitle1">38</Typography>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar className={classes.reacts} src="/reacts/worried.svg" />
               </Grid>
