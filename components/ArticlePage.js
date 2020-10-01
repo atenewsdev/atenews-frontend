@@ -37,6 +37,8 @@ import slugGenerator from 'utils/slugGenerator';
 
 import { CSSTransition } from 'react-transition-group';
 
+import Hidden from '@material-ui/core/Hidden';
+
 const TextField = withStyles({
   root: {
     '& .MuiOutlinedInput-root': {
@@ -157,7 +159,12 @@ export default function Page({ post, relatedPosts }) {
 
   return (
     <div className={classes.container}>
-      <Typography variant="h3" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+      <Hidden smDown>
+        <Typography variant="h3" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+      </Hidden>
+      <Hidden mdUp>
+        <Typography variant="h4" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+      </Hidden>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
       <Paper elevation={0} style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: '#F0F2F5', borderRadius: 0 }}>
         <img src={post.featured_image_src} width="100%" />
