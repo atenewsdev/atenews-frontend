@@ -120,7 +120,6 @@ const Layout = ({ children, trending }) => {
   React.useEffect(() => {
     if (
       baseUrlMenu(router.pathname) === '/' ||
-      baseUrlMenu(router.pathname) === '/profile' ||
       router.pathname === '/news/university' ||
       router.pathname === '/news/local' ||
       router.pathname === '/news/national' ||

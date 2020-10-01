@@ -29,6 +29,8 @@ import PhotoIcon from '@material-ui/icons/PhotoCamera';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
+import ProfileFeed from 'components/Social/ProfileFeed';
+
 import Title from 'components/Home/Title';
 
 import WP from 'utils/wordpress';
@@ -159,7 +161,7 @@ export default function Home() {
       </Grid>
       <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
 
-      <Typography variant="h5">Followed Tags</Typography>
+      {/*<Typography variant="h5">Followed Tags</Typography>
 
       <div style={{ height: theme.spacing(2) }} />
       <Title color={theme.palette.atenews.news} small><b>University News</b></Title>
@@ -281,7 +283,9 @@ export default function Home() {
       
       <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
 
-      <Typography variant="h5">Followed Staff</Typography>
+      <Typography variant="h5">Followed Staff</Typography>*/}
+
+      <ProfileFeed />
     </div>
   )
 }
