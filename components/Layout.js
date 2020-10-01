@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 500
   },
   homeContainer: {
-    width: '65%',
+    width: '60%',
     [theme.breakpoints.down('sm')]: {
       width: '90%',
     },

@@ -159,8 +159,8 @@ export async function getStaticProps(ctx) {
   try {
     const [recentArticles, news, features, featuredPhoto, editorial, columns] = await Promise.all([
       WP.posts().perPage(5),
-      WP.posts().categories(3).perPage(4),
-      WP.posts().categories(4).perPage(4),
+      WP.posts().categories(3).perPage(5),
+      WP.posts().categories(4).perPage(5),
       WP.posts().categories(430).perPage(1),
       WP.posts().categories(428).perPage(1),
       WP.posts().categories(21).perPage(4)

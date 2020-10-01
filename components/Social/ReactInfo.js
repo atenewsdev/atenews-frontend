@@ -75,7 +75,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
   return (
     <>
       <div className={classes.container} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose} onClick={handlePopoverOpen}>
-        <Grid container spacing={1} {...GridProps}>
+        <Grid container spacing={1} {...GridProps} wrap="nowrap">
           <Grid item>
             <InsertEmoticonIcon {...IconProps} />
           </Grid>
