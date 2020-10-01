@@ -125,7 +125,7 @@ export default function AccountBar() {
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
-      <>
+      <div>
         <animated.div className={classes.search} style={props}>
           <Grid container alignItems="center" style={{ height: '100%' }}>
             <Grid item xs>
@@ -193,7 +193,7 @@ export default function AccountBar() {
             </Grow>
           </Popper>
         </div>
-      </>
+      </div>
     </ClickAwayListener>
   );
 }
