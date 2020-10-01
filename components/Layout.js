@@ -21,6 +21,7 @@ import Slide from '@material-ui/core/Slide';
 
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Tag from 'components/Tag';
+import slugGenerator from 'utils/slugGenerator';
 
 import StockTextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
