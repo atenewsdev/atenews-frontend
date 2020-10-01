@@ -22,6 +22,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import Flair from 'components/Social/Flair';
+
 const TextField = withStyles({
   root: {
     '& .MuiOutlinedInput-root': {
@@ -67,7 +69,14 @@ export default function Page({ children, reply, user, comment }) {
           <>
             <ListItem style={{ padding: 0 }}>
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
-                <Typography variant="body2"><b>{user.name}</b></Typography>
+                <Grid container spacing={1} style={{ marginBottom: theme.spacing(0.5) }}>
+                  <Grid item>
+                    <Typography variant="body2"><b>{user.name}</b></Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Flair small />
+                  </Grid>
+                </Grid>
                 <Typography variant="body1">{comment}</Typography>
               </Paper>
               <IconButton style={{ marginLeft: theme.spacing(1) }}>

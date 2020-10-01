@@ -30,6 +30,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
 import ProfileFeed from 'components/Social/ProfileFeed';
+import Flair from 'components/Social/Flair';
 
 import Title from 'components/Home/Title';
 
@@ -85,7 +86,14 @@ export default function Home() {
           </div>
         </Grid>
         <Grid item xs>
-          <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>The Impostor</Typography>
+          <Grid container spacing={2}>
+            <Grid item>
+              <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>The Impostor</Typography>
+            </Grid>
+            <Grid item xs>
+              <Flair />
+            </Grid>
+          </Grid>
           <Grid container>
             <Grid item>
               <div className={classes.iconStats}>
