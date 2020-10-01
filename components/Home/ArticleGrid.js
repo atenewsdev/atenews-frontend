@@ -101,7 +101,7 @@ const Trending = ({ articles }) => {
             <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${articles[0].featured_image_src})` }} onClick={() => router.push(slugGenerator(articles[0]))}>
             </Grid>
           </Hidden>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ padding: theme.spacing(1) }}>
             <CardContent>
               <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }}></Typography></Link>
               <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={2}>
@@ -181,70 +181,72 @@ const Trending = ({ articles }) => {
                   <CardActionArea onClick={() => router.push(slugGenerator(article))}>
                     <CardMedia className={classes.media} image={article.featured_image_src} />
                   </CardActionArea>
-                  <div style={{ padding: theme.spacing(2) }}>
+                  <div style={{ paddingTop: theme.spacing(3), paddingLeft: theme.spacing(3), paddingRight: theme.spacing(3) }}>
                     <Link href={slugGenerator(article)}><Typography variant="h5" className={classes.twoLineText} component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   </div>
-                  <Grid container style={{ color: theme.palette.primary.main, paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingBottom: theme.spacing(1) }} spacing={1}>
-                    <Grid item sm={12}>
-                      <Grid container spacing={1} wrap="nowrap">
-                        <Grid item>
-                          <AccountIcon />
+                  <CardContent>
+                    <Grid container style={{ color: theme.palette.primary.main, paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingBottom: theme.spacing(1) }} spacing={1}>
+                      <Grid item sm={12}>
+                        <Grid container spacing={1} wrap="nowrap">
+                          <Grid item>
+                            <AccountIcon />
+                          </Grid>
+                          <Grid item>
+                            <Typography variant="subtitle2">
+                              {
+                                article.coauthors.map((author, i) => {
+                                  if (i === article.coauthors.length - 2) {
+                                    return `${author.display_name} `
+                                  } else if (i !== article.coauthors.length - 1) {
+                                    return `${author.display_name}, `
+                                  } else if (article.coauthors.length === 1) {
+                                    return author.display_name
+                                  } else {
+                                    return `and ${author.display_name}`
+                                  }
+                                })
+                              }
+                            </Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">
-                            {
-                              article.coauthors.map((author, i) => {
-                                if (i === article.coauthors.length - 2) {
-                                  return `${author.display_name} `
-                                } else if (i !== article.coauthors.length - 1) {
-                                  return `${author.display_name}, `
-                                } else if (article.coauthors.length === 1) {
-                                  return author.display_name
-                                } else {
-                                  return `and ${author.display_name}`
-                                }
-                              })
-                            }
-                          </Typography>
+                      </Grid>
+                      <Grid item sm={12}>
+                        <Grid container spacing={1} wrap="nowrap">
+                          <Grid item>
+                            <ClockIcon />
+                          </Grid>
+                          <Grid item>
+                            <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item sm={12}>
-                      <Grid container spacing={1} wrap="nowrap">
-                        <Grid item>
-                          <ClockIcon />
+                    <Grid container spacing={2} component="div" style={{ color: theme.palette.primary.main, paddingBottom: theme.spacing(2), paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingTop: theme.spacing(1) }} justify="space-evenly" alignItems="flex-end">
+                      <Grid item xs>
+                        <ReactInfo />
+                      </Grid>
+                      <Grid item xs>
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <CommentIcon />
+                          </Grid>
+                          <Grid item>
+                            <Typography variant="subtitle2">254</Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                      </Grid>
+                      <Grid item xs>
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <ShareIcon />
+                          </Grid>
+                          <Grid item>
+                            <Typography variant="subtitle2">254</Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid container spacing={2} component="div" style={{ color: theme.palette.primary.main, paddingBottom: theme.spacing(2), paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2), paddingTop: theme.spacing(1) }} justify="space-evenly" alignItems="flex-end">
-                    <Grid item xs>
-                      <ReactInfo />
-                    </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <CommentIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">254</Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <ShareIcon />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="subtitle2">254</Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                  </CardContent>
                 </Card>
               </Grid>
             );

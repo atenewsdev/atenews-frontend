@@ -28,7 +28,7 @@ import slugGenerator from 'utils/slugGenerator';
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
     width: '100%',
-    height: 570,
+    height: '100%',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover'
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   bannerDetailsContainer: {
     position: 'relative',
     width: '100%',
-    height: 570,
+    height: '100%',
     backgroundImage: 'linear-gradient(180deg, transparent, black)'
   },
   bannerDetails: {
@@ -50,28 +50,21 @@ const useStyles = makeStyles((theme) => ({
     background: '#195EA9',
     color: '#ffffff',
     padding: 20,
-    height: 65,
+    minHeight: 65,
     textAlign: 'center',
     width: '100%'
   },
   trendingItem: {
     position: 'relative',
     width: '100%',
-    height: 101,
     borderRadius: 0,
     borderBottom: 0,
     borderRight: 0,
     borderLeft: 0,
-    padding: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   trendingStats: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    color: theme.palette.primary.main,
-    padding: theme.spacing(0.5)
+    color: theme.palette.primary.main
   },
   trendingStatsText: {
     fontSize: '0.8rem'
@@ -110,18 +103,32 @@ const RecentArticles = ({ articles }) => {
   const theme = useTheme();
   const router = useRouter();
 
+  const arrLength = articles.length;
   const [hoveredData, setHoveredData] = React.useState(articles[0]);
   const [props, set, stop] = useSpring(() => ({ top: `calc(70px + 25px)` }));
+  const [elRefs, setElRefs] = React.useState([]); 
+
+  React.useEffect(() => {
+    // add or remove refs
+    setElRefs(elRefs => (
+      Array(arrLength).fill().map((_, i) => elRefs[i] || React.createRef())
+    ));
+
+    if (elRefs.length > 0) {
+      set({ top: elRefs[0].current.offsetTop - 70 });
+    }
+  }, [arrLength]);
 
   const onHover = (data) => {
-    set({ top: `calc(70px + ${(100 * data.index) + 25}px)` });
+    //console.log(elRefs[data.index].current.getBoundingClientRect())
+    set({ top: elRefs[data.index].current.offsetTop - 70 });
     setHoveredData(data);
   }
 
   return (
     <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
       <Hidden xsDown>
-        <Grid item sm={6} md={8} style={{ position: 'relative' }}>
+        <Grid item sm={6} md={9} style={{ position: 'relative' }}>
           <animated.div className={classes.arrow} style={props} />
           <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.featured_image_src})` }}>
             <div className={classes.bannerDetailsContainer}>
@@ -177,42 +184,44 @@ const RecentArticles = ({ articles }) => {
           </div>
         </Grid>
       </Hidden>
-      <Grid item sm={6} md={4}>
+      <Grid item sm={6} md={3}>
         <div className={classes.trendingHead}>
-          <Typography variant="h5">Recent Articles</Typography>
+          <Typography variant="h6">Recent Articles</Typography>
         </div>
         { articles.map((article, index) => (
-          <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ index, ...article })}>
+          <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ index, ...article })} ref={elRefs[index]}>
             <Paper variant="outlined" className={classes.trendingItem}>
-              <Grid container>
+              <Grid container direction="column" spacing={1} justify="space-between">
                 <Grid item xs={12}>
                   <Tag type={article.categories_detailed[0]} />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="body1" component="div" className={classes.twoLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} className={classes.trendingStats}>
-                <Grid item xs>
-                  <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} disableHover />
-                </Grid>
-                <Grid item xs>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <CommentIcon className={classes.trendingStatsText} />
+                <Grid item xs={12}>
+                  <Grid container spacing={2} className={classes.trendingStats}>
+                    <Grid item xs>
+                      <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} disableHover />
                     </Grid>
-                    <Grid item>
-                      <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Grid item xs>
+                      <Grid container spacing={1} alignItems="center">
+                        <Grid item>
+                          <CommentIcon className={classes.trendingStatsText} />
+                        </Grid>
+                        <Grid item>
+                          <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <ShareIcon className={classes.trendingStatsText} />
-                    </Grid>
-                    <Grid item>
-                      <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Grid item xs>
+                      <Grid container spacing={1} alignItems="center">
+                        <Grid item>
+                          <ShareIcon className={classes.trendingStatsText} />
+                        </Grid>
+                        <Grid item>
+                          <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>

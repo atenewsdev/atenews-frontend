@@ -86,7 +86,7 @@ const Trending = ({ article, topImage }) => {
                 </CardActionArea>
               </Grid>
               <Grid item xs={12}>
-                <CardContent>
+                <CardContent style={{ padding: theme.spacing(3) }}>
                   <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={1}>
                     <Grid item xs>
@@ -168,7 +168,7 @@ const Trending = ({ article, topImage }) => {
                 </Grid>
               </Hidden>
               <Grid item xs={12} sm={6}>
-                <CardContent>
+                <CardContent style={{ padding: theme.spacing(4) }}>
                   <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography></Link>
                   <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }} spacing={1}>
                     <Grid item xs={12}>
