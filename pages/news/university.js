@@ -1,65 +1,23 @@
-import Head from 'next/head'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
-import Article from 'components/List/Article';
-import Trending from 'components/Home/Trending';
-
 import WP from 'utils/wordpress';
 
-import Grid from '@material-ui/core/Grid';
-import FollowIcon from '@material-ui/icons/Add';
-import Button from 'components/Button';
+import ArchiveLayout from 'components/ArchiveLayout';
 
-const useStyles = makeStyles({
-  account: {
-    position: 'absolute',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    textAlign: 'center',
-    right: 0,
-    marginRight: 20,
-    height: 65,
-  }
-});
-
-export default function Page({ trending, articles }) {
-  const classes = useStyles();
-  const theme = useTheme();
+export default function Page(props) {
 
   return (
-    <div className={classes.container}>
-      <Head>
-        <title>University News - Atenews</title>
-      </Head>
-      <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
-        <Grid item>
-          <Typography variant="h2">University News</Typography>
-        </Grid>
-        <Grid item xs>
-          <Button variant="outlined" color="primary" size="small"><FollowIcon style={{ marginRight: theme.spacing(1) }} />Follow</Button>
-        </Grid>
-      </Grid>
-      <Trending articles={trending} />
-      { articles.map((article) => (
-        <Article key={article.id} article={article} />
-      )) }
-      
-    </div>
+    <ArchiveLayout {...props} name="University News" />
   )
 }
 
 export async function getStaticProps(ctx) {
   try {
-    const [trending, articles] = await Promise.all([
-      WP.posts().perPage(5),
+    const [articles] = await Promise.all([
       WP.posts().categories(20)
     ]);
     console.log('success');
-    return { props: { trending, articles }, revalidate: 10 };
+    return { props: { articles }, revalidate: 10 };
   } catch (err) {
     console.log('failed');
-    return { props: { trending: [], articles: [] }, revalidate: 10 };
+    return { props: { articles: [] }, revalidate: 10 };
   }
 }

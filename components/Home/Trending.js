@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Tag from 'components/Tag';
 
@@ -119,6 +120,15 @@ const Trending = ({ articles }) => {
           <Paper variant="outlined" square className={classes.trendingHead}>
             <Typography variant="h5">Trending</Typography>
           </Paper>
+          {
+            articles.length === 0 ? 
+              <Grid container justify="center" alignItems="center" spacing={2}>
+                <Grid item>
+                  <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                </Grid>
+              </Grid>
+            : null
+          }
           { articles.map((article) => (
             <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
               <Paper variant="outlined" square className={classes.trendingItem}>

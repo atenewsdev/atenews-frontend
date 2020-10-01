@@ -195,15 +195,19 @@ const Layout = ({ children, trending }) => {
                   </Paper>
                   {
                     trending.length === 0 ? 
-                      <Grid container justify="center" alignItems="center">
+                      <Grid container justify="center" alignItems="center" spacing={2}>
                         <Grid item>
-                          <CircularProgress color="primary" />
+                          <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
                         </Grid>
                       </Grid>
                     : null
                   }
                   { trending.map((article) => (
-                    <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
+                    <CardActionArea key={article.id} onClick={() => {
+                      setValue(0);
+                      setOpen(false);
+                      router.push(slugGenerator(article));
+                    }}>
                       <Paper variant="outlined" square className={classes.trendingItem}>
                         <Grid container spacing={1}>
                           <Grid item xs={12}>

@@ -44,6 +44,14 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
   const classes = useStyles();
   const theme = useTheme();
 
+  const [trending, setTrending] = React.useState([]);
+
+  React.useEffect(() => {
+    WP.posts().perPage(5).then((trendingArticles) => {
+      setTrending(trendingArticles);
+    })
+  }, []);
+
   return (
     <div className={classes.container}>
       <Head>
@@ -55,7 +63,7 @@ export default function Home({ recentArticles, news, features, featuredPhoto, ed
           The official student publication of the Ateneo de Davao University
         </Typography>
       </div>
-      <Trending articles={recentArticles} />
+      <Trending articles={trending} />
       <RecentArticles articles={recentArticles} />
 
       <div className={classes.section}>
