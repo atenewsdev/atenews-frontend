@@ -128,7 +128,7 @@ const RecentArticles = ({ articles }) => {
   return (
     <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
       <Hidden xsDown>
-        <Grid item sm={6} md={9} style={{ position: 'relative' }}>
+        <Grid item sm={6} md={8} style={{ position: 'relative' }}>
           <animated.div className={classes.arrow} style={props} />
           <div className={classes.bannerImage} style={{ backgroundImage: `url(${hoveredData.featured_image_src})` }}>
             <div className={classes.bannerDetailsContainer}>
@@ -176,7 +176,7 @@ const RecentArticles = ({ articles }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={0} sm={2}>
+                  <Grid item xs={false} sm={2}>
                   </Grid>
                 </Grid>
               </div>
@@ -184,9 +184,9 @@ const RecentArticles = ({ articles }) => {
           </div>
         </Grid>
       </Hidden>
-      <Grid item sm={6} md={3}>
+      <Grid item sm={6} md={4}>
         <div className={classes.trendingHead}>
-          <Typography variant="h6">Recent Articles</Typography>
+          <Typography variant="h5">Recent Articles</Typography>
         </div>
         { articles.map((article, index) => (
           <CardActionArea key={index} onClick={() => router.push(slugGenerator(article))} onMouseOver={() => onHover({ index, ...article })} ref={elRefs[index]}>
