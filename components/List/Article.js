@@ -95,7 +95,7 @@ const Trending = ({ article, topImage }) => {
                           <AccountIcon />
                         </Grid>
                         <Grid item>
-                          <Typography variant="subtitle2">
+                          <Typography variant="caption">
                             {
                               article.coauthors.map((author, i) => {
                                 if (i === article.coauthors.length - 2) {
@@ -119,7 +119,7 @@ const Trending = ({ article, topImage }) => {
                           <ClockIcon />
                         </Grid>
                         <Grid item>
-                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                          <Typography variant="caption">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -177,7 +177,7 @@ const Trending = ({ article, topImage }) => {
                           <AccountIcon />
                         </Grid>
                         <Grid item>
-                          <Typography variant="subtitle2">
+                          <Typography variant="caption">
                             {
                               article.coauthors.map((author, i) => {
                                 if (i === article.coauthors.length - 2) {
@@ -201,7 +201,7 @@ const Trending = ({ article, topImage }) => {
                           <ClockIcon />
                         </Grid>
                         <Grid item>
-                          <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                          <Typography variant="caption">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

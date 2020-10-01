@@ -80,7 +80,7 @@ const Column = ({ article }) => {
                     <AccountIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">
+                    <Typography variant="caption">
                       {
                         article.coauthors.map((author, i) => {
                           if (i === article.coauthors.length - 2) {
@@ -104,7 +104,7 @@ const Column = ({ article }) => {
                     <ClockIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                    <Typography variant="caption">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
                   </Grid>
                 </Grid>
               </Grid>
