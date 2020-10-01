@@ -86,9 +86,9 @@ export default function Home() {
           </div>
         </Grid>
         <Grid item xs>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
             <Grid item>
-              <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>The Impostor</Typography>
+              <Typography variant="h4">The Impostor</Typography>
             </Grid>
             <Grid item xs>
               <Flair />

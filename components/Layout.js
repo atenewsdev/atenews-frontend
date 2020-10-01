@@ -89,13 +89,10 @@ const useStyles = makeStyles((theme) => ({
   trendingItem: {
     position: 'relative',
     width: '100%',
-    height: 100,
     borderBottom: 0,
     borderLeft: 0,
     borderRight: 0,
-    padding: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(4),
+    padding: theme.spacing(2.5)
   },
 }));
 
@@ -191,7 +188,7 @@ const Layout = ({ children, trending }) => {
                     )
                   }}
                 />
-                <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', paddingBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>
+                <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', marginTop: theme.spacing(4) }}>
                   <Paper variant="outlined" square className={classes.trendingHead}>
                     <Typography variant="h5">Trending</Typography>
                   </Paper>
@@ -207,7 +204,7 @@ const Layout = ({ children, trending }) => {
                   { trending.map((article) => (
                     <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
                       <Paper variant="outlined" square className={classes.trendingItem}>
-                        <Grid container>
+                        <Grid container spacing={1}>
                           <Grid item xs={12}>
                             <Tag type={article.categories_detailed[0]} />
                           </Grid>
