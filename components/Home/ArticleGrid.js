@@ -32,17 +32,12 @@ import DislikeIcon from '@material-ui/icons/ThumbDownOutlined';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 import ReactInfo from 'components/Social/ReactInfo';
+import ArticleCard from 'components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from 'utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
-  bannerDetailsContainer: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)'
-  },
   trendingStats: {
     position: 'absolute',
     bottom: 0,
@@ -182,89 +177,7 @@ const Trending = ({ articles }) => {
         { articles.map((article, i) => {
           if (i !== 0) {
             return (
-              <Grid item sm={6} key={article.id}>
-                <Card style={{ borderRadius: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} variant="outlined">
-                  <Grid container style={{ height: '100%' }}>
-                    <Grid item xs={12} style={{ background: `url(${article.featured_image_src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                      <CardActionArea onClick={() => router.push(slugGenerator(article))} style={{ height: '100%' }} >
-                        <div className={classes.bannerDetailsContainer}>
-                          <CardContent style={{ padding: theme.spacing(3) }}>
-                            <Typography variant="h5" component="div" className={classes.threeLineText} style={{ color: 'white' }} dangerouslySetInnerHTML={{ __html: article.title.rendered }}></Typography>
-                            <Grid container justify="center" style={{ height: '100%' }}>
-                              <Grid item xs={12} style={{ marginTop: theme.spacing(1) }}>
-                                <Grid container style={{ color: 'white' }} spacing={1}>
-                                  <Grid item xs={12}>
-                                    <Grid container spacing={1} wrap="nowrap">
-                                      <Grid item>
-                                        <AccountIcon style={{ color: 'white' }} />
-                                      </Grid>
-                                      <Grid item>
-                                        <Typography variant="caption" style={{ color: 'white' }}>
-                                          {
-                                            article.coauthors.map((author, i) => {
-                                              if (i === article.coauthors.length - 2) {
-                                                return `${author.display_name} `
-                                              } else if (i !== article.coauthors.length - 1) {
-                                                return `${author.display_name}, `
-                                              } else if (article.coauthors.length === 1) {
-                                                return author.display_name
-                                              } else {
-                                                return `and ${author.display_name}`
-                                              }
-                                            })
-                                          }
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Grid>
-                                  <Grid item xs={12}>
-                                    <Grid container spacing={1} wrap="nowrap">
-                                      <Grid item>
-                                        <ClockIcon style={{ color: 'white' }} />
-                                      </Grid>
-                                      <Grid item>
-                                        <Typography style={{ color: 'white' }} variant="caption">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                              <Grid item xs={12} style={{ marginTop: theme.spacing(2) }}>
-                                <Grid container style={{ color: theme.palette.primary.main, width: '100%' }} spacing={2} justify="space-between" alignItems="center">
-                                  <Grid item xs>
-                                    <ReactInfo TextProps={{style: { color: 'white' }}} IconProps={{style: { color: 'white' }}} />
-                                  </Grid>
-                                  <Grid item xs>
-                                    <Grid container spacing={1} wrap="nowrap">
-                                      <Grid item>
-                                        <CommentIcon style={{ color: 'white' }} />
-                                      </Grid>
-                                      <Grid item>
-                                        <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Grid>
-                                  <Grid item xs>
-                                    <Grid container spacing={1} wrap="nowrap">
-                                      <Grid item>
-                                        <ShareIcon style={{ color: 'white' }} />
-                                      </Grid>
-                                      <Grid item>
-                                        <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </CardContent>
-                        </div>
-                      </CardActionArea>
-                    </Grid>
-                  </Grid>
-                </Card>
-                
-              </Grid>
+              <ArticleCard article={article} />
             );
           }
         })}
