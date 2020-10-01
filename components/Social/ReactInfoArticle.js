@@ -103,7 +103,7 @@ const ReactInfo = ({ IconProps, TextProps, GridProps, disableHover }) => {
       <Popper
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        placement="top"
+        placement="top-start"
         disablePortal={false}
         modifiers={{
           flip: {
