@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   trendingItem: {
     height: '100%',
     width: '100%',
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   trendingStats: {
     width: '100%',
