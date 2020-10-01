@@ -140,7 +140,10 @@ const Layout = ({ children, trending }) => {
 
   return (
     <div className={classes.layoutContainer}>
-      <Header />
+      <Header closeButtomNav={() => {
+        setValue(0);
+        setOpen(false);
+      }} />
       <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
         {children}
         <Footer />

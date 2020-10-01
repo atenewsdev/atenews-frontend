@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ closeButtomNav }) {
   const classes = useStyles();
 
   return (
@@ -44,7 +44,7 @@ export default function Header() {
         <AccountBar />
       </div>
       <div className={classes.mobile}>
-        <MobileBar />
+        <MobileBar closeButtomNav={closeButtomNav} />
       </div>
     </div>
   );

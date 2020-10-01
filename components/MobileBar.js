@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ closeButtomNav }) {
   const classes = useStyles();
   const router = useRouter();
 
@@ -96,6 +96,7 @@ export default function MenuAppBar() {
   const handleClickLink = (url) => {
     setSideMenu(false);
     setOpenSubMenu(null);
+    closeButtomNav();
     router.push(url);
   };
 
@@ -195,7 +196,7 @@ export default function MenuAppBar() {
           <div className={classes.account}>
             <IconButton className={classes.button}
               color='primary'
-              onClick={() => router.push('/profile')}
+              onClick={() => handleClickLink('/profile')}
             >
               <Avatar style={{ width: 40, height: 40 }} src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" />
             </IconButton>
