@@ -176,7 +176,7 @@ export default function Page({ post, relatedPosts }) {
         </div>
       </CSSTransition>
       <WriterBlock theme={theme} classes={classes} authors={post.coauthors} onLeaveViewport={leaveWriterViewport} onEnterViewport={enterWriterViewport} />
-      <Typography variant="body1" component="div" style={{ marginTop: theme.spacing(2) }}>
+      <Typography variant="body1" component="div" style={{ marginTop: theme.spacing(2), lineHeight: '1.9em', width: '100%' }}>
         <WPGBlocks blocks={post.blocks} />
       </Typography>
 
