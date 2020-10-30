@@ -158,7 +158,7 @@ export default function Page({ post, relatedPosts }) {
       <Paper
         elevation={0}
         style={{
-          marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: '#F0F2F5', borderRadius: 0,
+          marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
         <img src={post.featured_image_src} alt={post.featured_image_caption} width="100%" />

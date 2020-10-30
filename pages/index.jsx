@@ -62,7 +62,7 @@ export default function Home({
         <title>Atenews - The official student publication of the Ateneo de Davao University</title>
       </Head>
       <div className={classes.header}>
-        <img src="/atenews-header.svg" alt="Atenews Header" height="35" />
+        <img src={theme.palette.type === 'dark' ? '/atenews-footer.svg' : '/atenews-header.svg'} alt="Atenews Header" height="35" />
         <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
           The official student publication of the Ateneo de Davao University
         </Typography>
