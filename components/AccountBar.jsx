@@ -31,7 +31,7 @@ const TextField = withStyles({
   },
 })(StockTextField);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   account: {
     position: 'fixed',
     display: 'flex',
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     height: 65,
     zIndex: 1500,
     width: '15vw',
-    background: 'white',
+    background: theme.palette.background.default,
   },
   button: {
     height: 65,
@@ -52,12 +52,12 @@ const useStyles = makeStyles({
   search: {
     height: 105,
     position: 'fixed',
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.background.default,
     right: 'calc(15vw + 20px)',
     top: 0,
     zIndex: 1100,
   },
-});
+}));
 
 export default function AccountBar() {
   const classes = useStyles();

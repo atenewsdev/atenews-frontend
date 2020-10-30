@@ -66,7 +66,12 @@ const Trending = ({ article }) => {
       >
         <Card
           style={{
-            borderRadius: 10, height: '100%', background: `url(${article.featured_image_src})`, backgroundSize: 'cover', backgroundPosition: 'center',
+            borderRadius: 10,
+            border: 0,
+            height: '100%',
+            background: `url(${article.featured_image_src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
           variant="outlined"
         >

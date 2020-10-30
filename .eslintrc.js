@@ -21,13 +21,20 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
     'react/prop-types': 'off',
-    'import/no-unresolved': 'off',
     'no-restricted-syntax': 'off',
     'react/no-array-index-key': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/mouse-events-have-key-events': 'off',
+  },
+  settings: {
+    "import/resolver": {
+      "alias": [
+          ["@/components", "./components"],
+          ["@/classes", "./classes"]
+      ]
+    }
   },
   globals: {
     React: 'writable',

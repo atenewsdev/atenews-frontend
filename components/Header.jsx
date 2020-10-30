@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     top: 0,
     zIndex: 1500,
-    background: 'white',
+    background: theme.palette.background.default,
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },

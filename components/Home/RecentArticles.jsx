@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     borderTop: '20px solid transparent',
     borderBottom: '20px solid transparent',
-    borderRight: '20px solid white',
+    borderRight: `20px solid ${theme.palette.background.default}`,
     zIndex: 1,
   },
   twoLineText: {

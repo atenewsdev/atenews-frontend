@@ -4,13 +4,13 @@ import Link from 'next/link';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   link: {
     cursor: 'pointer',
     touchAction: 'manipulation',
     userSelect: 'none',
     textDecoration: 'none',
-    color: 'black',
+    color: theme.palette.text.primary,
     '&:hover': {
       textDecoration: 'underline',
     },
