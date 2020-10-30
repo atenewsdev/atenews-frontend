@@ -52,6 +52,13 @@ const theme = createMuiTheme({
     error: {
       main: red.A400,
     },
+    background: {
+      default: '#0e1621',
+      paper: '#17212b',
+    },
+    /*background: {
+      default: '#fff',
+    },//*/
     atenews: {
       news: '#263E8E',
       features: '#FAB417',
