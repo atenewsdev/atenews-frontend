@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     right: 10,
   },
   trendingHead: {
-    color: '#195EA9',
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: 20,
     height: 65,
     textAlign: 'center',

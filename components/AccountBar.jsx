@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AccountBar() {
   const classes = useStyles();
   const router = useRouter();
+  const theme = useTheme();
 
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
@@ -125,7 +126,7 @@ export default function AccountBar() {
                   endAdornment: (
                     <InputAdornment>
                       <IconButton>
-                        <SearchIcon color="primary" />
+                        <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -137,7 +138,7 @@ export default function AccountBar() {
         <div className={classes.account}>
           <IconButton
             className={classes.button}
-            color="primary"
+            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={() => {
               if (searchOpened) {
                 set({ width: '0vw', opacity: 0 });
@@ -152,14 +153,14 @@ export default function AccountBar() {
           </IconButton>
           <IconButton
             className={classes.button}
-            color="primary"
+            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={(e) => handleClick(e, 'Notifications')}
           >
             <BellIcon />
           </IconButton>
           <IconButton
             className={classes.button}
-            color="primary"
+            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={() => router.push('/profile')}
           >
             <Avatar src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" style={{ width: 40, height: 40 }} />

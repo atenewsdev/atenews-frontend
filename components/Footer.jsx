@@ -32,21 +32,21 @@ export default function Header() {
             {' '}
             {(new Date()).getFullYear()}
             {' '}
-            <b style={{ color: theme.palette.primary.main }}>Atenews</b>
+            <b style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>Atenews</b>
           </Typography>
           <Grid item container direction="row" spacing={4} justify="center" style={{ marginTop: theme.spacing(1) }}>
             <Grid item>
-              <IconButton color="primary" onClick={() => window.open('https://www.facebook.com/atenews', '_blank')}>
+              <IconButton color={theme.palette.type === 'light' ? 'primary' : 'secondary'} onClick={() => window.open('https://www.facebook.com/atenews', '_blank')}>
                 <FacebookIcon />
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton color="primary" onClick={() => window.open('https://twitter.com/atenews', '_blank')}>
+              <IconButton color={theme.palette.type === 'light' ? 'primary' : 'secondary'} onClick={() => window.open('https://twitter.com/atenews', '_blank')}>
                 <TwitterIcon />
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton color="primary" onClick={() => window.open('https://instagram.com/atenews', '_blank')}>
+              <IconButton color={theme.palette.type === 'light' ? 'primary' : 'secondary'} onClick={() => window.open('https://instagram.com/atenews', '_blank')}>
                 <InstagramIcon />
               </IconButton>
             </Grid>

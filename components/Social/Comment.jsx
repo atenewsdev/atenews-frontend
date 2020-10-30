@@ -24,7 +24,7 @@ import Flair from 'components/Social/Flair';
 const Paper = withStyles((theme) => ({
   root: {
     borderRadius: 30,
-    backgroundColor: '#F0F2F5',
+    backgroundColor: theme.palette.type === 'light' ? '#F0F2F5' : theme.palette.background.paper,
     padding: theme.spacing(2),
   },
 }))(StockPaper);
@@ -76,19 +76,19 @@ export default function Page({
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>
               <Grid item>
-                <Button variant="text" color="primary" size="small">
+                <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <LikeIcon style={{ marginRight: theme.spacing(1) }} />
                   192
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="text" color="primary" size="small">
+                <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
                   192
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="text" color="primary" size="small">
+                <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <CommentIcon style={{ marginRight: theme.spacing(1) }} />
                   Reply
                 </Button>

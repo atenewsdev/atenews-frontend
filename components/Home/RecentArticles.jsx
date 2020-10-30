@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   trendingStats: {
-    color: theme.palette.primary.main,
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
   },
   trendingStatsText: {
     fontSize: '0.8rem',

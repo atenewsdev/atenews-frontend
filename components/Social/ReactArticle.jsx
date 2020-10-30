@@ -119,7 +119,7 @@ const ReactInfo = ({
   return (
     <ClickAwayListener onClickAway={handlePopoverClose}>
       <div>
-        <Button variant="text" color="primary" size="large" fullWidth onClick={handlePopoverOpen}>
+        <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="large" fullWidth onClick={handlePopoverOpen}>
           <ButtonIcon />
           { buttonText === 'React' ? buttonText
             : <b>{buttonText}</b>}

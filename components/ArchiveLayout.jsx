@@ -52,7 +52,7 @@ export default function Page({ articles, name }) {
           <Typography variant="h2">{name}</Typography>
         </Grid>
         <Grid item xs>
-          <Button variant="outlined" color="primary" size="small">
+          <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
             <FollowIcon style={{ marginRight: theme.spacing(1) }} />
             Follow
           </Button>

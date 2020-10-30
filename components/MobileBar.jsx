@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginLeft: theme.spacing(0.5),
+    color: theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main,
   },
   account: {
     display: 'flex',
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: 65,
   },
   logo: {
-    backgroundImage: 'url("/logo-blue.png")',
+    backgroundImage: theme.palette.type === 'dark' ? 'url("/logo.png")' : 'url("/logo-blue.png")',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar({ closeButtomNav }) {
   const classes = useStyles();
   const router = useRouter();
+  const theme = useTheme();
 
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
@@ -170,7 +172,7 @@ export default function MenuAppBar({ closeButtomNav }) {
 
   return (
     <div className={classes.root}>
-      <AppBar color="secondary" elevation={0} variant="outlined" style={{ borderLeft: 0, borderRight: 0, borderTop: 0 }}>
+      <AppBar elevation={0} variant="outlined" style={{ borderLeft: 0, borderRight: 0, borderTop: 0, backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.background.paper }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />

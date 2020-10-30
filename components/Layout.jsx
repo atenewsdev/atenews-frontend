@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   trendingHead: {
-    color: '#195EA9',
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: 20,
     height: 65,
     textAlign: 'center',
@@ -168,7 +168,7 @@ const Layout = ({ children, trending }) => {
         </BottomNavigation>
 
         <Dialog fullScreen open={open} TransitionComponent={Transition} style={{ zIndex: 1000 }}>
-          <AppBar className={classes.appBar} color="secondary" elevation={0} />
+          <AppBar className={classes.appBar} color="default" elevation={0} />
           <Paper elevation={0} style={{ padding: theme.spacing(2), paddingBottom: 70 }}>
             { value === 1
               ? (
@@ -181,7 +181,7 @@ const Layout = ({ children, trending }) => {
                       endAdornment: (
                         <InputAdornment>
                           <IconButton>
-                            <SearchIcon color="primary" />
+                            <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -196,7 +196,7 @@ const Layout = ({ children, trending }) => {
                       ? (
                         <Grid container justify="center" alignItems="center" spacing={2}>
                           <Grid item>
-                            <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                            <CircularProgress color={theme.palette.type === 'light' ? 'primary' : 'secondary'} style={{ margin: theme.spacing(2) }} />
                           </Grid>
                         </Grid>
                       )

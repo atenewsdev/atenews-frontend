@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    color: theme.palette.primary.main,
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: theme.spacing(0.5),
   },
   trendingStatsText: {
@@ -90,7 +90,12 @@ const Trending = ({ articles }) => {
               <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }} /></Link>
               <Grid
                 container
-                style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }}
+                style={
+                  {
+                    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                    marginTop: theme.spacing(1)
+                  }
+                }
                 spacing={2}
               >
                 <Grid item sm>
@@ -129,7 +134,12 @@ const Trending = ({ articles }) => {
               </Grid>
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
-              <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between" alignItems="center">
+              <Grid container style={
+                {
+                  color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                  marginTop: theme.spacing(2),
+                  width: '100%'
+                }} spacing={2} justify="space-between" alignItems="center">
                 <Grid item xs>
                   <ReactInfo />
                 </Grid>

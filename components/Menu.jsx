@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     animation: '$showSelector 0.5s',
     top: 0,
     left: '-15vw',
-    background: '#195EA9',
+    background: theme.palette.primary.main,
     height: 65,
     width: '30vw',
     zIndex: -1,
@@ -101,7 +101,7 @@ export default function Menu({
         { active
           ? <div className={classes.selector} style={{ background: currentColor }} />
           : null }
-        <div className={classes.menuLabel} style={{ color: active ? 'white' : theme.palette.primary.main }}>
+        <div className={classes.menuLabel} style={{ color: active ? 'white' : (theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main) }}>
           {label}
         </div>
       </CardActionArea>

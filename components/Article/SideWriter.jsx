@@ -44,7 +44,7 @@ const Trending = ({ authors, tags }) => {
             <ListItemText
               primary={author.display_name}
               secondary={(
-                <Button variant="outlined" color="primary" size="small" style={{ marginTop: theme.spacing(1) }}>
+                <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small" style={{ marginTop: theme.spacing(1) }}>
                   <FollowIcon style={{ marginRight: theme.spacing(1) }} />
                   Follow
                 </Button>

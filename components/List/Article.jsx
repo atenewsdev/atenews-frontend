@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    color: theme.palette.primary.main,
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: theme.spacing(0.5),
   },
   trendingStatsText: {
@@ -79,7 +79,11 @@ const Trending = ({ article, topImage }) => {
                     <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }} /></Link>
                     <Grid
                       container
-                      style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }}
+                      style={
+                        {
+                          color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                          marginTop: theme.spacing(1)
+                        }}
                       spacing={1}
                     >
                       <Grid item xs>
@@ -118,7 +122,12 @@ const Trending = ({ article, topImage }) => {
                     </Grid>
 
                     <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
-                    <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
+                    <Grid container style={
+                      {
+                        color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                        marginTop: theme.spacing(2),
+                        width: '100%'
+                      }} spacing={2} justify="space-between">
                       <Grid item xs>
                         <ReactInfo />
                       </Grid>
@@ -164,7 +173,11 @@ const Trending = ({ article, topImage }) => {
                     <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title.rendered }} /></Link>
                     <Grid
                       container
-                      style={{ color: theme.palette.primary.main, marginTop: theme.spacing(1) }}
+                      style={
+                        {
+                          color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                          marginTop: theme.spacing(1)
+                        }}
                       spacing={1}
                     >
                       <Grid item xs={12}>
@@ -203,7 +216,12 @@ const Trending = ({ article, topImage }) => {
                     </Grid>
 
                     <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }} />
-                    <Grid container style={{ color: theme.palette.primary.main, marginTop: theme.spacing(2), width: '100%' }} spacing={2} justify="space-between">
+                    <Grid container style={
+                      {
+                        color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                        marginTop: theme.spacing(2),
+                        width: '100%'
+                      }} spacing={2} justify="space-between">
                       <Grid item xs>
                         <ReactInfo />
                       </Grid>

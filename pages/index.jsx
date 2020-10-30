@@ -83,7 +83,7 @@ export default function Home({
       <div className={classes.section}>
         <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
           <Grid item xs>
-            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
           </Grid>
           <Grid item xs>
             <Typography
@@ -96,7 +96,7 @@ export default function Home({
             </Typography>
           </Grid>
           <Grid item xs>
-            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
           </Grid>
         </Grid>
         <div style={{ borderRadius: 10, overflow: 'hidden' }}>
@@ -165,7 +165,7 @@ export default function Home({
       <div className={classes.section}>
         <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
           <Grid item xs>
-            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
           </Grid>
           <Grid item xs>
             <Typography
@@ -178,7 +178,7 @@ export default function Home({
             </Typography>
           </Grid>
           <Grid item xs>
-            <div style={{ backgroundColor: 'black', height: 1, width: '100%' }} />
+            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
           </Grid>
         </Grid>
         <Grid container justify="center">

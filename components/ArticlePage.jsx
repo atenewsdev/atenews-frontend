@@ -84,7 +84,7 @@ const WriterBlock = handleViewport((props) => {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Button variant="outlined" color="primary" size="small">
+                      <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                         <FollowIcon style={{ marginRight: theme.spacing(1) }} />
                         Follow
                       </Button>
@@ -199,7 +199,7 @@ export default function Page({ post, relatedPosts }) {
           <ReactArticle />
         </Grid>
         <Grid item xs={6}>
-          <DefaultButton variant="text" color="primary" size="large" fullWidth style={{ height: '100%' }}>
+          <DefaultButton variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="large" fullWidth style={{ height: '100%' }}>
             <ShareIcon style={{ marginRight: theme.spacing(1) }} />
             254
           </DefaultButton>

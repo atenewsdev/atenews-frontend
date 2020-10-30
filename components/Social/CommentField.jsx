@@ -58,7 +58,7 @@ export default function Page({ reply }) {
               endAdornment: (
                 <InputAdornment>
                   <IconButton>
-                    <SendIcon color="primary" />
+                    <SendIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                   </IconButton>
                 </InputAdornment>
               ),

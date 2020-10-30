@@ -79,12 +79,12 @@ export default function Home() {
               <div className={classes.iconStats}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
-                    <LikeIcon style={{ fontSize: 50 }} color="primary" />
+                    <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? "primary" : "secondary"} />
                   </Grid>
                   <Grid item>
                     <Grid container direction="column" justify="center">
                       <Grid item>
-                        <Typography variant="h5" color="primary">192</Typography>
+                        <Typography variant="h5" color={theme.palette.type === 'light' ? "primary" : "secondary"}>192</Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant="body2">Upvotes</Typography>
@@ -98,12 +98,12 @@ export default function Home() {
               <div className={classes.iconStats}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
-                    <DislikeIcon style={{ fontSize: 50 }} color="primary" />
+                    <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? "primary" : "secondary"} />
                   </Grid>
                   <Grid item>
                     <Grid container direction="column" justify="center">
                       <Grid item>
-                        <Typography variant="h5" color="primary">168</Typography>
+                        <Typography variant="h5" color={theme.palette.type === 'light' ? "primary" : "secondary"}>168</Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant="body2">Downvotes</Typography>
@@ -123,7 +123,7 @@ export default function Home() {
                 <div className={classes.iconStats}>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <MailIcon color="primary" />
+                      <MailIcon color={theme.palette.type === 'light' ? "primary" : "secondary"} />
                     </Grid>
                     <Grid item>
                       <Typography variant="body1">theimpostor@amongus.com</Typography>
@@ -135,7 +135,7 @@ export default function Home() {
                 <div className={classes.iconStats}>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <BirthdayIcon color="primary" />
+                      <BirthdayIcon color={theme.palette.type === 'light' ? "primary" : "secondary"} />
                     </Grid>
                     <Grid item>
                       <Typography variant="body1">June 15, 2018</Typography>

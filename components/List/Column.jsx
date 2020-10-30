@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   trendingStats: {
     width: '100%',
-    color: theme.palette.primary.main,
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: theme.spacing(0.5),
   },
   trendingStatsText: {
@@ -70,7 +70,7 @@ const Column = ({ article }) => {
             <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
             <Grid container spacing={1}>
               <Grid item sm={12}>
-                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
                   <Grid item>
                     <AccountIcon />
                   </Grid>
@@ -93,7 +93,7 @@ const Column = ({ article }) => {
                 </Grid>
               </Grid>
               <Grid item sm={12}>
-                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
                   <Grid item>
                     <ClockIcon />
                   </Grid>

@@ -65,7 +65,7 @@ const ProfileFeed = () => {
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center" wrap="nowrap">
           <Grid item>
-            <Grid container direction="column" style={{ color: theme.palette.primary.main }}>
+            <Grid container direction="column" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
               <Grid item>
                 <Typography variant="subtitle2">192</Typography>
               </Grid>
@@ -83,7 +83,7 @@ const ProfileFeed = () => {
           <Grid item xs>
             <Grid container>
               <Grid item sm={12}>
-                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
                   <Grid item>
                     <CommentIcon />
                   </Grid>
@@ -97,7 +97,7 @@ const ProfileFeed = () => {
                 </Grid>
               </Grid>
               <Grid item sm={12}>
-                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.primary.main }}>
+                <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
                   <Grid item>
                     <ClockIcon />
                   </Grid>
