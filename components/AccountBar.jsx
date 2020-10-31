@@ -3,20 +3,21 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Popper from '@material-ui/core/Popper';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
-import Avatar from '@material-ui/core/Avatar';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
-import Grid from '@material-ui/core/Grid';
 
 import { useSpring, animated } from 'react-spring';
 
-import Grow from '@material-ui/core/Grow';
-import StockTextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import {
+  IconButton,
+  Popper,
+  ClickAwayListener,
+  Avatar,
+  Grid,
+  Grow,
+  TextField as StockTextField,
+  InputAdornment,
+} from '@material-ui/core';
 import SearchView from './PopoutViews/Search';
 import NotificationView from './PopoutViews/Notification';
 import ProfileView from './PopoutViews/Profile';

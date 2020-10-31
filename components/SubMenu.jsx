@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import { CardActionArea } from '@material-ui/core';
 
 const useStyles = makeStyles({
   menu: {

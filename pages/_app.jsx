@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Layout from '@/components/Layout';
 import theme from '@/styles/theme';
-
 import Router from 'next/router';
+
 import NProgress from 'nprogress';
 import '@/styles/nprogress.css';
 import '@/styles/main.css';
 import 'react-gutenberg/default.css';
-
 import WP from '@/utils/wordpress';
+
+import { CssBaseline } from '@material-ui/core';
 
 NProgress.configure({
   showSpinner: false,

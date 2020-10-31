@@ -2,12 +2,6 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Hidden from '@material-ui/core/Hidden';
-
 import Tag from '@/components/Tag';
 import Link from '@/components/Link';
 
@@ -20,6 +14,10 @@ import ReactInfo from '@/components/Social/ReactInfo';
 import { animated, useSpring } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+
+import {
+  Typography, Paper, Grid, CardActionArea, Hidden,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   bannerImage: {

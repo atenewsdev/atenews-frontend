@@ -2,10 +2,6 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import ClockIcon from '@material-ui/icons/AccessTime';
 
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
@@ -13,6 +9,10 @@ import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import { formatDistanceToNow } from 'date-fns';
+
+import {
+  Typography, Paper, Grid, CardActionArea,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   trendingItem: {

@@ -7,19 +7,21 @@ import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@/components/Button';
-import StockPaper from '@material-ui/core/Paper';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import Flair from '@/components/Social/Flair';
+
+import {
+  Typography,
+  Avatar,
+  Grid,
+  IconButton,
+  Paper as StockPaper,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from '@material-ui/core';
 
 const Paper = withStyles((theme) => ({
   root: {

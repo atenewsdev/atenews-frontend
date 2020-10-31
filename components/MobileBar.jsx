@@ -2,21 +2,22 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
-
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+
+import {
+  AppBar,
+  Toolbar,
+  Grid,
+  Avatar,
+  IconButton,
+  SwipeableDrawer,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -172,7 +173,13 @@ export default function MenuAppBar({ closeButtomNav }) {
 
   return (
     <div className={classes.root}>
-      <AppBar elevation={0} variant="outlined" style={{ borderLeft: 0, borderRight: 0, borderTop: 0, backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.background.paper }}>
+      <AppBar
+        elevation={0}
+        variant="outlined"
+        style={{
+          borderLeft: 0, borderRight: 0, borderTop: 0, backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.background.paper,
+        }}
+      >
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />

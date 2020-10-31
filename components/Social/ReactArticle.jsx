@@ -2,19 +2,19 @@ import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-
-import Avatar from '@material-ui/core/Avatar';
-
-import Button from '@material-ui/core/Button';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActionArea,
+  Avatar,
+  Button,
+  ClickAwayListener,
+  Grow,
+  Popper,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   reacts: {

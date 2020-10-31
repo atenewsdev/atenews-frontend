@@ -5,15 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import FollowIcon from '@material-ui/icons/Add';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import DefaultButton from '@material-ui/core/Button';
 import Button from '@/components/Button';
-import Divider from '@material-ui/core/Divider';
-
-import List from '@material-ui/core/List';
 
 import Comment from '@/components/Social/Comment';
 import CommentField from '@/components/Social/CommentField';
@@ -30,7 +22,16 @@ import { format } from 'date-fns';
 
 import { CSSTransition } from 'react-transition-group';
 
-import Hidden from '@material-ui/core/Hidden';
+import {
+  Typography,
+  Avatar,
+  Paper,
+  Grid,
+  Button as DefaultButton,
+  Divider,
+  List,
+  Hidden,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   account: {

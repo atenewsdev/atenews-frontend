@@ -3,11 +3,6 @@ import React from 'react';
 import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
@@ -15,6 +10,10 @@ import BirthdayIcon from '@material-ui/icons/Cake';
 
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
+
+import {
+  Typography, Avatar, Grid, Divider,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -79,12 +78,12 @@ export default function Home() {
               <div className={classes.iconStats}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
-                    <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? "primary" : "secondary"} />
+                    <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                   </Grid>
                   <Grid item>
                     <Grid container direction="column" justify="center">
                       <Grid item>
-                        <Typography variant="h5" color={theme.palette.type === 'light' ? "primary" : "secondary"}>192</Typography>
+                        <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>192</Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant="body2">Upvotes</Typography>
@@ -98,12 +97,12 @@ export default function Home() {
               <div className={classes.iconStats}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
-                    <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? "primary" : "secondary"} />
+                    <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                   </Grid>
                   <Grid item>
                     <Grid container direction="column" justify="center">
                       <Grid item>
-                        <Typography variant="h5" color={theme.palette.type === 'light' ? "primary" : "secondary"}>168</Typography>
+                        <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>168</Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant="body2">Downvotes</Typography>
@@ -123,7 +122,7 @@ export default function Home() {
                 <div className={classes.iconStats}>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <MailIcon color={theme.palette.type === 'light' ? "primary" : "secondary"} />
+                      <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                     </Grid>
                     <Grid item>
                       <Typography variant="body1">theimpostor@amongus.com</Typography>
@@ -135,7 +134,7 @@ export default function Home() {
                 <div className={classes.iconStats}>
                   <Grid container spacing={1}>
                     <Grid item>
-                      <BirthdayIcon color={theme.palette.type === 'light' ? "primary" : "secondary"} />
+                      <BirthdayIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                     </Grid>
                     <Grid item>
                       <Typography variant="body1">June 15, 2018</Typography>

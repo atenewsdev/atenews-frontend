@@ -3,12 +3,6 @@ import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
 
@@ -20,6 +14,10 @@ import { useSpring, animated } from 'react-spring';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+
+import {
+  Typography, Grid, Card, CardContent, CardActionArea,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   bannerDetailsContainer: {

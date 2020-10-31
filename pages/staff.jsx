@@ -2,16 +2,14 @@ import React from 'react';
 import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
-
 import Contact from '@/components/Staff/Contact';
 import Staff from '@/components/Staff/Staff';
 
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
 import MapIcon from '@material-ui/icons/PinDrop';
+
+import { Typography, Grid, Hidden } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {

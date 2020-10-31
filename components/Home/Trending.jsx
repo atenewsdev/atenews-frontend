@@ -2,18 +2,15 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Hidden from '@material-ui/core/Hidden';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 import Tag from '@/components/Tag';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 import slugGenerator from '@/utils/slugGenerator';
+
+import {
+  Typography, Paper, Grid, CardActionArea, Hidden, CircularProgress,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {

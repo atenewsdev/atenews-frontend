@@ -3,13 +3,6 @@ import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Hidden from '@material-ui/core/Hidden';
 import Link from '@/components/Link';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
@@ -21,6 +14,10 @@ import ArticleCard from '@/components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+
+import {
+  Typography, Grid, Card, CardMedia, CardContent, CardActionArea, Hidden,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {

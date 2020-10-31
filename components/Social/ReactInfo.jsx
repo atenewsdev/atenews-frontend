@@ -2,17 +2,11 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-
-import Avatar from '@material-ui/core/Avatar';
-
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
+import {
+  Typography, Grid, Card, CardContent, Avatar, Grow, Popper,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   reacts: {

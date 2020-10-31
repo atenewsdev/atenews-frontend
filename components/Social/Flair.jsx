@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
+
+import { Grid, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   tag: {

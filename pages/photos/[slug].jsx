@@ -5,14 +5,12 @@ import { useRouter } from 'next/router';
 import DefaultErrorPage from 'next/error';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Grid from '@material-ui/core/Grid';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 import WP from '@/utils/wordpress';
 
 import ReactHtmlParser from 'react-html-parser';
 import ArticlePage from '@/components/ArticlePage';
+
+import { Grid, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   contentContainer: {

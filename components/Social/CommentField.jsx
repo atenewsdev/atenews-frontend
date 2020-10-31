@@ -4,16 +4,15 @@ import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import SendIcon from '@material-ui/icons/Send';
 
-import IconButton from '@material-ui/core/IconButton';
-
-import Avatar from '@material-ui/core/Avatar';
-import StockTextField from '@material-ui/core/TextField';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
-import InputAdornment from '@material-ui/core/InputAdornment';
+import {
+  IconButton,
+  Avatar,
+  TextField as StockTextField,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  InputAdornment,
+} from '@material-ui/core';
 
 const TextField = withStyles({
   root: {

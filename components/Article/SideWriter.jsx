@@ -1,22 +1,23 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-
 import Tag from '@/components/Tag';
 
 import FollowIcon from '@material-ui/icons/Add';
 
 import Button from '@/components/Button';
+
+import {
+  Typography,
+  Grid,
+  Avatar,
+  Hidden,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   avatar: {

@@ -2,16 +2,16 @@ import React from 'react';
 
 import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 import Article from '@/components/List/Article';
 import Trending from '@/components/Home/Trending';
 
-import Grid from '@material-ui/core/Grid';
 import FollowIcon from '@material-ui/icons/Add';
 import Button from '@/components/Button';
 
 import WP from '@/utils/wordpress';
+
+import { Typography, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
   account: {

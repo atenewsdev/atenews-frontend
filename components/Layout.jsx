@@ -2,28 +2,29 @@ import React from 'react';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import Hidden from '@material-ui/core/Hidden';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slide from '@material-ui/core/Slide';
-
-import CardActionArea from '@material-ui/core/CardActionArea';
 import Tag from '@/components/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
-import StockTextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  Hidden,
+  BottomNavigation,
+  BottomNavigationAction,
+  IconButton,
+  Paper,
+  Dialog,
+  AppBar,
+  Grid,
+  Typography,
+  Slide,
+  CardActionArea,
+  TextField as StockTextField,
+  InputAdornment,
+  CircularProgress,
+} from '@material-ui/core';
 import Footer from './Footer';
 import Header from './Header';
 

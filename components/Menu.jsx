@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import { useSpring, animated } from 'react-spring';
+import { CardActionArea } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   selector: {
@@ -87,6 +87,16 @@ export default function Menu({
     }, 50);
   };
 
+  const colorGenerator = () => {
+    if (active) {
+      return 'white';
+    }
+    if (theme.palette.type === 'dark') {
+      return 'white';
+    }
+    return theme.palette.primary.main;
+  };
+
   return (
     <div
       className={classes.menu}
@@ -101,7 +111,14 @@ export default function Menu({
         { active
           ? <div className={classes.selector} style={{ background: currentColor }} />
           : null }
-        <div className={classes.menuLabel} style={{ color: active ? 'white' : (theme.palette.type === 'dark' ? 'white' : theme.palette.primary.main) }}>
+        <div
+          className={classes.menuLabel}
+          style={
+            {
+              color: colorGenerator(),
+            }
+          }
+        >
           {label}
         </div>
       </CardActionArea>

@@ -2,9 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
+import { Typography } from '@material-ui/core';
 import Menu from './Menu';
+
 import SubMenu from './SubMenu';
 
 const useStyles = makeStyles(() => ({
@@ -49,19 +49,30 @@ export default function Navigation() {
     router.push(url);
   };
 
+  const logoGenerator = () => {
+    if (activeMenu === '/' || activeMenu === '/profile') {
+      return 'url("/logo.png")';
+    }
+    if (theme.palette.type === 'dark') {
+      return 'url("/logo.png")';
+    }
+    return 'url("/logo-blue.png")';
+  };
+
   return (
     <div className={classes.container}>
       <Menu
         color={theme.palette.primary.main}
-        label={
+        label={(
           <div
             className={classes.logo}
             style={
               {
-                backgroundImage: activeMenu === '/' || activeMenu === '/profile' ? 'url("/logo.png")' : (theme.palette.type === 'dark' ? 'url("/logo.png")' : 'url("/logo-blue.png")')
-              }}
+                backgroundImage: logoGenerator(),
+              }
+            }
           />
-        }
+        )}
         active={activeMenu === '/' || activeMenu === '/profile'}
         onClick={() => handleClick('/')}
       />
