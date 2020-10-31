@@ -12,10 +12,10 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
-import ReactInfo from 'components/Social/ReactInfo';
+import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
-import slugGenerator from 'utils/slugGenerator';
+import slugGenerator from '@/utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   trendingItem: {

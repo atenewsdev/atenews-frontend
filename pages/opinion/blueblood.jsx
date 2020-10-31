@@ -1,8 +1,8 @@
 import React from 'react';
 
-import WP from 'utils/wordpress';
+import WP from '@/utils/wordpress';
 
-import ArchiveLayout from 'components/ArchiveLayout';
+import ArchiveLayout from '@/components/ArchiveLayout';
 
 export default function Page(props) {
   return (

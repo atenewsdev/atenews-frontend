@@ -15,7 +15,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'unused-import'],
+  plugins: ['react', 'unused-imports'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
@@ -27,14 +27,15 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/mouse-events-have-key-events': 'off',
+    'import/no-unresolved': ['error', { ignore: ['^@'] }],
   },
   settings: {
-    "import/resolver": {
-      "alias": [
-          ["@/components", "./components"],
-          ["@/classes", "./classes"]
-      ]
-    }
+    'import/resolver': {
+      alias: [
+        ['@/components', './components'],
+        ['@/classes', './classes'],
+      ],
+    },
   },
   globals: {
     React: 'writable',

@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
-import Tag from 'components/Tag';
+import Tag from '@/components/Tag';
 
 const useStyles = makeStyles((theme) => ({
   trendingHead: {

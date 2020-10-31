@@ -13,8 +13,8 @@ import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
 import BirthdayIcon from '@material-ui/icons/Cake';
 
-import ProfileFeed from 'components/Social/ProfileFeed';
-import Flair from 'components/Social/Flair';
+import ProfileFeed from '@/components/Social/ProfileFeed';
+import Flair from '@/components/Social/Flair';
 
 const useStyles = makeStyles((theme) => ({
   container: {

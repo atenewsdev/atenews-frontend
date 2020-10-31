@@ -10,18 +10,18 @@ import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import DefaultButton from '@material-ui/core/Button';
-import Button from 'components/Button';
+import Button from '@/components/Button';
 import Divider from '@material-ui/core/Divider';
 
 import List from '@material-ui/core/List';
 
-import Comment from 'components/Social/Comment';
-import CommentField from 'components/Social/CommentField';
-import SideWriter from 'components/Article/SideWriter';
+import Comment from '@/components/Social/Comment';
+import CommentField from '@/components/Social/CommentField';
+import SideWriter from '@/components/Article/SideWriter';
 
-import Article from 'components/List/Article';
-import ReactArticle from 'components/Social/ReactArticle';
-import ReactInfoArticle from 'components/Social/ReactInfoArticle';
+import Article from '@/components/List/Article';
+import ReactArticle from '@/components/Social/ReactArticle';
+import ReactInfoArticle from '@/components/Social/ReactInfoArticle';
 import handleViewport from 'react-in-viewport';
 
 import WPGBlocks from 'react-gutenberg';

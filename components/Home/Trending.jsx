@@ -9,11 +9,11 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import Tag from 'components/Tag';
+import Tag from '@/components/Tag';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
-import useWindowDimensions from 'utils/useWindowDimensions';
-import slugGenerator from 'utils/slugGenerator';
+import useWindowDimensions from '@/utils/useWindowDimensions';
+import slugGenerator from '@/utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   container: {

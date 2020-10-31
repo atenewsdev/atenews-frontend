@@ -12,11 +12,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Tag from 'components/Tag';
+import Tag from '@/components/Tag';
 
 import FollowIcon from '@material-ui/icons/Add';
 
-import Button from 'components/Button';
+import Button from '@/components/Button';
 
 const useStyles = makeStyles(() => ({
   avatar: {

@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Layout from 'components/Layout';
-import theme from 'styles/theme';
+import Layout from '@/components/Layout';
+import theme from '@/styles/theme';
 
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import 'styles/nprogress.css';
-import 'styles/main.css';
+import '@/styles/nprogress.css';
+import '@/styles/main.css';
 import 'react-gutenberg/default.css';
 
-import WP from 'utils/wordpress';
+import WP from '@/utils/wordpress';
 
 NProgress.configure({
   showSpinner: false,
@@ -58,6 +58,7 @@ export default function MyApp(props) {
         <link rel="preload" href="/logo.png" as="image" />
         <link rel="preload" href="/logo-blue.png" as="image" />
       </Head>
+
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />

@@ -9,10 +9,10 @@ import Grid from '@material-ui/core/Grid';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import WP from 'utils/wordpress';
+import WP from '@/utils/wordpress';
 
 import ReactHtmlParser from 'react-html-parser';
-import ArticlePage from 'components/ArticlePage';
+import ArticlePage from '@/components/ArticlePage';
 
 const useStyles = makeStyles(() => ({
   contentContainer: {

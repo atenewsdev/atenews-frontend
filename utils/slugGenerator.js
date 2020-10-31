@@ -23,8 +23,9 @@ const generator = (article) => {
     case 431:
       category = '/photos';
       break;
+    default:
   }
-  return `${category}/${article.slug}`
-}
+  return `${category}/${article.slug}`;
+};
 
 module.exports = generator;

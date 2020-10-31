@@ -3,20 +3,23 @@ import React from 'react';
 import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import RecentArticles from 'components/Home/RecentArticles';
-import Title from 'components/Home/Title';
-import ArticleGrid from 'components/Home/ArticleGrid';
-import Trending from 'components/Home/Trending';
+import RecentArticles from '@/components/Home/RecentArticles';
+import Title from '@/components/Home/Title';
+import ArticleGrid from '@/components/Home/ArticleGrid';
+import Trending from '@/components/Home/Trending';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
-import Article from 'components/List/Article';
-import Column from 'components/List/Column';
+import Article from '@/components/List/Article';
+import Column from '@/components/List/Column';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import WPGBlocks from 'react-gutenberg';
 
-import WP from 'utils/wordpress';
+import WP from '@/utils/wordpress';
+
+/* import { useCollection } from '@nandorojo/swr-firestore';
+import db from '@/utils/firebaseAdmin'; */
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -206,6 +209,9 @@ export async function getStaticProps() {
       WP.posts().categories(428).perPage(1),
       WP.posts().categories(21).perPage(4),
     ]);
+    /* const users = await db.collection("users").get();
+    const usersData = users.docs.map(u => u.data());
+    console.log(usersData);// */
     return {
       props: {
         recentArticles,

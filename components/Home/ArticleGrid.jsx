@@ -10,17 +10,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
-import Link from 'components/Link';
+import Link from '@/components/Link';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
-import ReactInfo from 'components/Social/ReactInfo';
-import ArticleCard from 'components/Home/ArticleCard';
+import ReactInfo from '@/components/Social/ReactInfo';
+import ArticleCard from '@/components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
-import slugGenerator from 'utils/slugGenerator';
+import slugGenerator from '@/utils/slugGenerator';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -93,7 +93,7 @@ const Trending = ({ articles }) => {
                 style={
                   {
                     color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
-                    marginTop: theme.spacing(1)
+                    marginTop: theme.spacing(1),
                   }
                 }
                 spacing={2}
@@ -134,12 +134,19 @@ const Trending = ({ articles }) => {
               </Grid>
 
               <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
-              <Grid container style={
+              <Grid
+                container
+                style={
                 {
                   color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
                   marginTop: theme.spacing(2),
-                  width: '100%'
-                }} spacing={2} justify="space-between" alignItems="center">
+                  width: '100%',
+                }
+}
+                spacing={2}
+                justify="space-between"
+                alignItems="center"
+              >
                 <Grid item xs>
                   <ReactInfo />
                 </Grid>

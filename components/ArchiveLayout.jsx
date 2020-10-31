@@ -4,14 +4,14 @@ import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import Article from 'components/List/Article';
-import Trending from 'components/Home/Trending';
+import Article from '@/components/List/Article';
+import Trending from '@/components/Home/Trending';
 
 import Grid from '@material-ui/core/Grid';
 import FollowIcon from '@material-ui/icons/Add';
-import Button from 'components/Button';
+import Button from '@/components/Button';
 
-import WP from 'utils/wordpress';
+import WP from '@/utils/wordpress';
 
 const useStyles = makeStyles({
   account: {
