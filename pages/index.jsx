@@ -18,8 +18,8 @@ import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
 
-/* import { useCollection } from '@nandorojo/swr-firestore';
-import db from '@/utils/firebaseAdmin'; */
+// import { useCollection } from '@nandorojo/swr-firestore';
+// import db from '@/utils/firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,11 +46,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home({
-  recentArticles, news, features, featuredPhoto, editorial, columns,
+  recentArticles, news, features, featuredPhoto, editorial, columns, // articlesData,
 }) {
   const classes = useStyles();
   const theme = useTheme();
-
+  /*
+  const { data } = useCollection('articles', {
+    limit: 5, orderBy: ['trendScore'], listen: true
+  }, {
+    initialData: JSON.parse(articlesData)
+  });
+  // */
   const [trending, setTrending] = React.useState([]);
 
   React.useEffect(() => {
@@ -209,9 +215,20 @@ export async function getStaticProps() {
       WP.posts().categories(428).perPage(1),
       WP.posts().categories(21).perPage(4),
     ]);
-    /* const users = await db.collection("users").get();
-    const usersData = users.docs.map(u => u.data());
-    console.log(usersData);// */
+    /* const articles = await db.collection('articles').get();
+    const articlesData = articles.docs.map((u) => {
+      const tmp = { id: u.id };
+      Object.keys(u.data()).forEach((key) => {
+        if (key === 'timestamp') {
+          tmp[key] = u.data()[key].toDate();
+        } else {
+          tmp[key] = u.data()[key];
+        }
+      });
+
+      return tmp;
+    });
+    console.log(articlesData);// */
     return {
       props: {
         recentArticles,
@@ -220,6 +237,7 @@ export async function getStaticProps() {
         featuredPhoto: featuredPhoto[0],
         editorial: editorial[0],
         columns,
+        // articlesData: JSON.stringify(articlesData),
       },
       revalidate: 10,
     };
