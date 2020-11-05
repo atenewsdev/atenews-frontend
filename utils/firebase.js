@@ -4,14 +4,14 @@ import 'firebase/auth';
 import firebase from 'firebase/app';
 
 const config = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  apiKey: 'AIzaSyDZUirIEu-BkcM6Hr6l0bvTCI_E4lwQ5Bo',
+  authDomain: 'atenews-socials.firebaseapp.com',
+  databaseURL: 'https://atenews-socials.firebaseio.com',
+  projectId: 'atenews-socials',
+  storageBucket: 'atenews-socials.appspot.com',
+  messagingSenderId: '917329069343',
+  appId: '1:917329069343:web:e8d2d1855c56b84f595c2a',
+  measurementId: 'G-F1WVWQC97X',
 };
 
 if (!firebase.apps.length) {
