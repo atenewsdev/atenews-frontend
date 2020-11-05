@@ -18,28 +18,28 @@ const theme = createMuiTheme({
     ].join(','),
     h1: {
       fontFamily: 'Montserrat',
-      fontWeight: 700
+      fontWeight: 700,
     },
     h2: {
       fontFamily: 'Montserrat',
-      fontWeight: 700
+      fontWeight: 700,
     },
     h3: {
       fontFamily: 'Montserrat',
-      fontWeight: 700
+      fontWeight: 700,
     },
     h4: {
       fontFamily: 'Montserrat',
-      fontWeight: 700
+      fontWeight: 700,
     },
     h5: {
       fontFamily: 'Montserrat',
-      fontWeight: 700
+      fontWeight: 700,
     },
     h6: {
       fontFamily: 'Montserrat',
-      fontWeight: 600
-    }
+      fontWeight: 600,
+    },
   },
   palette: {
     type: 'dark',
@@ -55,17 +55,17 @@ const theme = createMuiTheme({
     background: {
       default: '#0e1621',
       paper: '#17212b',
-    },
-    /*background: {
+    }, // */
+    /* background: {
       default: '#fff',
-    },//*/
+    }, // */
     atenews: {
       news: '#263E8E',
       features: '#FAB417',
       highlight: '#972E34',
       montage: '#40AE4B',
-      diversions: '#F9761D'
-    }
+      diversions: '#F9761D',
+    },
   },
 });
 

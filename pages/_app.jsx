@@ -15,7 +15,9 @@ import WP from '@/utils/wordpress';
 import { TrendingProvider } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Grid } from '@material-ui/core';
+
+import firebase from '@/utils/firebase';
 
 NProgress.configure({
   showSpinner: false,
@@ -39,6 +41,7 @@ export default function MyApp(props) {
   const { Component, pageProps } = props;
 
   const [trending, setTrending] = React.useState([]);
+  const [loadingAuth, setLoadingAuth] = React.useState(true);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -46,6 +49,14 @@ export default function MyApp(props) {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+
+    firebase.auth().onAuthStateChanged(() => {
+      if (loadingAuth) {
+        setLoadingAuth(false);
+      } else {
+        setLoadingAuth(true);
+      }
+    });
 
     WP.posts().perPage(5).then((articles) => {
       setTrending(articles);
@@ -67,9 +78,25 @@ export default function MyApp(props) {
         <CssBaseline />
         <AuthProvider>
           <TrendingProvider>
-            <Layout trending={trending}>
-              <Component {...pageProps} />
-            </Layout>
+            {!loadingAuth
+              ? (
+                <Layout trending={trending}>
+                  <Component {...pageProps} />
+                </Layout>
+              )
+              : (
+                <Grid
+                  container
+                  spacing={0}
+                  alignItems="center"
+                  justify="center"
+                  style={{ minHeight: '100vh' }}
+                >
+                  <Grid item>
+                    <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+                  </Grid>
+                </Grid>
+              )}
           </TrendingProvider>
         </AuthProvider>
       </ThemeProvider>

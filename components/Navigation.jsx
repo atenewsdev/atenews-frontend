@@ -50,7 +50,7 @@ export default function Navigation() {
   };
 
   const logoGenerator = () => {
-    if (activeMenu === '/' || activeMenu === '/profile') {
+    if (activeMenu === '/' || activeMenu === '/profile' || activeMenu === '/auth') {
       return 'url("/logo.png")';
     }
     if (theme.palette.type === 'dark') {
@@ -73,7 +73,7 @@ export default function Navigation() {
             }
           />
         )}
-        active={activeMenu === '/' || activeMenu === '/profile'}
+        active={activeMenu === '/' || activeMenu === '/profile' || activeMenu === '/auth'}
         onClick={() => handleClick('/')}
       />
 

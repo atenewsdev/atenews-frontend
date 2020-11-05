@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 import MenuIcon from '@material-ui/icons/Menu';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import UserIcon from '@material-ui/icons/Person';
+
+import { useAuth } from '@/utils/hooks/useAuth';
 
 import {
   AppBar,
@@ -60,6 +63,7 @@ export default function MenuAppBar({ closeButtomNav }) {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
+  const { authUser } = useAuth();
 
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
@@ -195,7 +199,14 @@ export default function MenuAppBar({ closeButtomNav }) {
               color="primary"
               onClick={() => handleClickLink('/profile')}
             >
-              <Avatar style={{ width: 40, height: 40 }} src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" />
+              {authUser
+                ? (
+                  <Avatar
+                    src={authUser.photoURL}
+                    style={{ width: 40, height: 40 }}
+                  />
+                )
+                : <UserIcon />}
             </IconButton>
           </div>
         </Toolbar>

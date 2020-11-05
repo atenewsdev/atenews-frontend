@@ -11,6 +11,8 @@ import BirthdayIcon from '@material-ui/icons/Cake';
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
 
+import { useRouter } from 'next/router';
+
 import {
   Typography, Avatar, Grid, Divider,
 } from '@material-ui/core';
@@ -54,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
   const { authUser } = useAuth();
+
+  if (!authUser) {
+    router.push('/');
+  }
 
   return (
     <div className={classes.container}>

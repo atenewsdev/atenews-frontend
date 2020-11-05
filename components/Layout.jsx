@@ -113,20 +113,21 @@ const Layout = ({ children, trending }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (
-      baseUrlMenu(router.pathname) === '/'
-      || router.pathname === '/news/university'
-      || router.pathname === '/news/local'
-      || router.pathname === '/news/national'
-      || router.pathname === '/news/sports'
-      || router.pathname === '/features'
-      || router.pathname === '/features/montage'
-      || router.pathname === '/features/artists'
-      || router.pathname === '/opinion/column'
-      || router.pathname === '/opinion/editorial'
-      || router.pathname === '/opinion/blueblood'
-      || router.pathname === '/photos/featured'
-    ) {
+    const largerWidthPages = [
+      '/',
+      '/news/university',
+      '/news/local',
+      '/news/national',
+      '/news/sports',
+      '/features',
+      '/features/montage',
+      '/features/artists',
+      '/opinion/column',
+      '/opinion/editorial',
+      '/opinion/blueblood',
+      '/photos/featured',
+    ];
+    if (largerWidthPages.includes(baseUrlMenu(router.pathname))) {
       setIsLargeWidth(true);
     } else {
       setIsLargeWidth(false);
