@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@/components/Button';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid, TextField } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 
@@ -49,9 +49,34 @@ const PopoutView = ({ close }) => {
             </>
           )
           : (
-            <Button onClick={() => { loginWithTwitter(); close(); }}>
-              Login
-            </Button>
+            <>
+              <Grid container spacing={2} alignItems="center" direction="column">
+                <Grid item style={{ width: '100%' }}>
+                  <TextField
+                    variant="outlined"
+                    label="Email"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item style={{ width: '100%' }}>
+                  <TextField
+                    type="password"
+                    variant="outlined"
+                    label="Password"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item style={{ width: '100%' }}>
+                  <Button variant="contained" color="primary" size="small" fullWidth>Login</Button>
+                </Grid>
+                <Grid item style={{ width: '100%' }}>
+                  <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
+                </Grid>
+                <Grid item style={{ width: '100%' }}>
+                  <Button onClick={() => { router.push('/auth/register'); close(); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+                </Grid>
+              </Grid>
+            </>
           )
       }
     </Paper>
