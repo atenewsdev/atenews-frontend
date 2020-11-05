@@ -132,7 +132,7 @@ export default function Home() {
                         <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{ authUser ? authUser.email : 'theimpostor@amongus.com'}</Typography>
+                        <Typography variant="body1">{authUser.providerData[0].email}</Typography>
                       </Grid>
                     </Grid>
                   </div>
