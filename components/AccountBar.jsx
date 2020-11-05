@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AccountBar() {
+export default function AccountBar({ setDarkMode }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -91,7 +91,7 @@ export default function AccountBar() {
   };
 
   const profileView = () => (
-    <ProfileView close={handleClose} />
+    <ProfileView close={handleClose} setDarkMode={setDarkMode} />
   );
 
   const notificationView = () => (

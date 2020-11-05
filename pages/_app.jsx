@@ -43,6 +43,8 @@ export default function MyApp(props) {
   const [trending, setTrending] = React.useState([]);
   const [loadingAuth, setLoadingAuth] = React.useState(true);
 
+  const [darkMode, setDarkMode] = React.useState(true);
+
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -73,14 +75,14 @@ export default function MyApp(props) {
         <link rel="preload" href="/logo-blue.png" as="image" />
       </Head>
 
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme(darkMode)}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <AuthProvider>
           <TrendingProvider>
             {!loadingAuth
               ? (
-                <Layout trending={trending}>
+                <Layout trending={trending} setDarkMode={setDarkMode}>
                   <Component {...pageProps} />
                 </Layout>
               )
@@ -93,7 +95,7 @@ export default function MyApp(props) {
                   style={{ minHeight: '100vh' }}
                 >
                   <Grid item>
-                    <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+                    <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
                   </Grid>
                 </Grid>
               )}

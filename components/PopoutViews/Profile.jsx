@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Button from '@/components/Button';
 import { Paper, Grid, TextField } from '@material-ui/core';
@@ -27,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PopoutView = ({ close }) => {
+const PopoutView = ({ close, setDarkMode }) => {
   const classes = useStyles();
   const { loginWithTwitter, authUser, logout } = useAuth();
   const router = useRouter();
+  const theme = useTheme();
 
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
@@ -46,6 +47,16 @@ const PopoutView = ({ close }) => {
               <Button onClick={() => { logout(); close(); }}>
                 Logout
               </Button>
+              <br />
+              { theme.palette.type === 'dark' ? (
+                <Button onClick={() => { setDarkMode(false); close(); }}>
+                  Light Mode
+                </Button>
+              ) : (
+                <Button onClick={() => { setDarkMode(true); close(); }}>
+                  Dark Mode
+                </Button>
+              )}
             </>
           )
           : (

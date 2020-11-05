@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const Layout = ({ children, trending }) => {
+const Layout = ({ children, trending, setDarkMode }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
@@ -136,10 +136,12 @@ const Layout = ({ children, trending }) => {
 
   return (
     <div className={classes.layoutContainer}>
-      <Header closeButtomNav={() => {
-        setValue(0);
-        setOpen(false);
-      }}
+      <Header
+        closeButtomNav={() => {
+          setValue(0);
+          setOpen(false);
+        }}
+        setDarkMode={setDarkMode}
       />
       <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
         {children}

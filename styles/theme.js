@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
-const theme = createMuiTheme({
+const themeGenerator = (dark) => createMuiTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -42,7 +42,7 @@ const theme = createMuiTheme({
     },
   },
   palette: {
-    type: 'dark',
+    type: dark ? 'dark' : 'light',
     primary: {
       main: '#195EA9',
     },
@@ -53,12 +53,9 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#0e1621',
-      paper: '#17212b',
-    }, // */
-    /* background: {
-      default: '#fff',
-    }, // */
+      default: dark ? '#0e1621' : '#fff',
+      paper: dark ? '#17212b' : '#fff',
+    },
     atenews: {
       news: '#263E8E',
       features: '#FAB417',
@@ -69,4 +66,4 @@ const theme = createMuiTheme({
   },
 });
 
-export default theme;
+export default themeGenerator;
