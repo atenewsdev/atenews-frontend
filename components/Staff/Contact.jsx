@@ -21,7 +21,7 @@ const Trending = () => {
 
   return (
     <Hidden smDown>
-      <div className={classes.container} style={{ top: 'calc(80px + 4vh)', color: theme.palette.primary.main }}>
+      <div className={classes.container} style={{ top: 'calc(80px + 4vh)', color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
         <Typography variant="h6" style={{ marginBottom: theme.spacing(2) }}>Contact Us</Typography>
         <Grid container direction="column" spacing={2}>
           <Grid item>

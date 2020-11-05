@@ -1,8 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Link from '@/components/Link';
+import Button from '@/components/Button';
 import { Paper } from '@material-ui/core';
+
+import { useAuth } from '@/utils/hooks/useAuth';
+
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -25,13 +29,31 @@ const useStyles = makeStyles((theme) => ({
 
 const PopoutView = () => {
   const classes = useStyles();
+  const { loginWithTwitter, authUser, logout } = useAuth();
+  const router = useRouter();
 
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
       <div className={classes.arrowUp} />
-      <Link href="/profile">
-        Click here to view sample profile.
-      </Link>
+      {
+        authUser
+          ? (
+            <>
+              <Button onClick={() => { router.push('/profile'); }}>
+                Profile
+              </Button>
+              <br />
+              <Button onClick={logout}>
+                Logout
+              </Button>
+            </>
+          )
+          : (
+            <Button onClick={loginWithTwitter}>
+              Login
+            </Button>
+          )
+      }
     </Paper>
   );
 };

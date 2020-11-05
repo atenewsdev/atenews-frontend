@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { useRouter } from 'next/router';
-
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
+import UserIcon from '@material-ui/icons/Person';
 
 import { useSpring, animated } from 'react-spring';
 
@@ -18,6 +17,7 @@ import {
   TextField as StockTextField,
   InputAdornment,
 } from '@material-ui/core';
+import { useAuth } from '@/utils/hooks/useAuth';
 import SearchView from './PopoutViews/Search';
 import NotificationView from './PopoutViews/Notification';
 import ProfileView from './PopoutViews/Profile';
@@ -62,11 +62,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AccountBar() {
   const classes = useStyles();
-  const router = useRouter();
   const theme = useTheme();
 
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
+  const { authUser } = useAuth();
 
   const profileView = () => (
     <ProfileView />
@@ -152,19 +152,30 @@ export default function AccountBar() {
           >
             <SearchIcon />
           </IconButton>
+          {authUser
+            ? (
+              <IconButton
+                className={classes.button}
+                color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                onClick={(e) => handleClick(e, 'Notifications')}
+              >
+                <BellIcon />
+              </IconButton>
+            )
+            : null}
           <IconButton
             className={classes.button}
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-            onClick={(e) => handleClick(e, 'Notifications')}
+            onClick={(e) => handleClick(e, 'Account')}
           >
-            <BellIcon />
-          </IconButton>
-          <IconButton
-            className={classes.button}
-            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-            onClick={() => router.push('/profile')}
-          >
-            <Avatar src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" style={{ width: 40, height: 40 }} />
+            {authUser
+              ? (
+                <Avatar
+                  src={authUser.photoURL}
+                  style={{ width: 40, height: 40 }}
+                />
+              )
+              : <UserIcon />}
           </IconButton>
           <Popper
             open={Boolean(anchorEl)}

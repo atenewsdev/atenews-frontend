@@ -12,6 +12,9 @@ import '@/styles/main.css';
 import 'react-gutenberg/default.css';
 import WP from '@/utils/wordpress';
 
+import { TrendingProvider } from '@/utils/hooks/useTrending';
+import { AuthProvider } from '@/utils/hooks/useAuth';
+
 import { CssBaseline } from '@material-ui/core';
 
 NProgress.configure({
@@ -62,9 +65,13 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Layout trending={trending}>
-          <Component {...pageProps} />
-        </Layout>
+        <AuthProvider>
+          <TrendingProvider>
+            <Layout trending={trending}>
+              <Component {...pageProps} />
+            </Layout>
+          </TrendingProvider>
+        </AuthProvider>
       </ThemeProvider>
     </>
   );

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   trendingStats: {
     width: '100%',
-    color: theme.palette.primary.main,
+    color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
     padding: theme.spacing(0.5),
   },
   trendingStatsText: {
@@ -52,7 +52,7 @@ const Column = ({ details }) => {
           </Grid>
           <Grid item xs>
             <Typography variant="h6">{details.name}</Typography>
-            <Typography variant="body1" style={{ color: theme.palette.primary.main }}>{details.position}</Typography>
+            <Typography variant="body1" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>{details.position}</Typography>
           </Grid>
         </Grid>
       </Paper>

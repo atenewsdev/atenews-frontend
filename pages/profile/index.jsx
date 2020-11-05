@@ -15,6 +15,8 @@ import {
   Typography, Avatar, Grid, Divider,
 } from '@material-ui/core';
 
+import { useAuth } from '@/utils/hooks/useAuth';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: 80,
@@ -52,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
+  const { authUser } = useAuth();
 
   return (
     <div className={classes.container}>
@@ -61,13 +64,13 @@ export default function Home() {
       <Grid container spacing={6} justify="center">
         <Grid item>
           <div className={classes.leftSide}>
-            <Avatar className={classes.avatar} src="https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO" />
+            <Avatar className={classes.avatar} src={authUser ? authUser.photoURL.replace('_normal', '') : 'https://lh3.googleusercontent.com/VHB9bVB8cTcnqwnu0nJqKYbiutRclnbGxTpwnayKB4vMxZj8pk1220Rg-6oQ68DwAkqO'} />
           </div>
         </Grid>
         <Grid item xs>
           <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
             <Grid item>
-              <Typography variant="h4">The Impostor</Typography>
+              <Typography variant="h4">{ authUser ? authUser.displayName : 'The Impostor'}</Typography>
             </Grid>
             <Grid item xs>
               <Flair />
@@ -125,7 +128,7 @@ export default function Home() {
                       <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                     </Grid>
                     <Grid item>
-                      <Typography variant="body1">theimpostor@amongus.com</Typography>
+                      <Typography variant="body1">{ authUser ? authUser.email : 'theimpostor@amongus.com'}</Typography>
                     </Grid>
                   </Grid>
                 </div>

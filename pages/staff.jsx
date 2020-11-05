@@ -70,7 +70,7 @@ export default function Home() {
         <title>Staff - Atenews</title>
       </Head>
       <div className={classes.header}>
-        <img src="/atenews-header.svg" alt="Atenews Header" height="35" />
+        <img src={theme.palette.type === 'dark' ? '/atenews-footer.svg' : '/atenews-header.svg'} alt="Atenews Header" height="35" />
         <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
           The official student publication of the Ateneo de Davao University
         </Typography>
@@ -78,7 +78,7 @@ export default function Home() {
       <Contact />
       <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>About</Typography>
       <Typography variant="body1" component="div" style={{ marginBottom: theme.spacing(4) }}>
-        <b style={{ color: theme.palette.primary.main }}>Atenews</b>
+        <b style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>Atenews</b>
         {' '}
         is the official student publication of Ateneo de Davao University that
         aims to advance students&apos; level of consciousness on significant
@@ -100,7 +100,7 @@ export default function Home() {
         <Typography variant="h4" style={{ marginBottom: theme.spacing(4), marginTop: theme.spacing(8) }}>Contact Us</Typography>
         <Grid container>
           <Grid item xs={12} sm={8}>
-            <Grid container direction="column" spacing={2} style={{ color: theme.palette.primary.main }}>
+            <Grid container direction="column" spacing={2} style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
               <Grid item>
                 <Grid container spacing={2}>
                   <Grid item>
