@@ -68,21 +68,8 @@ export default function AccountBar() {
   const [searchOpened, setSearchOpened] = React.useState(false);
   const { authUser } = useAuth();
 
-  const profileView = () => (
-    <ProfileView />
-  );
-
-  const notificationView = () => (
-    <NotificationView />
-  );
-
-  const searchView = () => (
-    <SearchView />
-  );
-
   const [activeButton, setActiveButton] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [currentView, setCurrentView] = React.useState(profileView);
 
   const handleClick = (event, button) => {
     if (activeButton === button) {
@@ -102,6 +89,20 @@ export default function AccountBar() {
       setSearchOpened(false);
     }
   };
+
+  const profileView = () => (
+    <ProfileView close={handleClose} />
+  );
+
+  const notificationView = () => (
+    <NotificationView />
+  );
+
+  const searchView = () => (
+    <SearchView />
+  );
+
+  const [currentView, setCurrentView] = React.useState(profileView);
 
   React.useEffect(() => {
     if (activeButton === 'Search') {

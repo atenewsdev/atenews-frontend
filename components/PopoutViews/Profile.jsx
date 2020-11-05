@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PopoutView = () => {
+const PopoutView = ({ close }) => {
   const classes = useStyles();
   const { loginWithTwitter, authUser, logout } = useAuth();
   const router = useRouter();
@@ -39,17 +39,17 @@ const PopoutView = () => {
         authUser
           ? (
             <>
-              <Button onClick={() => { router.push('/profile'); }}>
+              <Button onClick={() => { router.push('/profile'); close(); }}>
                 Profile
               </Button>
               <br />
-              <Button onClick={logout}>
+              <Button onClick={() => { logout(); close(); }}>
                 Logout
               </Button>
             </>
           )
           : (
-            <Button onClick={loginWithTwitter}>
+            <Button onClick={() => { loginWithTwitter(); close(); }}>
               Login
             </Button>
           )
