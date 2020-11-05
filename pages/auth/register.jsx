@@ -53,6 +53,13 @@ export default function Home() {
   const router = useRouter();
   const { authUser } = useAuth();
 
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+
   if (authUser) {
     router.push('/profile');
   }
@@ -77,6 +84,9 @@ export default function Home() {
             variant="outlined"
             label="First Name"
             fullWidth
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </Grid>
         <Grid item style={{ width: '100%' }}>
@@ -84,6 +94,9 @@ export default function Home() {
             variant="outlined"
             label="Last Name"
             fullWidth
+            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </Grid>
         <Grid item>
@@ -94,6 +107,10 @@ export default function Home() {
             variant="outlined"
             label="Email"
             fullWidth
+            required
+            error={!(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) && email !== ''}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Grid>
         <Grid item style={{ width: '100%' }}>
@@ -102,14 +119,21 @@ export default function Home() {
             variant="outlined"
             label="Password"
             fullWidth
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Grid>
         <Grid item style={{ width: '100%' }}>
           <TextField
+            error={password !== confirmPassword}
             type="password"
             variant="outlined"
             label="Confirm Password"
             fullWidth
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Grid>
         <Grid item style={{ width: '100%' }}>
