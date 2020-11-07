@@ -66,7 +66,7 @@ export default function AccountBar({ setDarkMode }) {
 
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
-  const { authUser } = useAuth();
+  const { profile } = useAuth();
 
   const [activeButton, setActiveButton] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -153,7 +153,7 @@ export default function AccountBar({ setDarkMode }) {
           >
             <SearchIcon />
           </IconButton>
-          {authUser
+          {profile
             ? (
               <IconButton
                 className={classes.button}
@@ -169,10 +169,10 @@ export default function AccountBar({ setDarkMode }) {
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={(e) => handleClick(e, 'Account')}
           >
-            {authUser
+            {profile
               ? (
                 <Avatar
-                  src={authUser.photoURL}
+                  src={profile.photoURL}
                   style={{ width: 40, height: 40 }}
                 />
               )

@@ -14,6 +14,7 @@ import WP from '@/utils/wordpress';
 
 import { TrendingProvider } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
+import { ErrorProvider } from '@/utils/hooks/useError';
 
 import { CssBaseline, Grid } from '@material-ui/core';
 
@@ -78,29 +79,31 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme(darkMode)}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <AuthProvider>
-          <TrendingProvider>
-            {!loadingAuth
-              ? (
-                <Layout trending={trending} setDarkMode={setDarkMode}>
-                  <Component {...pageProps} />
-                </Layout>
-              )
-              : (
-                <Grid
-                  container
-                  spacing={0}
-                  alignItems="center"
-                  justify="center"
-                  style={{ minHeight: '100vh' }}
-                >
-                  <Grid item>
-                    <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+        <ErrorProvider>
+          <AuthProvider>
+            <TrendingProvider>
+              {!loadingAuth
+                ? (
+                  <Layout trending={trending} setDarkMode={setDarkMode}>
+                    <Component {...pageProps} />
+                  </Layout>
+                )
+                : (
+                  <Grid
+                    container
+                    spacing={0}
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: '100vh' }}
+                  >
+                    <Grid item>
+                      <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+                    </Grid>
                   </Grid>
-                </Grid>
-              )}
-          </TrendingProvider>
-        </AuthProvider>
+                )}
+            </TrendingProvider>
+          </AuthProvider>
+        </ErrorProvider>
       </ThemeProvider>
     </>
   );

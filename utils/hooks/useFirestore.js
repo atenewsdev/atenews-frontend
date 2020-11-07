@@ -8,6 +8,8 @@ const useFirestore = () => {
       .onSnapshot((doc) => {
         if (doc.exists) {
           onUpdate(doc.data());
+        } else {
+          onUpdate({});
         }
       });
   };
@@ -15,7 +17,7 @@ const useFirestore = () => {
   const getDocumentOnce = (documentPath) => {
     const { data } = useSWR(documentPath, (path) => firebase.firestore().doc(path).get());
     if (!data.exists) {
-      return null;
+      return {};
     }
     return data.data();
   };

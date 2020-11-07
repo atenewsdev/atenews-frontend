@@ -9,6 +9,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Tag from '@/components/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
+import { useError } from '@/utils/hooks/useError';
+
 import {
   Hidden,
   BottomNavigation,
@@ -24,7 +26,11 @@ import {
   TextField as StockTextField,
   InputAdornment,
   CircularProgress,
+  Snackbar,
 } from '@material-ui/core';
+
+import { Alert } from '@material-ui/lab';
+
 import Footer from './Footer';
 import Header from './Header';
 
@@ -112,6 +118,16 @@ const Layout = ({ children, trending, setDarkMode }) => {
 
   const [open, setOpen] = React.useState(false);
 
+  const { error, setError } = useError();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setError(null);
+  };
+
   React.useEffect(() => {
     const largerWidthPages = [
       '/',
@@ -144,6 +160,11 @@ const Layout = ({ children, trending, setDarkMode }) => {
         setDarkMode={setDarkMode}
       />
       <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
+        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error">
+            {error}
+          </Alert>
+        </Snackbar>
         {children}
         <Footer />
       </div>
