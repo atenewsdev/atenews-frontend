@@ -25,12 +25,12 @@ export const AuthProvider = ({ children }) => {
           getDocument(`users/${user.uid}`, async (data) => {
             setProfile(data);
             if (data) {
-              const wpUser = (await WP.users().search(data.email))[0];
+              const wpUser = await WP.usersEmail().email(data.email);
               if (wpUser) {
                 saveDocument(`users/${user.uid}`, {
-                  displayName: wpUser.name,
+                  displayName: wpUser.display_name,
                   staff: true,
-                  photoURL: wpUser.avatar_urls['96'],
+                  photoURL: wpUser.avatar,
                 });
               }
             }
