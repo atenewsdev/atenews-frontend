@@ -4,8 +4,6 @@ import WP from '@/utils/wordpress';
 
 import ArchiveLayout from '@/components/ArchiveLayout';
 
-import useFirestore from '@/utils/hooks/useAdminFirestore';
-
 export default function Page(props) {
   return (
     <ArchiveLayout {...props} name="University News" />
@@ -17,17 +15,6 @@ export async function getStaticProps() {
     const [articles] = await Promise.all([
       WP.posts().categories(20),
     ]);
-    const { saveDocument } = useFirestore();
-
-    const posts = [
-      ...articles,
-    ];
-
-    posts.forEach((post) => {
-      saveDocument(`articles/${post.slug}`, {
-        title: post.title.rendered,
-      });
-    });
     return { props: { articles }, revalidate: 10 };
   } catch (err) {
     return { props: { articles: [] }, revalidate: 10 };
