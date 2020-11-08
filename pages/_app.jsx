@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import Layout from '@/components/Layout';
 import theme from '@/styles/theme';
 import Router from 'next/router';
@@ -14,7 +17,7 @@ import WP from '@/utils/wordpress';
 
 import { TrendingProvider } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
-import { ErrorProvider } from '@/utils/hooks/useError';
+import { ErrorProvider } from '@/utils/hooks/useSnackbar';
 
 import { CssBaseline, Grid } from '@material-ui/core';
 
@@ -79,31 +82,33 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme(darkMode)}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <ErrorProvider>
-          <AuthProvider>
-            <TrendingProvider>
-              {!loadingAuth
-                ? (
-                  <Layout trending={trending} setDarkMode={setDarkMode}>
-                    <Component {...pageProps} />
-                  </Layout>
-                )
-                : (
-                  <Grid
-                    container
-                    spacing={0}
-                    alignItems="center"
-                    justify="center"
-                    style={{ minHeight: '100vh' }}
-                  >
-                    <Grid item>
-                      <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <ErrorProvider>
+            <AuthProvider>
+              <TrendingProvider>
+                {!loadingAuth
+                  ? (
+                    <Layout trending={trending} setDarkMode={setDarkMode}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  )
+                  : (
+                    <Grid
+                      container
+                      spacing={0}
+                      alignItems="center"
+                      justify="center"
+                      style={{ minHeight: '100vh' }}
+                    >
+                      <Grid item>
+                        <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                )}
-            </TrendingProvider>
-          </AuthProvider>
-        </ErrorProvider>
+                  )}
+              </TrendingProvider>
+            </AuthProvider>
+          </ErrorProvider>
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </>
   );

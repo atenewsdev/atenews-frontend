@@ -2,8 +2,11 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Button from '@/components/Button';
-import { Paper, Grid, TextField } from '@material-ui/core';
+import {
+  Paper, Grid, TextField, Divider,
+} from '@material-ui/core';
 
+import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import { useRouter } from 'next/router';
@@ -29,67 +32,153 @@ const useStyles = makeStyles((theme) => ({
 
 const PopoutView = ({ close, setDarkMode }) => {
   const classes = useStyles();
-  const { loginWithTwitter, authUser, logout } = useAuth();
+  const {
+    loginWithEmail,
+    loginWithTwitter,
+    authUser,
+    logout,
+    registerEmail,
+  } = useAuth();
   const router = useRouter();
   const theme = useTheme();
+  const { setError } = useError();
+
+  const [isRegister, setIsRegister] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+
+  const handleRegister = () => {
+    if (email && password && password === confirmPassword) {
+      registerEmail(email, password);
+      close();
+    } else {
+      setError('All fields are required!');
+    }
+  };
+
+  const handleLogin = () => {
+    if (email && password) {
+      loginWithEmail(email, password);
+      close();
+    } else {
+      setError('All fields are required!');
+    }
+  };
+
+  if (authUser) {
+    return (
+      <Paper variant="outlined" className={classes.viewContainer}>
+        <div className={classes.arrowUp} />
+        <Button onClick={() => { router.push('/profile'); close(); }}>
+          Profile
+        </Button>
+        <br />
+        <Button onClick={() => { logout(); close(); }}>
+          Logout
+        </Button>
+        <br />
+        { theme.palette.type === 'dark' ? (
+          <Button onClick={() => { setDarkMode(false); close(); }}>
+            Light Mode
+          </Button>
+        ) : (
+          <Button onClick={() => { setDarkMode(true); close(); }}>
+            Dark Mode
+          </Button>
+        )}
+      </Paper>
+    );
+  }
+
+  if (!isRegister) {
+    return (
+      <Paper variant="outlined" className={classes.viewContainer}>
+        <div className={classes.arrowUp} />
+        <Grid container spacing={2} alignItems="center" direction="column">
+          <Grid item style={{ width: '100%' }}>
+            <TextField
+              variant="outlined"
+              label="Email"
+              fullWidth
+              required
+              error={!(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) && email !== ''}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item style={{ width: '100%' }}>
+            <TextField
+              type="password"
+              variant="outlined"
+              label="Password"
+              fullWidth
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Grid>
+          <Grid item style={{ width: '100%' }}>
+            <Button onClick={handleLogin} variant="contained" color="primary" size="small" fullWidth>Login</Button>
+          </Grid>
+          <Grid item style={{ width: '100%' }}>
+            <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
+          </Grid>
+          <Grid item style={{ width: '100%' }}>
+            <Divider style={{ marginBottom: theme.spacing(2) }} />
+            <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+          </Grid>
+        </Grid>
+      </Paper>
+    );
+  }
 
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
       <div className={classes.arrowUp} />
-      {
-        authUser
-          ? (
-            <>
-              <Button onClick={() => { router.push('/profile'); close(); }}>
-                Profile
-              </Button>
-              <br />
-              <Button onClick={() => { logout(); close(); }}>
-                Logout
-              </Button>
-              <br />
-              { theme.palette.type === 'dark' ? (
-                <Button onClick={() => { setDarkMode(false); close(); }}>
-                  Light Mode
-                </Button>
-              ) : (
-                <Button onClick={() => { setDarkMode(true); close(); }}>
-                  Dark Mode
-                </Button>
-              )}
-            </>
-          )
-          : (
-            <>
-              <Grid container spacing={2} alignItems="center" direction="column">
-                <Grid item style={{ width: '100%' }}>
-                  <TextField
-                    variant="outlined"
-                    label="Email"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item style={{ width: '100%' }}>
-                  <TextField
-                    type="password"
-                    variant="outlined"
-                    label="Password"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item style={{ width: '100%' }}>
-                  <Button variant="contained" color="primary" size="small" fullWidth>Login</Button>
-                </Grid>
-                <Grid item style={{ width: '100%' }}>
-                  <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
-                </Grid>
-                <Grid item style={{ width: '100%' }}>
-                  <Button onClick={() => { router.push('/auth/register'); close(); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
-                </Grid>
-              </Grid>
-            </>
-          )
-      }
+      <Grid container spacing={2} alignItems="center" direction="column">
+        <Grid item style={{ width: '100%' }}>
+          <TextField
+            variant="outlined"
+            label="Email"
+            fullWidth
+            required
+            error={!(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) && email !== ''}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <TextField
+            type="password"
+            variant="outlined"
+            label="Password"
+            fullWidth
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <TextField
+            error={password !== confirmPassword}
+            type="password"
+            variant="outlined"
+            label="Confirm Password"
+            fullWidth
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <Button onClick={handleRegister} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <Divider style={{ marginBottom: theme.spacing(2) }} />
+          <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth>Login</Button>
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

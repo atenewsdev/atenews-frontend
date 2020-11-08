@@ -9,7 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Tag from '@/components/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
-import { useError } from '@/utils/hooks/useError';
+import { useError } from '@/utils/hooks/useSnackbar';
 
 import {
   Hidden,
@@ -118,14 +118,37 @@ const Layout = ({ children, trending, setDarkMode }) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const { error, setError } = useError();
+  const {
+    error,
+    setError,
+    success,
+    setSuccess,
+    warning,
+    setWarning,
+  } = useError();
 
-  const handleClose = (event, reason) => {
+  const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
     setError(null);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSuccess(null);
+  };
+
+  const handleCloseWarning = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setWarning(null);
   };
 
   React.useEffect(() => {
@@ -160,9 +183,19 @@ const Layout = ({ children, trending, setDarkMode }) => {
         setDarkMode={setDarkMode}
       />
       <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
-        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
+        <Snackbar open={error !== null} autoHideDuration={3000} onClose={handleCloseError}>
+          <Alert onClose={handleCloseError} severity="error">
             {error}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={warning !== null} autoHideDuration={3000} onClose={handleCloseWarning}>
+          <Alert onClose={handleCloseWarning} severity="warning">
+            {warning}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={success !== null} autoHideDuration={3000} onClose={handleCloseSuccess}>
+          <Alert onClose={handleCloseSuccess} severity="success">
+            {success}
           </Alert>
         </Snackbar>
         {children}

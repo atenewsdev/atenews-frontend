@@ -9,7 +9,7 @@ const useFirestore = () => {
         if (doc.exists) {
           onUpdate(doc.data());
         } else {
-          onUpdate({});
+          onUpdate(null);
         }
       });
   };
@@ -17,7 +17,7 @@ const useFirestore = () => {
   const getDocumentOnce = (documentPath) => {
     const { data } = useSWR(documentPath, (path) => firebase.firestore().doc(path).get());
     if (!data.exists) {
-      return {};
+      return null;
     }
     return data.data();
   };
@@ -25,7 +25,7 @@ const useFirestore = () => {
   const saveDocument = (documentPath, document) => {
     firebase.firestore()
       .doc(documentPath)
-      .set(document);
+      .set(document, { merge: true });
   };
 
   const getCollectionOnce = (collectionPath) => {

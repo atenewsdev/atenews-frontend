@@ -11,8 +11,6 @@ import BirthdayIcon from '@material-ui/icons/Cake';
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
 
-import { useRouter } from 'next/router';
-
 import {
   Typography, Avatar, Grid, Divider,
 } from '@material-ui/core';
@@ -56,10 +54,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
-  const router = useRouter();
-  const { authUser } = useAuth();
+  const { profile } = useAuth();
 
-  if (authUser) {
+  if (profile) {
     return (
       <div className={classes.container}>
         <Head>
@@ -68,13 +65,13 @@ export default function Home() {
         <Grid container spacing={6} justify="center">
           <Grid item>
             <div className={classes.leftSide}>
-              <Avatar className={classes.avatar} src={authUser.photoURL.replace('_normal', '')} />
+              <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
             </div>
           </Grid>
           <Grid item xs>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
               <Grid item>
-                <Typography variant="h4">{authUser.displayName}</Typography>
+                <Typography variant="h4">{profile.displayName}</Typography>
               </Grid>
               <Grid item xs>
                 <Flair />
@@ -132,7 +129,7 @@ export default function Home() {
                         <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{authUser.providerData[0].email}</Typography>
+                        <Typography variant="body1">{profile.email}</Typography>
                       </Grid>
                     </Grid>
                   </div>
@@ -159,8 +156,6 @@ export default function Home() {
       </div>
     );
   }
-
-  router.push('/');
 
   return null;
 }
