@@ -12,6 +12,8 @@ import ArticlePage from '@/components/ArticlePage';
 
 import { Grid, CircularProgress } from '@material-ui/core';
 
+import useFirestore from '@/utils/hooks/useAdminFirestore';
+
 const useStyles = makeStyles(() => ({
   contentContainer: {
     width: '90%',
@@ -92,6 +94,17 @@ export const getStaticProps = async (ctx) => {
   let relatedPosts = [];
   try {
     res = await WP.posts().slug(ctx.params.slug);
+    const { saveDocument } = useFirestore();
+
+    const posts = [
+      ...res,
+    ];
+
+    posts.forEach((post) => {
+      saveDocument(`articles/${post.slug}`, {
+        title: post.title.rendered,
+      });
+    });
   } catch (err) {
     res = [];
   }

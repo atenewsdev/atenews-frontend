@@ -73,9 +73,11 @@ export default function Home() {
               <Grid item>
                 <Typography variant="h4">{profile.displayName}</Typography>
               </Grid>
-              <Grid item xs>
-                <Flair />
-              </Grid>
+              { profile.staff ? (
+                <Grid item xs>
+                  <Flair />
+                </Grid>
+              ) : null }
             </Grid>
             <Grid container>
               <Grid item>
@@ -134,18 +136,21 @@ export default function Home() {
                     </Grid>
                   </div>
                 </Grid>
-                <Grid item>
-                  <div className={classes.iconStats}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <BirthdayIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="body1">June 15, 2018</Typography>
-                      </Grid>
+                {profile.birthday
+                  ? (
+                    <Grid item>
+                      <div className={classes.iconStats}>
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <BirthdayIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                          </Grid>
+                          <Grid item>
+                            <Typography variant="body1">{profile.birthday}</Typography>
+                          </Grid>
+                        </Grid>
+                      </div>
                     </Grid>
-                  </div>
-                </Grid>
+                  ) : null }
               </Grid>
             </div>
           </Grid>

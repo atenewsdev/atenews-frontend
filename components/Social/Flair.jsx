@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     borderRadius: 30,
     overflow: 'hidden',
-    backgroundColor: theme.palette.atenews.features,
+    backgroundColor: theme.palette.atenews.highlight,
   },
 }));
 
@@ -32,7 +32,7 @@ const Flair = ({ small }) => {
             </Grid>
           </Grid>
           <Grid item xs>
-            <b>Top Fan</b>
+            <b>Staff</b>
           </Grid>
         </Grid>
       </Typography>

@@ -14,6 +14,8 @@ import WPGBlocks from 'react-gutenberg';
 
 import WP from '@/utils/wordpress';
 
+import useFirestore from '@/utils/hooks/useAdminFirestore';
+
 import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
@@ -205,6 +207,24 @@ export async function getStaticProps() {
       WP.posts().categories(428).perPage(1),
       WP.posts().categories(21).perPage(4),
     ]);
+
+    const { saveDocument } = useFirestore();
+
+    const posts = [
+      ...recentArticles,
+      ...news,
+      ...features,
+      ...featuredPhoto,
+      ...editorial,
+      ...columns,
+    ];
+
+    posts.forEach((post) => {
+      saveDocument(`articles/${post.slug}`, {
+        title: post.title.rendered,
+      });
+    });
+
     return {
       props: {
         recentArticles,
