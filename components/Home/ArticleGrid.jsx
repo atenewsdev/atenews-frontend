@@ -19,6 +19,8 @@ import {
   Typography, Grid, Card, CardMedia, CardContent, CardActionArea, Hidden,
 } from '@material-ui/core';
 
+import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
     position: 'absolute',
@@ -67,6 +69,16 @@ const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+
+  const { getDocument } = useFirebaseDatabase();
+
+  const [socialStats, setSocialStats] = React.useState(null);
+
+  React.useEffect(() => {
+    getDocument(`articles/${articles[0].slug}`, (doc) => {
+      setSocialStats(doc);
+    });
+  }, []);
 
   return (
     <div>
@@ -145,7 +157,7 @@ const Trending = ({ articles }) => {
                 alignItems="center"
               >
                 <Grid item xs>
-                  <ReactInfo />
+                  <ReactInfo socialStats={socialStats} />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1}>
@@ -153,7 +165,7 @@ const Trending = ({ articles }) => {
                       <CommentIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
+                      <Typography variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -163,7 +175,7 @@ const Trending = ({ articles }) => {
                       <ShareIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
+                      <Typography variant="subtitle2">0</Typography>
                     </Grid>
                   </Grid>
                 </Grid>

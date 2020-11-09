@@ -5,11 +5,10 @@ import { useRouter } from 'next/router';
 import Tag from '@/components/Tag';
 import Link from '@/components/Link';
 
+import RecentArticle from '@/components/Home/RecentArticle';
+
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
-import ShareIcon from '@material-ui/icons/ShareOutlined';
-import ReactInfo from '@/components/Social/ReactInfo';
 
 import { animated, useSpring } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
@@ -269,101 +268,7 @@ function RecentArticles({ articles }) {
             onMouseOver={() => onHover({ index, ...article })}
             ref={elRefs[index]}
           >
-            <Paper
-              variant="outlined"
-              className={classes.trendingItem}
-            >
-              <Grid
-                container
-                direction="column"
-                spacing={1}
-                justify="space-between"
-              >
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <Tag type={article.categories_detailed[0]} />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <Typography
-                    variant="body1"
-                    component="div"
-                    className={classes.twoLineText}
-                    dangerouslySetInnerHTML={{ __html: article.title.rendered }}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <Grid
-                    container
-                    spacing={2}
-                    className={classes.trendingStats}
-                  >
-                    <Grid
-                      item
-                      xs
-                    >
-                      <ReactInfo
-                        IconProps={{ className: classes.trendingStatsText }}
-                        TextProps={{ className: classes.trendingStatsText }}
-                        GridProps={{ alignItems: 'center' }}
-                        disableHover
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      xs
-                    >
-                      <Grid
-                        container
-                        spacing={1}
-                        alignItems="center"
-                      >
-                        <Grid item>
-                          <CommentIcon className={classes.trendingStatsText} />
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            className={classes.trendingStatsText}
-                            variant="subtitle2"
-                          >
-                            254
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      item
-                      xs
-                    >
-                      <Grid
-                        container
-                        spacing={1}
-                        alignItems="center"
-                      >
-                        <Grid item>
-                          <ShareIcon className={classes.trendingStatsText} />
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            className={classes.trendingStatsText}
-                            variant="subtitle2"
-                          >
-                            254
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
+            <RecentArticle article={article} />
           </CardActionArea>
         )) }
       </Grid>

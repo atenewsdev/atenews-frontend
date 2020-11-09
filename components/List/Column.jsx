@@ -15,6 +15,8 @@ import {
   Typography, Paper, Grid, CardActionArea, Avatar,
 } from '@material-ui/core';
 
+import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
     height: '100%',
@@ -53,6 +55,16 @@ const Column = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+
+  const { getDocument } = useFirebaseDatabase();
+
+  const [socialStats, setSocialStats] = React.useState(null);
+
+  React.useEffect(() => {
+    getDocument(`articles/${article.slug}`, (doc) => {
+      setSocialStats(doc);
+    });
+  }, []);
 
   return (
     <CardActionArea
@@ -104,7 +116,12 @@ const Column = ({ article }) => {
 
             <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
               <Grid item xs>
-                <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} />
+                <ReactInfo
+                  IconProps={{ className: classes.trendingStatsText }}
+                  TextProps={{ className: classes.trendingStatsText }}
+                  GridProps={{ alignItems: 'center' }}
+                  socialStats={socialStats}
+                />
               </Grid>
               <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
@@ -112,7 +129,7 @@ const Column = ({ article }) => {
                     <CommentIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -122,7 +139,7 @@ const Column = ({ article }) => {
                     <ShareIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">0</Typography>
                   </Grid>
                 </Grid>
               </Grid>

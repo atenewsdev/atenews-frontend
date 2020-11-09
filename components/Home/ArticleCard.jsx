@@ -19,6 +19,8 @@ import {
   Typography, Grid, Card, CardContent, CardActionArea,
 } from '@material-ui/core';
 
+import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+
 const useStyles = makeStyles(() => ({
   bannerDetailsContainer: {
     position: 'relative',
@@ -43,6 +45,16 @@ const Trending = ({ article }) => {
 
   const [containerProps, setContainerProps] = useSpring(() => ({ backgroundColor: 'rgba(0, 0, 0, 0.5)' }));
   const [textProps, setTextProps] = useSpring(() => ({ opacity: 1 }));
+
+  const { getDocument } = useFirebaseDatabase();
+
+  const [socialStats, setSocialStats] = React.useState(null);
+
+  React.useEffect(() => {
+    getDocument(`articles/${article.slug}`, (doc) => {
+      setSocialStats(doc);
+    });
+  }, []);
 
   const onHover = () => {
     setContainerProps({ backgroundColor: 'rgba(0, 0, 0, 0)' });
@@ -123,7 +135,11 @@ const Trending = ({ article }) => {
                 <Grid item xs={12} style={{ marginTop: theme.spacing(2) }}>
                   <Grid container style={{ color: theme.palette.primary.main, width: '100%' }} spacing={2} justify="space-between" alignItems="center">
                     <Grid item xs>
-                      <ReactInfo TextProps={{ style: { color: 'white' } }} IconProps={{ style: { color: 'white' } }} />
+                      <ReactInfo
+                        TextProps={{ style: { color: 'white' } }}
+                        IconProps={{ style: { color: 'white' } }}
+                        socialStats={socialStats}
+                      />
                     </Grid>
                     <Grid item xs>
                       <Grid container spacing={1} wrap="nowrap">
@@ -131,7 +147,7 @@ const Trending = ({ article }) => {
                           <CommentIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -141,7 +157,7 @@ const Trending = ({ article }) => {
                           <ShareIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">0</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

@@ -99,8 +99,8 @@ export default function Header() {
             <Typography variant="body1">End the silence of the gagged!</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" component="p" style={{ marginBottom: theme.spacing(1) }}><b>About Atenews</b></Typography>
-            <Typography variant="body1" component="p">Atenews is the official student publication of Ateneo de Davao University that aims to advance students&apos; level of consciousness on significant university and socially relevant issues and on matters of general concern by publishing online articles, tabloids, magazines, and other forms of releases.</Typography>
+            <Typography variant="body1" style={{ marginBottom: theme.spacing(1) }}><b>About Atenews</b></Typography>
+            <Typography variant="body1">Atenews is the official student publication of Ateneo de Davao University that aims to advance students&apos; level of consciousness on significant university and socially relevant issues and on matters of general concern by publishing online articles, tabloids, magazines, and other forms of releases.</Typography>
           </Grid>
           <Grid item>
             <Typography variant="body1">
