@@ -12,8 +12,6 @@ import ArticlePage from '@/components/ArticlePage';
 
 import { Grid, CircularProgress } from '@material-ui/core';
 
-import useFirestore from '@/utils/hooks/useAdminFirestore';
-
 const useStyles = makeStyles(() => ({
   contentContainer: {
     width: '90%',
@@ -21,7 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ post, relatedPosts, socialStats }) {
+export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
 
   const router = useRouter();
@@ -65,7 +63,7 @@ export default function Page({ post, relatedPosts, socialStats }) {
         <meta property="og:url" content={`https://beta.atenews.ph/opinion/${post.slug}`} />
         <meta property="og:description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
       </Head>
-      <ArticlePage post={post} relatedPosts={relatedPosts} socialStats={socialStats} />
+      <ArticlePage post={post} relatedPosts={relatedPosts} />
     </div>
   );
 }
@@ -97,20 +95,9 @@ export const getStaticProps = async (ctx) => {
   } catch (err) {
     res = [];
   }
-  const { getDocumentOnce } = useFirestore();
-
-  const socialStats = {};
-
   if (res.length > 0) {
     relatedPosts = await WP.relatedPosts().id(res[0].id);
-    await Promise.all(relatedPosts.map(async (post) => {
-      socialStats[post.slug] = await getDocumentOnce(`articles/${post.slug}`);
-      if (socialStats[post.slug]) {
-        delete socialStats[post.slug].timestamp;
-      }
-    }));
-
-    return { props: { post: res[0], relatedPosts, socialStats }, revalidate: 10 };
+    return { props: { post: res[0], relatedPosts }, revalidate: 10 };
   }
-  return { props: { post: {}, relatedPosts, socialStats: {} }, revalidate: 10 };
+  return { props: { post: {}, relatedPosts }, revalidate: 10 };
 };

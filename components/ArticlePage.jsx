@@ -102,9 +102,7 @@ const WriterBlock = handleViewport((props) => {
 });
 
 const ReadMoreBlock = handleViewport((props) => {
-  const {
-    forwardedRef, theme, relatedPosts, socialStats,
-  } = props;
+  const { forwardedRef, theme, relatedPosts } = props;
 
   return (
     <div ref={forwardedRef}>
@@ -127,7 +125,6 @@ const ReadMoreBlock = handleViewport((props) => {
                 categories_detailed: post.categories,
                 slug: post.post_name,
               }}
-              socialStats={socialStats[post.post_name]}
             />
           ))
         }
@@ -136,7 +133,7 @@ const ReadMoreBlock = handleViewport((props) => {
   );
 });
 
-export default function Page({ post, relatedPosts, socialStats }) {
+export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -243,7 +240,6 @@ export default function Page({ post, relatedPosts, socialStats }) {
         relatedPosts={relatedPosts}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
-        socialStats={socialStats}
       />
 
     </div>

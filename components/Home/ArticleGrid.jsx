@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Trending = ({ articles, socialStats }) => {
+const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -145,14 +145,7 @@ const Trending = ({ articles, socialStats }) => {
                 alignItems="center"
               >
                 <Grid item xs>
-                  <ReactInfo
-                    totalCount={socialStats[articles[0].slug].totalReactCount}
-                    happyCount={socialStats[articles[0].slug].reactCount.happy}
-                    disgustedCount={socialStats[articles[0].slug].reactCount.disgusted}
-                    worriedCount={socialStats[articles[0].slug].reactCount.worried}
-                    sadCount={socialStats[articles[0].slug].reactCount.sad}
-                    angryCount={socialStats[articles[0].slug].reactCount.angry}
-                  />
+                  <ReactInfo />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1}>
@@ -160,7 +153,7 @@ const Trending = ({ articles, socialStats }) => {
                       <CommentIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">{socialStats[articles[0].slug].commentCount}</Typography>
+                      <Typography variant="subtitle2">254</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -170,7 +163,7 @@ const Trending = ({ articles, socialStats }) => {
                       <ShareIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">0</Typography>
+                      <Typography variant="subtitle2">254</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -184,7 +177,7 @@ const Trending = ({ articles, socialStats }) => {
         { articles.map((article, i) => {
           if (i !== 0) {
             return (
-              <ArticleCard key={i} article={article} socialStats={socialStats[article.slug]} />
+              <ArticleCard key={i} article={article} />
             );
           }
           return null;

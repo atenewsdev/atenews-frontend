@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Trending = ({ article, topImage, socialStats }) => {
+const Trending = ({ article, topImage }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -133,14 +133,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                       justify="space-between"
                     >
                       <Grid item xs>
-                        <ReactInfo
-                          totalCount={socialStats ? socialStats.totalReactCount : 0}
-                          happyCount={socialStats ? socialStats.reactCount.happy : 0}
-                          disgustedCount={socialStats ? socialStats.reactCount.disgusted : 0}
-                          worriedCount={socialStats ? socialStats.reactCount.worried : 0}
-                          sadCount={socialStats ? socialStats.reactCount.sad : 0}
-                          angryCount={socialStats ? socialStats.reactCount.angry : 0}
-                        />
+                        <ReactInfo />
                       </Grid>
                       <Grid item xs>
                         <Grid container spacing={1}>
@@ -148,7 +141,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                             <CommentIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
+                            <Typography variant="subtitle2">254</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -158,7 +151,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                             <ShareIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">0</Typography>
+                            <Typography variant="subtitle2">254</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -241,14 +234,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                       justify="space-between"
                     >
                       <Grid item xs>
-                        <ReactInfo
-                          totalCount={socialStats ? socialStats.totalReactCount : 0}
-                          happyCount={socialStats ? socialStats.reactCount.happy : 0}
-                          disgustedCount={socialStats ? socialStats.reactCount.disgusted : 0}
-                          worriedCount={socialStats ? socialStats.reactCount.worried : 0}
-                          sadCount={socialStats ? socialStats.reactCount.sad : 0}
-                          angryCount={socialStats ? socialStats.reactCount.angry : 0}
-                        />
+                        <ReactInfo />
                       </Grid>
                       <Grid item xs>
                         <Grid container spacing={1}>
@@ -256,7 +242,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                             <CommentIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
+                            <Typography variant="subtitle2">254</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -266,7 +252,7 @@ const Trending = ({ article, topImage, socialStats }) => {
                             <ShareIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">0</Typography>
+                            <Typography variant="subtitle2">254</Typography>
                           </Grid>
                         </Grid>
                       </Grid>

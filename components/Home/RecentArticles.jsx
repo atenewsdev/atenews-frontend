@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentArticles({ articles, socialStats }) {
+function RecentArticles({ articles }) {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -314,12 +314,6 @@ function RecentArticles({ articles, socialStats }) {
                         TextProps={{ className: classes.trendingStatsText }}
                         GridProps={{ alignItems: 'center' }}
                         disableHover
-                        totalCount={socialStats[article.slug].totalReactCount}
-                        happyCount={socialStats[article.slug].reactCount.happy}
-                        disgustedCount={socialStats[article.slug].reactCount.disgusted}
-                        worriedCount={socialStats[article.slug].reactCount.worried}
-                        sadCount={socialStats[article.slug].reactCount.sad}
-                        angryCount={socialStats[article.slug].reactCount.angry}
                       />
                     </Grid>
                     <Grid
@@ -339,7 +333,7 @@ function RecentArticles({ articles, socialStats }) {
                             className={classes.trendingStatsText}
                             variant="subtitle2"
                           >
-                            {socialStats[article.slug].commentCount}
+                            254
                           </Typography>
                         </Grid>
                       </Grid>
@@ -361,7 +355,7 @@ function RecentArticles({ articles, socialStats }) {
                             className={classes.trendingStatsText}
                             variant="subtitle2"
                           >
-                            0
+                            254
                           </Typography>
                         </Grid>
                       </Grid>

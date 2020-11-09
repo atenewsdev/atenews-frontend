@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Trending = ({ article, socialStats }) => {
+const Trending = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -123,16 +123,7 @@ const Trending = ({ article, socialStats }) => {
                 <Grid item xs={12} style={{ marginTop: theme.spacing(2) }}>
                   <Grid container style={{ color: theme.palette.primary.main, width: '100%' }} spacing={2} justify="space-between" alignItems="center">
                     <Grid item xs>
-                      <ReactInfo
-                        TextProps={{ style: { color: 'white' } }}
-                        IconProps={{ style: { color: 'white' } }}
-                        totalCount={socialStats.totalReactCount}
-                        happyCount={socialStats.reactCount.happy}
-                        disgustedCount={socialStats.reactCount.disgusted}
-                        worriedCount={socialStats.reactCount.worried}
-                        sadCount={socialStats.reactCount.sad}
-                        angryCount={socialStats.reactCount.angry}
-                      />
+                      <ReactInfo TextProps={{ style: { color: 'white' } }} IconProps={{ style: { color: 'white' } }} />
                     </Grid>
                     <Grid item xs>
                       <Grid container spacing={1} wrap="nowrap">
@@ -140,7 +131,7 @@ const Trending = ({ article, socialStats }) => {
                           <CommentIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats.commentCount}</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -150,7 +141,7 @@ const Trending = ({ article, socialStats }) => {
                           <ShareIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">0</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">254</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

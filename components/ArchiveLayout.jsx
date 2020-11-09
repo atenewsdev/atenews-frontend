@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Page({ articles, name, socialStats }) {
+export default function Page({ articles, name }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -60,7 +60,7 @@ export default function Page({ articles, name, socialStats }) {
       </Grid>
       <Trending articles={trending} />
       { articles.map((article) => (
-        <Article key={article.id} article={article} socialStats={socialStats[article.slug]} />
+        <Article key={article.id} article={article} />
       )) }
 
     </div>
