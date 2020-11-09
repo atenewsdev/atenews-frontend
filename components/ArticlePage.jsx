@@ -127,7 +127,7 @@ const ReadMoreBlock = handleViewport((props) => {
                 categories_detailed: post.categories,
                 slug: post.post_name,
               }}
-              socialStats={socialStats[post.slug]}
+              socialStats={socialStats[post.post_name]}
             />
           ))
         }
