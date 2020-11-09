@@ -14,7 +14,7 @@ const useFirestore = () => {
   };
 
   const getDocumentOnce = async (documentPath) => {
-    const { data } = await firebase.firestore().doc(documentPath).get();
+    const data = await firebase.firestore().doc(documentPath).get();
     if (!data.exists) {
       return null;
     }
@@ -28,7 +28,7 @@ const useFirestore = () => {
   };
 
   const getCollectionOnce = async (collectionPath) => {
-    const { data } = await firebase.firestore().collection(collectionPath).get();
+    const data = await firebase.firestore().collection(collectionPath).get();
     let collection = [];
     if (data) {
       collection = data.docs.map((u) => {

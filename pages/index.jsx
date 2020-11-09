@@ -14,6 +14,8 @@ import WPGBlocks from 'react-gutenberg';
 
 import WP from '@/utils/wordpress';
 
+import useFirestore from '@/utils/hooks/useAdminFirestore';
+
 import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home({
-  recentArticles, news, features, featuredPhoto, editorial, columns,
+  recentArticles, news, features, featuredPhoto, editorial, columns, socialStats,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -67,16 +69,16 @@ export default function Home({
         </Typography>
       </div>
       <Trending articles={trending} />
-      <RecentArticles articles={recentArticles} />
+      <RecentArticles articles={recentArticles} socialStats={socialStats} />
 
       <div className={classes.section}>
         <Title color={theme.palette.atenews.news}>News</Title>
-        <ArticleGrid articles={news} />
+        <ArticleGrid articles={news} socialStats={socialStats} />
       </div>
 
       <div className={classes.section}>
         <Title color={theme.palette.atenews.features}>Features</Title>
-        <ArticleGrid articles={features} />
+        <ArticleGrid articles={features} socialStats={socialStats} />
       </div>
 
       <div className={classes.section}>
@@ -141,7 +143,7 @@ export default function Home({
             >
               Editorial
             </Typography>
-            <Article article={editorial} topImage />
+            <Article article={editorial} topImage socialStats={socialStats[editorial.slug]} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography
@@ -154,7 +156,7 @@ export default function Home({
             </Typography>
             {
                 columns.map((column) => (
-                  <Column article={column} key={column.id} />
+                  <Column article={column} key={column.id} socialStats={socialStats[column.slug]} />
                 ))
               }
           </Grid>
@@ -205,6 +207,24 @@ export async function getStaticProps() {
       WP.posts().categories(428).perPage(1),
       WP.posts().categories(21).perPage(4),
     ]);
+    const { getDocumentOnce } = useFirestore();
+
+    const posts = [
+      ...recentArticles,
+      ...news,
+      ...features,
+      ...featuredPhoto,
+      ...editorial,
+      ...columns,
+    ];
+
+    const socialStats = {};
+
+    await Promise.all(posts.map(async (post) => {
+      socialStats[post.slug] = await getDocumentOnce(`articles/${post.slug}`);
+      delete socialStats[post.slug].timestamp;
+    }));
+
     return {
       props: {
         recentArticles,
@@ -213,13 +233,20 @@ export async function getStaticProps() {
         featuredPhoto: featuredPhoto[0],
         editorial: editorial[0],
         columns,
+        socialStats,
       },
       revalidate: 10,
     };
   } catch (err) {
     return {
       props: {
-        recentArticles: [], news: [], features: [], featuredPhoto: {}, editorial: {}, columns: [],
+        recentArticles: [],
+        news: [],
+        features: [],
+        featuredPhoto: {},
+        editorial: {},
+        columns: [],
+        socialStats: {},
       },
       revalidate: 10,
     };

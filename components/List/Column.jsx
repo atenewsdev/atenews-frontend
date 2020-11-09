@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Column = ({ article }) => {
+const Column = ({ article, socialStats }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -104,7 +104,17 @@ const Column = ({ article }) => {
 
             <Grid container spacing={2} component="div" className={classes.trendingStats} justify="flex-start">
               <Grid item xs>
-                <ReactInfo IconProps={{ className: classes.trendingStatsText }} TextProps={{ className: classes.trendingStatsText }} GridProps={{ alignItems: 'center' }} />
+                <ReactInfo
+                  IconProps={{ className: classes.trendingStatsText }}
+                  TextProps={{ className: classes.trendingStatsText }}
+                  GridProps={{ alignItems: 'center' }}
+                  totalCount={socialStats.totalReactCount}
+                  happyCount={socialStats.reactCount.happy}
+                  disgustedCount={socialStats.reactCount.disgusted}
+                  worriedCount={socialStats.reactCount.worried}
+                  sadCount={socialStats.reactCount.sad}
+                  angryCount={socialStats.reactCount.angry}
+                />
               </Grid>
               <Grid item xs>
                 <Grid container spacing={1} alignItems="center">
@@ -112,7 +122,7 @@ const Column = ({ article }) => {
                     <CommentIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats.commentCount}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -122,7 +132,7 @@ const Column = ({ article }) => {
                     <ShareIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">254</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">0</Typography>
                   </Grid>
                 </Grid>
               </Grid>

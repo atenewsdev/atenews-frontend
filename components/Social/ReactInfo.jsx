@@ -23,11 +23,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ReactInfo = ({
-  IconProps, TextProps, GridProps, disableHover,
+  IconProps,
+  TextProps,
+  GridProps,
+  disableHover,
+  totalCount,
+  happyCount,
+  disgustedCount,
+  worriedCount,
+  sadCount,
+  angryCount,
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handlePopoverOpen = (event) => {
     if (!disableHover) {
       setAnchorEl(event.currentTarget);
@@ -53,7 +61,7 @@ const ReactInfo = ({
             <InsertEmoticonIcon {...IconProps} />
           </Grid>
           <Grid item>
-            <Typography variant="subtitle2" {...TextProps}>192</Typography>
+            <Typography variant="subtitle2" {...TextProps}>{totalCount}</Typography>
           </Grid>
         </Grid>
       </div>
@@ -81,7 +89,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/happy.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{happyCount}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -89,7 +97,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/sad.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{sadCount}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -97,7 +105,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/angry.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{angryCount}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -105,7 +113,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{disgustedCount}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -113,7 +121,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/worried.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">2</Typography>
+                  <Typography variant="subtitle1">{worriedCount}</Typography>
                 </Grid>
               </Grid>
             </CardContent>

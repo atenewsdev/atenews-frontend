@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Trending = ({ articles }) => {
+const Trending = ({ articles, socialStats }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -145,7 +145,14 @@ const Trending = ({ articles }) => {
                 alignItems="center"
               >
                 <Grid item xs>
-                  <ReactInfo />
+                  <ReactInfo
+                    totalCount={socialStats[articles[0].slug].totalReactCount}
+                    happyCount={socialStats[articles[0].slug].reactCount.happy}
+                    disgustedCount={socialStats[articles[0].slug].reactCount.disgusted}
+                    worriedCount={socialStats[articles[0].slug].reactCount.worried}
+                    sadCount={socialStats[articles[0].slug].reactCount.sad}
+                    angryCount={socialStats[articles[0].slug].reactCount.angry}
+                  />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1}>
@@ -153,7 +160,7 @@ const Trending = ({ articles }) => {
                       <CommentIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
+                      <Typography variant="subtitle2">{socialStats[articles[0].slug].commentCount}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -163,7 +170,7 @@ const Trending = ({ articles }) => {
                       <ShareIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">254</Typography>
+                      <Typography variant="subtitle2">0</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -177,7 +184,7 @@ const Trending = ({ articles }) => {
         { articles.map((article, i) => {
           if (i !== 0) {
             return (
-              <ArticleCard key={i} article={article} />
+              <ArticleCard key={i} article={article} socialStats={socialStats[article.slug]} />
             );
           }
           return null;
