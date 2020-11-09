@@ -31,28 +31,28 @@ const Tag = ({ type }) => {
       case 19:
       case 7:
         setColor(theme.palette.atenews.news);
-        setText(type.cat_name);
+        setText(type.name ? type.name : type.cat_name);
         break;
       case 4:
       case 437:
         setColor(theme.palette.atenews.features);
-        setText(type.cat_name);
+        setText(type.name ? type.name : type.cat_name);
         break;
       case 13:
       case 21:
       case 428:
       case 590:
         setColor(theme.palette.atenews.highlight);
-        setText(type.cat_name);
+        setText(type.name ? type.name : type.cat_name);
         break;
       case 31:
         setColor(theme.palette.atenews.montage);
-        setText(type.cat_name);
+        setText(type.name ? type.name : type.cat_name);
         break;
       case 430:
       case 431:
         setColor(theme.palette.atenews.diversions);
-        setText(type.cat_name);
+        setText(type.name ? type.name : type.cat_name);
         break;
       default:
     }

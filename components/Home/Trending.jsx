@@ -1,12 +1,10 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
-
-import Tag from '@/components/Tag';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-import slugGenerator from '@/utils/slugGenerator';
+
+import Tag from '@/components/Tag';
 
 import {
   Typography, Paper, Grid, CardActionArea, Hidden, CircularProgress,
@@ -75,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
 const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const router = useRouter();
 
   const [topPosition, setTopPosition] = React.useState(0);
 
@@ -125,22 +122,21 @@ const Trending = ({ articles }) => {
                   </Grid>
                 </Grid>
               )
-              : null
+              : articles.map((article) => (
+                <CardActionArea key={article.slug}>
+                  <Paper variant="outlined" square className={classes.trendingItem}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12}>
+                        <Tag type={article.categories[0]} />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title }} />
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </CardActionArea>
+              ))
           }
-          { articles.map((article) => (
-            <CardActionArea key={article.id} onClick={() => router.push(slugGenerator(article))}>
-              <Paper variant="outlined" square className={classes.trendingItem}>
-                <Grid container spacing={1}>
-                  <Grid item xs={12}>
-                    <Tag type={article.categories_detailed[0]} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
-                  </Grid>
-                </Grid>
-              </Paper>
-            </CardActionArea>
-          ))}
         </Grid>
       </div>
     </Hidden>

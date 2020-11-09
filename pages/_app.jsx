@@ -13,9 +13,8 @@ import NProgress from 'nprogress';
 import '@/styles/nprogress.css';
 import '@/styles/main.css';
 import 'react-gutenberg/default.css';
-import WP from '@/utils/wordpress';
 
-import { TrendingProvider } from '@/utils/hooks/useTrending';
+import { TrendingProvider, useTrending } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 import { ErrorProvider } from '@/utils/hooks/useSnackbar';
 
@@ -44,7 +43,7 @@ Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
-  const [trending, setTrending] = React.useState([]);
+  const trending = useTrending();
   const [loadingAuth, setLoadingAuth] = React.useState(true);
 
   const [darkMode, setDarkMode] = React.useState(true);
@@ -62,10 +61,6 @@ export default function MyApp(props) {
       } else {
         setLoadingAuth(true);
       }
-    });
-
-    WP.posts().perPage(5).then((articles) => {
-      setTrending(articles);
     });
   }, []);
 

@@ -14,6 +14,8 @@ import WPGBlocks from 'react-gutenberg';
 
 import WP from '@/utils/wordpress';
 
+import { useTrending } from '@/utils/hooks/useTrending';
+
 import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
@@ -47,13 +49,7 @@ export default function Home({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [trending, setTrending] = React.useState([]);
-
-  React.useEffect(() => {
-    WP.posts().perPage(5).then((trendingArticles) => {
-      setTrending(trendingArticles);
-    });
-  }, []);
+  const trending = useTrending();
 
   return (
     <div className={classes.container}>

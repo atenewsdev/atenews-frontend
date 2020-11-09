@@ -9,9 +9,9 @@ import Trending from '@/components/Home/Trending';
 import FollowIcon from '@material-ui/icons/Add';
 import Button from '@/components/Button';
 
-import WP from '@/utils/wordpress';
-
 import { Typography, Grid } from '@material-ui/core';
+
+import { useTrending } from '@/utils/hooks/useTrending';
 
 const useStyles = makeStyles({
   account: {
@@ -30,13 +30,7 @@ export default function Page({ articles, name }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [trending, setTrending] = React.useState([]);
-
-  React.useEffect(() => {
-    WP.posts().perPage(5).then((trendingArticles) => {
-      setTrending(trendingArticles);
-    });
-  }, []);
+  const trending = useTrending();
 
   return (
     <div className={classes.container}>

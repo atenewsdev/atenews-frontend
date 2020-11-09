@@ -32,6 +32,7 @@ const useFirestore = () => {
     getDocument,
     getDocumentOnce,
     saveDocument,
+    firebase,
   };
 };
 
