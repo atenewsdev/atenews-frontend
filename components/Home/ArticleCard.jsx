@@ -157,7 +157,7 @@ const Trending = ({ article }) => {
                           <ShareIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">0</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

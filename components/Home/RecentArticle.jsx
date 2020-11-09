@@ -184,7 +184,7 @@ function RecentArticle({ article }) {
                     className={classes.trendingStatsText}
                     variant="subtitle2"
                   >
-                    0
+                    {socialStats ? socialStats.shareCount || 0 : 0}
                   </Typography>
                 </Grid>
               </Grid>

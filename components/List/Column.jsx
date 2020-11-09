@@ -139,7 +139,7 @@ const Column = ({ article }) => {
                     <ShareIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">0</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

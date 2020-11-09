@@ -163,7 +163,7 @@ const Trending = ({ article, topImage }) => {
                             <ShareIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">0</Typography>
+                            <Typography variant="subtitle2">{socialStats ? socialStats.shareCount : 0}</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -264,7 +264,7 @@ const Trending = ({ article, topImage }) => {
                             <ShareIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="subtitle2">0</Typography>
+                            <Typography variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
