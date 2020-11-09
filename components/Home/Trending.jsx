@@ -1,8 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import useWindowDimensions from '@/utils/useWindowDimensions';
+import slugGenerator from '@/utils/slugGenerator';
 
 import Tag from '@/components/Tag';
 
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 const Trending = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   const [topPosition, setTopPosition] = React.useState(0);
 
@@ -123,7 +126,13 @@ const Trending = ({ articles }) => {
                 </Grid>
               )
               : articles.map((article) => (
-                <CardActionArea key={article.slug}>
+                <CardActionArea
+                  key={article.slug}
+                  onClick={() => router.push(slugGenerator({
+                    categories_detailed: article.categories,
+                    slug: article.slug,
+                  }))}
+                >
                   <Paper variant="outlined" square className={classes.trendingItem}>
                     <Grid container spacing={1}>
                       <Grid item xs={12}>
