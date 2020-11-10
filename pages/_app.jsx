@@ -18,6 +18,7 @@ import { TrendingProvider, useTrending } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 import { ErrorProvider } from '@/utils/hooks/useSnackbar';
 import { CacheProvider } from '@/utils/hooks/useCache';
+import useFirestore from '@/utils/hooks/useFirestore';
 
 import { CssBaseline, Grid } from '@material-ui/core';
 
@@ -45,9 +46,10 @@ export default function MyApp(props) {
   const { Component, pageProps } = props;
 
   const trending = useTrending();
+  const { saveDocument } = useFirestore();
   const [loadingAuth, setLoadingAuth] = React.useState(true);
 
-  const [darkMode, setDarkMode] = React.useState(true);
+  const [darkMode, setDarkMode] = React.useState(false);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -64,6 +66,12 @@ export default function MyApp(props) {
       }
     });
   }, []);
+
+  React.useEffect(() => {
+    if (firebase.auth().currentUser) {
+      saveDocument(`users/${firebase.auth().currentUser.uid}`, { darkMode });
+    }
+  }, [darkMode]);
 
   return (
     <>

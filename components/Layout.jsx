@@ -10,6 +10,7 @@ import Tag from '@/components/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
 import { useError } from '@/utils/hooks/useSnackbar';
+import { useAuth } from '@/utils/hooks/useAuth';
 
 import {
   Hidden,
@@ -110,6 +111,15 @@ const Layout = ({ children, trending, setDarkMode }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
+  const { profile } = useAuth();
+
+  React.useEffect(() => {
+    if (profile) {
+      if (profile.darkMode !== null) {
+        setDarkMode(profile.darkMode);
+      }
+    }
+  }, [profile]);
 
   const [isLargeWidth, setIsLargeWidth] = React.useState(false);
   const [value, setValue] = React.useState(0);
