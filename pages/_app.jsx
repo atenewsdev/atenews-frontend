@@ -64,6 +64,10 @@ export default function MyApp(props) {
       } else {
         setLoadingAuth(true);
       }
+
+      if (!firebase.auth().currentUser) {
+        setDarkMode(false);
+      }
     });
   }, []);
 
