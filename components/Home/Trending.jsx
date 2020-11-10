@@ -136,7 +136,7 @@ const Trending = ({ articles }) => {
                   <Paper variant="outlined" square className={classes.trendingItem}>
                     <Grid container spacing={1}>
                       <Grid item xs={12}>
-                        <Tag type={article.categories[0]} />
+                        { article.categories ? <Tag type={article.categories[0]} /> : null }
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title }} />
