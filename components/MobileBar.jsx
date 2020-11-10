@@ -98,6 +98,7 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
 
   const handleClickLink = (url) => {
     setSideMenu(false);
+    setProfileMenu(false);
     setOpenSubMenu(null);
     closeButtomNav();
     router.push(url);
