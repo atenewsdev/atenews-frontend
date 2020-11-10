@@ -14,7 +14,7 @@ import '@/styles/nprogress.css';
 import '@/styles/main.css';
 import 'react-gutenberg/default.css';
 
-import { TrendingProvider, useTrending } from '@/utils/hooks/useTrending';
+import { TrendingProvider } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 import { ErrorProvider } from '@/utils/hooks/useSnackbar';
 import { CacheProvider } from '@/utils/hooks/useCache';
@@ -45,7 +45,6 @@ Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
-  const trending = useTrending();
   const { saveDocument } = useFirestore();
   const [loadingAuth, setLoadingAuth] = React.useState(true);
 
@@ -97,7 +96,7 @@ export default function MyApp(props) {
                 <TrendingProvider>
                   {!loadingAuth
                     ? (
-                      <Layout trending={trending} setDarkMode={setDarkMode}>
+                      <Layout setDarkMode={setDarkMode}>
                         <Component {...pageProps} />
                       </Layout>
                     )

@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import MenuIcon from '@material-ui/icons/Menu';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import UserIcon from '@material-ui/icons/Person';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 
@@ -20,6 +19,8 @@ import {
   ListItem,
   ListItemText,
   Collapse,
+  Divider,
+  Hidden,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,15 +60,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar({ closeButtomNav }) {
+export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
-  const { authUser } = useAuth();
+  const { profile, logout } = useAuth();
 
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [sideMenu, setSideMenu] = React.useState(false);
+  const [profileMenu, setProfileMenu] = React.useState(false);
 
   const [openSubMenu, setOpenSubMenu] = React.useState(null);
 
@@ -77,6 +79,13 @@ export default function MenuAppBar({ closeButtomNav }) {
     }
     setOpenSubMenu(null);
     setSideMenu(open);
+  };
+
+  const toggleProfileMenu = (open) => (event) => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setProfileMenu(open);
   };
 
   const handleSubMenu = (submenu) => {
@@ -175,6 +184,32 @@ export default function MenuAppBar({ closeButtomNav }) {
     </div>
   );
 
+  const profileList = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+    >
+      <List>
+        <ListItem button>
+          <ListItemText primary="Profile" onClick={() => handleClickLink('/profile')} />
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary="Logout" onClick={() => logout()} />
+        </ListItem>
+        <Divider />
+        {theme.palette.type === 'dark' ? (
+          <ListItem button>
+            <ListItemText primary="Light Mode" onClick={() => setDarkMode(false)} />
+          </ListItem>
+        ) : (
+          <ListItem button>
+            <ListItemText primary="Dark Mode" onClick={() => setDarkMode(true)} />
+          </ListItem>
+        )}
+      </List>
+    </div>
+  );
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -197,30 +232,43 @@ export default function MenuAppBar({ closeButtomNav }) {
             <IconButton
               className={classes.button}
               color="primary"
-              onClick={() => handleClickLink('/profile')}
+              onClick={toggleProfileMenu(true)}
+              disabled={!profile}
             >
-              {authUser
+              {profile
                 ? (
                   <Avatar
-                    src={authUser.photoURL}
+                    src={profile.photoURL}
                     style={{ width: 40, height: 40 }}
                   />
                 )
-                : <UserIcon />}
+                : null}
             </IconButton>
           </div>
         </Toolbar>
       </AppBar>
-      <SwipeableDrawer
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        anchor="left"
-        open={sideMenu}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-      >
-        {list()}
-      </SwipeableDrawer>
+      <Hidden mdUp>
+        <SwipeableDrawer
+          disableBackdropTransition={!iOS}
+          disableDiscovery={iOS}
+          anchor="left"
+          open={sideMenu}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        >
+          {list()}
+        </SwipeableDrawer>
+        <SwipeableDrawer
+          disableBackdropTransition={!iOS}
+          disableDiscovery={iOS}
+          anchor="right"
+          open={profileMenu}
+          onClose={toggleProfileMenu(false)}
+          onOpen={toggleProfileMenu(true)}
+        >
+          {profileList()}
+        </SwipeableDrawer>
+      </Hidden>
     </div>
   );
 }

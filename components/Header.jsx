@@ -44,7 +44,7 @@ export default function Header({ closeButtomNav, setDarkMode }) {
         <AccountBar setDarkMode={setDarkMode} />
       </div>
       <div className={classes.mobile}>
-        <MobileBar closeButtomNav={closeButtomNav} />
+        <MobileBar closeButtomNav={closeButtomNav} setDarkMode={setDarkMode} />
       </div>
     </div>
   );

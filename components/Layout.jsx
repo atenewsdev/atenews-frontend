@@ -5,13 +5,16 @@ import { useRouter } from 'next/router';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import Tag from '@/components/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
+import { useTrending } from '@/utils/hooks/useTrending';
 
+import AuthForm from '@/components/Auth/AuthForm';
 import {
   Hidden,
   BottomNavigation,
@@ -103,15 +106,38 @@ const useStyles = makeStyles((theme) => ({
     borderRight: 0,
     padding: theme.spacing(2.5),
   },
+  arrowUp: {
+    position: 'absolute',
+    top: -10,
+    right: 20,
+    width: 0,
+    height: 0,
+    borderLeft: '10px solid transparent',
+    borderRight: '10px solid transparent',
+    borderBottom: `10px solid ${theme.palette.primary.main}`,
+  },
 }));
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const Layout = ({ children, trending, setDarkMode }) => {
+const Layout = ({ children, setDarkMode }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
-  const { profile } = useAuth();
+  const {
+    profile,
+  } = useAuth();
+
+  const {
+    error,
+    setError,
+    success,
+    setSuccess,
+    warning,
+    setWarning,
+  } = useError();
+
+  const trending = useTrending();
 
   React.useEffect(() => {
     if (profile) {
@@ -127,15 +153,6 @@ const Layout = ({ children, trending, setDarkMode }) => {
   const baseUrlMenu = (url) => (url !== '/' ? `${url.split('/').slice(0, 2).join('/')}` : '/');
 
   const [open, setOpen] = React.useState(false);
-
-  const {
-    error,
-    setError,
-    success,
-    setSuccess,
-    warning,
-    setWarning,
-  } = useError();
 
   const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {
@@ -232,7 +249,11 @@ const Layout = ({ children, trending, setDarkMode }) => {
         >
           <BottomNavigationAction icon={<HomeIcon />} />
           <BottomNavigationAction icon={<SearchIcon />} />
-          <BottomNavigationAction icon={<NotificationIcon />} />
+          {profile ? (
+            <BottomNavigationAction icon={<NotificationIcon />} />
+          ) : (
+            <BottomNavigationAction icon={<AccountCircleIcon />} />
+          ) }
         </BottomNavigation>
 
         <Dialog fullScreen open={open} TransitionComponent={Transition} style={{ zIndex: 1000 }}>
@@ -272,20 +293,23 @@ const Layout = ({ children, trending, setDarkMode }) => {
                   }
                     { trending.map((article) => (
                       <CardActionArea
-                        key={article.id}
+                        key={article.slug}
                         onClick={() => {
                           setValue(0);
                           setOpen(false);
-                          router.push(slugGenerator(article));
+                          router.push(slugGenerator({
+                            categories_detailed: article.categories,
+                            slug: article.slug,
+                          }));
                         }}
                       >
                         <Paper variant="outlined" square className={classes.trendingItem}>
                           <Grid container spacing={1}>
                             <Grid item xs={12}>
-                              <Tag type={article.categories_detailed[0]} />
+                              <Tag type={article.categories[0]} />
                             </Grid>
                             <Grid item xs={12}>
-                              <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                              <Typography variant="body1" component="div" className={classes.threeLineText} dangerouslySetInnerHTML={{ __html: article.title }} />
                             </Grid>
                           </Grid>
                         </Paper>
@@ -295,9 +319,18 @@ const Layout = ({ children, trending, setDarkMode }) => {
                 </>
               )
               : null }
-            { value === 2
+            { value === 2 && profile
               ? <Typography>Notification Sheet Test</Typography>
-              : null }
+              : null}
+            { value === 2 && !profile ? (
+              <AuthForm
+                close={() => {
+                  setValue(0);
+                  setOpen(false);
+                }}
+                mobile
+              />
+            ) : null }
           </Paper>
         </Dialog>
       </Hidden>
