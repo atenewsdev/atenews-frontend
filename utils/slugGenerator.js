@@ -1,6 +1,6 @@
 const generator = (article) => {
   let category = '';
-  switch (article.categories_detailed[0].term_id) {
+  switch (parseInt(article.categories_detailed[0].term_id, 10)) {
     case 3:
     case 20:
     case 18:

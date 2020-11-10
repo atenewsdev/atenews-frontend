@@ -24,7 +24,7 @@ const Tag = ({ type }) => {
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
-    switch (type.term_id) {
+    switch (parseInt(type.term_id, 10)) {
       case 3:
       case 20:
       case 18:

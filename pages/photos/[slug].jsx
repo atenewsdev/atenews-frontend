@@ -69,9 +69,14 @@ export default function Page({ post, relatedPosts }) {
 }
 
 export const getStaticPaths = async () => {
+  const categories = [430, 431];
+
   let res = [];
   try {
-    res = await WP.posts().categories(431);
+    const temp = await Promise.all(categories.map(async (cat) => WP.posts().categories(cat)));
+    temp.forEach((arr) => {
+      res = [...res, ...arr];
+    });
   } catch (err) {
     res = [];
   }
