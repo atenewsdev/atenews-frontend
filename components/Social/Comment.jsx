@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Page({
-  children, reply, user, comment,
+  children, reply, user, comment, socialStats,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -62,9 +62,11 @@ export default function Page({
                   <Grid item>
                     <Typography variant="body2"><b>{user.name}</b></Typography>
                   </Grid>
-                  <Grid item xs>
-                    <Flair small />
-                  </Grid>
+                  { user.staff ? (
+                    <Grid item xs>
+                      <Flair small />
+                    </Grid>
+                  ) : null }
                 </Grid>
                 <Typography variant="body1">{comment}</Typography>
               </Paper>
@@ -80,13 +82,13 @@ export default function Page({
               <Grid item>
                 <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <LikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  192
+                  {socialStats ? socialStats.upvoteCount || 0 : 0}
                 </Button>
               </Grid>
               <Grid item>
                 <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  192
+                  {socialStats ? socialStats.downvoteCount || 0 : 0}
                 </Button>
               </Grid>
               <Grid item>

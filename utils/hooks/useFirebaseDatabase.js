@@ -3,15 +3,15 @@ import useSWR from 'swr';
 
 const useFirestore = () => {
   const getDocument = (documentPath, onUpdate) => {
-    firebase.database()
-      .ref(documentPath)
-      .on('value', (doc) => {
-        if (doc.exists()) {
-          onUpdate(doc.val());
-        } else {
-          onUpdate(null);
-        }
-      });
+    const docRef = firebase.database().ref(documentPath);
+    docRef.on('value', (doc) => {
+      if (doc.exists()) {
+        onUpdate(doc.val());
+      } else {
+        onUpdate(null);
+      }
+    });
+    return docRef;
   };
 
   const getDocumentOnce = (documentPath) => {

@@ -75,10 +75,14 @@ const Trending = ({ articles }) => {
   const [socialStats, setSocialStats] = React.useState(null);
 
   React.useEffect(() => {
-    getDocument(`articles/${articles[0].slug}`, (doc) => {
+    const unsubscribe = getDocument(`articles/${articles[0].slug}`, (doc) => {
       setSocialStats(doc);
     });
-  }, []);
+
+    return () => {
+      unsubscribe.off();
+    };
+  }, [articles]);
 
   return (
     <div>

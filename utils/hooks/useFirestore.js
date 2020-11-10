@@ -73,6 +73,7 @@ const useFirestore = () => {
     getCollection,
     getCollectionOnce,
     saveCollection,
+    firebase,
   };
 };
 

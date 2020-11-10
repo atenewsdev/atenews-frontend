@@ -8,7 +8,7 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 import Button from '@/components/Button';
 
 import Comment from '@/components/Social/Comment';
-import CommentField from '@/components/Social/CommentField';
+// import CommentField from '@/components/Social/CommentField';
 import SideWriter from '@/components/Article/SideWriter';
 
 import Article from '@/components/List/Article';
@@ -21,6 +21,10 @@ import WPGBlocks from 'react-gutenberg';
 import { format } from 'date-fns';
 
 import { CSSTransition } from 'react-transition-group';
+
+import useFirestore from '@/utils/hooks/useFirestore';
+import { useCache } from '@/utils/hooks/useCache';
+import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
 
 import {
   Typography,
@@ -136,8 +140,43 @@ const ReadMoreBlock = handleViewport((props) => {
 export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
+  const { firebase } = useFirestore();
+  const { getDocument } = useFirebaseDatabase();
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
+
+  const [comments, setComments] = React.useState([]);
+  const { users: [users, setUsers] } = useCache();
+  const [article, setArticle] = React.useState(null);
+
+  React.useEffect(() => {
+    const unsubscribe = firebase.firestore().collection('comments')
+      .where('articleSlug', '==', post.slug)
+      .orderBy('socialScore', 'desc')
+      .onSnapshot(async (snapshot) => {
+        const tempComments = [];
+        await Promise.all(snapshot.docs.map(async (doc) => {
+          if (!users[doc.data().userId]) {
+            const user = await firebase.firestore().collection('users').doc(doc.data().userId).get();
+            setUsers((prevState) => ({
+              ...prevState,
+              [user.id]: user.data(),
+            }));
+          }
+          tempComments.push({ id: doc.id, ...doc.data() });
+        }));
+        setComments(tempComments);
+      });
+
+    const unsubscribeStats = getDocument(`articles/${post.slug}`, (data) => {
+      setArticle(data);
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribeStats.off();
+    };
+  }, [post]);
 
   const enterWriterViewport = () => {
     setShowSideWriterBlock(false);
@@ -190,7 +229,7 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(8) }} />
 
-      <ReactInfoArticle />
+      <ReactInfoArticle socialStats={article} />
 
       <div style={{ height: theme.spacing(2) }} />
       <Divider />
@@ -202,7 +241,7 @@ export default function Page({ post, relatedPosts }) {
         <Grid item xs={6}>
           <DefaultButton variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="large" fullWidth style={{ height: '100%' }}>
             <ShareIcon style={{ marginRight: theme.spacing(1) }} />
-            254
+            {article ? article.shareCount || 0 : 0}
           </DefaultButton>
         </Grid>
       </Grid>
@@ -211,8 +250,22 @@ export default function Page({ post, relatedPosts }) {
       <div style={{ height: theme.spacing(4) }} />
 
       <List component="div">
+        {comments.map((comment) => (
+          <Comment
+            user={{
+              name: users[comment.userId].displayName,
+              avatar: users[comment.userId].photoURL,
+              staff: users[comment.userId].staff,
+            }}
+            comment={comment.content}
+            socialStats={{
+              upvoteCount: comment.upvoteCount,
+              downvoteCount: comment.downvoteCount,
+            }}
+          />
+        )) }
+        { /*
         <CommentField />
-
         <Comment
           user={{
             name: 'Green',
@@ -225,7 +278,7 @@ export default function Page({ post, relatedPosts }) {
         </Comment>
         <Comment user={{ name: 'Red', avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/a/a6/1_red.png/revision/latest/top-crop/width/360/height/450?cb=20200912125145' }} comment="Lol. Both of u sus">
           <CommentField reply />
-        </Comment>
+        </Comment> */ }
 
       </List>
 

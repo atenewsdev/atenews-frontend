@@ -17,6 +17,7 @@ import 'react-gutenberg/default.css';
 import { TrendingProvider, useTrending } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 import { ErrorProvider } from '@/utils/hooks/useSnackbar';
+import { CacheProvider } from '@/utils/hooks/useCache';
 
 import { CssBaseline, Grid } from '@material-ui/core';
 
@@ -78,31 +79,33 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <ErrorProvider>
-            <AuthProvider>
-              <TrendingProvider>
-                {!loadingAuth
-                  ? (
-                    <Layout trending={trending} setDarkMode={setDarkMode}>
-                      <Component {...pageProps} />
-                    </Layout>
-                  )
-                  : (
-                    <Grid
-                      container
-                      spacing={0}
-                      alignItems="center"
-                      justify="center"
-                      style={{ minHeight: '100vh' }}
-                    >
-                      <Grid item>
-                        <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+          <CacheProvider>
+            <ErrorProvider>
+              <AuthProvider>
+                <TrendingProvider>
+                  {!loadingAuth
+                    ? (
+                      <Layout trending={trending} setDarkMode={setDarkMode}>
+                        <Component {...pageProps} />
+                      </Layout>
+                    )
+                    : (
+                      <Grid
+                        container
+                        spacing={0}
+                        alignItems="center"
+                        justify="center"
+                        style={{ minHeight: '100vh' }}
+                      >
+                        <Grid item>
+                          <img src={theme(darkMode).palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  )}
-              </TrendingProvider>
-            </AuthProvider>
-          </ErrorProvider>
+                    )}
+                </TrendingProvider>
+              </AuthProvider>
+            </ErrorProvider>
+          </CacheProvider>
         </MuiPickersUtilsProvider>
       </ThemeProvider>
     </>

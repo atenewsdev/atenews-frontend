@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ReactInfo = ({
-  TextProps, GridProps, disableHover,
+  TextProps, GridProps, disableHover, socialStats,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -70,7 +70,7 @@ const ReactInfo = ({
           </Grid>
           <Grid item xs>
             <Typography variant="body2" {...TextProps}>
-              <b>192</b>
+              <b>{socialStats ? socialStats.totalReactCount : 0}</b>
               {' '}
               people reacted to this article
             </Typography>
@@ -101,7 +101,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/happy.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{socialStats ? socialStats.reactCount.happy : 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -109,7 +109,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/sad.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{socialStats ? socialStats.reactCount.sad : 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -117,7 +117,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/angry.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{socialStats ? socialStats.reactCount.angry : 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -125,7 +125,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">38</Typography>
+                  <Typography variant="subtitle1">{socialStats ? socialStats.reactCount.disgusted : 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -133,7 +133,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/worried.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">2</Typography>
+                  <Typography variant="subtitle1">{socialStats ? socialStats.reactCount.worried : 0}</Typography>
                 </Grid>
               </Grid>
             </CardContent>

@@ -51,10 +51,14 @@ const Trending = ({ article }) => {
   const [socialStats, setSocialStats] = React.useState(null);
 
   React.useEffect(() => {
-    getDocument(`articles/${article.slug}`, (doc) => {
+    const unsubscribe = getDocument(`articles/${article.slug}`, (doc) => {
       setSocialStats(doc);
     });
-  }, []);
+
+    return () => {
+      unsubscribe.off();
+    };
+  }, [article]);
 
   const onHover = () => {
     setContainerProps({ backgroundColor: 'rgba(0, 0, 0, 0)' });
