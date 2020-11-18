@@ -14,6 +14,8 @@ import {
   Typography, Paper, Grid, CardActionArea,
 } from '@material-ui/core';
 
+import WP from '@/utils/wordpress';
+
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
     height: '100%',
@@ -55,19 +57,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileFeed = () => {
+const ProfileFeed = ({ comment }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+
+  const [image, setImage] = React.useState('');
+
+  React.useEffect(() => {
+    WP.posts().slug(comment.article.id).then((res) => {
+      const article = res[0];
+      setImage(article.featured_image_src);
+    });
+  }, []);
 
   return (
     <CardActionArea onClick={() => router.push()} style={{ marginTop: theme.spacing(1) }}>
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center" wrap="nowrap">
           <Grid item>
-            <Grid container direction="column" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
+            <Grid container direction="column" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }} alignItems="center">
               <Grid item>
-                <Typography variant="subtitle2">192</Typography>
+                <Typography variant="subtitle2">{comment.upvoteCount}</Typography>
               </Grid>
               <Grid item>
                 <LikeIcon />
@@ -76,7 +87,7 @@ const ProfileFeed = () => {
                 <DislikeIcon />
               </Grid>
               <Grid item>
-                <Typography variant="subtitle2">168</Typography>
+                <Typography variant="subtitle2">{comment.downvoteCount}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -89,9 +100,13 @@ const ProfileFeed = () => {
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle2" className={classes.oneLineText}>
-                      Made a comment on
+                      Made a
                       {' '}
-                      <i>Students not required to take SAs right after sem —AVP</i>
+                      { comment.type === 'comment' ? 'comment' : 'reply' }
+                      {' '}
+                      on
+                      {' '}
+                      <i>{comment.article.title}</i>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -102,15 +117,17 @@ const ProfileFeed = () => {
                     <ClockIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">{ formatDistanceToNow(new Date(), { addSuffix: true }) }</Typography>
+                    <Typography variant="subtitle2">{ formatDistanceToNow(comment.timestamp.toDate(), { addSuffix: true }) }</Typography>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Typography style={{ marginLeft: theme.spacing(2), marginTop: theme.spacing(1) }} className={classes.oneLineText} variant="body1">The university admin must be the impostor.</Typography>
+            <Typography style={{ marginLeft: theme.spacing(2), marginTop: theme.spacing(1) }} className={classes.oneLineText} variant="body1">{comment.content}</Typography>
           </Grid>
           <Grid item xs={3}>
-            <img src="https://atenews.ph/wp-content/uploads/2020/09/forward1st.jpg" alt="Profile" width="100%" />
+            { image
+              ? <img src={image} alt="Profile" width="100%" />
+              : null}
           </Grid>
         </Grid>
       </Paper>

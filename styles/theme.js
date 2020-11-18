@@ -3,6 +3,15 @@ import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const themeGenerator = (dark) => createMuiTheme({
+  overrides: dark ? {
+    MuiCssBaseline: {
+      '@global': {
+        a: {
+          color: 'white',
+        },
+      },
+    },
+  } : {},
   breakpoints: {
     values: {
       xs: 0,

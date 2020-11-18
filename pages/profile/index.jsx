@@ -7,14 +7,17 @@ import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
 import BirthdayIcon from '@material-ui/icons/Cake';
+import CheckIcon from '@material-ui/icons/CheckCircle';
+import InfoIcon from '@material-ui/icons/Info';
 
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
 
 import {
-  Typography, Avatar, Grid, Divider,
+  Typography, Avatar, Grid, Divider, CircularProgress,
 } from '@material-ui/core';
 
+import useFirestore from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +57,39 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
-  const { profile } = useAuth();
+  const { profile, authUser } = useAuth();
+  const { firebase } = useFirestore();
+
+  const [loading, setLoading] = React.useState(true);
+  const [comments, setComments] = React.useState([]);
+
+  React.useEffect(() => {
+    const arrayList = [];
+    Promise.all([
+      firebase.firestore().collection('comments').where('userId', '==', authUser.uid).limit(5)
+        .get(),
+      firebase.firestore().collection('replies').where('userId', '==', authUser.uid).limit(5)
+        .get(),
+    ]).then(async ([commentsQuery, repliesQuery]) => {
+      await Promise.all([
+        ...commentsQuery.docs.map(async (doc) => {
+          const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
+          arrayList.push({
+            ...doc.data(), type: 'comment', id: doc.id, article: article.val(),
+          });
+        }),
+        ...repliesQuery.docs.map(async (doc) => {
+          const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
+          arrayList.push({
+            ...doc.data(), type: 'reply', id: doc.id, article: article.val(),
+          });
+        }),
+      ]);
+      arrayList.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
+      setComments(arrayList);
+      setLoading(false);
+    });
+  }, []);
 
   if (profile) {
     return (
@@ -89,7 +124,7 @@ export default function Home() {
                     <Grid item>
                       <Grid container direction="column" justify="center">
                         <Grid item>
-                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>192</Typography>
+                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.upvotesReceived || 0}</Typography>
                         </Grid>
                         <Grid item>
                           <Typography variant="body2">Upvotes</Typography>
@@ -108,7 +143,7 @@ export default function Home() {
                     <Grid item>
                       <Grid container direction="column" justify="center">
                         <Grid item>
-                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>168</Typography>
+                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.downvotesReceived || 0}</Typography>
                         </Grid>
                         <Grid item>
                           <Typography variant="body2">Downvotes</Typography>
@@ -120,7 +155,7 @@ export default function Home() {
               </Grid>
             </Grid>
             <div className={classes.section}>
-              <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum etiam est adipiscing at ultricies. Euismod pulvinar morbi varius sed volutpat in vitae id aliquam. Massa malesuada odio ut maecenas turpis venenatis id elit. Consectetur est, eleifend feugiat massa. Adipiscing blandit orci pulvinar ultrices. Orci facilisi neque nunc, ullamcorper enim. </Typography>
+              <Typography variant="body1">{profile.bio || <i>This profile has no bio.</i>}</Typography>
             </div>
             <div className={classes.section}>
               <Grid container>
@@ -133,6 +168,11 @@ export default function Home() {
                       <Grid item>
                         <Typography variant="body1">{profile.email}</Typography>
                       </Grid>
+                      {authUser ? (
+                        <Grid item xs>
+                          { authUser.emailVerified ? <CheckIcon /> : <InfoIcon /> }
+                        </Grid>
+                      ) : null }
                     </Grid>
                   </div>
                 </Grid>
@@ -157,7 +197,16 @@ export default function Home() {
         </Grid>
         <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
 
-        <ProfileFeed />
+        { !loading ? comments.map((comment) => (
+          <ProfileFeed key={comment.id} comment={comment} />
+        ))
+          : (
+            <Grid container justify="center" alignItems="center" spacing={2}>
+              <Grid item>
+                <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+              </Grid>
+            </Grid>
+          )}
       </div>
     );
   }

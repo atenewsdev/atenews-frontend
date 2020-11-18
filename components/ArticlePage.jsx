@@ -223,7 +223,16 @@ export default function Page({ post, relatedPosts }) {
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
-      <Typography variant="body1" component="div" style={{ marginTop: theme.spacing(2), lineHeight: '1.9em', width: '100%' }}>
+      <Typography
+        variant="body1"
+        component="div"
+        style={{
+          marginTop: theme.spacing(2),
+          lineHeight: '1.9em',
+          width: '100%',
+          color: theme.palette.text.primary,
+        }}
+      >
         <WPGBlocks blocks={post.blocks} />
       </Typography>
 
