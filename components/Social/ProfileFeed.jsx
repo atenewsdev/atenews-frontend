@@ -11,7 +11,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import { formatDistanceToNow } from 'date-fns';
 
 import {
-  Typography, Paper, Grid, CardActionArea,
+  Typography, Paper, Grid, CardActionArea, CircularProgress,
 } from '@material-ui/core';
 
 import WP from '@/utils/wordpress';
@@ -127,7 +127,13 @@ const ProfileFeed = ({ comment }) => {
           <Grid item xs={3}>
             { image
               ? <img src={image} alt="Profile" width="100%" />
-              : null}
+              : (
+                <Grid container justify="center" alignItems="center" spacing={2}>
+                  <Grid item>
+                    <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                  </Grid>
+                </Grid>
+              )}
           </Grid>
         </Grid>
       </Paper>

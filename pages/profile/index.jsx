@@ -105,14 +105,17 @@ export default function Home() {
           </Grid>
           <Grid item xs>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
-              <Grid item>
+              <Grid item style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
                 <Typography variant="h4">{profile.displayName}</Typography>
               </Grid>
               { profile.staff ? (
                 <Grid item xs>
                   <Flair />
                 </Grid>
-              ) : null }
+              ) : null}
+              <Grid item xs={12} style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
+                <Typography variant="body1">{`@${profile.username}`}</Typography>
+              </Grid>
             </Grid>
             <Grid container>
               <Grid item>
