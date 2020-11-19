@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }) => {
             displayName: wpUser.display_name,
             staff: true,
             photoURL: wpUser.avatar,
-            followerCount: 0,
             username,
           };
         } else {
