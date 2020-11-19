@@ -11,6 +11,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
 import Button from '@/components/Button';
+import Trending from '@/components/Home/Trending';
 
 import {
   Typography,
@@ -31,6 +32,7 @@ import {
 import { useError } from '@/utils/hooks/useSnackbar';
 import useFirestore from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
+import { useTrending } from '@/utils/hooks/useTrending';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,6 +76,8 @@ export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+  const trending = useTrending();
+
   const { authUser, profile: authProfile } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
@@ -448,15 +452,19 @@ export default function Home() {
             <Button variant="contained" color="primary" onClick={handleConfirmPassword} disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
           </DialogActions>
         </Dialog>
+        <Trending articles={trending} />
       </div>
     );
   }
 
   return (
-    <Grid container justify="center" alignItems="center" spacing={2}>
-      <Grid item>
-        <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+    <>
+      <Grid container justify="center" alignItems="center" spacing={2}>
+        <Grid item>
+          <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+        </Grid>
       </Grid>
-    </Grid>
+      <Trending articles={trending} />
+    </>
   );
 }
