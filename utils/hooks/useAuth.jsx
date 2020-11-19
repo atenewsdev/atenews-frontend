@@ -31,9 +31,7 @@ export const AuthProvider = ({ children }) => {
               const wpUser = await WP.usersEmail().email(data.email);
               if (wpUser) {
                 saveDocument(`users/${user.uid}`, {
-                  displayName: wpUser.display_name,
                   staff: true,
-                  photoURL: wpUser.avatar,
                 });
                 saveDocument(`wordpress/${wpUser.id}`, {
                   id: user.uid,
