@@ -51,26 +51,39 @@ export const AuthProvider = ({ children }) => {
   const registerEmail = useCallback((email, password, username) => firebase.auth()
     .createUserWithEmailAndPassword(email, password).then(async () => {
       await firebase.auth().currentUser.sendEmailVerification();
-      const wpUser = await WP.usersEmail().email(email);
+      let wpUser = null;
+      let userDoc = {};
+      try {
+        wpUser = await WP.usersEmail().email(email);
+      } catch (err) {
+        wpUser = null;
+      }
       if (wpUser) {
         if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
-          await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+          userDoc = {
             displayName: wpUser.display_name,
             staff: true,
             photoURL: wpUser.avatar,
             username,
-          });
+          };
         } else {
-          await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+          userDoc = {
             username,
             displayName: username,
             staff: false,
-          });
+          };
         }
         await saveDocument(`wordpress/${wpUser.id}`, {
           id: firebase.auth().currentUser.uid,
         });
+      } else {
+        userDoc = {
+          username,
+          displayName: username,
+          staff: false,
+        };
       }
+      await saveDocument(`users/${firebase.auth().currentUser.uid}`, userDoc);
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       setError(err.message);
