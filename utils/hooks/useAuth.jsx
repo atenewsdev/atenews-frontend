@@ -4,7 +4,6 @@ import {
 
 import firebase from '@/utils/firebase';
 import WP from '@/utils/wordpress';
-import { useRouter } from 'next/router';
 import useFirestore from './useFirestore';
 import { useError } from './useSnackbar';
 
@@ -13,8 +12,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(firebase.auth().currentUser);
   const [profile, setProfile] = useState(null);
-
-  const router = useRouter();
 
   const { setError, setSuccess } = useError();
 
@@ -26,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         setAuthUser(user);
         if (user) {
           getDocument(`users/${user.uid}`, async (data) => {
-            setProfile(data);
+            setProfile({ ...data, id: user.uid });
           });
         } else {
           setProfile(null);
@@ -141,7 +138,6 @@ export const AuthProvider = ({ children }) => {
     .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider()), []);
 
   const logout = useCallback(() => firebase.auth().signOut().then(() => {
-    router.push('/');
   }).catch((err) => {
     setError(err.message);
   }), []);

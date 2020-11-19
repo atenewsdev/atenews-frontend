@@ -34,6 +34,7 @@ const PopoutView = ({ close, setDarkMode }) => {
   const classes = useStyles();
   const {
     authUser,
+    profile,
     logout,
   } = useAuth();
   const router = useRouter();
@@ -43,7 +44,7 @@ const PopoutView = ({ close, setDarkMode }) => {
     return (
       <Paper variant="outlined" className={classes.viewContainer}>
         <div className={classes.arrowUp} />
-        <Button onClick={() => { router.push('/profile'); close(); }}>
+        <Button onClick={() => { router.push(`/profile/${profile.username}`); close(); }}>
           Profile
         </Button>
         <br />

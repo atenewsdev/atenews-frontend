@@ -192,7 +192,7 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
     >
       <List>
         <ListItem button>
-          <ListItemText primary="Profile" onClick={() => handleClickLink('/profile')} />
+          <ListItemText primary="Profile" onClick={() => handleClickLink(`/profile/${profile.username}`)} />
         </ListItem>
         <ListItem button>
           <ListItemText primary="Logout" onClick={() => logout()} />

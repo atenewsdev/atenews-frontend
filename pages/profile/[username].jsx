@@ -7,8 +7,6 @@ import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
-import BirthdayIcon from '@material-ui/icons/Cake';
-import CheckIcon from '@material-ui/icons/CheckCircle';
 
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
@@ -82,10 +80,11 @@ export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
-  const { profile, authUser } = useAuth();
+  const { authUser, profile: authProfile } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
+  const [profile, setProfile] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [updating, setUpdating] = React.useState(false);
   const [confirming, setConfirming] = React.useState(false);
@@ -105,6 +104,17 @@ export default function Home() {
     email: '',
   });
 
+  React.useEffect(() => {
+    const { username: queryUsername } = router.query;
+
+    firebase.firestore().collection('users').where('username', '==', queryUsername).get()
+      .then((snapshot) => {
+        if (!snapshot.empty) {
+          setProfile({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
+        }
+      });
+  }, [router.query]);
+
   const [confirmPasswordDialog, setConfirmPasswordDialog] = React.useState(false);
 
   const [firebaseUser, setFirebaseUser] = React.useState(null);
@@ -115,43 +125,36 @@ export default function Home() {
       setUsername(profile.username);
       setBio(profile.bio);
       setEmail(profile.email);
+
+      const arrayList = [];
+      Promise.all([
+        firebase.firestore().collection('comments').where('userId', '==', profile.id).limit(5)
+          .get(),
+        firebase.firestore().collection('replies').where('userId', '==', profile.id).limit(5)
+          .get(),
+      ]).then(async ([commentsQuery, repliesQuery]) => {
+        await Promise.all([
+          ...commentsQuery.docs.map(async (doc) => {
+            const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
+            arrayList.push({
+              ...doc.data(), type: 'comment', id: doc.id, article: article.val(),
+            });
+          }),
+          ...repliesQuery.docs.map(async (doc) => {
+            const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
+            arrayList.push({
+              ...doc.data(), type: 'reply', id: doc.id, article: article.val(),
+            });
+          }),
+        ]);
+        arrayList.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
+        setComments(arrayList);
+        setLoading(false);
+      }).catch((err) => {
+        setError(err.message);
+      });
     }
   }, [profile]);
-
-  React.useEffect(() => {
-    const arrayList = [];
-    if (!authUser) {
-      router.push('/');
-      return;
-    }
-    Promise.all([
-      firebase.firestore().collection('comments').where('userId', '==', authUser.uid).limit(5)
-        .get(),
-      firebase.firestore().collection('replies').where('userId', '==', authUser.uid).limit(5)
-        .get(),
-    ]).then(async ([commentsQuery, repliesQuery]) => {
-      await Promise.all([
-        ...commentsQuery.docs.map(async (doc) => {
-          const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
-          arrayList.push({
-            ...doc.data(), type: 'comment', id: doc.id, article: article.val(),
-          });
-        }),
-        ...repliesQuery.docs.map(async (doc) => {
-          const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
-          arrayList.push({
-            ...doc.data(), type: 'reply', id: doc.id, article: article.val(),
-          });
-        }),
-      ]);
-      arrayList.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
-      setComments(arrayList);
-      setLoading(false);
-    }).catch((err) => {
-      router.push('/');
-      setError(err.message);
-    });
-  }, []);
 
   const testDisplayName = () => /^.{1,50}$/.test(displayName);
   const testUsername = () => /^[a-zA-Z0-9_]{1,15}$/.test(username);
@@ -252,6 +255,12 @@ export default function Home() {
     setConfirming(false);
     setPassword('');
   };
+
+  const EditButton = () => (authProfile.username === profile.username ? (
+    <div className={classes.section} style={{ marginTop: theme.spacing(3) }}>
+      <Button variant="contained" color="primary" size="large" onClick={editMode ? handleEditProfile : handleDialogOpen} disabled={updating}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
+    </div>
+  ) : null);
 
   if (profile) {
     return (
@@ -394,34 +403,14 @@ export default function Home() {
                           <Typography variant="body1">{email}</Typography>
                         )}
                       </Grid>
-                      {authUser ? (
-                        <Grid item xs>
-                          { authUser.emailVerified ? <CheckIcon /> : null }
-                        </Grid>
-                      ) : null }
                     </Grid>
                   </div>
                 </Grid>
-                {profile.birthday
-                  ? (
-                    <Grid item>
-                      <div className={classes.iconStats}>
-                        <Grid container spacing={1}>
-                          <Grid item>
-                            <BirthdayIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body1">{profile.birthday}</Typography>
-                          </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  ) : null}
               </Grid>
             </div>
-            <div className={classes.section} style={{ marginTop: theme.spacing(3) }}>
-              <Button variant="contained" color="primary" size="large" onClick={editMode ? handleEditProfile : handleDialogOpen} disabled={updating}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
-            </div>
+            {authProfile ? (
+              <EditButton />
+            ) : null }
           </Grid>
         </Grid>
         <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
