@@ -190,6 +190,7 @@ export default function Home() {
       }
       try {
         await firebaseUser.updateEmail(email);
+        await firebase.auth().currentUser.sendEmailVerification();
         await firebase.firestore().collection('users').doc(authUser.uid).update({
           displayName,
           username,
