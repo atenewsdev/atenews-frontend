@@ -51,12 +51,6 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  leftSide: {
-    position: 'relative',
-    [theme.breakpoints.down('sm')]: {
-      position: 'relative',
-    },
-  },
   threeLineText: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -278,9 +272,7 @@ export default function Home() {
         </Head>
         <Grid container spacing={6} justify="center">
           <Grid item>
-            <div className={classes.leftSide}>
-              <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
-            </div>
+            <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
           </Grid>
           <Grid item xs>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
