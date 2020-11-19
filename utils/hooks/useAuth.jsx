@@ -52,7 +52,15 @@ export const AuthProvider = ({ children }) => {
     .createUserWithEmailAndPassword(email, password).then(async () => {
       await firebase.auth().currentUser.sendEmailVerification();
       let wpUser = null;
-      let userDoc = {};
+      // defaults
+      let userDoc = {
+        commentCount: 0,
+        downvotesReceived: 0,
+        upvotesReceived: 0,
+        staff: false,
+        email,
+        darkMode: false,
+      };
       try {
         wpUser = await WP.usersEmail().email(email);
       } catch (err) {
@@ -61,6 +69,7 @@ export const AuthProvider = ({ children }) => {
       if (wpUser) {
         if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
           userDoc = {
+            ...userDoc,
             displayName: wpUser.display_name,
             staff: true,
             photoURL: wpUser.avatar,
@@ -68,6 +77,7 @@ export const AuthProvider = ({ children }) => {
           };
         } else {
           userDoc = {
+            ...userDoc,
             username,
             displayName: username,
             staff: false,
@@ -78,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         });
       } else {
         userDoc = {
+          ...userDoc,
           username,
           displayName: username,
           staff: false,
