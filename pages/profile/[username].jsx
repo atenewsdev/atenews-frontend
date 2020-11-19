@@ -95,6 +95,8 @@ export default function Home() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const [followerCount, setFollowerCount] = React.useState(0);
+
   const [backup, setBackup] = React.useState({
     displayName: '',
     username: '',
@@ -121,6 +123,13 @@ export default function Home() {
 
   React.useEffect(() => {
     if (profile) {
+      firebase.firestore().collection('followers').doc(profile.id).get()
+        .then((followers) => {
+          if (followers.exists) {
+            const followersObject = { ...followers.data() };
+            setFollowerCount(Object.keys(followersObject).length);
+          }
+        });
       setDisplayName(profile.displayName);
       setUsername(profile.username);
       setBio(profile.bio);
@@ -362,6 +371,15 @@ export default function Home() {
                 </div>
               </Grid>
             </Grid>
+            { followerCount > 0 ? (
+              <div className={classes.section} style={{ marginTop: theme.spacing(2) }}>
+                <Typography variant="body1">
+                  <b>{followerCount}</b>
+                  {' '}
+                  followers
+                </Typography>
+              </div>
+            ) : null }
             <div className={classes.section}>
               {editMode ? (
                 <FormControl fullWidth>
