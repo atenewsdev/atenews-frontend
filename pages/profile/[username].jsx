@@ -268,7 +268,13 @@ export default function Home() {
     return (
       <div className={classes.container}>
         <Head>
-          <title>Profile - Atenews</title>
+          <title>
+            { profile.displayName }
+            {' '}
+            { `(@${profile.username})` }
+            {' '}
+            - Atenews
+          </title>
         </Head>
         <Grid container spacing={6} justify="center">
           <Grid item>
