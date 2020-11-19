@@ -30,9 +30,15 @@ export const AuthProvider = ({ children }) => {
             if (data) {
               const wpUser = await WP.usersEmail().email(data.email);
               if (wpUser) {
-                saveDocument(`users/${user.uid}`, {
-                  staff: true,
-                });
+                if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
+                  saveDocument(`users/${user.uid}`, {
+                    staff: true,
+                  });
+                } else {
+                  saveDocument(`users/${user.uid}`, {
+                    staff: false,
+                  });
+                }
                 saveDocument(`wordpress/${wpUser.id}`, {
                   id: user.uid,
                 });
