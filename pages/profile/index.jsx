@@ -189,8 +189,10 @@ export default function Home() {
         return;
       }
       try {
-        await firebaseUser.updateEmail(email);
-        await firebase.auth().currentUser.sendEmailVerification();
+        if (email !== backup.email) {
+          await firebaseUser.updateEmail(email);
+          await firebase.auth().currentUser.sendEmailVerification();
+        }
         await firebase.firestore().collection('users').doc(authUser.uid).update({
           displayName,
           username,
