@@ -8,6 +8,8 @@ import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
+import slugGenerator from '@/utils/slugGenerator';
+
 import { formatDistanceToNow } from 'date-fns';
 
 import {
@@ -72,7 +74,13 @@ const ProfileFeed = ({ comment }) => {
   }, []);
 
   return (
-    <CardActionArea onClick={() => router.push()} style={{ marginTop: theme.spacing(1) }}>
+    <CardActionArea
+      onClick={() => router.push(slugGenerator({
+        categories_detailed: comment.article.categories,
+        slug: comment.article.id,
+      }))}
+      style={{ marginTop: theme.spacing(1) }}
+    >
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center" wrap="nowrap">
           <Grid item>
