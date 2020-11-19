@@ -27,23 +27,6 @@ export const AuthProvider = ({ children }) => {
         if (user) {
           getDocument(`users/${user.uid}`, async (data) => {
             setProfile(data);
-            if (data) {
-              const wpUser = await WP.usersEmail().email(data.email);
-              if (wpUser) {
-                if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
-                  saveDocument(`users/${user.uid}`, {
-                    staff: true,
-                  });
-                } else {
-                  saveDocument(`users/${user.uid}`, {
-                    staff: false,
-                  });
-                }
-                saveDocument(`wordpress/${wpUser.id}`, {
-                  id: user.uid,
-                });
-              }
-            }
           });
         } else {
           setProfile(null);
@@ -65,9 +48,29 @@ export const AuthProvider = ({ children }) => {
     .doc(`users/${firebase.auth().currentUser.uid}`)
     .update(document), []);
 
-  const registerEmail = useCallback((email, password) => firebase.auth()
+  const registerEmail = useCallback((email, password, username) => firebase.auth()
     .createUserWithEmailAndPassword(email, password).then(async () => {
       await firebase.auth().currentUser.sendEmailVerification();
+      const wpUser = await WP.usersEmail().email(email);
+      if (wpUser) {
+        if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
+          await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+            displayName: wpUser.display_name,
+            staff: true,
+            photoURL: wpUser.avatar,
+            username,
+          });
+        } else {
+          await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+            username,
+            displayName: username,
+            staff: false,
+          });
+        }
+        await saveDocument(`wordpress/${wpUser.id}`, {
+          id: firebase.auth().currentUser.uid,
+        });
+      }
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       setError(err.message);

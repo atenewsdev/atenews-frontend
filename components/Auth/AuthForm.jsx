@@ -8,6 +8,7 @@ import {
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
+import useFirebase from '@/utils/hooks/useFirebaseDatabase';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -35,17 +36,43 @@ const AuthForm = ({ close, mobile }) => {
     loginWithTwitter,
     registerEmail,
   } = useAuth();
+  const { firebase } = useFirebase();
   const theme = useTheme();
   const { setError } = useError();
 
   const [isRegister, setIsRegister] = React.useState(false);
   const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
 
-  const handleRegister = () => {
-    if (email && password && password === confirmPassword) {
-      registerEmail(email, password);
+  const testUsername = () => /^[a-zA-Z0-9_]{1,15}$/.test(username);
+  const testEmail = () => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+  const testPassword = () => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+
+  const handleRegister = async () => {
+    if (username && email && password && password === confirmPassword) {
+      if (!testUsername()) {
+        setError('Username is limited to 15 alphanumeric characters only!');
+        return;
+      }
+
+      const existingUser = await firebase.firestore().collection('users').where('username', '==', username).get();
+
+      if (!existingUser.empty) {
+        setError('Username already taken!');
+        return;
+      }
+
+      if (!testEmail()) {
+        setError('Invalid email format detected!');
+        return;
+      }
+      if (!testPassword()) {
+        setError('Password requires a minimum eight characters, at least one letter and one number.');
+        return;
+      }
+      registerEmail(email, password, username);
       close();
     } else {
       setError('All fields are required!');
@@ -72,7 +99,7 @@ const AuthForm = ({ close, mobile }) => {
               label="Email"
               fullWidth
               required
-              error={!(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) && email !== ''}
+              error={!(testEmail()) && email !== ''}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -113,9 +140,20 @@ const AuthForm = ({ close, mobile }) => {
             label="Email"
             fullWidth
             required
-            error={!(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) && email !== ''}
+            error={!(testEmail()) && email !== ''}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <TextField
+            variant="outlined"
+            label="Username"
+            fullWidth
+            required
+            error={!(testUsername()) && username !== ''}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Grid>
         <Grid item style={{ width: '100%' }}>
@@ -125,6 +163,7 @@ const AuthForm = ({ close, mobile }) => {
             label="Password"
             fullWidth
             required
+            error={!(testPassword()) && password !== ''}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

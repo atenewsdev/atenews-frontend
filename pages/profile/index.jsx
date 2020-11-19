@@ -170,6 +170,12 @@ export default function Home() {
         setUpdating(false);
         return;
       }
+      const existingUser = await firebase.firestore().collection('users').where('username', '==', username).get();
+      if (!existingUser.empty && username !== backup.username) {
+        setError('Username already taken!');
+        setUpdating(false);
+        return;
+      }
       if (!testBio()) {
         setError('Bio is limited to 160 characters only!');
         setUpdating(false);
