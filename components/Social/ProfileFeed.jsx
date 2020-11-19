@@ -67,7 +67,7 @@ const ProfileFeed = ({ comment }) => {
   const [image, setImage] = React.useState('');
 
   React.useEffect(() => {
-    WP.posts().slug(comment.article.id).then((res) => {
+    WP.posts().slug(comment.articleSlug).then((res) => {
       const article = res[0];
       setImage(article.featured_image_src);
     });
@@ -77,7 +77,7 @@ const ProfileFeed = ({ comment }) => {
     <CardActionArea
       onClick={() => router.push(slugGenerator({
         categories_detailed: comment.article.categories,
-        slug: comment.article.id,
+        slug: comment.articleSlug,
       }))}
       style={{ marginTop: theme.spacing(1) }}
     >
