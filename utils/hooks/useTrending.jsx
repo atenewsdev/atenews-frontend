@@ -12,16 +12,18 @@ export const TrendingProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = firebase.database().ref('articles').orderByChild('trendScore').limitToLast(5)
       .on('value', (doc) => {
-        const values = doc.val();
-        setTrending(Object.keys(values).map((key) => {
-          const obj = values[key];
-          const backupCat = obj.categories;
-          if (obj.categories) {
-            obj.categories = Object.keys(backupCat).map((keyCat) => backupCat[keyCat]);
-          }
-          obj.slug = key;
-          return obj;
-        }).sort((a, b) => b.trendScore - a.trendScore));
+        if (doc) {
+          const values = doc.val();
+          setTrending(Object.keys(values).map((key) => {
+            const obj = values[key];
+            const backupCat = obj.categories;
+            if (obj.categories) {
+              obj.categories = Object.keys(backupCat).map((keyCat) => backupCat[keyCat]);
+            }
+            obj.slug = key;
+            return obj;
+          }).sort((a, b) => b.trendScore - a.trendScore));
+        }
       });
     return () => {
       unsubscribe();

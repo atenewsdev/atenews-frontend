@@ -111,6 +111,8 @@ export default function Home() {
       .then((snapshot) => {
         if (!snapshot.empty) {
           setProfile({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
+        } else {
+          setError('User not found!');
         }
       });
   }, [router.query]);
@@ -452,5 +454,11 @@ export default function Home() {
     );
   }
 
-  return null;
+  return (
+    <Grid container justify="center" alignItems="center" spacing={2}>
+      <Grid item>
+        <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+      </Grid>
+    </Grid>
+  );
 }
