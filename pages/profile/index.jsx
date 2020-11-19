@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
@@ -80,6 +81,7 @@ const TextField = withStyles({
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
   const { profile, authUser } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
@@ -118,6 +120,10 @@ export default function Home() {
 
   React.useEffect(() => {
     const arrayList = [];
+    if (!authUser) {
+      router.push('/');
+      return;
+    }
     Promise.all([
       firebase.firestore().collection('comments').where('userId', '==', authUser.uid).limit(5)
         .get(),
@@ -141,6 +147,9 @@ export default function Home() {
       arrayList.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
       setComments(arrayList);
       setLoading(false);
+    }).catch((err) => {
+      router.push('/');
+      setError(err.message);
     });
   }, []);
 
