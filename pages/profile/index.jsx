@@ -96,6 +96,13 @@ export default function Home() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const [backup, setBackup] = React.useState({
+    displayName: '',
+    username: '',
+    bio: '',
+    email: '',
+  });
+
   const [confirmPasswordDialog, setConfirmPasswordDialog] = React.useState(false);
 
   const [firebaseUser, setFirebaseUser] = React.useState(null);
@@ -181,11 +188,31 @@ export default function Home() {
           bio: bio || '',
           email,
         });
+
+        setBackup({
+          displayName,
+          username,
+          bio,
+          email,
+        });
+
         setSuccess('Successfully updated profile!');
       } catch (err) {
+        setDisplayName(backup.displayName);
+        setUsername(backup.username);
+        setBio(backup.bio);
+        setEmail(backup.email);
+
         setError(err.message);
       }
       setUpdating(false);
+    } else {
+      setBackup({
+        displayName,
+        username,
+        bio,
+        email,
+      });
     }
 
     setEditMode((prev) => !prev);
