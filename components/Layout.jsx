@@ -141,7 +141,7 @@ const Layout = ({ children, setDarkMode }) => {
 
   React.useEffect(() => {
     if (profile) {
-      if (profile.darkMode !== null) {
+      if ('darkMode' in profile) {
         setDarkMode(profile.darkMode);
       }
     }
