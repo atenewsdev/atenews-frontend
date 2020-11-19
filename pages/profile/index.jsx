@@ -1,22 +1,35 @@
 import React from 'react';
 
 import Head from 'next/head';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import MailIcon from '@material-ui/icons/Mail';
 import BirthdayIcon from '@material-ui/icons/Cake';
 import CheckIcon from '@material-ui/icons/CheckCircle';
-import InfoIcon from '@material-ui/icons/Info';
 
 import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
+import Button from '@/components/Button';
 
 import {
-  Typography, Avatar, Grid, Divider, CircularProgress,
+  Typography,
+  Avatar,
+  Grid,
+  Divider,
+  CircularProgress,
+  TextField as StockTextField,
+  InputAdornment,
+  FormControl,
+  FormHelperText,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from '@material-ui/core';
 
+import { useError } from '@/utils/hooks/useSnackbar';
 import useFirestore from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
 
@@ -54,14 +67,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const TextField = withStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderRadius: 30,
+      },
+    },
+  },
+})(StockTextField);
+
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
   const { profile, authUser } = useAuth();
   const { firebase } = useFirestore();
+  const { setError, setSuccess } = useError();
 
   const [loading, setLoading] = React.useState(true);
+  const [updating, setUpdating] = React.useState(false);
+  const [confirming, setConfirming] = React.useState(false);
   const [comments, setComments] = React.useState([]);
+  const [editMode, setEditMode] = React.useState(false);
+
+  const [displayName, setDisplayName] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [bio, setBio] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const [confirmPasswordDialog, setConfirmPasswordDialog] = React.useState(false);
+
+  const [firebaseUser, setFirebaseUser] = React.useState(null);
+
+  React.useEffect(() => {
+    if (profile) {
+      setDisplayName(profile.displayName);
+      setUsername(profile.username);
+      setBio(profile.bio);
+      setEmail(profile.email);
+    }
+  }, [profile]);
 
   React.useEffect(() => {
     const arrayList = [];
@@ -91,6 +137,75 @@ export default function Home() {
     });
   }, []);
 
+  const testDisplayName = () => /^.{1,50}$/.test(displayName);
+  const testUsername = () => /^[a-zA-Z0-9_]{1,15}$/.test(username);
+  const testBio = () => /^.{0,160}$/.test(bio);
+  const testEmail = () => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+
+  const handleDialogClose = () => {
+    setConfirmPasswordDialog(false);
+  };
+
+  const handleDialogOpen = () => {
+    setConfirmPasswordDialog(true);
+  };
+
+  const handleEditProfile = async () => {
+    if (editMode) {
+      setUpdating(true);
+      if (!testDisplayName()) {
+        setError('Display Name is limited to 50 characters only!');
+        setUpdating(false);
+        return;
+      }
+      if (!testUsername()) {
+        setError('Username is limited to 15 alphanumeric characters only!');
+        setUpdating(false);
+        return;
+      }
+      if (!testBio()) {
+        setError('Bio is limited to 160 characters only!');
+        setUpdating(false);
+        return;
+      }
+      if (!testEmail()) {
+        setError('Invalid email format detected!');
+        setUpdating(false);
+        return;
+      }
+      try {
+        await firebaseUser.updateEmail(email);
+        await firebase.firestore().collection('users').doc(authUser.uid).update({
+          displayName,
+          username,
+          bio: bio || '',
+          email,
+        });
+        setSuccess('Successfully updated profile!');
+      } catch (err) {
+        setError(err.message);
+      }
+      setUpdating(false);
+    }
+
+    setEditMode((prev) => !prev);
+  };
+
+  const handleConfirmPassword = async () => {
+    setConfirming(true);
+    try {
+      const userCredential = await firebase.auth()
+        .signInWithEmailAndPassword(profile.email, password);
+      setFirebaseUser(userCredential.user);
+      handleDialogClose();
+      handleEditProfile();
+    } catch (err) {
+      setError('Incorrect password! Please try again.');
+    }
+    setConfirming(false);
+    setPassword('');
+  };
+
   if (profile) {
     return (
       <div className={classes.container}>
@@ -106,7 +221,20 @@ export default function Home() {
           <Grid item xs>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
               <Grid item style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
-                <Typography variant="h4">{profile.displayName}</Typography>
+                {editMode ? (
+                  <FormControl style={{ marginBottom: theme.spacing(2) }}>
+                    <TextField
+                      label="Display Name"
+                      variant="outlined"
+                      value={displayName}
+                      error={!(testDisplayName())}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                    />
+                    <FormHelperText variant="outlined">{`${displayName ? displayName.length || 0 : 0}/50`}</FormHelperText>
+                  </FormControl>
+                ) : (
+                  <Typography variant="h4">{displayName}</Typography>
+                )}
               </Grid>
               { profile.staff ? (
                 <Grid item xs>
@@ -114,7 +242,24 @@ export default function Home() {
                 </Grid>
               ) : null}
               <Grid item xs={12} style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
-                <Typography variant="body1">{`@${profile.username}`}</Typography>
+                {editMode ? (
+                  <FormControl>
+                    <TextField
+                      label="Username"
+                      variant="outlined"
+                      value={username}
+                      size="small"
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">@</InputAdornment>,
+                      }}
+                      error={!(testUsername())}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <FormHelperText variant="outlined">{`${username ? username.length || 0 : 0}/15`}</FormHelperText>
+                  </FormControl>
+                ) : (
+                  <Typography variant="body1">{`@${username}`}</Typography>
+                )}
               </Grid>
             </Grid>
             <Grid container>
@@ -158,7 +303,24 @@ export default function Home() {
               </Grid>
             </Grid>
             <div className={classes.section}>
-              <Typography variant="body1">{profile.bio || <i>This profile has no bio.</i>}</Typography>
+              {editMode ? (
+                <FormControl fullWidth>
+                  <TextField
+                    label="Bio"
+                    variant="outlined"
+                    value={bio}
+                    multiline
+                    rows={4}
+                    rowsMax={4}
+                    fullWidth
+                    error={!(testBio())}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+                  <FormHelperText variant="outlined">{`${bio ? bio.length || 0 : 0}/160`}</FormHelperText>
+                </FormControl>
+              ) : (
+                <Typography variant="body1">{bio || <i>This profile has no bio.</i>}</Typography>
+              )}
             </div>
             <div className={classes.section}>
               <Grid container>
@@ -169,11 +331,25 @@ export default function Home() {
                         <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{profile.email}</Typography>
+                        {editMode ? (
+                          <FormControl>
+                            <TextField
+                              label="Email"
+                              variant="outlined"
+                              value={email}
+                              error={!(testEmail())}
+                              size="small"
+                              onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <FormHelperText variant="outlined">Verification email will be sent after updating.</FormHelperText>
+                          </FormControl>
+                        ) : (
+                          <Typography variant="body1">{email}</Typography>
+                        )}
                       </Grid>
                       {authUser ? (
                         <Grid item xs>
-                          { authUser.emailVerified ? <CheckIcon /> : <InfoIcon /> }
+                          { authUser.emailVerified ? <CheckIcon /> : null }
                         </Grid>
                       ) : null }
                     </Grid>
@@ -193,8 +369,11 @@ export default function Home() {
                         </Grid>
                       </div>
                     </Grid>
-                  ) : null }
+                  ) : null}
               </Grid>
+            </div>
+            <div className={classes.section} style={{ marginTop: theme.spacing(3) }}>
+              <Button variant="contained" color="primary" size="large" onClick={editMode ? handleEditProfile : handleDialogOpen} disabled={updating}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
             </div>
           </Grid>
         </Grid>
@@ -210,6 +389,29 @@ export default function Home() {
               </Grid>
             </Grid>
           )}
+
+        <Dialog
+          open={confirmPasswordDialog}
+          onClose={handleDialogClose}
+        >
+          <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
+          <DialogContent style={{ padding: theme.spacing(2) }}>
+            <FormControl>
+              <TextField
+                label="Confirm Password"
+                type="password"
+                variant="outlined"
+                value={password}
+                size="small"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <FormHelperText variant="outlined">Password is required to update profile.</FormHelperText>
+            </FormControl>
+          </DialogContent>
+          <DialogActions style={{ padding: theme.spacing(2) }}>
+            <Button variant="contained" color="primary" onClick={handleConfirmPassword} disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
