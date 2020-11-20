@@ -16,8 +16,8 @@ export async function getStaticProps() {
       WP.posts().categories(430),
     ]);
 
-    return { props: { articles }, revalidate: 5 };
+    return { props: { articles }, revalidate: 1 };
   } catch (err) {
-    return { props: { articles: [] }, revalidate: 5 };
+    return { props: { articles: [] }, revalidate: 1 };
   }
 }
