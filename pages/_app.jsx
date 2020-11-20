@@ -89,13 +89,9 @@ export default function MyApp(props) {
             <ErrorProvider>
               <AuthProvider>
                 <TrendingProvider>
-                  {!loadingAuth || !process.browser
-                    ? (
-                      <Layout setDarkMode={setDarkMode}>
-                        <Component {...pageProps} />
-                      </Layout>
-                    )
-                    : null}
+                  <Layout setDarkMode={setDarkMode}>
+                    <Component {...pageProps} />
+                  </Layout>
                 </TrendingProvider>
               </AuthProvider>
             </ErrorProvider>
