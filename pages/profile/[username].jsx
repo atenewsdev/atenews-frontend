@@ -509,14 +509,14 @@ export async function getStaticProps({ params }) {
       props: {
         profile: null,
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   } catch (err) {
     return {
       props: {
         profile: null,
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   }
 }

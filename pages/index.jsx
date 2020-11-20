@@ -210,14 +210,14 @@ export async function getStaticProps() {
         editorial: editorial[0],
         columns,
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   } catch (err) {
     return {
       props: {
         recentArticles: [], news: [], features: [], featuredPhoto: {}, editorial: {}, columns: [],
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   }
 }

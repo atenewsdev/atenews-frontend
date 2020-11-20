@@ -15,8 +15,8 @@ export async function getStaticProps() {
     const [articles] = await Promise.all([
       WP.posts().categories(590),
     ]);
-    return { props: { articles }, revalidate: 10 };
+    return { props: { articles }, revalidate: 5 };
   } catch (err) {
-    return { props: { articles: [] }, revalidate: 10 };
+    return { props: { articles: [] }, revalidate: 5 };
   }
 }

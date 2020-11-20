@@ -132,14 +132,14 @@ export async function getStaticProps() {
       props: {
         staffs,
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   } catch (err) {
     return {
       props: {
         staffs: [],
       },
-      revalidate: 10,
+      revalidate: 5,
     };
   }
 }
