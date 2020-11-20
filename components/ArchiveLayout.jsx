@@ -13,6 +13,7 @@ import Button from '@/components/Button';
 import { Typography, Grid } from '@material-ui/core';
 
 import { useTrending } from '@/utils/hooks/useTrending';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
   account: {
@@ -30,8 +31,11 @@ const useStyles = makeStyles({
 export default function Page({ articles, name }) {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   const trending = useTrending();
+
+  const baseUrlMenu = (url) => (url !== '/' ? `${url.split('/').slice(0, 2).join('/')}` : '/');
 
   return (
     <div className={classes.container}>
@@ -50,12 +54,14 @@ export default function Page({ articles, name }) {
         <Grid item>
           <Typography variant="h2">{name}</Typography>
         </Grid>
-        <Grid item xs>
-          <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-            <FollowIcon style={{ marginRight: theme.spacing(1) }} />
-            Follow
-          </Button>
-        </Grid>
+        {baseUrlMenu(router.pathname) !== '/search' ? (
+          <Grid item xs>
+            <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
+              <FollowIcon style={{ marginRight: theme.spacing(1) }} />
+              Follow
+            </Button>
+          </Grid>
+        ) : null }
       </Grid>
       <Trending articles={trending} />
       { articles.map((article) => (

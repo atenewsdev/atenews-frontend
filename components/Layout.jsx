@@ -154,6 +154,8 @@ const Layout = ({ children, setDarkMode }) => {
 
   const [open, setOpen] = React.useState(false);
 
+  const [search, setSearch] = React.useState('');
+
   const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -192,6 +194,7 @@ const Layout = ({ children, setDarkMode }) => {
       '/opinion/editorial',
       '/opinion/blueblood',
       '/photos/featured',
+      '/search',
     ];
     if (largerWidthPages.includes(baseUrlMenu(router.pathname))) {
       setIsLargeWidth(true);
@@ -262,20 +265,24 @@ const Layout = ({ children, setDarkMode }) => {
             { value === 1
               ? (
                 <>
-                  <TextField
-                    variant="outlined"
-                    placeholder="Search Atenews"
-                    fullWidth
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment>
-                          <IconButton>
-                            <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                  <form onSubmit={(e) => { e.preventDefault(); router.push(`/search?query=${search}`); }}>
+                    <TextField
+                      variant="outlined"
+                      placeholder="Search Atenews"
+                      fullWidth
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment>
+                            <IconButton type="submit">
+                              <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </form>
                   <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', marginTop: theme.spacing(4) }}>
                     <Paper variant="outlined" square className={classes.trendingHead}>
                       <Typography variant="h5">Trending</Typography>

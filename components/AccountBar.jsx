@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useRouter } from 'next/router';
+
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
@@ -63,9 +65,11 @@ const useStyles = makeStyles((theme) => ({
 export default function AccountBar({ setDarkMode }) {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
+  const [search, setSearch] = React.useState('');
   const { profile } = useAuth();
 
   const [activeButton, setActiveButton] = React.useState(null);
@@ -120,20 +124,24 @@ export default function AccountBar({ setDarkMode }) {
         <animated.div className={classes.search} style={props}>
           <Grid container alignItems="center" style={{ height: '100%' }}>
             <Grid item xs>
-              <TextField
-                variant="outlined"
-                placeholder="Search Atenews"
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment>
-                      <IconButton>
-                        <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <form onSubmit={(e) => { e.preventDefault(); router.push(`/search?query=${search}`); }}>
+                <TextField
+                  variant="outlined"
+                  placeholder="Search Atenews"
+                  fullWidth
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment>
+                        <IconButton type="submit">
+                          <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </form>
             </Grid>
           </Grid>
         </animated.div>

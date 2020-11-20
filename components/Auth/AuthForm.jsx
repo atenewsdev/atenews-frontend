@@ -50,7 +50,8 @@ const AuthForm = ({ close, mobile }) => {
   const testEmail = () => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
   const testPassword = () => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
     if (username && email && password && password === confirmPassword) {
       if (!testUsername()) {
         setError('Username is limited to 15 alphanumeric characters only!');
@@ -80,7 +81,8 @@ const AuthForm = ({ close, mobile }) => {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     if (email && password) {
       loginWithEmail(email, password);
       close();
@@ -92,6 +94,50 @@ const AuthForm = ({ close, mobile }) => {
   if (!isRegister) {
     return (
       <Paper variant="outlined" className={classes.viewContainer}>
+        <form onSubmit={handleLogin}>
+          { mobile ? null : <div className={classes.arrowUp} /> }
+          <Grid container spacing={2} alignItems="center" direction="column">
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                variant="outlined"
+                label="Email"
+                fullWidth
+                required
+                error={!(testEmail()) && email !== ''}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                type="password"
+                variant="outlined"
+                label="Password"
+                fullWidth
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button type="submit" variant="contained" color="primary" size="small" fullWidth>Login</Button>
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Divider style={{ marginBottom: theme.spacing(2) }} />
+              <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    );
+  }
+
+  return (
+    <Paper variant="outlined" className={classes.viewContainer}>
+      <form onSubmit={handleRegister}>
         { mobile ? null : <div className={classes.arrowUp} /> }
         <Grid container spacing={2} alignItems="center" direction="column">
           <Grid item style={{ width: '100%' }}>
@@ -107,88 +153,48 @@ const AuthForm = ({ close, mobile }) => {
           </Grid>
           <Grid item style={{ width: '100%' }}>
             <TextField
+              variant="outlined"
+              label="Username"
+              fullWidth
+              required
+              error={!(testUsername()) && username !== ''}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Grid>
+          <Grid item style={{ width: '100%' }}>
+            <TextField
               type="password"
               variant="outlined"
               label="Password"
               fullWidth
               required
+              error={!(testPassword()) && password !== ''}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid item style={{ width: '100%' }}>
-            <Button onClick={handleLogin} variant="contained" color="primary" size="small" fullWidth>Login</Button>
+            <TextField
+              error={password !== confirmPassword}
+              type="password"
+              variant="outlined"
+              label="Confirm Password"
+              fullWidth
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
           </Grid>
           <Grid item style={{ width: '100%' }}>
-            <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
+            <Button type="submit" variant="contained" color="primary" size="small" fullWidth>Register</Button>
           </Grid>
           <Grid item style={{ width: '100%' }}>
             <Divider style={{ marginBottom: theme.spacing(2) }} />
-            <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+            <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth>Login</Button>
           </Grid>
         </Grid>
-      </Paper>
-    );
-  }
-
-  return (
-    <Paper variant="outlined" className={classes.viewContainer}>
-      { mobile ? null : <div className={classes.arrowUp} /> }
-      <Grid container spacing={2} alignItems="center" direction="column">
-        <Grid item style={{ width: '100%' }}>
-          <TextField
-            variant="outlined"
-            label="Email"
-            fullWidth
-            required
-            error={!(testEmail()) && email !== ''}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Grid>
-        <Grid item style={{ width: '100%' }}>
-          <TextField
-            variant="outlined"
-            label="Username"
-            fullWidth
-            required
-            error={!(testUsername()) && username !== ''}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Grid>
-        <Grid item style={{ width: '100%' }}>
-          <TextField
-            type="password"
-            variant="outlined"
-            label="Password"
-            fullWidth
-            required
-            error={!(testPassword()) && password !== ''}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Grid>
-        <Grid item style={{ width: '100%' }}>
-          <TextField
-            error={password !== confirmPassword}
-            type="password"
-            variant="outlined"
-            label="Confirm Password"
-            fullWidth
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </Grid>
-        <Grid item style={{ width: '100%' }}>
-          <Button onClick={handleRegister} variant="contained" color="primary" size="small" fullWidth>Register</Button>
-        </Grid>
-        <Grid item style={{ width: '100%' }}>
-          <Divider style={{ marginBottom: theme.spacing(2) }} />
-          <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth>Login</Button>
-        </Grid>
-      </Grid>
+      </form>
     </Paper>
   );
 };
