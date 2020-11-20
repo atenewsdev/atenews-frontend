@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
@@ -33,6 +32,8 @@ import { useError } from '@/utils/hooks/useSnackbar';
 import useFirestore from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
+
+import useAdminFirestore from '@/utils/hooks/useAdminFirestore';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,17 +73,15 @@ const TextField = withStyles({
   },
 })(StockTextField);
 
-export default function Home() {
+export default function Home({ profile }) {
   const classes = useStyles();
   const theme = useTheme();
-  const router = useRouter();
   const trending = useTrending();
 
   const { authUser, profile: authProfile } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
-  const [profile, setProfile] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [updating, setUpdating] = React.useState(false);
   const [confirming, setConfirming] = React.useState(false);
@@ -103,19 +102,6 @@ export default function Home() {
     bio: '',
     email: '',
   });
-
-  React.useEffect(() => {
-    const { username: queryUsername } = router.query;
-
-    firebase.firestore().collection('users').where('username', '==', queryUsername).get()
-      .then((snapshot) => {
-        if (!snapshot.empty) {
-          setProfile({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
-        } else {
-          setError('User not found!');
-        }
-      });
-  }, [router.query]);
 
   const [confirmPasswordDialog, setConfirmPasswordDialog] = React.useState(false);
 
@@ -162,6 +148,8 @@ export default function Home() {
       }).catch((err) => {
         setError(err.message);
       });
+    } else {
+      setError('User not found!');
     }
   }, [profile]);
 
@@ -485,4 +473,30 @@ export default function Home() {
       <Trending articles={trending} />
     </>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  try {
+    const { firebase } = useAdminFirestore();
+    const snapshot = await firebase.firestore().collection('users').where('username', '==', params.username).get();
+    if (!snapshot.empty) {
+      return {
+        props: {
+          profile: { ...snapshot.docs[0].data(), id: snapshot.docs[0].id },
+        },
+      };
+    }
+
+    return {
+      props: {
+        profile: null,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        profile: null,
+      },
+    };
+  }
 }
