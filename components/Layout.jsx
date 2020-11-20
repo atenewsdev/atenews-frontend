@@ -266,7 +266,14 @@ const Layout = ({ children, setDarkMode }) => {
             { value === 1
               ? (
                 <>
-                  <form onSubmit={(e) => { e.preventDefault(); router.push(`/search?query=${search}`); }}>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      router.push(`/search?query=${search}`);
+                      setValue(0);
+                      setOpen(false);
+                    }}
+                  >
                     <TextField
                       variant="outlined"
                       placeholder="Search Atenews"

@@ -10,7 +10,7 @@ import Trending from '@/components/Home/Trending';
 import FollowIcon from '@material-ui/icons/Add';
 import Button from '@/components/Button';
 
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Hidden } from '@material-ui/core';
 
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useRouter } from 'next/router';
@@ -52,7 +52,12 @@ export default function Page({ articles, name }) {
       />
       <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
         <Grid item>
-          <Typography variant="h2">{name}</Typography>
+          <Hidden smDown>
+            <Typography variant="h3">{name}</Typography>
+          </Hidden>
+          <Hidden mdUp>
+            <Typography variant="h4">{name}</Typography>
+          </Hidden>
         </Grid>
         {baseUrlMenu(router.pathname) !== '/search' ? (
           <Grid item xs>
