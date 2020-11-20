@@ -28,7 +28,7 @@ const PopoutView = () => {
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
       <div className={classes.arrowUp} />
-      This is notification view.
+      Notifications coming soon!
     </Paper>
   );
 };

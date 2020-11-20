@@ -328,7 +328,7 @@ const Layout = ({ children, setDarkMode }) => {
               )
               : null }
             { value === 2 && profile
-              ? <Typography>Notification Sheet Test</Typography>
+              ? <Typography>Notifications coming soon!</Typography>
               : null}
             { value === 2 && !profile ? (
               <AuthForm
