@@ -10,6 +10,8 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="preload" href="/logo.png" as="image" />
+          <link rel="preload" href="/logo-blue.png" as="image" />
           <meta name="application-name" content="Atenews" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -29,6 +31,20 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <img
+            style={{
+              margin: 'auto',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              zIndex: -1,
+            }}
+            src="/logo-blue.png"
+            alt="Atenews Logo"
+            width="100"
+          />
         </body>
       </Html>
     );
