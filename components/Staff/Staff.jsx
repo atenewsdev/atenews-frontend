@@ -43,6 +43,15 @@ const Column = ({ details }) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const rolesIgnore = [
+    'subscriber',
+    'contributor',
+    'administrator',
+    'editor',
+  ];
+
+  const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
   return (
     <CardActionArea onClick={() => {}} style={{ marginTop: theme.spacing(1) }}>
       <Paper variant="outlined" className={classes.trendingItem}>
@@ -51,8 +60,10 @@ const Column = ({ details }) => {
             <Avatar className={classes.avatar} src={details.avatar} />
           </Grid>
           <Grid item xs>
-            <Typography variant="h6">{details.name}</Typography>
-            <Typography variant="body1" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>{details.position}</Typography>
+            <Typography variant="h6">{details.display_name}</Typography>
+            {details.roles.map((role) => (!rolesIgnore.includes(role) ? (
+              <Typography variant="body1" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>{humanRole(role)}</Typography>
+            ) : null)) }
           </Grid>
         </Grid>
       </Paper>

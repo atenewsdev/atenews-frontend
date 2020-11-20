@@ -9,6 +9,8 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
 import MapIcon from '@material-ui/icons/PinDrop';
 
+import WP from '@/utils/wordpress';
+
 import { Typography, Grid, Hidden } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,47 +24,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Home({ staffs: staffsRaw }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const staffSample = [
-    {
-      name: 'Gwyneth Marie Vasquez',
-      avatar: '',
-      position: 'Editor-In-Chief',
-    },
-    {
-      name: 'Sofia Roena Guan',
-      avatar: '',
-      position: 'Associate and Managing Editor',
-    },
-    {
-      name: 'Red',
-      avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/a/a6/1_red.png/revision/latest/top-crop/width/360/height/450?cb=20200912125145',
-      position: 'The Impostor',
-    },
-    {
-      name: 'Green',
-      avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/3/34/3_green.png/revision/latest/top-crop/width/360/height/450?cb=20200912125201',
-      position: 'A Crewmate',
-    },
-    {
-      name: 'Cyan',
-      avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/5/5a/DeadCharacter.png/revision/latest/top-crop/width/220/height/220?cb=20200803160829',
-      position: 'A Dead Crewmate',
-    },
-    {
-      name: 'Black',
-      avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/5/55/7_black.png/revision/latest/top-crop/width/360/height/450?cb=20200912125223',
-      position: 'A Crewmate',
-    },
-    {
-      name: 'Brown',
-      avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/b/b2/10_brown.png/revision/latest/top-crop/width/360/height/450?cb=20200912125240',
-      position: 'A Crewmate',
-    },
-  ];
+  const [staffs, setStaffs] = React.useState([]);
+
+  React.useEffect(() => {
+    setStaffs(staffsRaw.filter((staff) => {
+      const rolesIgnore = [
+        'subscriber',
+        'contributor',
+        'administrator',
+        'editor',
+      ];
+      const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
+
+      return cleanRoles.length > 0;
+    }));
+  }, [staffsRaw]);
 
   return (
     <div className={classes.container}>
@@ -89,7 +69,7 @@ export default function Home() {
       <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Staff</Typography>
 
       <Grid container spacing={2}>
-        { staffSample.map((staff, i) => (
+        { staffs.map((staff, i) => (
           <Grid item xs={12} sm={6} key={i}>
             <Staff details={staff} />
           </Grid>
@@ -143,4 +123,21 @@ export default function Home() {
 
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const staffs = await WP.staffs();
+    return {
+      props: {
+        staffs,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        staffs: [],
+      },
+    };
+  }
 }

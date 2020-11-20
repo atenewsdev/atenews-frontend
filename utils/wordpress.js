@@ -6,5 +6,6 @@ const wp = new Wordpress({
 
 wp.relatedPosts = wp.registerRoute('sections/v1', '/related/(?P<id>\\d+)');
 wp.usersEmail = wp.registerRoute('sections/v1', '/user/(?P<email>[\\d\\D]+)');
+wp.staffs = wp.registerRoute('sections/v1', '/staffs');
 
 module.exports = wp;
