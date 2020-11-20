@@ -46,7 +46,6 @@ export default function MyApp(props) {
   const { Component, pageProps } = props;
 
   const { saveDocument } = useFirestore();
-  const [loadingAuth, setLoadingAuth] = React.useState(true);
 
   const [darkMode, setDarkMode] = React.useState(false);
 
@@ -58,12 +57,6 @@ export default function MyApp(props) {
     }
 
     firebase.auth().onAuthStateChanged(() => {
-      if (loadingAuth) {
-        setLoadingAuth(false);
-      } else {
-        setLoadingAuth(true);
-      }
-
       if (!firebase.auth().currentUser) {
         setDarkMode(false);
       }
