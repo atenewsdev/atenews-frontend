@@ -31,20 +31,6 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <img
-            style={{
-              margin: 'auto',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              zIndex: -1,
-            }}
-            src="/logo-blue.png"
-            alt="Atenews Logo"
-            width="100"
-          />
         </body>
       </Html>
     );
