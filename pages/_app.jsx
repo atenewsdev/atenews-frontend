@@ -79,7 +79,6 @@ export default function MyApp(props) {
   return (
     <>
       <Head>
-        <title>Atenews - The official student publication of the Ateneo de Davao University</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover" />
 
         <link rel="preload" href="/logo.png" as="image" />
