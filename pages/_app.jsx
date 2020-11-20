@@ -50,6 +50,7 @@ export default function MyApp(props) {
   const [darkMode, setDarkMode] = React.useState(false);
 
   React.useEffect(() => {
+    // Notification.requestPermission();
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
