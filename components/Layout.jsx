@@ -16,8 +16,6 @@ import { useTrending } from '@/utils/hooks/useTrending';
 
 import AuthForm from '@/components/Auth/AuthForm';
 
-import firebase from '@/utils/firebase';
-
 import {
   Hidden,
   BottomNavigation,
@@ -153,18 +151,6 @@ const Layout = ({ children, setDarkMode }) => {
   const [isLargeWidth, setIsLargeWidth] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
-  const [loadingAuth, setLoadingAuth] = React.useState(true);
-
-  React.useEffect(() => {
-    firebase.auth().onAuthStateChanged(() => {
-      if (loadingAuth) {
-        setLoadingAuth(false);
-      } else {
-        setLoadingAuth(true);
-      }
-    });
-  }, []);
-
   const baseUrlMenu = (url) => (url !== '/' ? `${url.split('/').slice(0, 2).join('/')}` : '/');
 
   const [open, setOpen] = React.useState(false);
@@ -217,22 +203,6 @@ const Layout = ({ children, setDarkMode }) => {
       setIsLargeWidth(false);
     }
   }, [router.pathname]);
-
-  if (loadingAuth) {
-    return (
-      <Grid
-        container
-        spacing={0}
-        alignItems="center"
-        justify="center"
-        style={{ minHeight: '100vh' }}
-      >
-        <Grid item>
-          <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
-        </Grid>
-      </Grid>
-    );
-  }
 
   return (
     <div className={classes.layoutContainer}>
