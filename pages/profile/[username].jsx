@@ -482,7 +482,7 @@ export const getStaticPaths = async () => {
   if (!snapshot.empty) {
     snapshot.docs.forEach((profile) => {
       paths.push({
-        params: { username: profile.username },
+        params: { username: profile.data().username },
       });
     });
   }
