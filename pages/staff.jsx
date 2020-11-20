@@ -125,19 +125,21 @@ export default function Home({ staffs: staffsRaw }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const staffs = await WP.staffs();
     return {
       props: {
         staffs,
       },
+      revalidate: 10,
     };
   } catch (err) {
     return {
       props: {
         staffs: [],
       },
+      revalidate: 10,
     };
   }
 }

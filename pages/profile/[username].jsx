@@ -475,7 +475,25 @@ export default function Home({ profile }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
+export const getStaticPaths = async () => {
+  const { firebase } = useAdminFirestore();
+  const paths = [];
+  const snapshot = await firebase.firestore().collection('users').limit(5).get();
+  if (!snapshot.empty) {
+    snapshot.docs.forEach((profile) => {
+      paths.push({
+        params: { slug: profile.username },
+      });
+    });
+  }
+
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export async function getStaticProps({ params }) {
   try {
     const { firebase } = useAdminFirestore();
     const snapshot = await firebase.firestore().collection('users').where('username', '==', params.username).get();
@@ -491,12 +509,14 @@ export async function getServerSideProps({ params }) {
       props: {
         profile: null,
       },
+      revalidate: 10,
     };
   } catch (err) {
     return {
       props: {
         profile: null,
       },
+      revalidate: 10,
     };
   }
 }

@@ -191,7 +191,7 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const [recentArticles, news, features, featuredPhoto, editorial, columns] = await Promise.all([
       WP.posts().perPage(5),
@@ -210,12 +210,14 @@ export async function getServerSideProps() {
         editorial: editorial[0],
         columns,
       },
+      revalidate: 10,
     };
   } catch (err) {
     return {
       props: {
         recentArticles: [], news: [], features: [], featuredPhoto: {}, editorial: {}, columns: [],
       },
+      revalidate: 10,
     };
   }
 }

@@ -10,14 +10,14 @@ export default function Page(props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const [articles] = await Promise.all([
       WP.posts().categories(430),
     ]);
 
-    return { props: { articles } };
+    return { props: { articles }, revalidate: 10 };
   } catch (err) {
-    return { props: { articles: [] } };
+    return { props: { articles: [] }, revalidate: 10 };
   }
 }
