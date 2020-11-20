@@ -73,6 +73,7 @@ const AuthForm = ({ close, mobile }) => {
         return;
       }
       registerEmail(email, password, username);
+      setIsRegister(false);
       close();
     } else {
       setError('All fields are required!');

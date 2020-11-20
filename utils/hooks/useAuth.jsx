@@ -3,7 +3,6 @@ import {
 } from 'react';
 
 import firebase from '@/utils/firebase';
-import WP from '@/utils/wordpress';
 import useFirestore from './useFirestore';
 import { useError } from './useSnackbar';
 
@@ -38,7 +37,11 @@ export const AuthProvider = ({ children }) => {
     .signInWithEmailAndPassword(email, password).then(async () => {
       setSuccess('Welcome! You have successfully logged in.');
     }).catch((err) => {
-      setError(err.message);
+      if (err.message === 'The user account has been disabled by an administrator.') {
+        setError('The system is still processing your account. Please try again after a few seconds!');
+      } else {
+        setError(err.message);
+      }
     }), []);
 
   const updateProfile = useCallback((document) => firebase.firestore()
@@ -47,51 +50,14 @@ export const AuthProvider = ({ children }) => {
 
   const registerEmail = useCallback((email, password, username) => firebase.auth()
     .createUserWithEmailAndPassword(email, password).then(async () => {
-      await firebase.auth().currentUser.sendEmailVerification();
-      let wpUser = null;
-      // defaults
-      let userDoc = {
-        commentCount: 0,
-        downvotesReceived: 0,
-        upvotesReceived: 0,
-        staff: false,
-        email,
-        darkMode: false,
-      };
-      try {
-        wpUser = await WP.usersEmail().email(email);
-      } catch (err) {
-        wpUser = null;
-      }
-      if (wpUser) {
-        if (wpUser.roles.includes('contributor') || wpUser.roles.includes('editor') || wpUser.roles.includes('administrator')) {
-          userDoc = {
-            ...userDoc,
-            displayName: wpUser.display_name,
-            staff: true,
-            photoURL: wpUser.avatar,
-            username,
-          };
-        } else {
-          userDoc = {
-            ...userDoc,
-            username,
-            displayName: username,
-            staff: false,
-          };
-        }
-        await saveDocument(`wordpress/${wpUser.id}`, {
-          id: firebase.auth().currentUser.uid,
-        });
-      } else {
-        userDoc = {
-          ...userDoc,
+      await Promise.all([
+        firebase.auth().currentUser.sendEmailVerification(),
+        saveDocument(`users/${firebase.auth().currentUser.uid}`, {
           username,
           displayName: username,
-          staff: false,
-        };
-      }
-      await saveDocument(`users/${firebase.auth().currentUser.uid}`, userDoc);
+        }),
+      ]);
+      await firebase.auth().signOut();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       setError(err.message);
