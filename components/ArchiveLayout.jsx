@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Article from '@/components/List/Article';
@@ -41,6 +42,10 @@ export default function Page({ articles, name }) {
           - Atenews
         </title>
       </Head>
+      <NextSeo
+        title={`${name} - Atenews`}
+        description={`Welcome to the official student publication of AdDU. Here is a list of ${name} written by Atenews.`}
+      />
       <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
         <Grid item>
           <Typography variant="h2">{name}</Typography>

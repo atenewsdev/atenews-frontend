@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
@@ -271,6 +272,17 @@ export default function Home({ profile }) {
             - Atenews
           </title>
         </Head>
+        <NextSeo
+          title={`${profile.displayName} (@${profile.username}) - Atenews`}
+          description={`The latest interactions from ${profile.displayName} (@${profile.username}). Join us here in the Atenews website!`}
+          openGraph={{
+            title: `${profile.displayName} (@${profile.username}) - Atenews`,
+            description: `The latest interactions from ${profile.displayName} (@${profile.username}). Join us here in the Atenews website!`,
+          }}
+          twitter={{
+            handle: '@atenews',
+          }}
+        />
         <Grid container spacing={6} justify="center">
           <Grid item>
             <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />

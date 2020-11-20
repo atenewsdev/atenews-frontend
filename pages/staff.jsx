@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Contact from '@/components/Staff/Contact';
@@ -49,6 +50,10 @@ export default function Home({ staffs: staffsRaw }) {
       <Head>
         <title>Staff - Atenews</title>
       </Head>
+      <NextSeo
+        title="Staff - Atenews"
+        description="Welcome to the official student publication of AdDU. Here is a list of the current staff of Atenews."
+      />
       <div className={classes.header}>
         <img src={theme.palette.type === 'dark' ? '/atenews-footer.svg' : '/atenews-header.svg'} alt="Atenews Header" height="35" />
         <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>

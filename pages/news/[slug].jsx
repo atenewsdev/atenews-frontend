@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import DefaultErrorPage from 'next/error';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,6 +64,23 @@ export default function Page({ post, relatedPosts }) {
         <meta property="og:url" content={`https://beta.atenews.ph/news/${post.slug}`} />
         <meta property="og:description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
       </Head>
+      <NextSeo
+        title={`${ReactHtmlParser(post.title.rendered)} - Atenews`}
+        description={post.excerpt.rendered.replace(/<[^>]+>/g, '')}
+        openGraph={{
+          title: `${ReactHtmlParser(post.title.rendered)} - Atenews`,
+          description: post.excerpt.rendered.replace(/<[^>]+>/g, ''),
+          images: [
+            {
+              url: post.featured_image_src,
+            },
+          ],
+        }}
+        twitter={{
+          handle: '@atenews',
+          cardType: 'summary_large_image',
+        }}
+      />
       <ArticlePage post={post} relatedPosts={relatedPosts} />
     </div>
   );
