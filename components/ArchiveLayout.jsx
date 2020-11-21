@@ -10,12 +10,17 @@ import Trending from '@/components/Home/Trending';
 import FollowIcon from '@material-ui/icons/Add';
 import Button from '@/components/Button';
 
-import { Typography, Grid, Hidden } from '@material-ui/core';
+import {
+  Typography, Grid, Hidden, CircularProgress,
+} from '@material-ui/core';
 
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useRouter } from 'next/router';
 
 import { useAuth } from '@/utils/hooks/useAuth';
+
+import InfiniteScroll from 'react-infinite-scroll-component';
+import WP from '@/utils/wordpress';
 
 const useStyles = makeStyles({
   account: {
@@ -30,11 +35,36 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Page({ articles, name }) {
+export default function Page({
+  articlesRaw, name, category, query,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const { loadingAuth } = useAuth();
+
+  const [articles, setArticles] = React.useState(articlesRaw);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [page, setPage] = React.useState(2);
+
+  const next = () => {
+    if (category !== 'search') {
+      WP.posts().categories(category).page(page).then((posts) => {
+        if (posts.length === 0) {
+          setHasMore(false);
+        }
+        setArticles([...articles, ...posts]);
+      });
+    } else {
+      WP.posts().search(query).page(page).then((posts) => {
+        if (posts.length === 0) {
+          setHasMore(false);
+        }
+        setArticles([...articles, ...posts]);
+      });
+    }
+    setPage((prev) => prev + 1);
+  };
 
   const trending = useTrending();
 
@@ -74,9 +104,29 @@ export default function Page({ articles, name }) {
             ) : null }
           </Grid>
           <Trending articles={trending} />
-          { articles.map((article) => (
-            <Article key={article.id} article={article} />
-          )) }
+          <InfiniteScroll
+            dataLength={articles.length}
+            next={next}
+            hasMore={hasMore}
+            loader={(
+              <div style={{ overflow: 'hidden' }}>
+                <Grid
+                  container
+                  spacing={0}
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Grid item>
+                    <CircularProgress />
+                  </Grid>
+                </Grid>
+              </div>
+            )}
+          >
+            { articles.map((article, index) => (
+              <Article key={index} article={article} />
+            ))}
+          </InfiniteScroll>
         </>
       ) : (
         <Grid

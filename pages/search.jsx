@@ -17,8 +17,8 @@ export async function getServerSideProps({ query: rawQuery }) {
     const [articles] = await Promise.all([
       WP.posts().search(query),
     ]);
-    return { props: { articles, query } };
+    return { props: { articles, query, category: 'search' } };
   } catch (err) {
-    return { props: { articles: [], query: '' } };
+    return { props: { articles: [], query: '', category: 'search' } };
   }
 }

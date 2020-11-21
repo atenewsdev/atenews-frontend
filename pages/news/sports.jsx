@@ -12,11 +12,11 @@ export default function Page(props) {
 
 export async function getStaticProps() {
   try {
-    const [articles] = await Promise.all([
+    const [articlesRaw] = await Promise.all([
       WP.posts().categories(7),
     ]);
-    return { props: { articles }, revalidate: 1 };
+    return { props: { articlesRaw, category: 7 }, revalidate: 1 };
   } catch (err) {
-    return { props: { articles: [] }, revalidate: 1 };
+    return { props: { articlesRaw: [], category: 7 }, revalidate: 1 };
   }
 }
