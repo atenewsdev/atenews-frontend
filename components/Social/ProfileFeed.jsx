@@ -137,7 +137,7 @@ const ProfileFeed = ({ comment }) => {
     }
   }, []);
 
-  if (!feedStats && !article) {
+  if (!feedStats || !article) {
     return (
       <Grid container justify="center" alignItems="center" spacing={2}>
         <Grid item>
