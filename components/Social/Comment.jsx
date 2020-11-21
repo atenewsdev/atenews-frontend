@@ -23,6 +23,8 @@ import {
   ListItemText,
 } from '@material-ui/core';
 
+import imageGenerator from '@/utils/imageGenerator';
+
 const Paper = withStyles((theme) => ({
   root: {
     borderRadius: 30,
@@ -51,7 +53,10 @@ export default function Page({
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
-        <Avatar className={reply ? classes.avatarReply : classes.avatar} src={user.avatar} />
+        <Avatar
+          className={reply ? classes.avatarReply : classes.avatar}
+          src={imageGenerator(user.avatar, 300)}
+        />
       </ListItemAvatar>
       <ListItemText
         primary={(

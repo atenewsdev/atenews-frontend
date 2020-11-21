@@ -12,6 +12,8 @@ import Column from '@/components/List/Column';
 
 import WPGBlocks from 'react-gutenberg';
 
+import imageGenerator from '@/utils/imageGenerator';
+
 import WP from '@/utils/wordpress';
 
 import { useTrending } from '@/utils/hooks/useTrending';
@@ -95,7 +97,7 @@ export default function Home({
           </Grid>
         </Grid>
         <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-          <img src={featuredPhoto.featured_image_src} alt="Featured" style={{ width: '100%' }} />
+          <img src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" style={{ width: '100%' }} />
         </div>
         <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
           <Grid container justify="center">

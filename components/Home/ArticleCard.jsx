@@ -19,6 +19,7 @@ import {
   Typography, Grid, Card, CardContent, CardActionArea,
 } from '@material-ui/core';
 
+import imageGenerator from '@/utils/imageGenerator';
 import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
 
 const useStyles = makeStyles(() => ({
@@ -83,7 +84,7 @@ const Trending = ({ article }) => {
             borderRadius: 10,
             border: 0,
             height: '100%',
-            background: `url(${article.featured_image_src})`,
+            background: `url(${imageGenerator(article.featured_image_src, 600)})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

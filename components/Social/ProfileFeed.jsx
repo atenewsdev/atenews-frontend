@@ -8,6 +8,7 @@ import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
+import imageGenerator from '@/utils/imageGenerator';
 import slugGenerator from '@/utils/slugGenerator';
 
 import { formatDistanceToNow } from 'date-fns';
@@ -134,7 +135,7 @@ const ProfileFeed = ({ comment }) => {
           </Grid>
           <Grid item xs={3}>
             { image
-              ? <img src={image} alt="Profile" width="100%" />
+              ? <img src={imageGenerator(image, 400)} alt="Profile" width="100%" />
               : (
                 <Grid container justify="center" alignItems="center" spacing={2}>
                   <Grid item>

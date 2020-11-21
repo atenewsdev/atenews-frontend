@@ -13,6 +13,7 @@ import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+import imageGenerator from '@/utils/imageGenerator';
 
 import {
   Typography, Hidden, Grid, Card, CardMedia, CardContent, CardActionArea,
@@ -83,7 +84,10 @@ const Trending = ({ article, topImage }) => {
               <>
                 <Grid item xs={12}>
                   <CardActionArea onClick={() => router.push(slugGenerator(article))}>
-                    <CardMedia className={classes.media} image={article.featured_image_src} />
+                    <CardMedia
+                      className={classes.media}
+                      image={imageGenerator(article.featured_image_src, 500)}
+                    />
                   </CardActionArea>
                 </Grid>
                 <Grid item xs={12}>
@@ -180,12 +184,15 @@ const Trending = ({ article, topImage }) => {
                 <Hidden smUp>
                   <Grid item xs={12}>
                     <CardActionArea onClick={() => router.push(slugGenerator(article))}>
-                      <CardMedia className={classes.media} image={article.featured_image_src} />
+                      <CardMedia
+                        className={classes.media}
+                        image={imageGenerator(article.featured_image_src, 600)}
+                      />
                     </CardActionArea>
                   </Grid>
                 </Hidden>
                 <Hidden xsDown>
-                  <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${article.featured_image_src})` }} onClick={() => router.push(slugGenerator(article))} />
+                  <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(article.featured_image_src, 600)})` }} onClick={() => router.push(slugGenerator(article))} />
                 </Hidden>
                 <Grid item xs={12} sm={6}>
                   <CardContent style={{ padding: theme.spacing(4) }}>

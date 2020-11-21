@@ -22,6 +22,7 @@ import { format } from 'date-fns';
 
 import { CSSTransition } from 'react-transition-group';
 
+import imageGenerator from '@/utils/imageGenerator';
 import useFirestore from '@/utils/hooks/useFirestore';
 import { useCache } from '@/utils/hooks/useCache';
 import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
@@ -201,7 +202,7 @@ export default function Page({ post, relatedPosts }) {
           marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
-        <img src={post.featured_image_src} alt={post.featured_image_caption} width="100%" />
+        <img src={imageGenerator(post.featured_image_src, 800)} alt={post.featured_image_caption} width="100%" />
         <div style={{ padding: theme.spacing(2) }}>
           <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
         </div>

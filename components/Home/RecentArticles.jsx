@@ -13,6 +13,7 @@ import ClockIcon from '@material-ui/icons/AccessTime';
 import { animated, useSpring } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+import imageGenerator from '@/utils/imageGenerator';
 
 import {
   Typography, Paper, Grid, CardActionArea, Hidden,
@@ -149,7 +150,7 @@ function RecentArticles({ articles }) {
           />
           <div
             className={classes.bannerImage}
-            style={{ backgroundImage: `url(${hoveredData.featured_image_src})` }}
+            style={{ backgroundImage: `url(${imageGenerator(hoveredData.featured_image_src, 800)})` }}
           >
             <div className={classes.bannerDetailsContainer}>
               <div className={classes.bannerDetails}>

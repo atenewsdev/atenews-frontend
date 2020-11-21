@@ -10,6 +10,7 @@ import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+import imageGenerator from '@/utils/imageGenerator';
 
 import {
   Typography, Paper, Grid, CardActionArea, Avatar,
@@ -77,7 +78,10 @@ const Column = ({ article }) => {
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <Avatar className={classes.avatar} src={article.coauthors[0].avatar} />
+            <Avatar
+              className={classes.avatar}
+              src={imageGenerator(article.coauthors[0].avatar, 300)}
+            />
           </Grid>
           <Grid item xs>
             <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />

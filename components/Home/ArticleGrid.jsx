@@ -14,6 +14,7 @@ import ArticleCard from '@/components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+import imageGenerator from '@/utils/imageGenerator';
 
 import {
   Typography, Grid, Card, CardMedia, CardContent, CardActionArea, Hidden,
@@ -91,7 +92,10 @@ const Trending = ({ articles }) => {
           <Hidden smUp>
             <Grid item xs={12}>
               <CardActionArea onClick={() => router.push(slugGenerator(articles[0]))}>
-                <CardMedia className={classes.media} image={articles[0].featured_image_src} />
+                <CardMedia
+                  className={classes.media}
+                  image={imageGenerator(articles[0].featured_image_src, 600)}
+                />
               </CardActionArea>
             </Grid>
           </Hidden>

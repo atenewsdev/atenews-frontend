@@ -151,7 +151,7 @@ const Layout = ({ children, setDarkMode }) => {
   const [isLargeWidth, setIsLargeWidth] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
-  const baseUrlMenu = (url) => (url !== '/' ? `${url.split('/').slice(0, 2).join('/')}` : '/');
+  const baseUrlMenu = (url) => url.split('?')[0];
 
   const [open, setOpen] = React.useState(false);
 
