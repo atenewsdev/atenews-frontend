@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
 import Head from 'next/head';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import RecentArticles from '@/components/Home/RecentArticles';
@@ -96,7 +95,7 @@ export default function Home({
           </Grid>
         </Grid>
         <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-          <Image src={featuredPhoto.featured_image_src} alt="Featured" width={16} height={9} layout="responsive" objectFit="contain" />
+          <img src={featuredPhoto.featured_image_src} alt="Featured" style={{ width: '100%' }} />
         </div>
         <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
           <Grid container justify="center">

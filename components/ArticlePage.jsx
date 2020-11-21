@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
-
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import FollowIcon from '@material-ui/icons/Add';
@@ -198,13 +196,12 @@ export default function Page({ post, relatedPosts }) {
       </Hidden>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
       <Paper
-        component="div"
         elevation={0}
         style={{
           marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
-        <Image src={post.featured_image_src} alt={post.featured_image_caption} width={16} height={9} layout="responsive" objectFit="fill" />
+        <img src={post.featured_image_src} alt={post.featured_image_caption} width="100%" />
         <div style={{ padding: theme.spacing(2) }}>
           <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
         </div>
