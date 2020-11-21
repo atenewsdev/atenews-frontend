@@ -48,6 +48,13 @@ export default function Header() {
               </IconButton>
             </Grid>
           </Grid>
+          <Typography variant="caption">
+            <a href="/terms-and-conditions" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>Terms and Conditions</a>
+          </Typography>
+          {'    '}
+          <Typography variant="caption">
+            <a href="/privacy-policy" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>Privacy Policy</a>
+          </Typography>
         </Grid>
       </Grid>
     </div>
