@@ -75,6 +75,7 @@ const ProfileFeed = ({ comment }) => {
   const { firebase } = useFirestore();
 
   const [feedStats, setFeedStats] = React.useState(null);
+  const [article, setArticle] = React.useState(null);
   const [description, setDescription] = React.useState('');
 
   const ReactContent = () => {
@@ -95,6 +96,15 @@ const ProfileFeed = ({ comment }) => {
   };
 
   React.useEffect(() => {
+    firebase.database().ref(`articles/${comment.articleSlug}`).once('value').then((doc) => {
+      const ret = { ...doc.val() };
+      const backup = ret.categories;
+
+      if (ret.categories) {
+        ret.categories = Object.keys(backup).map((keyCat) => backup[keyCat]);
+      }
+      setArticle(ret);
+    });
     switch (comment.type) {
       case 'comment':
         setDescription('Made a comment on ');
@@ -127,7 +137,7 @@ const ProfileFeed = ({ comment }) => {
     }
   }, []);
 
-  if (!feedStats) {
+  if (!feedStats && !article) {
     return (
       <Grid container justify="center" alignItems="center" spacing={2}>
         <Grid item>
@@ -140,7 +150,7 @@ const ProfileFeed = ({ comment }) => {
   return (
     <CardActionArea
       onClick={() => router.push(slugGenerator({
-        categories_detailed: comment.article.categories,
+        categories_detailed: article.categories,
         slug: comment.articleSlug,
       }))}
       style={{ marginTop: theme.spacing(1) }}
