@@ -137,7 +137,7 @@ export const getStaticProps = async (ctx) => {
   }
   if (res.length > 0) {
     relatedPosts = await WP.relatedPosts().id(res[0].id);
-    return { props: { post: res[0], relatedPosts }, revalidate: 1 };
+    return { props: { post: res[0], relatedPosts }, revalidate: 10 };
   }
-  return { props: { post: {}, relatedPosts }, revalidate: 1 };
+  return { props: { post: {}, relatedPosts }, revalidate: 10 };
 };
