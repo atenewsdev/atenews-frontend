@@ -24,6 +24,9 @@ const CustomError = ({ statusCode }) => (
     <Grid item>
       <Typography variant="h5">The dev team is working hard to fix this!</Typography>
     </Grid>
+    <Grid item>
+      <Typography variant="body1">Try to refresh the page in a few moments. Sorry for the inconvenience 👉👈</Typography>
+    </Grid>
   </Grid>
 );
 

@@ -19,7 +19,7 @@ export default function Custom404() {
         <Typography variant="h4">Error 404</Typography>
       </Grid>
       <Grid item>
-        <Typography variant="h5">Page not found!</Typography>
+        <Typography variant="h5">Page not found! Sorry for the inconvenience 👉👈</Typography>
       </Grid>
     </Grid>
   );
