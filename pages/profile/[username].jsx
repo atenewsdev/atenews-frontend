@@ -278,6 +278,11 @@ export default function Home({ profile }) {
           openGraph={{
             title: `${profile.displayName} (@${profile.username}) - Atenews`,
             description: `The latest interactions from ${profile.displayName} (@${profile.username}). Join us here in the Atenews website!`,
+            images: profile.photoURL ? [
+              {
+                url: profile.photoURL.replace('_normal', ''),
+              },
+            ] : [],
           }}
           twitter={{
             handle: '@atenews',
