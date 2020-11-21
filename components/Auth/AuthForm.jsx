@@ -40,6 +40,7 @@ const AuthForm = ({ close, mobile }) => {
   const theme = useTheme();
   const { setError } = useError();
 
+  const [loading, setLoading] = React.useState(false);
   const [isRegister, setIsRegister] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [username, setUsername] = React.useState('');
@@ -73,9 +74,14 @@ const AuthForm = ({ close, mobile }) => {
         setError('Password requires a minimum eight characters, at least one letter and one number.');
         return;
       }
-      registerEmail(email, password, username);
-      setIsRegister(false);
-      close();
+      setLoading(true);
+      registerEmail(email, password, username, () => {
+        setLoading(false);
+        setIsRegister(false);
+        close();
+      }, () => {
+        setLoading(false);
+      });
     } else {
       setError('All fields are required!');
     }
@@ -84,8 +90,13 @@ const AuthForm = ({ close, mobile }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (email && password) {
-      loginWithEmail(email, password);
-      close();
+      setLoading(true);
+      loginWithEmail(email, password, () => {
+        setLoading(false);
+        close();
+      }, () => {
+        setLoading(false);
+      });
     } else {
       setError('All fields are required!');
     }
@@ -106,6 +117,8 @@ const AuthForm = ({ close, mobile }) => {
                 error={!(testEmail()) && email !== ''}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                autoFocus
               />
             </Grid>
             <Grid item style={{ width: '100%' }}>
@@ -117,17 +130,18 @@ const AuthForm = ({ close, mobile }) => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
               />
             </Grid>
             <Grid item style={{ width: '100%' }}>
-              <Button type="submit" variant="contained" color="primary" size="small" fullWidth>Login</Button>
+              <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
             </Grid>
             <Grid item style={{ width: '100%' }}>
-              <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth>Login with Twitter</Button>
+              <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login with Twitter</Button>
             </Grid>
             <Grid item style={{ width: '100%' }}>
               <Divider style={{ marginBottom: theme.spacing(2) }} />
-              <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth>Register</Button>
+              <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
             </Grid>
           </Grid>
         </form>
@@ -149,6 +163,8 @@ const AuthForm = ({ close, mobile }) => {
               error={!(testEmail()) && email !== ''}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+              autoFocus
             />
           </Grid>
           <Grid item style={{ width: '100%' }}>
@@ -160,6 +176,7 @@ const AuthForm = ({ close, mobile }) => {
               error={!(testUsername()) && username !== ''}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              disabled={loading}
             />
           </Grid>
           <Grid item style={{ width: '100%' }}>
@@ -172,6 +189,7 @@ const AuthForm = ({ close, mobile }) => {
               error={!(testPassword()) && password !== ''}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </Grid>
           <Grid item style={{ width: '100%' }}>
@@ -184,14 +202,15 @@ const AuthForm = ({ close, mobile }) => {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={loading}
             />
           </Grid>
           <Grid item style={{ width: '100%' }}>
-            <Button type="submit" variant="contained" color="primary" size="small" fullWidth>Register</Button>
+            <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
           </Grid>
           <Grid item style={{ width: '100%' }}>
             <Divider style={{ marginBottom: theme.spacing(2) }} />
-            <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth>Login</Button>
+            <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
           </Grid>
         </Grid>
       </form>

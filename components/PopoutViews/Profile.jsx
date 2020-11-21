@@ -87,14 +87,14 @@ const PopoutView = ({ close, setDarkMode }) => {
           className={classes.list}
         >
           { theme.palette.type === 'dark' ? (
-            <ListItem button onClick={() => { setDarkMode(false); close(); }}>
+            <ListItem button onClick={() => { setDarkMode(false); }}>
               <ListItemIcon>
                 <Brightness7Icon />
               </ListItemIcon>
               <ListItemText primary="Light Mode" />
             </ListItem>
           ) : (
-            <ListItem button onClick={() => { setDarkMode(true); close(); }}>
+            <ListItem button onClick={() => { setDarkMode(true); }}>
               <ListItemIcon>
                 <NightsStayIcon />
               </ListItemIcon>

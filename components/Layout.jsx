@@ -294,6 +294,7 @@ const Layout = ({ children, setDarkMode }) => {
                           </InputAdornment>
                         ),
                       }}
+                      autoFocus
                     />
                   </form>
                   <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', marginTop: theme.spacing(4) }}>

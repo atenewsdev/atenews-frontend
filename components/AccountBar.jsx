@@ -70,6 +70,8 @@ export default function AccountBar({ setDarkMode }) {
   const [search, setSearch] = React.useState('');
   const { profile } = useAuth();
 
+  const searchBar = React.useRef();
+
   const [activeButton, setActiveButton] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -126,6 +128,7 @@ export default function AccountBar({ setDarkMode }) {
                       </InputAdornment>
                     ),
                   }}
+                  inputRef={searchBar}
                 />
               </form>
             </Grid>
@@ -141,6 +144,7 @@ export default function AccountBar({ setDarkMode }) {
                 set({ width: '0vw', opacity: 0 });
                 setSearchOpened(false);
               } else {
+                searchBar.current.focus();
                 set({ width: '66vw', opacity: 1 });
                 setSearchOpened(true);
               }

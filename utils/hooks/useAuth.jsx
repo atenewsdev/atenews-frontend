@@ -40,10 +40,12 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const loginWithEmail = useCallback((email, password) => firebase.auth()
+  const loginWithEmail = useCallback((email, password, callback, error) => firebase.auth()
     .signInWithEmailAndPassword(email, password).then(async () => {
       setSuccess('Welcome! You have successfully logged in.');
+      callback();
     }).catch((err) => {
+      error();
       if (err.message === 'The user account has been disabled by an administrator.') {
         setError('The system is still processing your account. Please try again after a few seconds!');
       } else {
@@ -55,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     .doc(`users/${firebase.auth().currentUser.uid}`)
     .update(document), []);
 
-  const registerEmail = useCallback((email, password, username) => firebase.auth()
+  const registerEmail = useCallback((email, password, username, callback, error) => firebase.auth()
     .createUserWithEmailAndPassword(email, password).then(async () => {
       await Promise.all([
         firebase.auth().currentUser.sendEmailVerification(),
@@ -65,8 +67,10 @@ export const AuthProvider = ({ children }) => {
         }),
       ]);
       await firebase.auth().signOut();
+      callback();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
+      error();
       setError(err.message);
     }), []);
 
@@ -111,6 +115,7 @@ export const AuthProvider = ({ children }) => {
     .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider()), []);
 
   const logout = useCallback(() => firebase.auth().signOut().then(() => {
+    setProfile(null);
   }).catch((err) => {
     setError(err.message);
   }), []);

@@ -264,7 +264,16 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button onClick={() => logout()}>
+        <ListItem
+          button
+          onClick={() => {
+            logout();
+            setSideMenu(false);
+            setProfileMenu(false);
+            setOpenSubMenu(null);
+            closeButtomNav();
+          }}
+        >
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
