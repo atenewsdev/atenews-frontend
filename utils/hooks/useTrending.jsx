@@ -21,6 +21,9 @@ export const TrendingProvider = ({ children }) => {
               obj.categories = Object.keys(backupCat).map((keyCat) => backupCat[keyCat]);
             }
             obj.slug = key;
+            if (obj.trashed) {
+              return null;
+            }
             return obj;
           }).sort((a, b) => b.trendScore - a.trendScore));
         }
