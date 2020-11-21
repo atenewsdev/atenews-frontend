@@ -10,10 +10,41 @@ export default async (req, res) => {
     });
 
     // List of posts
-    const [posts, oldPosts] = await Promise.all([
+    const [
+      posts1,
+      posts2,
+      posts3,
+      posts4,
+      posts5,
+      posts6,
+      posts7,
+      posts8,
+      posts9,
+      oldPosts,
+    ] = await Promise.all([
       WP.posts().page(1),
       WP.posts().page(2),
+      WP.posts().page(3),
+      WP.posts().page(4),
+      WP.posts().page(5),
+      WP.posts().page(6),
+      WP.posts().page(7),
+      WP.posts().page(8),
+      WP.posts().page(9),
+      WP.posts().page(10),
     ]);
+    const posts = [
+      ...posts1,
+      ...posts2,
+      ...posts3,
+      ...posts4,
+      ...posts5,
+      ...posts6,
+      ...posts7,
+      ...posts8,
+      ...posts9,
+    ];
+
     const categories = [
       '/',
       '/news/university',
