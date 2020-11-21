@@ -8,6 +8,7 @@ export default function Custom404() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex" />
         <title>Error 404 - Atenews</title>
       </Head>
       <Grid

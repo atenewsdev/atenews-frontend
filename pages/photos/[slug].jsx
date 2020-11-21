@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import DefaultErrorPage from 'next/error';
@@ -40,33 +39,12 @@ export default function Page({ post, relatedPosts }) {
 
   if (!post) {
     return (
-      <>
-        <Head>
-          <meta name="robots" content="noindex" />
-        </Head>
-        <DefaultErrorPage statusCode={404} />
-      </>
+      <DefaultErrorPage statusCode={404} />
     );
   }
 
   return (
     <div className={classes.container}>
-      <Head>
-        <title>
-          {ReactHtmlParser(post.title.rendered)}
-          {' '}
-          - Atenews
-        </title>
-        <meta name="description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
-        <meta name="twitter:card" value="summary" />
-        <meta property="og:title" content={`${ReactHtmlParser(post.title.rendered)} - Atenews`} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={post.featured_image_src} />
-        <meta name="twitter:image" content={post.featured_image_src} />
-
-        <meta property="og:url" content={`https://beta.atenews.ph/photos/${post.slug}`} />
-        <meta property="og:description" content={post.excerpt.rendered.replace(/<[^>]+>/g, '')} />
-      </Head>
       <NextSeo
         title={`${ReactHtmlParser(post.title.rendered)} - Atenews`}
         description={post.excerpt.rendered.replace(/<[^>]+>/g, '')}
@@ -78,6 +56,7 @@ export default function Page({ post, relatedPosts }) {
               url: post.featured_image_src,
             },
           ],
+          type: 'article',
         }}
         twitter={{
           handle: '@atenews',

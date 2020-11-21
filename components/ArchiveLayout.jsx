@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -78,13 +77,6 @@ export default function Page({
 
   return (
     <div className={classes.container}>
-      <Head>
-        <title>
-          {name}
-          {' '}
-          - Atenews
-        </title>
-      </Head>
       <NextSeo
         title={`${name} - Atenews`}
         description={`Welcome to the official student publication of AdDU. Here is a list of ${name} written by Atenews.`}

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
@@ -130,8 +129,11 @@ export default function Home({ profile }) {
             await Promise.all(Object.keys(doc.data()).map(async (key) => {
               arrayList.push(doc.data()[key]);
             }));
+
+            arrayList.sort(
+              (a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime(),
+            );
           }
-          arrayList.sort((a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime());
           setLoading(false);
           setComments(arrayList);
         })
@@ -253,15 +255,6 @@ export default function Home({ profile }) {
   if (profile) {
     return (
       <div className={classes.container}>
-        <Head>
-          <title>
-            { profile.displayName }
-            {' '}
-            { `(@${profile.username})` }
-            {' '}
-            - Atenews
-          </title>
-        </Head>
         <NextSeo
           title={`${profile.displayName} (@${profile.username}) - Atenews`}
           description={`The latest interactions from ${profile.displayName} (@${profile.username}). Join us here in the Atenews website!`}
@@ -272,7 +265,9 @@ export default function Home({ profile }) {
               {
                 url: profile.photoURL.replace('_normal', ''),
               },
-            ] : [],
+            ] : [{
+              url: '/default-thumbnail.jpg',
+            }],
           }}
           twitter={{
             handle: '@atenews',

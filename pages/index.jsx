@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import RecentArticles from '@/components/Home/RecentArticles';
 import Title from '@/components/Home/Title';
@@ -57,9 +57,24 @@ export default function Home({
 
   return (
     <div className={classes.container}>
-      <Head>
-        <title>Atenews - The official student publication of the Ateneo de Davao University</title>
-      </Head>
+      <NextSeo
+        title="Atenews"
+        description="The official student publication of the Ateneo de Davao University"
+        openGraph={{
+          title: 'Atenews',
+          description: 'The official student publication of the Ateneo de Davao University',
+          images: [
+            {
+              url: '/default-thumbnail.jpg',
+            },
+          ],
+          type: 'article',
+        }}
+        twitter={{
+          handle: '@atenews',
+          cardType: 'summary_large_image',
+        }}
+      />
       { !loadingAuth ? (
         <>
           <div className={classes.header}>
