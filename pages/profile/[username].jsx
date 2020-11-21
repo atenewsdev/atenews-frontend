@@ -131,6 +131,7 @@ export default function Home({ profile }) {
               arrayList.push(doc.data()[key]);
             }));
           }
+          arrayList.sort((a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime());
           setLoading(false);
           setComments(arrayList);
         })
