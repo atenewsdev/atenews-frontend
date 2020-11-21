@@ -258,17 +258,17 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
           </ListSubheader>
         )}
       >
-        <ListItem button>
+        <ListItem button onClick={() => handleClickLink(`/profile/${profile.username}`)}>
           <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>
-          <ListItemText primary="Profile" onClick={() => handleClickLink(`/profile/${profile.username}`)} />
+          <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => logout()}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary="Logout" onClick={() => logout()} />
+          <ListItemText primary="Logout" />
         </ListItem>
       </List>
       <Divider />
@@ -280,18 +280,18 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
         )}
       >
         {theme.palette.type === 'dark' ? (
-          <ListItem button>
+          <ListItem button onClick={() => setDarkMode(false)}>
             <ListItemIcon>
               <Brightness7Icon />
             </ListItemIcon>
-            <ListItemText primary="Light Mode" onClick={() => setDarkMode(false)} />
+            <ListItemText primary="Light Mode" />
           </ListItem>
         ) : (
-          <ListItem button>
+          <ListItem button onClick={() => setDarkMode(true)}>
             <ListItemIcon>
               <NightsStayIcon />
             </ListItemIcon>
-            <ListItemText primary="Dark Mode" onClick={() => setDarkMode(true)} />
+            <ListItemText primary="Dark Mode" />
           </ListItem>
         )}
       </List>
