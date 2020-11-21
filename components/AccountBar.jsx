@@ -15,12 +15,10 @@ import {
   ClickAwayListener,
   Avatar,
   Grid,
-  Grow,
   TextField as StockTextField,
   InputAdornment,
 } from '@material-ui/core';
 import { useAuth } from '@/utils/hooks/useAuth';
-import SearchView from './PopoutViews/Search';
 import NotificationView from './PopoutViews/Notification';
 import ProfileView from './PopoutViews/Profile';
 
@@ -94,29 +92,17 @@ export default function AccountBar({ setDarkMode }) {
     }
   };
 
-  const profileView = () => (
-    <ProfileView close={handleClose} setDarkMode={setDarkMode} />
-  );
-
-  const notificationView = () => (
-    <NotificationView />
-  );
-
-  const searchView = () => (
-    <SearchView />
-  );
-
-  const [currentView, setCurrentView] = React.useState(profileView);
-
-  React.useEffect(() => {
-    if (activeButton === 'Search') {
-      setCurrentView(searchView);
-    } else if (activeButton === 'Notifications') {
-      setCurrentView(notificationView);
-    } else if (activeButton === 'Account') {
-      setCurrentView(profileView);
+  const PopperView = () => {
+    if (activeButton === 'Notifications') {
+      return <NotificationView />;
     }
-  }, [activeButton]);
+
+    if (activeButton === 'Account') {
+      return <ProfileView close={handleClose} setDarkMode={setDarkMode} />;
+    }
+
+    return null;
+  };
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
@@ -193,7 +179,7 @@ export default function AccountBar({ setDarkMode }) {
             open={Boolean(anchorEl)}
             anchorEl={anchorEl}
             placement="bottom-end"
-            disablePortal={false}
+            disablePortal
             modifiers={{
               flip: {
                 enabled: false,
@@ -204,9 +190,7 @@ export default function AccountBar({ setDarkMode }) {
               },
             }}
           >
-            <Grow in={Boolean(anchorEl)}>
-              {currentView}
-            </Grow>
+            <PopperView />
           </Popper>
         </div>
       </div>

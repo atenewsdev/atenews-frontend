@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   viewContainer: {
     position: 'relative',
     marginTop: 10,
-    padding: 20,
+    padding: theme.spacing(2),
     borderRadius: 10,
   },
   arrowUp: {
