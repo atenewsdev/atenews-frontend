@@ -122,33 +122,22 @@ export default function Home({ profile }) {
       setBio(profile.bio);
       setEmail(profile.email);
 
-      const arrayList = [];
-      Promise.all([
-        firebase.firestore().collection('comments').where('userId', '==', profile.id).limit(5)
-          .get(),
-        firebase.firestore().collection('replies').where('userId', '==', profile.id).limit(5)
-          .get(),
-      ]).then(async ([commentsQuery, repliesQuery]) => {
-        await Promise.all([
-          ...commentsQuery.docs.map(async (doc) => {
-            const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
-            arrayList.push({
-              ...doc.data(), type: 'comment', id: doc.id, article: article.val(),
-            });
-          }),
-          ...repliesQuery.docs.map(async (doc) => {
-            const article = await firebase.database().ref(`articles/${doc.data().articleSlug}`).once('value');
-            arrayList.push({
-              ...doc.data(), type: 'reply', id: doc.id, article: article.val(),
-            });
-          }),
-        ]);
-        arrayList.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
-        setComments(arrayList);
-        setLoading(false);
-      }).catch((err) => {
-        setError(err.message);
-      });
+      firebase.firestore().collection('profileFeeds').doc(profile.id)
+        .get()
+        .then(async (doc) => {
+          const arrayList = [];
+          if (doc.exists) {
+            await Promise.all(Object.keys(doc.data()).map(async (key) => {
+              arrayList.push(doc.data()[key]);
+            }));
+          }
+          setLoading(false);
+          setComments(arrayList);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setError(err.message);
+        });
     } else {
       setError('User not found!');
     }
