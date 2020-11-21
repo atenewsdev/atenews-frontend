@@ -525,6 +525,7 @@ export async function getStaticProps({ params }) {
         props: {
           profile: { ...snapshot.docs[0].data(), id: snapshot.docs[0].id },
         },
+        revalidate: 5,
       };
     }
 
@@ -532,14 +533,14 @@ export async function getStaticProps({ params }) {
       props: {
         profile: null,
       },
-      revalidate: 1,
+      revalidate: 5,
     };
   } catch (err) {
     return {
       props: {
         profile: null,
       },
-      revalidate: 1,
+      revalidate: 5,
     };
   }
 }
