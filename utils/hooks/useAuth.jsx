@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(firebase.auth().currentUser);
   const [profile, setProfile] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   const { setError, setSuccess } = useError();
 
@@ -19,6 +20,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = firebase.auth()
       .onAuthStateChanged(async (user) => {
+        if (loadingAuth) {
+          setLoadingAuth(false);
+        } else {
+          setLoadingAuth(true);
+        }
+
         setAuthUser(user);
         if (user) {
           getDocument(`users/${user.uid}`, async (data) => {
@@ -120,6 +127,7 @@ export const AuthProvider = ({ children }) => {
       authUser,
       profile,
       logout,
+      loadingAuth,
     }}
     >
       {children}

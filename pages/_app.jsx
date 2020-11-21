@@ -24,6 +24,8 @@ import { CssBaseline } from '@material-ui/core';
 
 import firebase from '@/utils/firebase';
 
+import localforage from 'localforage';
+
 NProgress.configure({
   showSpinner: false,
 });
@@ -57,6 +59,12 @@ export default function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
 
+    localforage.getItem('savedDarkModeState').then((val) => {
+      setDarkMode(val);
+    }).catch(() => {
+      setDarkMode(false);
+    });
+
     firebase.auth().onAuthStateChanged(() => {
       if (!firebase.auth().currentUser) {
         setDarkMode(false);
@@ -68,6 +76,7 @@ export default function MyApp(props) {
     if (firebase.auth().currentUser) {
       saveDocument(`users/${firebase.auth().currentUser.uid}`, { darkMode });
     }
+    localforage.setItem('savedDarkModeState', darkMode);
   }, [darkMode]);
 
   return (

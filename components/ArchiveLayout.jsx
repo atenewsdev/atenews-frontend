@@ -15,6 +15,8 @@ import { Typography, Grid, Hidden } from '@material-ui/core';
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useRouter } from 'next/router';
 
+import { useAuth } from '@/utils/hooks/useAuth';
+
 const useStyles = makeStyles({
   account: {
     position: 'absolute',
@@ -32,6 +34,7 @@ export default function Page({ articles, name }) {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+  const { loadingAuth } = useAuth();
 
   const trending = useTrending();
 
@@ -50,29 +53,44 @@ export default function Page({ articles, name }) {
         title={`${name} - Atenews`}
         description={`Welcome to the official student publication of AdDU. Here is a list of ${name} written by Atenews.`}
       />
-      <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
-        <Grid item>
-          <Hidden smDown>
-            <Typography variant="h3" component="h1">{name}</Typography>
-          </Hidden>
-          <Hidden mdUp>
-            <Typography variant="h4" component="h1">{name}</Typography>
-          </Hidden>
-        </Grid>
-        {baseUrlMenu(router.pathname) !== '/search' ? (
-          <Grid item xs>
-            <Button aria-label={`Follow ${name}`} variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-              <FollowIcon style={{ marginRight: theme.spacing(1) }} />
-              Follow
-            </Button>
+      { !loadingAuth ? (
+        <>
+          <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
+            <Grid item>
+              <Hidden smDown>
+                <Typography variant="h3" component="h1">{name}</Typography>
+              </Hidden>
+              <Hidden mdUp>
+                <Typography variant="h4" component="h1">{name}</Typography>
+              </Hidden>
+            </Grid>
+            {baseUrlMenu(router.pathname) !== '/search' ? (
+              <Grid item xs>
+                <Button aria-label={`Follow ${name}`} variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
+                  <FollowIcon style={{ marginRight: theme.spacing(1) }} />
+                  Follow
+                </Button>
+              </Grid>
+            ) : null }
           </Grid>
-        ) : null }
-      </Grid>
-      <Trending articles={trending} />
-      { articles.map((article) => (
-        <Article key={article.id} article={article} />
-      )) }
-
+          <Trending articles={trending} />
+          { articles.map((article) => (
+            <Article key={article.id} article={article} />
+          )) }
+        </>
+      ) : (
+        <Grid
+          container
+          spacing={0}
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+        >
+          <Grid item>
+            <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+          </Grid>
+        </Grid>
+      ) }
     </div>
   );
 }

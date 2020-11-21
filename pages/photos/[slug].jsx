@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import DefaultErrorPage from 'next/error';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import WP from '@/utils/wordpress';
 
@@ -12,6 +12,8 @@ import ReactHtmlParser from 'react-html-parser';
 import ArticlePage from '@/components/ArticlePage';
 
 import { Grid, CircularProgress } from '@material-ui/core';
+
+import { useAuth } from '@/utils/hooks/useAuth';
 
 const useStyles = makeStyles(() => ({
   contentContainer: {
@@ -22,7 +24,8 @@ const useStyles = makeStyles(() => ({
 
 export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
-
+  const theme = useTheme();
+  const { loadingAuth } = useAuth();
   const router = useRouter();
 
   if (router.isFallback) {
@@ -81,7 +84,21 @@ export default function Page({ post, relatedPosts }) {
           cardType: 'summary_large_image',
         }}
       />
-      <ArticlePage post={post} relatedPosts={relatedPosts} />
+      { !loadingAuth ? (
+        <ArticlePage post={post} relatedPosts={relatedPosts} />
+      ) : (
+        <Grid
+          container
+          spacing={0}
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+        >
+          <Grid item>
+            <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+          </Grid>
+        </Grid>
+      ) }
     </div>
   );
 }

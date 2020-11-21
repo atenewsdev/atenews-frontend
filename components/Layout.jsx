@@ -127,6 +127,7 @@ const Layout = ({ children, setDarkMode }) => {
   const theme = useTheme();
   const {
     profile,
+    loadingAuth,
   } = useAuth();
 
   const {
@@ -203,6 +204,10 @@ const Layout = ({ children, setDarkMode }) => {
       setIsLargeWidth(false);
     }
   }, [router.pathname]);
+
+  if (loadingAuth) {
+    return children;
+  }
 
   return (
     <div className={classes.layoutContainer}>

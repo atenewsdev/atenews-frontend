@@ -79,7 +79,7 @@ export default function Home({ profile }) {
   const theme = useTheme();
   const trending = useTrending();
 
-  const { authUser, profile: authProfile } = useAuth();
+  const { authUser, profile: authProfile, loadingAuth } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
@@ -283,194 +283,210 @@ export default function Home({ profile }) {
             handle: '@atenews',
           }}
         />
-        <Grid container spacing={6} justify="center">
-          <Grid item>
-            <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
-          </Grid>
-          <Grid item xs>
-            <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
-              <Grid item style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
-                {editMode ? (
-                  <FormControl style={{ marginBottom: theme.spacing(2) }}>
-                    <TextField
-                      label="Display Name"
-                      variant="outlined"
-                      value={displayName}
-                      error={!(testDisplayName())}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                    />
-                    <FormHelperText variant="outlined">{`${displayName ? displayName.length || 0 : 0}/50`}</FormHelperText>
-                  </FormControl>
-                ) : (
-                  <Typography variant="h4">{displayName}</Typography>
-                )}
+        { !loadingAuth ? (
+          <>
+            <Grid container spacing={6} justify="center">
+              <Grid item>
+                <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
               </Grid>
-              { profile.staff ? (
-                <Grid item xs>
-                  <Flair />
+              <Grid item xs>
+                <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
+                  <Grid item style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
+                    {editMode ? (
+                      <FormControl style={{ marginBottom: theme.spacing(2) }}>
+                        <TextField
+                          label="Display Name"
+                          variant="outlined"
+                          value={displayName}
+                          error={!(testDisplayName())}
+                          onChange={(e) => setDisplayName(e.target.value)}
+                        />
+                        <FormHelperText variant="outlined">{`${displayName ? displayName.length || 0 : 0}/50`}</FormHelperText>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="h4">{displayName}</Typography>
+                    )}
+                  </Grid>
+                  { profile.staff ? (
+                    <Grid item xs>
+                      <Flair />
+                    </Grid>
+                  ) : null}
+                  <Grid item xs={12} style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
+                    {editMode ? (
+                      <FormControl>
+                        <TextField
+                          label="Username"
+                          variant="outlined"
+                          value={username}
+                          size="small"
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">@</InputAdornment>,
+                          }}
+                          error={!(testUsername())}
+                          onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <FormHelperText variant="outlined">{`${username ? username.length || 0 : 0}/15`}</FormHelperText>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{`@${username}`}</Typography>
+                    )}
+                  </Grid>
                 </Grid>
-              ) : null}
-              <Grid item xs={12} style={{ padding: 0, paddingLeft: theme.spacing(1) }}>
-                {editMode ? (
-                  <FormControl>
-                    <TextField
-                      label="Username"
-                      variant="outlined"
-                      value={username}
-                      size="small"
-                      InputProps={{
-                        startAdornment: <InputAdornment position="start">@</InputAdornment>,
-                      }}
-                      error={!(testUsername())}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <FormHelperText variant="outlined">{`${username ? username.length || 0 : 0}/15`}</FormHelperText>
-                  </FormControl>
-                ) : (
-                  <Typography variant="body1">{`@${username}`}</Typography>
-                )}
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item>
-                <div className={classes.iconStats}>
-                  <Grid container alignItems="center" spacing={1}>
-                    <Grid item>
-                      <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                    </Grid>
-                    <Grid item>
-                      <Grid container direction="column" justify="center">
+                <Grid container>
+                  <Grid item>
+                    <div className={classes.iconStats}>
+                      <Grid container alignItems="center" spacing={1}>
                         <Grid item>
-                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.upvotesReceived || 0}</Typography>
+                          <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                         </Grid>
                         <Grid item>
-                          <Typography variant="body2">Upvotes</Typography>
+                          <Grid container direction="column" justify="center">
+                            <Grid item>
+                              <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.upvotesReceived || 0}</Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography variant="body2">Upvotes</Typography>
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
-                </div>
-              </Grid>
-              <Grid item>
-                <div className={classes.iconStats}>
-                  <Grid container alignItems="center" spacing={1}>
-                    <Grid item>
-                      <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                    </Grid>
-                    <Grid item>
-                      <Grid container direction="column" justify="center">
+                  <Grid item>
+                    <div className={classes.iconStats}>
+                      <Grid container alignItems="center" spacing={1}>
                         <Grid item>
-                          <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.downvotesReceived || 0}</Typography>
+                          <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                         </Grid>
                         <Grid item>
-                          <Typography variant="body2">Downvotes</Typography>
+                          <Grid container direction="column" justify="center">
+                            <Grid item>
+                              <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.downvotesReceived || 0}</Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography variant="body2">Downvotes</Typography>
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </div>
                   </Grid>
-                </div>
-              </Grid>
-            </Grid>
-            { followerCount > 0 ? (
-              <div className={classes.section} style={{ marginTop: theme.spacing(2) }}>
-                <Typography variant="body1">
-                  <b>{followerCount}</b>
-                  {' '}
-                  followers
-                </Typography>
-              </div>
-            ) : null }
-            <div className={classes.section}>
-              {editMode ? (
-                <FormControl fullWidth>
-                  <TextField
-                    label="Bio"
-                    variant="outlined"
-                    value={bio}
-                    multiline
-                    rows={4}
-                    rowsMax={4}
-                    fullWidth
-                    error={!(testBio())}
-                    onChange={(e) => setBio(e.target.value)}
-                  />
-                  <FormHelperText variant="outlined">{`${bio ? bio.length || 0 : 0}/160`}</FormHelperText>
-                </FormControl>
-              ) : (
-                <Typography variant="body1">{bio || <i>This profile has no bio.</i>}</Typography>
-              )}
-            </div>
-            <div className={classes.section}>
-              <Grid container>
-                <Grid item>
-                  <div className={classes.iconStats}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                      </Grid>
-                      <Grid item>
-                        {editMode ? (
-                          <FormControl>
-                            <TextField
-                              label="Email"
-                              variant="outlined"
-                              value={email}
-                              error={!(testEmail())}
-                              size="small"
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <FormHelperText variant="outlined">Verification email will be sent after updating.</FormHelperText>
-                          </FormControl>
-                        ) : (
-                          <Typography variant="body1">{email}</Typography>
-                        )}
-                      </Grid>
-                    </Grid>
+                </Grid>
+                { followerCount > 0 ? (
+                  <div className={classes.section} style={{ marginTop: theme.spacing(2) }}>
+                    <Typography variant="body1">
+                      <b>{followerCount}</b>
+                      {' '}
+                      followers
+                    </Typography>
                   </div>
-                </Grid>
-              </Grid>
-            </div>
-            {authProfile ? (
-              <EditButton />
-            ) : null }
-          </Grid>
-        </Grid>
-        <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
-
-        { !loading ? comments.map((comment) => (
-          <ProfileFeed key={comment.id} comment={comment} />
-        ))
-          : (
-            <Grid container justify="center" alignItems="center" spacing={2}>
-              <Grid item>
-                <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                ) : null }
+                <div className={classes.section}>
+                  {editMode ? (
+                    <FormControl fullWidth>
+                      <TextField
+                        label="Bio"
+                        variant="outlined"
+                        value={bio}
+                        multiline
+                        rows={4}
+                        rowsMax={4}
+                        fullWidth
+                        error={!(testBio())}
+                        onChange={(e) => setBio(e.target.value)}
+                      />
+                      <FormHelperText variant="outlined">{`${bio ? bio.length || 0 : 0}/160`}</FormHelperText>
+                    </FormControl>
+                  ) : (
+                    <Typography variant="body1">{bio || <i>This profile has no bio.</i>}</Typography>
+                  )}
+                </div>
+                <div className={classes.section}>
+                  <Grid container>
+                    <Grid item>
+                      <div className={classes.iconStats}>
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                          </Grid>
+                          <Grid item>
+                            {editMode ? (
+                              <FormControl>
+                                <TextField
+                                  label="Email"
+                                  variant="outlined"
+                                  value={email}
+                                  error={!(testEmail())}
+                                  size="small"
+                                  onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <FormHelperText variant="outlined">Verification email will be sent after updating.</FormHelperText>
+                              </FormControl>
+                            ) : (
+                              <Typography variant="body1">{email}</Typography>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </div>
+                {authProfile ? (
+                  <EditButton />
+                ) : null }
               </Grid>
             </Grid>
-          )}
+            <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
 
-        <Dialog
-          open={confirmPasswordDialog}
-          onClose={handleDialogClose}
-        >
-          <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
-          <DialogContent style={{ padding: theme.spacing(2) }}>
-            <FormControl>
-              <TextField
-                label="Confirm Password"
-                type="password"
-                variant="outlined"
-                value={password}
-                size="small"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <FormHelperText variant="outlined">Password is required to update profile.</FormHelperText>
-            </FormControl>
-          </DialogContent>
-          <DialogActions style={{ padding: theme.spacing(2) }}>
-            <Button variant="contained" color="primary" onClick={handleConfirmPassword} disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
-          </DialogActions>
-        </Dialog>
-        <Trending articles={trending} />
+            { !loading ? comments.map((comment) => (
+              <ProfileFeed key={comment.id} comment={comment} />
+            ))
+              : (
+                <Grid container justify="center" alignItems="center" spacing={2}>
+                  <Grid item>
+                    <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                  </Grid>
+                </Grid>
+              )}
+
+            <Dialog
+              open={confirmPasswordDialog}
+              onClose={handleDialogClose}
+            >
+              <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
+              <DialogContent style={{ padding: theme.spacing(2) }}>
+                <FormControl>
+                  <TextField
+                    label="Confirm Password"
+                    type="password"
+                    variant="outlined"
+                    value={password}
+                    size="small"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FormHelperText variant="outlined">Password is required to update profile.</FormHelperText>
+                </FormControl>
+              </DialogContent>
+              <DialogActions style={{ padding: theme.spacing(2) }}>
+                <Button variant="contained" color="primary" onClick={handleConfirmPassword} disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
+              </DialogActions>
+            </Dialog>
+            <Trending articles={trending} />
+          </>
+        ) : (
+          <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '100vh' }}
+          >
+            <Grid item>
+              <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
+            </Grid>
+          </Grid>
+        ) }
       </div>
     );
   }

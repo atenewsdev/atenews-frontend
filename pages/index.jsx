@@ -17,6 +17,7 @@ import imageGenerator from '@/utils/imageGenerator';
 import WP from '@/utils/wordpress';
 
 import { useTrending } from '@/utils/hooks/useTrending';
+import { useAuth } from '@/utils/hooks/useAuth';
 
 import {
   Typography, CardActionArea, Grid, Paper,
@@ -52,143 +53,159 @@ export default function Home({
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
+  const { loadingAuth } = useAuth();
 
   return (
     <div className={classes.container}>
       <Head>
         <title>Atenews - The official student publication of the Ateneo de Davao University</title>
       </Head>
-      <div className={classes.header}>
-        <img src={theme.palette.type === 'dark' ? '/atenews-footer.svg' : '/atenews-header.svg'} alt="Atenews Header" height="35" />
-        <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
-          The official student publication of the Ateneo de Davao University
-        </Typography>
-      </div>
-      <Trending articles={trending} />
-      <RecentArticles articles={recentArticles} />
-
-      <div className={classes.section}>
-        <Title color={theme.palette.atenews.news}>News</Title>
-        <ArticleGrid articles={news} />
-      </div>
-
-      <div className={classes.section}>
-        <Title color={theme.palette.atenews.features}>Features</Title>
-        <ArticleGrid articles={features} />
-      </div>
-
-      <div className={classes.section}>
-        <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-          <Grid item xs>
-            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-          </Grid>
-          <Grid item xs>
-            <Typography
-              variant="h4"
-              style={{
-                fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-              }}
-            >
-              HULAGWAY
+      { !loadingAuth ? (
+        <>
+          <div className={classes.header}>
+            <img src={theme.palette.type === 'dark' ? '/atenews-footer.svg' : '/atenews-header.svg'} alt="Atenews Header" height="35" />
+            <Typography variant="subtitle2" style={{ fontSize: '0.7rem' }}>
+              The official student publication of the Ateneo de Davao University
             </Typography>
-          </Grid>
-          <Grid item xs>
-            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-          </Grid>
-        </Grid>
-        <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-          <img src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" style={{ width: '100%' }} />
-        </div>
-        <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
-          <Grid container justify="center">
-            <Grid item>
-              <WPGBlocks blocks={featuredPhoto.blocks} />
+          </div>
+          <Trending articles={trending} />
+          <RecentArticles articles={recentArticles} />
+
+          <div className={classes.section}>
+            <Title color={theme.palette.atenews.news}>News</Title>
+            <ArticleGrid articles={news} />
+          </div>
+
+          <div className={classes.section}>
+            <Title color={theme.palette.atenews.features}>Features</Title>
+            <ArticleGrid articles={features} />
+          </div>
+
+          <div className={classes.section}>
+            <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
+              <Grid item xs>
+                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+              </Grid>
+              <Grid item xs>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
+                  }}
+                >
+                  HULAGWAY
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+              </Grid>
             </Grid>
-          </Grid>
-        </Typography>
+            <div style={{ borderRadius: 10, overflow: 'hidden' }}>
+              <img src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" style={{ width: '100%' }} />
+            </div>
+            <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
+              <Grid container justify="center">
+                <Grid item>
+                  <WPGBlocks blocks={featuredPhoto.blocks} />
+                </Grid>
+              </Grid>
+            </Typography>
 
-        <Typography variant="body2" style={{ textAlign: 'center' }}>
-          <i>
-            Photo by&nbsp;
-            {
-            featuredPhoto.coauthors.map((author, i) => {
-              if (i === featuredPhoto.coauthors.length - 2) {
-                return `${author.display_name} `;
-              } if (i !== featuredPhoto.coauthors.length - 1) {
-                return `${author.display_name}, `;
-              } if (featuredPhoto.coauthors.length === 1) {
-                return author.display_name;
+            <Typography variant="body2" style={{ textAlign: 'center' }}>
+              <i>
+                Photo by&nbsp;
+                {
+                featuredPhoto.coauthors.map((author, i) => {
+                  if (i === featuredPhoto.coauthors.length - 2) {
+                    return `${author.display_name} `;
+                  } if (i !== featuredPhoto.coauthors.length - 1) {
+                    return `${author.display_name}, `;
+                  } if (featuredPhoto.coauthors.length === 1) {
+                    return author.display_name;
+                  }
+                  return `and ${author.display_name}`;
+                })
               }
-              return `and ${author.display_name}`;
-            })
-          }
-          </i>
+              </i>
 
-        </Typography>
-      </div>
+            </Typography>
+          </div>
 
-      <div className={classes.section}>
-        <Title color={theme.palette.atenews.highlight}>Opinion</Title>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6}>
-            <Typography
-              variant="h4"
-              style={{
-                fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-              }}
-            >
-              Editorial
-            </Typography>
-            <Article article={editorial} topImage />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography
-              variant="h4"
-              style={{
-                fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-              }}
-            >
-              Columns
-            </Typography>
-            {
-                columns.map((column) => (
-                  <Column article={column} key={column.id} />
-                ))
-              }
+          <div className={classes.section}>
+            <Title color={theme.palette.atenews.highlight}>Opinion</Title>
+            <Grid container spacing={4}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
+                  }}
+                >
+                  Editorial
+                </Typography>
+                <Article article={editorial} topImage />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
+                  }}
+                >
+                  Columns
+                </Typography>
+                {
+                    columns.map((column) => (
+                      <Column article={column} key={column.id} />
+                    ))
+                  }
+              </Grid>
+            </Grid>
+          </div>
+
+          <div className={classes.section}>
+            <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
+              <Grid item xs>
+                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+              </Grid>
+              <Grid item xs>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
+                  }}
+                >
+                  LATEST RELEASE
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+              </Grid>
+            </Grid>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={6}>
+                <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
+                  <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
+                    <img src="/issuu-demo.png" alt="Issuu" style={{ width: '100%' }} />
+                  </Paper>
+                </CardActionArea>
+              </Grid>
+            </Grid>
+          </div>
+        </>
+      ) : (
+        <Grid
+          container
+          spacing={0}
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+        >
+          <Grid item>
+            <img src={theme.palette.type === 'light' ? '/logo-blue.png' : '/logo.png'} alt="Atenews Logo" width="100" />
           </Grid>
         </Grid>
-      </div>
-
-      <div className={classes.section}>
-        <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-          <Grid item xs>
-            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-          </Grid>
-          <Grid item xs>
-            <Typography
-              variant="h4"
-              style={{
-                fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-              }}
-            >
-              LATEST RELEASE
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-          </Grid>
-        </Grid>
-        <Grid container justify="center">
-          <Grid item xs={12} sm={6}>
-            <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
-              <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
-                <img src="/issuu-demo.png" alt="Issuu" style={{ width: '100%' }} />
-              </Paper>
-            </CardActionArea>
-          </Grid>
-        </Grid>
-      </div>
-
+      ) }
     </div>
   );
 }
