@@ -36,6 +36,7 @@
     "react-in-viewport": "^1.0.0-alpha.15",
     "react-spring": "^8.0.27",
     "react-transition-group": "^4.4.1",
+    "sitemap": "^6.3.3",
     "swr": "^0.3.8",
     "wpapi": "^1.2.1"
   },

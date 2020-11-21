@@ -1,0 +1,6 @@
+Sitemap: https://beta.atenews.ph/api/posts-sitemap
+
+User-agent: *
+Allow: /*
+
+Disallow: /api/*
