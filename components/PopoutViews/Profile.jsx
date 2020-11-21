@@ -1,10 +1,19 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Button from '@/components/Button';
 import {
-  Paper, Divider,
+  Paper,
+  Divider,
+  ListSubheader,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 import AuthForm from '@/components/Auth/AuthForm';
@@ -28,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     borderRight: '10px solid transparent',
     borderBottom: `10px solid ${theme.palette.primary.main}`,
   },
+  list: {
+    width: '100%',
+  },
 }));
 
 const PopoutView = ({ close, setDarkMode }) => {
@@ -44,23 +56,52 @@ const PopoutView = ({ close, setDarkMode }) => {
     return (
       <Paper variant="outlined" className={classes.viewContainer}>
         <div className={classes.arrowUp} />
-        <Button onClick={() => { router.push(`/profile/${profile.username}`); close(); }}>
-          Profile
-        </Button>
-        <br />
-        <Button onClick={() => { logout(); close(); }}>
-          Logout
-        </Button>
-        <Divider style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }} />
-        { theme.palette.type === 'dark' ? (
-          <Button onClick={() => { setDarkMode(false); close(); }}>
-            Light Mode
-          </Button>
-        ) : (
-          <Button onClick={() => { setDarkMode(true); close(); }}>
-            Dark Mode
-          </Button>
-        )}
+        <List
+          subheader={(
+            <ListSubheader component="div">
+              User Settings
+            </ListSubheader>
+          )}
+          className={classes.list}
+        >
+          <ListItem button onClick={() => { router.push(`/profile/${profile.username}`); close(); }}>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+          <ListItem button onClick={() => { logout(); close(); }}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List
+          subheader={(
+            <ListSubheader component="div">
+              Theme Settings
+            </ListSubheader>
+          )}
+          className={classes.list}
+        >
+          { theme.palette.type === 'dark' ? (
+            <ListItem button onClick={() => { setDarkMode(false); close(); }}>
+              <ListItemIcon>
+                <Brightness7Icon />
+              </ListItemIcon>
+              <ListItemText primary="Light Mode" />
+            </ListItem>
+          ) : (
+            <ListItem button onClick={() => { setDarkMode(true); close(); }}>
+              <ListItemIcon>
+                <NightsStayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dark Mode" />
+            </ListItem>
+          )}
+        </List>
       </Paper>
     );
   }
