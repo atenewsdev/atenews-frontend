@@ -1,4 +1,7 @@
 import React from 'react';
+
+import Image from 'next/image';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
@@ -134,7 +137,7 @@ const ProfileFeed = ({ comment }) => {
           </Grid>
           <Grid item xs={3}>
             { image
-              ? <img src={image} alt="Profile" width="100%" />
+              ? <Image src={image} alt="Profile" width={16} height={9} layout="responsive" objectFit="fill" />
               : (
                 <Grid container justify="center" alignItems="center" spacing={2}>
                   <Grid item>

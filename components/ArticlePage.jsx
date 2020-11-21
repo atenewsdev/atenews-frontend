@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Image from 'next/image';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import FollowIcon from '@material-ui/icons/Add';
@@ -189,19 +191,20 @@ export default function Page({ post, relatedPosts }) {
   return (
     <div className={classes.container}>
       <Hidden smDown>
-        <Typography variant="h3" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+        <Typography variant="h3" component="h1" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       </Hidden>
       <Hidden mdUp>
-        <Typography variant="h4" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+        <Typography variant="h4" component="h1" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       </Hidden>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
       <Paper
+        component="div"
         elevation={0}
         style={{
           marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
-        <img src={post.featured_image_src} alt={post.featured_image_caption} width="100%" />
+        <Image src={post.featured_image_src} alt={post.featured_image_caption} width={16} height={9} layout="responsive" objectFit="fill" />
         <div style={{ padding: theme.spacing(2) }}>
           <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
         </div>

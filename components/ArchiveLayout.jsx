@@ -53,10 +53,10 @@ export default function Page({ articles, name }) {
       <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={4}>
         <Grid item>
           <Hidden smDown>
-            <Typography variant="h3">{name}</Typography>
+            <Typography variant="h3" component="h1">{name}</Typography>
           </Hidden>
           <Hidden mdUp>
-            <Typography variant="h4">{name}</Typography>
+            <Typography variant="h4" component="h1">{name}</Typography>
           </Hidden>
         </Grid>
         {baseUrlMenu(router.pathname) !== '/search' ? (

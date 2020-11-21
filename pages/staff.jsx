@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
