@@ -18,7 +18,6 @@ import { TrendingProvider } from '@/utils/hooks/useTrending';
 import { AuthProvider } from '@/utils/hooks/useAuth';
 import { ErrorProvider } from '@/utils/hooks/useSnackbar';
 import { CacheProvider } from '@/utils/hooks/useCache';
-import useFirestore from '@/utils/hooks/useFirestore';
 
 import { CssBaseline } from '@material-ui/core';
 
@@ -47,8 +46,6 @@ Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
-  const { saveDocument } = useFirestore();
-
   const [darkMode, setDarkMode] = React.useState(false);
 
   React.useEffect(() => {
@@ -59,10 +56,8 @@ export default function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
 
-    localforage.getItem('savedDarkModeState').then((val) => {
-      setDarkMode(val);
-    }).catch(() => {
-      setDarkMode(false);
+    localforage.getItem('savedDarkModeState').then((state) => {
+      setDarkMode(state);
     });
 
     firebase.auth().onAuthStateChanged(() => {
@@ -73,9 +68,6 @@ export default function MyApp(props) {
   }, []);
 
   React.useEffect(() => {
-    if (firebase.auth().currentUser) {
-      saveDocument(`users/${firebase.auth().currentUser.uid}`, { darkMode });
-    }
     localforage.setItem('savedDarkModeState', darkMode);
   }, [darkMode]);
 

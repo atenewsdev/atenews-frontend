@@ -141,14 +141,6 @@ const Layout = ({ children, setDarkMode }) => {
 
   const trending = useTrending();
 
-  React.useEffect(() => {
-    if (profile) {
-      if ('darkMode' in profile) {
-        setDarkMode(profile.darkMode);
-      }
-    }
-  }, [profile]);
-
   const [isLargeWidth, setIsLargeWidth] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
