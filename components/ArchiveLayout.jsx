@@ -47,6 +47,12 @@ export default function Page({
   const [hasMore, setHasMore] = React.useState(true);
   const [page, setPage] = React.useState(2);
 
+  React.useEffect(() => {
+    setArticles(articlesRaw);
+    setPage(2);
+    setHasMore(true);
+  }, [articlesRaw]);
+
   const next = () => {
     if (category !== 'search') {
       WP.posts().categories(category).page(page).then((posts) => {
