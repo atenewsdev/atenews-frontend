@@ -61,7 +61,7 @@ export default function Page({ articles, name }) {
         </Grid>
         {baseUrlMenu(router.pathname) !== '/search' ? (
           <Grid item xs>
-            <Button variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
+            <Button aria-label={`Follow ${name}`} variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
               <FollowIcon style={{ marginRight: theme.spacing(1) }} />
               Follow
             </Button>

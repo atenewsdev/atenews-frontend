@@ -134,7 +134,7 @@ export default function AccountBar({ setDarkMode }) {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment>
-                        <IconButton type="submit">
+                        <IconButton type="submit" aria-label="Search">
                           <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                         </IconButton>
                       </InputAdornment>
@@ -147,6 +147,7 @@ export default function AccountBar({ setDarkMode }) {
         </animated.div>
         <div className={classes.account}>
           <IconButton
+            aria-label="Open Search Bar"
             className={classes.button}
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={() => {
@@ -164,6 +165,7 @@ export default function AccountBar({ setDarkMode }) {
           {profile
             ? (
               <IconButton
+                aria-label="Open notifications"
                 className={classes.button}
                 color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
                 onClick={(e) => handleClick(e, 'Notifications')}
@@ -173,6 +175,7 @@ export default function AccountBar({ setDarkMode }) {
             )
             : null}
           <IconButton
+            aria-label="Open account settings"
             className={classes.button}
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={(e) => handleClick(e, 'Account')}
