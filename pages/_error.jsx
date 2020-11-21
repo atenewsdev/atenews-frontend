@@ -7,7 +7,11 @@ import { Grid, Typography } from '@material-ui/core';
 const CustomError = ({ statusCode }) => (
   <>
     <Head>
-      <title>{`Error ${statusCode} - Atenews`}</title>
+      {statusCode ? (
+        <title>{`Error ${statusCode} - Atenews`}</title>
+      ) : (
+        <title>Client Error - Atenews</title>
+      )}
     </Head>
     <Grid
       container
