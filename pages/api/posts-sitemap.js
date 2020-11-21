@@ -11,8 +11,8 @@ export default async (req, res) => {
 
     // List of posts
     const [posts, oldPosts] = await Promise.all([
-      WP.posts().perPage(100).page(1),
-      WP.posts().perPage(100).page(2),
+      WP.posts().page(1),
+      WP.posts().page(2),
     ]);
     const categories = [
       '/',
