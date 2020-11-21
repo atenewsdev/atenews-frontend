@@ -14,11 +14,11 @@ export default function Page(props) {
 export async function getServerSideProps({ query: rawQuery }) {
   try {
     const { query } = rawQuery;
-    const [articles] = await Promise.all([
+    const [articlesRaw] = await Promise.all([
       WP.posts().search(query),
     ]);
-    return { props: { articles, query, category: 'search' } };
+    return { props: { articlesRaw, query, category: 'search' } };
   } catch (err) {
-    return { props: { articles: [], query: '', category: 'search' } };
+    return { props: { articlesRaw: [], query: '', category: 'search' } };
   }
 }
