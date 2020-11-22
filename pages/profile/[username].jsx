@@ -1,7 +1,5 @@
 import React from 'react';
 
-import axios from 'axios';
-
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
@@ -102,6 +100,7 @@ export default function Home({ profile, cdnKey }) {
   const [bio, setBio] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [photoURL, setPhotoURL] = React.useState('');
 
   const [followerCount, setFollowerCount] = React.useState(0);
 
@@ -134,6 +133,7 @@ export default function Home({ profile, cdnKey }) {
       setUsername(profile.username);
       setBio(profile.bio);
       setEmail(profile.email);
+      setPhotoURL(profile.photoURL);
 
       firebase.firestore().collection('profileFeeds').doc(profile.id)
         .get()
@@ -185,26 +185,33 @@ export default function Home({ profile, cdnKey }) {
     const fd = new FormData();
     fd.append('photo', imageFile);
     fd.append('uid', profile.id);
-    return axios.post('https://cdn.atenews.ph/upload', fd, {
+    fd.append('api_key', cdnKey);
+    return fetch('https://atenews.ph/wp-json/atenews/v1/upload', {
+      method: 'POST',
       headers: {
-        'X-API-KEY': cdnKey,
+        Accept: 'application/json',
       },
+      body: fd,
     });
   };
 
   const handleImageInput = (e) => {
     const fileUploaded = e.target.files[0];
-    setUploadingPhoto(true);
-    uploadImage(fileUploaded).then((res) => {
-      console.log(res);
-      firebase.firestore().collection('users').doc(profile.id).update({
-        photoURL: res.data.message,
+    e.target.value = null;
+    if (fileUploaded) {
+      setUploadingPhoto(true);
+      uploadImage(fileUploaded).then(async (res) => {
+        const data = await res.json();
+        await firebase.firestore().collection('users').doc(profile.id).update({
+          photoURL: data.message,
+        });
+        setPhotoURL(data.message);
+        setUploadingPhoto(false);
+      }).catch((err) => {
+        setError(err.message);
+        setUploadingPhoto(false);
       });
-      setUploadingPhoto(false);
-    }).catch((err) => {
-      setError(err.message);
-      setUploadingPhoto(false);
-    });
+    }
   };
 
   const handleEditProfile = async () => {
@@ -369,7 +376,9 @@ export default function Home({ profile, cdnKey }) {
                   disabled={!editMode || uploadingPhoto}
                   onClick={() => { hiddenFileInput.current.click(); }}
                 >
-                  <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
+                  <Avatar className={classes.avatar} src={photoURL && !uploadingPhoto ? photoURL.replace('_normal', '') : ''}>
+                    <CircularProgress color="primary" />
+                  </Avatar>
                 </IconButton>
               </Grid>
               <Grid item xs>
@@ -627,8 +636,8 @@ export async function getServerSideProps({ params }) {
           profile: {
             ...snapshot.docs[0].data(),
             id: snapshot.docs[0].id,
-            cdnKey: keySnapshot.data().cdn,
           },
+          cdnKey: keySnapshot.data().cdn,
         },
       };
     }
