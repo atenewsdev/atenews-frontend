@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios';
+
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
@@ -29,6 +31,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
 } from '@material-ui/core';
 
 import { useError } from '@/utils/hooks/useSnackbar';
@@ -76,7 +79,7 @@ const TextField = withStyles({
   },
 })(StockTextField);
 
-export default function Home({ profile }) {
+export default function Home({ profile, cdnKey }) {
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
@@ -113,6 +116,10 @@ export default function Home({ profile }) {
   const [deleteAccountDialog, setDeleteAccountDialog] = React.useState(false);
 
   const [firebaseUser, setFirebaseUser] = React.useState(null);
+
+  const hiddenFileInput = React.useRef();
+
+  const [uploadingPhoto, setUploadingPhoto] = React.useState(false);
 
   React.useEffect(() => {
     if (profile) {
@@ -172,6 +179,32 @@ export default function Home({ profile }) {
 
   const handleDeleteOpen = () => {
     setDeleteAccountDialog(true);
+  };
+
+  const uploadImage = (imageFile) => {
+    const fd = new FormData();
+    fd.append('photo', imageFile);
+    fd.append('uid', profile.id);
+    return axios.post('https://cdn.atenews.ph/upload', fd, {
+      headers: {
+        'X-API-KEY': cdnKey,
+      },
+    });
+  };
+
+  const handleImageInput = (e) => {
+    const fileUploaded = e.target.files[0];
+    setUploadingPhoto(true);
+    uploadImage(fileUploaded).then((res) => {
+      console.log(res);
+      firebase.firestore().collection('users').doc(profile.id).update({
+        photoURL: res.data.message,
+      });
+      setUploadingPhoto(false);
+    }).catch((err) => {
+      setError(err.message);
+      setUploadingPhoto(false);
+    });
   };
 
   const handleEditProfile = async () => {
@@ -324,7 +357,20 @@ export default function Home({ profile }) {
           <>
             <Grid container spacing={6} justify="center">
               <Grid item>
-                <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
+                {editMode ? (
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleImageInput}
+                    style={{ display: 'none' }}
+                  />
+                ) : null}
+                <IconButton
+                  disabled={!editMode || uploadingPhoto}
+                  onClick={() => { hiddenFileInput.current.click(); }}
+                >
+                  <Avatar className={classes.avatar} src={profile.photoURL ? profile.photoURL.replace('_normal', '') : ''} />
+                </IconButton>
               </Grid>
               <Grid item xs>
                 <Grid container spacing={2} alignItems="center" style={{ marginBottom: theme.spacing(2) }}>
@@ -574,10 +620,15 @@ export async function getServerSideProps({ params }) {
   try {
     const { firebase } = useAdminFirestore();
     const snapshot = await firebase.firestore().collection('users').where('username', '==', params.username).get();
+    const keySnapshot = await firebase.firestore().collection('keys').doc('custom').get();
     if (!snapshot.empty) {
       return {
         props: {
-          profile: { ...snapshot.docs[0].data(), id: snapshot.docs[0].id },
+          profile: {
+            ...snapshot.docs[0].data(),
+            id: snapshot.docs[0].id,
+            cdnKey: keySnapshot.data().cdn,
+          },
         },
       };
     }
