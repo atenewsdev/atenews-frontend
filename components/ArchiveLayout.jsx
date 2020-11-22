@@ -35,21 +35,29 @@ const useStyles = makeStyles({
 });
 
 export default function Page({
-  articlesRaw, name, category, query,
+  articlesRaw, name, category, query, totalPages,
 }) {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const { loadingAuth } = useAuth();
 
+  // eslint-disable-next-line no-underscore-dangle
   const [articles, setArticles] = React.useState(articlesRaw);
   const [hasMore, setHasMore] = React.useState(true);
   const [page, setPage] = React.useState(2);
+
+  const checkPage = () => {
+    if (totalPages < page) {
+      setHasMore(false);
+    }
+  };
 
   React.useEffect(() => {
     setArticles(articlesRaw);
     setPage(2);
     setHasMore(true);
+    checkPage();
   }, [articlesRaw]);
 
   const next = () => {
@@ -69,6 +77,7 @@ export default function Page({
       });
     }
     setPage((prev) => prev + 1);
+    checkPage();
   };
 
   const trending = useTrending();

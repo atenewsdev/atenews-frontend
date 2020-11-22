@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
@@ -11,6 +12,8 @@ import ProfileFeed from '@/components/Social/ProfileFeed';
 import Flair from '@/components/Social/Flair';
 import Button from '@/components/Button';
 import Trending from '@/components/Home/Trending';
+
+import DefaultErrorPage from '@/components/404';
 
 import {
   Typography,
@@ -77,8 +80,11 @@ export default function Home({ profile }) {
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
+  const router = useRouter();
 
-  const { authUser, profile: authProfile, loadingAuth } = useAuth();
+  const {
+    authUser, profile: authProfile, loadingAuth, deleteAccount,
+  } = useAuth();
   const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
@@ -104,6 +110,7 @@ export default function Home({ profile }) {
   });
 
   const [confirmPasswordDialog, setConfirmPasswordDialog] = React.useState(false);
+  const [deleteAccountDialog, setDeleteAccountDialog] = React.useState(false);
 
   const [firebaseUser, setFirebaseUser] = React.useState(null);
 
@@ -157,6 +164,14 @@ export default function Home({ profile }) {
 
   const handleDialogOpen = () => {
     setConfirmPasswordDialog(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteAccountDialog(false);
+  };
+
+  const handleDeleteOpen = () => {
+    setDeleteAccountDialog(true);
   };
 
   const handleEditProfile = async () => {
@@ -231,7 +246,8 @@ export default function Home({ profile }) {
     setEditMode((prev) => !prev);
   };
 
-  const handleConfirmPassword = async () => {
+  const handleConfirmPassword = async (e) => {
+    e.preventDefault();
     setConfirming(true);
     try {
       const userCredential = await firebase.auth()
@@ -246,8 +262,39 @@ export default function Home({ profile }) {
     setPassword('');
   };
 
+  const handleDeleteAccount = async () => {
+    setConfirming(true);
+    try {
+      await deleteAccount();
+      handleDeleteClose();
+      setSuccess('Your account has been successfully deleted from our system!');
+      router.push('/');
+    } catch (err) {
+      setError(err.message);
+    }
+    setConfirming(false);
+  };
+
   const EditButton = () => (authProfile.username === profile.username ? (
     <div className={classes.section} style={{ marginTop: theme.spacing(3) }}>
+      { editMode ? (
+        <>
+          <Button
+            variant="contained"
+            style={{
+              color: 'white',
+              backgroundColor: 'red',
+            }}
+            size="small"
+            onClick={handleDeleteOpen}
+            disabled={updating}
+          >
+            Delete Account
+          </Button>
+          <br />
+          <br />
+        </>
+      ) : null }
       <Button variant="contained" color="primary" size="large" onClick={editMode ? handleEditProfile : handleDialogOpen} disabled={updating}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
     </div>
   ) : null);
@@ -445,23 +492,60 @@ export default function Home({ profile }) {
               onClose={handleDialogClose}
             >
               <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
+              <form onSubmit={handleConfirmPassword}>
+                <DialogContent style={{ padding: theme.spacing(2) }}>
+                  <FormControl>
+                    <TextField
+                      label="Confirm Password"
+                      type="password"
+                      variant="outlined"
+                      value={password}
+                      size="small"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <FormHelperText variant="outlined">Password is required to update profile.</FormHelperText>
+                  </FormControl>
+                </DialogContent>
+                <DialogActions style={{ padding: theme.spacing(2) }}>
+                  <Button variant="contained" color="primary" type="submit" disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+
+            <Dialog
+              open={deleteAccountDialog}
+              onClose={handleDeleteClose}
+            >
+              <DialogTitle id="form-dialog-title">This will delete your account.</DialogTitle>
+              <Divider />
               <DialogContent style={{ padding: theme.spacing(2) }}>
-                <FormControl>
-                  <TextField
-                    label="Confirm Password"
-                    type="password"
-                    variant="outlined"
-                    value={password}
-                    size="small"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <FormHelperText variant="outlined">Password is required to update profile.</FormHelperText>
-                </FormControl>
+                <Typography variant="body1">As much as we want you to stay, you&apos;re about to start the process of deleting your Atenews account.</Typography>
+              </DialogContent>
+              <DialogContent style={{ padding: theme.spacing(2) }}>
+                <Typography variant="h6">What else you should know</Typography>
+              </DialogContent>
+              <DialogContent style={{ padding: theme.spacing(2) }}>
+                <Typography variant="body1">All your comments, replies, reacts, upvotes, downvotes, and profile will be PERMANENTLY deleted from our system.</Typography>
+                <Typography variant="body1">If you want to change your email address or @username, you don&apos;t need to deactivate your account. Updating your profile will suffice.</Typography>
+              </DialogContent>
+              <DialogContent style={{ padding: theme.spacing(2) }}>
+                <Typography variant="body1">If you are sure you want to delete your account, press the confirm button below.</Typography>
               </DialogContent>
               <DialogActions style={{ padding: theme.spacing(2) }}>
-                <Button variant="contained" color="primary" onClick={handleConfirmPassword} disabled={confirming}>{editMode ? 'Update Profile' : 'Edit Profile'}</Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    color: 'white',
+                    backgroundColor: 'red',
+                  }}
+                  onClick={handleDeleteAccount}
+                  disabled={confirming}
+                >
+                  Confirm Deletion
+                </Button>
               </DialogActions>
             </Dialog>
+
             <Trending articles={trending} />
           </>
         ) : (
@@ -482,14 +566,7 @@ export default function Home({ profile }) {
   }
 
   return (
-    <>
-      <Grid container justify="center" alignItems="center" spacing={2}>
-        <Grid item>
-          <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
-        </Grid>
-      </Grid>
-      <Trending articles={trending} />
-    </>
+    <DefaultErrorPage />
   );
 }
 

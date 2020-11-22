@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import DefaultErrorPage from 'next/error';
+import DefaultErrorPage from '@/components/404';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import WP from '@/utils/wordpress';
@@ -39,7 +39,7 @@ export default function Page({ page }) {
 
   if (!page) {
     return (
-      <DefaultErrorPage statusCode={404} />
+      <DefaultErrorPage />
     );
   }
 

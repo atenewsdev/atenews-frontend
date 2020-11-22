@@ -15,7 +15,15 @@ export async function getStaticProps() {
     const [articlesRaw] = await Promise.all([
       WP.posts().categories(437),
     ]);
-    return { props: { articlesRaw, category: 437 }, revalidate: 1 };
+    return {
+      props: {
+        articlesRaw,
+        category: 437,
+        // eslint-disable-next-line no-underscore-dangle
+        totalPages: articlesRaw._paging ? articlesRaw._paging.totalPages : 0,
+      },
+      revalidate: 1,
+    };
   } catch (err) {
     return { props: { articlesRaw: [], category: 437 }, revalidate: 1 };
   }

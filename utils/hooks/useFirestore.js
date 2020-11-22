@@ -2,7 +2,7 @@ import firebase from '@/utils/firebase';
 import useSWR from 'swr';
 
 const useFirestore = () => {
-  const getDocument = (documentPath, onUpdate) => {
+  const getDocument = (documentPath, onUpdate) => (
     firebase.firestore()
       .doc(documentPath)
       .onSnapshot((doc) => {
@@ -11,8 +11,8 @@ const useFirestore = () => {
         } else {
           onUpdate(null);
         }
-      });
-  };
+      })
+  );
 
   const getDocumentOnce = (documentPath) => {
     const { data } = useSWR(documentPath, (path) => firebase.firestore().doc(path).get());

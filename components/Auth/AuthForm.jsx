@@ -76,8 +76,6 @@ const AuthForm = ({ close, mobile }) => {
       }
       setLoading(true);
       registerEmail(email, password, username, () => {
-        setLoading(false);
-        setIsRegister(false);
         close();
       }, () => {
         setLoading(false);
@@ -92,7 +90,6 @@ const AuthForm = ({ close, mobile }) => {
     if (email && password) {
       setLoading(true);
       loginWithEmail(email, password, () => {
-        setLoading(false);
         close();
       }, () => {
         setLoading(false);

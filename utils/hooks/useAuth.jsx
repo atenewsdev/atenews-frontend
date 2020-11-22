@@ -1,5 +1,5 @@
 import {
-  useEffect, useState, createContext, useContext, useCallback,
+  useEffect, useState, createContext, useContext,
 } from 'react';
 
 import firebase from '@/utils/firebase';
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const { getDocument, saveDocument } = useFirestore();
 
   useEffect(() => {
+    let unsubscribeProfile = () => { };
     const unsubscribe = firebase.auth()
       .onAuthStateChanged(async (user) => {
         if (loadingAuth) {
@@ -28,19 +29,21 @@ export const AuthProvider = ({ children }) => {
 
         setAuthUser(user);
         if (user) {
-          getDocument(`users/${user.uid}`, async (data) => {
+          unsubscribeProfile = getDocument(`users/${user.uid}`, async (data) => {
             setProfile({ ...data, id: user.uid });
           });
         } else {
+          unsubscribeProfile();
           setProfile(null);
         }
       });
     return () => {
+      unsubscribeProfile();
       unsubscribe();
     };
   }, []);
 
-  const loginWithEmail = useCallback((email, password, callback, error) => firebase.auth()
+  const loginWithEmail = (email, password, callback, error) => firebase.auth()
     .signInWithEmailAndPassword(email, password).then(async () => {
       setSuccess('Welcome! You have successfully logged in.');
       callback();
@@ -51,14 +54,15 @@ export const AuthProvider = ({ children }) => {
       } else {
         setError(err.message);
       }
-    }), []);
+    });
 
-  const updateProfile = useCallback((document) => firebase.firestore()
+  const updateProfile = (document) => firebase.firestore()
     .doc(`users/${firebase.auth().currentUser.uid}`)
-    .update(document), []);
+    .update(document);
 
-  const registerEmail = useCallback((email, password, username, callback, error) => firebase.auth()
+  const registerEmail = (email, password, username, callback, error) => firebase.auth()
     .createUserWithEmailAndPassword(email, password).then(async () => {
+      callback();
       await Promise.all([
         firebase.auth().currentUser.sendEmailVerification(),
         saveDocument(`users/${firebase.auth().currentUser.uid}`, {
@@ -67,14 +71,13 @@ export const AuthProvider = ({ children }) => {
         }),
       ]);
       await firebase.auth().signOut();
-      callback();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       error();
       setError(err.message);
-    }), []);
+    });
 
-  const loginWithFacebook = useCallback(() => firebase.auth()
+  const loginWithFacebook = () => firebase.auth()
     .signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
       if (result.additionalUserInfo.isNewUser) {
         await firebase.auth().signOut();
@@ -85,9 +88,9 @@ export const AuthProvider = ({ children }) => {
       }
     }).catch((err) => {
       setError(err.message);
-    }), []);
+    });
 
-  const connectWithFacebook = useCallback(() => firebase.auth()
+  const connectWithFacebook = () => firebase.auth()
     .currentUser.linkWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
       if (result.additionalUserInfo.isNewUser) {
         await firebase.auth().signOut();
@@ -96,9 +99,9 @@ export const AuthProvider = ({ children }) => {
       }
     }).catch((err) => {
       setError(err.message);
-    }), []);
+    });
 
-  const loginWithTwitter = useCallback(() => firebase.auth()
+  const loginWithTwitter = () => firebase.auth()
     .signInWithPopup(new firebase.auth.TwitterAuthProvider()).then(async (result) => {
       if (result.additionalUserInfo.isNewUser) {
         await firebase.auth().signOut();
@@ -109,16 +112,22 @@ export const AuthProvider = ({ children }) => {
       }
     }).catch((err) => {
       setError(err.message);
-    }), []);
+    });
 
-  const connectWithTwitter = useCallback(() => firebase.auth()
-    .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider()), []);
+  const connectWithTwitter = () => firebase.auth()
+    .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider());
 
-  const logout = useCallback(() => firebase.auth().signOut().then(() => {
+  const logout = () => firebase.auth().signOut().then(() => {
     setProfile(null);
   }).catch((err) => {
     setError(err.message);
-  }), []);
+  });
+
+  const deleteAccount = () => firebase.auth().currentUser.delete().then(async () => {
+    await firebase.auth().signOut();
+  }).catch((err) => {
+    setError(err.message);
+  });
 
   return (
     <AuthContext.Provider value={{
@@ -133,6 +142,7 @@ export const AuthProvider = ({ children }) => {
       profile,
       logout,
       loadingAuth,
+      deleteAccount,
     }}
     >
       {children}

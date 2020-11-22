@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     marginRight: '0.5vw',
     height: 65,
-    zIndex: 1500,
+    zIndex: 1100,
     width: '15vw',
     background: theme.palette.background.default,
   },

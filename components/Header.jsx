@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: 85,
     right: 0,
     top: 0,
-    zIndex: 1500,
+    zIndex: 1100,
     background: theme.palette.background.default,
     [theme.breakpoints.down('sm')]: {
       display: 'none',

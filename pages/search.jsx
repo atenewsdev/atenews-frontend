@@ -17,8 +17,20 @@ export async function getServerSideProps({ query: rawQuery }) {
     const [articlesRaw] = await Promise.all([
       WP.posts().search(query),
     ]);
-    return { props: { articlesRaw, query, category: 'search' } };
+    return {
+      props: {
+        articlesRaw,
+        query,
+        category: 'search',
+        // eslint-disable-next-line no-underscore-dangle
+        totalPages: articlesRaw._paging ? articlesRaw._paging.totalPages : 0,
+      },
+    };
   } catch (err) {
-    return { props: { articlesRaw: [], query: '', category: 'search' } };
+    return {
+      props: {
+        articlesRaw: [], query: '', category: 'search', totalPages: 0,
+      },
+    };
   }
 }
