@@ -5,6 +5,8 @@ import {
   Typography, Paper, Grid, CardActionArea, Avatar,
 } from '@material-ui/core';
 
+import useFirestore from '@/utils/hooks/useFirestore';
+
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
     height: '100%',
@@ -50,6 +52,21 @@ const Column = ({ details }) => {
     'editor',
   ];
 
+  const [image, setImage] = React.useState('');
+
+  const { getDocumentOnce } = useFirestore();
+
+  React.useEffect(() => {
+    getDocumentOnce(`wordpress/${details.id}`).then(async (wpFirebaseId) => {
+      if (wpFirebaseId) {
+        const profile = await getDocumentOnce(`users/${wpFirebaseId.id}`);
+        setImage(profile.photoURL);
+      } else {
+        setImage(details.avatar);
+      }
+    });
+  }, []);
+
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
   return (
@@ -57,7 +74,7 @@ const Column = ({ details }) => {
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <Avatar className={classes.avatar} src={details.avatar} />
+            <Avatar className={classes.avatar} src={image} />
           </Grid>
           <Grid item xs>
             <Typography variant="h6">{details.display_name}</Typography>

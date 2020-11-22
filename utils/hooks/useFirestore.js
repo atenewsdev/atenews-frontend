@@ -14,8 +14,8 @@ const useFirestore = () => {
       })
   );
 
-  const getDocumentOnce = (documentPath) => {
-    const { data } = useSWR(documentPath, (path) => firebase.firestore().doc(path).get());
+  const getDocumentOnce = async (documentPath) => {
+    const data = await firebase.firestore().doc(documentPath).get();
     if (!data.exists) {
       return null;
     }
