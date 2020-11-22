@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }) => {
           displayName: username,
         }),
       ]);
-      await firebase.auth().signOut();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       error();

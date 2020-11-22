@@ -39,6 +39,10 @@ import { useTrending } from '@/utils/hooks/useTrending';
 
 import useAdminFirestore from '@/utils/hooks/useAdminFirestore';
 
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+import { useSpring, animated } from 'react-spring';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: 80,
@@ -53,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 250,
     width: 250,
+    backgroundColor: theme.palette.primary.main,
   },
   media: {
     height: 0,
@@ -119,6 +124,8 @@ export default function Home({ profile, cdnKey }) {
   const hiddenFileInput = React.useRef();
 
   const [uploadingPhoto, setUploadingPhoto] = React.useState(false);
+
+  const [props, set] = useSpring(() => ({ opacity: 0 }));
 
   React.useEffect(() => {
     if (profile) {
@@ -375,12 +382,31 @@ export default function Home({ profile, cdnKey }) {
                 <IconButton
                   disabled={!editMode || uploadingPhoto}
                   onClick={() => { hiddenFileInput.current.click(); }}
+                  onMouseOver={() => { set({ opacity: 0.8 }); }}
+                  onMouseOut={() => { set({ opacity: 0 }); }}
+                  style={{ position: 'relative' }}
                 >
                   <Avatar className={classes.avatar} src={photoURL && !uploadingPhoto ? photoURL.replace('_normal', '') : ''}>
                     {uploadingPhoto ? (
-                      <CircularProgress color="primary" />
+                      <CircularProgress color="inherit" />
                     ) : null}
                   </Avatar>
+                  <animated.div style={props}>
+                    <Avatar
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                      }}
+                    >
+                      <AddCircleIcon style={{ fontSize: 100, color: 'white' }} />
+                    </Avatar>
+                  </animated.div>
                 </IconButton>
               </Grid>
               <Grid item xs>
@@ -518,7 +544,7 @@ export default function Home({ profile, cdnKey }) {
                                 <FormHelperText variant="outlined">Verification email will be sent after updating.</FormHelperText>
                               </FormControl>
                             ) : (
-                              <Typography variant="body1">{email}</Typography>
+                              <Typography variant="body1">{email || 'Processing...'}</Typography>
                             )}
                           </Grid>
                         </Grid>
