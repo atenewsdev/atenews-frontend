@@ -377,7 +377,9 @@ export default function Home({ profile, cdnKey }) {
                   onClick={() => { hiddenFileInput.current.click(); }}
                 >
                   <Avatar className={classes.avatar} src={photoURL && !uploadingPhoto ? photoURL.replace('_normal', '') : ''}>
-                    <CircularProgress color="primary" />
+                    {uploadingPhoto ? (
+                      <CircularProgress color="primary" />
+                    ) : null}
                   </Avatar>
                 </IconButton>
               </Grid>
