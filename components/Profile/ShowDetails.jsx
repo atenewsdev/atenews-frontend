@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ShowDetails({
-  profile, displayName, username, followerCount, bio, email,
+  profile, displayName, username, bio, email,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -44,7 +44,7 @@ export default function ShowDetails({
           <Typography variant="body1">{`@${username}`}</Typography>
         </Grid>
       </Grid>
-      <SocialCounts profile={profile} followerCount={followerCount} />
+      <SocialCounts profile={profile} />
       <div className={classes.section}>
         <Typography variant="body1">{bio || <i>This profile has no bio.</i>}</Typography>
       </div>

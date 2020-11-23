@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SocialCounts({
   profile,
-  followerCount,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -69,15 +68,6 @@ export default function SocialCounts({
           </div>
         </Grid>
       </Grid>
-      { followerCount > 0 ? (
-        <div className={classes.section} style={{ marginTop: theme.spacing(2) }}>
-          <Typography variant="body1">
-            <b>{followerCount}</b>
-            {' '}
-            followers
-          </Typography>
-        </div>
-      ) : null }
     </>
   );
 }
