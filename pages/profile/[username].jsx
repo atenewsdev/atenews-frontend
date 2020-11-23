@@ -16,6 +16,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import ConnectButtons from '@/components/Profile/ConnectButtons';
 import ShowDetails from '@/components/Profile/ShowDetails';
 import EditDetails from '@/components/Profile/EditDetails';
 import EditProfileButton from '@/components/Profile/EditProfileButton';
@@ -61,7 +62,8 @@ export default function Home({ profile, cdnKey }) {
   const trending = useTrending();
 
   const {
-    profile: authProfile, loadingAuth,
+    profile: authProfile,
+    loadingAuth,
   } = useAuth();
   const { firebase } = useFirestore();
   const { setError } = useError();
@@ -165,24 +167,27 @@ export default function Home({ profile, cdnKey }) {
                   />
                 )}
                 {authProfile ? (
-                  <EditProfileButton
-                    profile={profile}
-                    displayName={displayName}
-                    username={username}
-                    backup={backup}
-                    bio={bio}
-                    email={email}
-                    setBackup={setBackup}
-                    setDisplayName={setDisplayName}
-                    setUsername={setUsername}
-                    setBio={setBio}
-                    setEmail={setEmail}
-                    password={password}
-                    setPassword={setPassword}
-                    editMode={editMode}
-                    setEditMode={setEditMode}
-                  />
-                ) : null }
+                  <>
+                    <ConnectButtons loading={loading} profile={profile} />
+                    <EditProfileButton
+                      profile={profile}
+                      displayName={displayName}
+                      username={username}
+                      backup={backup}
+                      bio={bio}
+                      email={email}
+                      setBackup={setBackup}
+                      setDisplayName={setDisplayName}
+                      setUsername={setUsername}
+                      setBio={setBio}
+                      setEmail={setEmail}
+                      password={password}
+                      setPassword={setPassword}
+                      editMode={editMode}
+                      setEditMode={setEditMode}
+                    />
+                  </>
+                ) : null}
               </Grid>
             </Grid>
             <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />

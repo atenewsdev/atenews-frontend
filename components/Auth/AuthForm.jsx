@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Button from '@/components/Button';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import FacebookIcon from '@material-ui/icons/Facebook';
 import {
   Paper, Grid, TextField, Divider,
 } from '@material-ui/core';
@@ -35,6 +37,7 @@ const AuthForm = ({ close, mobile }) => {
     loginWithEmail,
     loginWithTwitter,
     registerEmail,
+    loginWithFacebook,
   } = useAuth();
   const { firebase } = useFirebase();
   const theme = useTheme();
@@ -134,7 +137,36 @@ const AuthForm = ({ close, mobile }) => {
               <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
             </Grid>
             <Grid item style={{ width: '100%' }}>
-              <Button onClick={() => { loginWithTwitter(); close(); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login with Twitter</Button>
+              <Button
+                onClick={() => { loginWithTwitter(); close(); }}
+                variant="contained"
+                size="small"
+                fullWidth
+                disabled={loading}
+                style={{
+                  backgroundColor: '#00acee',
+                  color: 'white',
+                }}
+              >
+                <TwitterIcon style={{ marginRight: theme.spacing(1) }} />
+                Login with Twitter
+              </Button>
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button
+                onClick={() => { loginWithFacebook(); close(); }}
+                variant="contained"
+                size="small"
+                fullWidth
+                disabled={loading}
+                style={{
+                  backgroundColor: '#3b5998',
+                  color: 'white',
+                }}
+              >
+                <FacebookIcon style={{ marginRight: theme.spacing(1) }} />
+                Login with FB
+              </Button>
             </Grid>
             <Grid item style={{ width: '100%' }}>
               <Divider style={{ marginBottom: theme.spacing(2) }} />
