@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
     padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
   },
   trendingStats: {
     width: '100%',
@@ -72,8 +73,14 @@ const Column = ({ details }) => {
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
   return (
-    <CardActionArea onClick={() => {}} style={{ marginTop: theme.spacing(1) }}>
-      <Paper variant="outlined" className={classes.trendingItem}>
+    <CardActionArea
+      onClick={() => {}}
+      style={{
+        marginTop: theme.spacing(1),
+        borderRadius: 15,
+      }}
+    >
+      <Paper elevation={0} className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
             <Avatar className={classes.avatar} src={imageGenerator(image, 80)} />
