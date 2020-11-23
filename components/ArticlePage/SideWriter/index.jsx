@@ -1,0 +1,42 @@
+import React from 'react';
+import { useTheme } from '@material-ui/core/styles';
+
+import Tag from '@/components/Tag';
+
+import {
+  Typography,
+  Grid,
+  Hidden,
+  Divider,
+  List,
+} from '@material-ui/core';
+
+import IndividualWriter from '@/components/ArticlePage/SideWriter/IndividualWriter';
+
+const Trending = ({ authors, tags, writerImages }) => {
+  const theme = useTheme();
+
+  return (
+    <Hidden smDown>
+      <List>
+        <Typography>Written by:</Typography>
+        { authors.map((author) => (
+          <IndividualWriter author={author} images={writerImages} />
+        )) }
+        <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }} />
+        <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
+        <Grid container spacing={1}>
+          {
+            tags.map((tag, i) => (
+              <Grid item key={i}>
+                <Tag type={tag} />
+              </Grid>
+            ))
+          }
+        </Grid>
+      </List>
+    </Hidden>
+  );
+};
+
+export default Trending;

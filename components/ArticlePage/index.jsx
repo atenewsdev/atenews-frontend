@@ -2,19 +2,14 @@ import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import FollowIcon from '@material-ui/icons/Add';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
-
-import Button from '@/components/Button';
 
 import Comment from '@/components/Social/Comment';
 // import CommentField from '@/components/Social/CommentField';
-import SideWriter from '@/components/Article/SideWriter';
+import SideWriter from '@/components/ArticlePage/SideWriter';
 
-import Article from '@/components/List/Article';
 import ReactArticle from '@/components/Social/ReactArticle';
 import ReactInfoArticle from '@/components/Social/ReactInfoArticle';
-import handleViewport from 'react-in-viewport';
 
 import WPGBlocks from 'react-gutenberg';
 
@@ -29,7 +24,6 @@ import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
 
 import {
   Typography,
-  Avatar,
   Paper,
   Grid,
   Button as DefaultButton,
@@ -37,6 +31,9 @@ import {
   List,
   Hidden,
 } from '@material-ui/core';
+
+import ReadMore from '@/components/ArticlePage/ReadMore';
+import WriterInfo from '@/components/ArticlePage/WriterInfo';
 
 const useStyles = makeStyles(() => ({
   account: {
@@ -48,10 +45,6 @@ const useStyles = makeStyles(() => ({
     right: 0,
     marginRight: 20,
     height: 65,
-  },
-  avatar: {
-    height: 60,
-    width: 60,
   },
   readMore: {
     position: 'fixed',
@@ -67,77 +60,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WriterBlock = handleViewport((props) => {
-  const {
-    forwardedRef, theme, classes, authors,
-  } = props;
-
-  return (
-    <div ref={forwardedRef}>
-      <Grid container spacing={4} direction="row">
-        {
-          authors.map((author, i) => (
-            <Grid item key={i}>
-              <Grid container direction="row" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(2) }} component="div" key={author.user_nicename}>
-                <Grid item>
-                  <Avatar className={classes.avatar} src={author.avatar} />
-                </Grid>
-                <Grid item>
-                  <Grid container direction="column" justify="center" spacing={1}>
-                    <Grid item>
-                      <Typography variant="body1">
-                        {author.display_name}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Button aria-label={`Follow ${author.display_name}`} variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-                        <FollowIcon style={{ marginRight: theme.spacing(1) }} />
-                        Follow
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          ))
-        }
-      </Grid>
-    </div>
-  );
-});
-
-const ReadMoreBlock = handleViewport((props) => {
-  const { forwardedRef, theme, relatedPosts } = props;
-
-  return (
-    <div ref={forwardedRef}>
-      <Typography variant="h4">More articles for you</Typography>
-      <div style={{ marginTop: theme.spacing(4) }}>
-        {
-          relatedPosts.map((post) => (
-            <Article
-              key={post.ID}
-              article={{
-                featured_image_src: post.featured_image_url,
-                coauthors: post.coauthors,
-                title: {
-                  rendered: post.post_title,
-                },
-                date: post.post_date,
-                excerpt: {
-                  rendered: post.excerpt,
-                },
-                categories_detailed: post.categories,
-                slug: post.post_name,
-              }}
-            />
-          ))
-        }
-      </div>
-    </div>
-  );
-});
-
 export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -149,6 +71,7 @@ export default function Page({ post, relatedPosts }) {
   const [comments, setComments] = React.useState([]);
   const { users: [users, setUsers] } = useCache();
   const [article, setArticle] = React.useState(null);
+  const [writerImages, setWriterImages] = React.useState({});
 
   React.useEffect(() => {
     const unsubscribe = firebase.firestore().collection('comments')
@@ -214,13 +137,16 @@ export default function Page({ post, relatedPosts }) {
         unmountOnExit
       >
         <div className={classes.sideWriter}>
-          <SideWriter authors={post.coauthors} tags={post.categories_detailed} />
+          <SideWriter
+            authors={post.coauthors}
+            tags={post.categories_detailed}
+            writerImages={writerImages}
+          />
         </div>
       </CSSTransition>
-      <WriterBlock
-        theme={theme}
-        classes={classes}
+      <WriterInfo
         authors={post.coauthors}
+        setWriterImages={setWriterImages}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
@@ -298,8 +224,7 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(8) }} />
 
-      <ReadMoreBlock
-        theme={theme}
+      <ReadMore
         relatedPosts={relatedPosts}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
