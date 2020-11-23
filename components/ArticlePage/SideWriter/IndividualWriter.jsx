@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useRouter } from 'next/router';
 
 import {
   Avatar,
@@ -9,6 +10,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import { useError } from '@/utils/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
 
 const useStyles = makeStyles(() => ({
@@ -18,9 +20,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const IndividualWriter = ({ author, images }) => {
+const IndividualWriter = ({ author, images, profiles }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
+  const { setError } = useError();
 
   const [image, setImage] = React.useState('');
 
@@ -39,7 +43,19 @@ const IndividualWriter = ({ author, images }) => {
 
   return (
     <ListItem
-      style={{ padding: 0, paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }}
+      button
+      onClick={() => {
+        if (profiles) {
+          if (profiles[author.id]) {
+            router.push(`/profile/${profiles[author.id].username}`);
+          } else {
+            setError('This member has yet to set up his/her profile!');
+          }
+        } else {
+          setError('This member has yet to set up his/her profile!');
+        }
+      }}
+      style={{ marginTop: theme.spacing(1) }}
       key={author.user_nicename}
     >
       <ListItemAvatar>

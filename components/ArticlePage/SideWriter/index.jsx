@@ -13,7 +13,9 @@ import {
 
 import IndividualWriter from '@/components/ArticlePage/SideWriter/IndividualWriter';
 
-const SideWriter = ({ authors, tags, writerImages }) => {
+const SideWriter = ({
+  authors, tags, writerImages, profiles,
+}) => {
   const theme = useTheme();
 
   return (
@@ -21,7 +23,7 @@ const SideWriter = ({ authors, tags, writerImages }) => {
       <List>
         <Typography>Written by:</Typography>
         { authors.map((author, i) => (
-          <IndividualWriter key={`sideauthor${i}`} author={author} images={writerImages} />
+          <IndividualWriter key={`sideauthor${i}`} author={author} images={writerImages} profiles={profiles} />
         )) }
         <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }} />
         <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>

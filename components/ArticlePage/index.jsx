@@ -72,6 +72,7 @@ export default function Page({ post, relatedPosts }) {
   const { users: [users, setUsers] } = useCache();
   const [article, setArticle] = React.useState(null);
   const [writerImages, setWriterImages] = React.useState({});
+  const [profiles, setProfiles] = React.useState({});
 
   if (post === null) {
     return <Error404 />;
@@ -97,6 +98,7 @@ export default function Page({ post, relatedPosts }) {
       });
 
     setWriterImages({});
+    setProfiles({});
 
     const unsubscribeStats = getDocument(`articles/${post.slug}`, (data) => {
       setArticle(data);
@@ -145,6 +147,7 @@ export default function Page({ post, relatedPosts }) {
         <div className={classes.sideWriter}>
           <SideWriter
             authors={post.coauthors}
+            profiles={profiles}
             tags={post.categories_detailed}
             writerImages={writerImages}
           />
@@ -153,6 +156,8 @@ export default function Page({ post, relatedPosts }) {
       <WriterInfo
         authors={post.coauthors}
         setWriterImages={setWriterImages}
+        profiles={profiles}
+        setProfiles={setProfiles}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
