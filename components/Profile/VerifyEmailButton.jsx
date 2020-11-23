@@ -2,29 +2,55 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Button from '@/components/Button';
 
+import localforage from 'localforage';
+
 import { useAuth } from '@/utils/hooks/useAuth';
 
-import { useTheme } from '@material-ui/core/styles';
-
 export default function VerifyEmailButton() {
-  const theme = useTheme();
   const router = useRouter();
 
-  const [timer, setTimer] = React.useState(0);
+  const [timerRunning, setTimerRunning] = React.useState(false);
+  const [timer, setTimer] = React.useState(30);
   const [interval, setIntervalState] = React.useState(null);
 
   const initiateTimer = () => {
-    setTimer(30);
+    setTimerRunning(true);
     const temp = setInterval(() => {
       if (timer !== 0) {
         setTimer((prev) => prev - 1);
       } else {
-        router.reload();
         clearInterval(interval);
+        router.reload();
       }
     }, 1000);
     setIntervalState(temp);
   };
+
+  React.useEffect(() => {
+    localforage.getItem('verifyEmailTimer').then((state) => {
+      if (state) {
+        setTimer(state);
+      }
+    });
+    localforage.getItem('verifyEmailTimerRunning').then((state) => {
+      setTimerRunning(state);
+      if (state) {
+        initiateTimer();
+      }
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (timer === 0) {
+      setTimerRunning(false);
+      setTimer(30);
+    }
+    localforage.setItem('verifyEmailTimer', timer);
+  }, [timer]);
+
+  React.useEffect(() => {
+    localforage.setItem('verifyEmailTimerRunning', timerRunning);
+  }, [timerRunning]);
 
   const {
     authUser,
@@ -33,11 +59,10 @@ export default function VerifyEmailButton() {
   if (!authUser.emailVerified) {
     return (
       <Button
-        style={{ marginTop: theme.spacing(1) }}
         variant="contained"
         color="primary"
         size="small"
-        disabled={timer !== 0}
+        disabled={timerRunning}
         onClick={() => {
           authUser.sendEmailVerification();
           initiateTimer();
@@ -45,7 +70,7 @@ export default function VerifyEmailButton() {
       >
         Verify Email
         {' '}
-        {timer !== 0 ? `(Retry in ${timer}s)` : ''}
+        {timerRunning ? `(Retry in ${timer})` : ''}
       </Button>
     );
   }

@@ -10,8 +10,6 @@ import Trending from '@/components/Home/Trending';
 
 import DefaultErrorPage from '@/components/404';
 
-import VerifyEmailButton from '@/components/Profile/VerifyEmailButton';
-
 import {
   Grid,
   Divider,
@@ -68,7 +66,6 @@ export default function Home({ profile, cdnKey }) {
   const {
     profile: authProfile,
     loadingAuth,
-    authUser,
   } = useAuth();
   const { firebase } = useFirestore();
   const { setError } = useError();
@@ -171,10 +168,7 @@ export default function Home({ profile, cdnKey }) {
                     email={email}
                   />
                 )}
-                {authUser && profile.id === authUser.uid ? (
-                  <VerifyEmailButton />
-                ) : null}
-                {authProfile ? (
+                {authProfile && authProfile.id === profile.id ? (
                   <>
                     <ConnectButtons loading={loading} profile={profile} />
                     <EditProfileButton

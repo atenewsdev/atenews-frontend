@@ -11,12 +11,14 @@ import {
   Grid,
 } from '@material-ui/core';
 
+import { useAuth } from '@/utils/hooks/useAuth';
+
 import SocialCounts from '@/components/Profile/SocialCounts';
+import VerifyEmailButton from '@/components/Profile/VerifyEmailButton';
 
 const useStyles = makeStyles((theme) => ({
   iconStats: {
     width: 'fit-content',
-    marginRight: theme.spacing(4),
   },
   section: {
     marginTop: theme.spacing(4),
@@ -28,6 +30,10 @@ export default function ShowDetails({
 }) {
   const classes = useStyles();
   const theme = useTheme();
+
+  const {
+    authUser,
+  } = useAuth();
 
   return (
     <>
@@ -49,7 +55,7 @@ export default function ShowDetails({
         <Typography variant="body1">{bio || <i>This profile has no bio.</i>}</Typography>
       </div>
       <div className={classes.section}>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item>
             <div className={classes.iconStats}>
               <Grid container spacing={1}>
@@ -62,6 +68,11 @@ export default function ShowDetails({
               </Grid>
             </div>
           </Grid>
+          {authUser && profile.id === authUser.uid && email ? (
+            <Grid item>
+              <VerifyEmailButton />
+            </Grid>
+          ) : null}
         </Grid>
       </div>
     </>

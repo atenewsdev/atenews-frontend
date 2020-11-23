@@ -40,7 +40,7 @@ export default function DisplayAvatar({ editMode, profile, cdnKey }) {
 
   React.useEffect(() => {
     setPhotoURL(imageGenerator(profile.photoURL, 250));
-  }, []);
+  }, [profile]);
 
   const uploadImage = (imageFile) => {
     const fd = new FormData();
