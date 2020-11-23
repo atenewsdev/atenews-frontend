@@ -16,6 +16,10 @@ import {
   Popper,
 } from '@material-ui/core';
 
+import { useAuth } from '@/utils/hooks/useAuth';
+import { useError } from '@/utils/hooks/useSnackbar';
+import useFirestore from '@/utils/hooks/useFirestore';
+
 const useStyles = makeStyles(() => ({
   reacts: {
     width: 40,
@@ -46,36 +50,39 @@ const useStyles = makeStyles(() => ({
 
 const ReactInfo = ({
   disableHover,
+  slug,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { authUser } = useAuth();
+  const { setError } = useError();
+  const { firebase } = useFirestore();
 
   const [buttonText, setButtonText] = React.useState('React');
   const [react, setReact] = React.useState(null);
 
-  const handlePopoverOpen = (event) => {
-    if (!disableHover) {
-      setAnchorEl(event.currentTarget);
-    }
-  };
-
-  const handlePopoverClose = () => {
-    if (!disableHover) {
-      setAnchorEl(null);
-    }
-  };
-
-  const handleReact = (reactX) => {
-    handlePopoverClose();
-    if (react === reactX) {
-      setReact(null);
-      setButtonText('React');
-      return;
+  React.useEffect(() => {
+    let unsubscribe = () => { };
+    if (authUser) {
+      unsubscribe = firebase.firestore().collection('reacts')
+        .doc(`${slug}_${authUser.uid}`)
+        .onSnapshot((snapshot) => {
+          if (!snapshot.exists) {
+            setReact('');
+          } else {
+            setReact(snapshot.data().content);
+          }
+        });
     }
 
-    setReact(reactX);
-    switch (reactX) {
+    return () => {
+      unsubscribe();
+    };
+  }, [slug]);
+
+  React.useEffect(() => {
+    switch (react) {
       case 'happy':
         setButtonText('Happy');
         break;
@@ -92,6 +99,45 @@ const ReactInfo = ({
         setButtonText('Worried');
         break;
       default:
+        setButtonText('React');
+    }
+  }, [react]);
+
+  const handlePopoverOpen = (event) => {
+    if (!disableHover) {
+      if (authUser) {
+        if (authUser.emailVerified) {
+          setAnchorEl(event.currentTarget);
+        } else {
+          setError('A verified email is required to do this action!');
+        }
+      } else {
+        setError('You need to be logged in to do this action!');
+      }
+    }
+  };
+
+  const handlePopoverClose = () => {
+    if (!disableHover) {
+      setAnchorEl(null);
+    }
+  };
+
+  const handleReact = (reactX) => {
+    handlePopoverClose();
+    if (reactX !== '' && authUser) {
+      firebase.firestore()
+        .doc(`reacts/${slug}_${authUser.uid}`)
+        .set({
+          articleSlug: slug,
+          content: reactX,
+          timestamp: new Date(),
+          userId: authUser.uid,
+        }, { merge: true });
+    } else if (reactX === '' && authUser) {
+      firebase.firestore()
+        .doc(`reacts/${slug}_${authUser.uid}`)
+        .delete();
     }
   };
 
