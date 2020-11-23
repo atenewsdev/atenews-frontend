@@ -20,6 +20,7 @@ import ConnectButtons from '@/components/Profile/ConnectButtons';
 import ShowDetails from '@/components/Profile/ShowDetails';
 import EditDetails from '@/components/Profile/EditDetails';
 import EditProfileButton from '@/components/Profile/EditProfileButton';
+import SocialMediaDetails from '@/components/Profile/SocialMediaDetails';
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import useFirestore from '@/utils/hooks/useFirestore';
@@ -187,7 +188,9 @@ export default function Home({ profile, cdnKey }) {
                       setEditMode={setEditMode}
                     />
                   </>
-                ) : null}
+                ) : (
+                  <SocialMediaDetails profile={profile} />
+                )}
               </Grid>
             </Grid>
             <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />

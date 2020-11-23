@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 
 import Button from '@/components/Button';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -8,15 +8,26 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 
 import {
   Grid,
+  Typography,
 } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 
+const useStyles = makeStyles((theme) => ({
+  iconStats: {
+    width: 'fit-content',
+    marginRight: theme.spacing(4),
+  },
+  section: {
+    marginTop: theme.spacing(4),
+  },
+}));
+
 export default function ConnectButtons({ loading, profile }) {
   const theme = useTheme();
+  const classes = useStyles();
 
   const {
-    authUser,
     profile: authProfile,
     connectWithFacebook,
     connectWithTwitter,
@@ -26,16 +37,15 @@ export default function ConnectButtons({ loading, profile }) {
   const [facebookFound, setFacebookFound] = React.useState(false);
 
   React.useEffect(() => {
-    if (authUser) {
-      authUser.providerData.forEach((data) => {
-        if (data.providerId === 'twitter.com') {
-          setTwitterFound(true);
-        } else if (data.providerId === 'facebook.com') {
-          setFacebookFound(true);
-        }
-      });
+    if (authProfile) {
+      if ('twitterUsername' in authProfile) {
+        setTwitterFound(true);
+      }
+      if ('facebookUsername' in authProfile) {
+        setFacebookFound(true);
+      }
     }
-  }, [authUser]);
+  }, [authProfile]);
 
   if (authProfile.username === profile.username) {
     return (
@@ -57,7 +67,24 @@ export default function ConnectButtons({ loading, profile }) {
               Connect with Twitter
             </Button>
           </Grid>
-        ) : null}
+        ) : (
+          <Grid item>
+            <Grid container>
+              <Grid item>
+                <div className={classes.iconStats}>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <TwitterIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body1">{`@${profile.twitterUsername}`}</Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
         { !facebookFound ? (
           <Grid item>
             <Button
@@ -75,7 +102,24 @@ export default function ConnectButtons({ loading, profile }) {
               Connect with FB
             </Button>
           </Grid>
-        ) : null }
+        ) : (
+          <Grid item>
+            <Grid container>
+              <Grid item>
+                <div className={classes.iconStats}>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <FacebookIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body1">{profile.facebookUsername}</Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
+        ) }
       </Grid>
     );
   }

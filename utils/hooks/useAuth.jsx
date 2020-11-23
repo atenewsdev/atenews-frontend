@@ -84,6 +84,9 @@ export const AuthProvider = ({ children }) => {
         setProfile(null);
       } else {
         setSuccess('Welcome! You have successfully logged in.');
+        await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+          facebookUsername: result.additionalUserInfo.username,
+        });
       }
     }).catch((err) => {
       setError(err.message);
@@ -91,11 +94,9 @@ export const AuthProvider = ({ children }) => {
 
   const connectWithFacebook = () => firebase.auth()
     .currentUser.linkWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
-      if (result.additionalUserInfo.isNewUser) {
-        await firebase.auth().signOut();
-        setError('This Twitter account has not been connected to any Atenews account yet!');
-        setProfile(null);
-      }
+      await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+        facebookUsername: result.additionalUserInfo.username,
+      });
     }).catch((err) => {
       setError(err.message);
     });
@@ -107,6 +108,9 @@ export const AuthProvider = ({ children }) => {
         setError('This Twitter account has not been connected to any Atenews account yet!');
         setProfile(null);
       } else {
+        await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+          twitterUsername: result.additionalUserInfo.username,
+        });
         setSuccess('Welcome! You have successfully logged in.');
       }
     }).catch((err) => {
@@ -114,7 +118,13 @@ export const AuthProvider = ({ children }) => {
     });
 
   const connectWithTwitter = () => firebase.auth()
-    .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider());
+    .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider()).then(async (result) => {
+      await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+        twitterUsername: result.additionalUserInfo.username,
+      });
+    }).catch((err) => {
+      setError(err.message);
+    });
 
   const logout = () => firebase.auth().signOut().then(() => {
     setProfile(null);
