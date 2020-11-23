@@ -2,8 +2,6 @@ import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import ShareIcon from '@material-ui/icons/ShareOutlined';
-
 import Comment from '@/components/Social/Comment';
 // import CommentField from '@/components/Social/CommentField';
 import SideWriter from '@/components/ArticlePage/SideWriter';
@@ -26,7 +24,6 @@ import {
   Typography,
   Paper,
   Grid,
-  Button as DefaultButton,
   Divider,
   List,
   Hidden,
@@ -35,6 +32,7 @@ import {
 
 import ReadMore from '@/components/ArticlePage/ReadMore';
 import WriterInfo from '@/components/ArticlePage/WriterInfo';
+import ShareButton from '@/components/ArticlePage/ShareButton';
 import Error404 from '@/components/404';
 
 const useStyles = makeStyles(() => ({
@@ -97,6 +95,8 @@ export default function Page({ post, relatedPosts }) {
         }));
         setComments(tempComments);
       });
+
+    setWriterImages({});
 
     const unsubscribeStats = getDocument(`articles/${post.slug}`, (data) => {
       setArticle(data);
@@ -203,10 +203,7 @@ export default function Page({ post, relatedPosts }) {
           <ReactArticle />
         </Grid>
         <Grid item xs={6}>
-          <DefaultButton aria-label="Share article" variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="large" fullWidth style={{ height: '100%' }}>
-            <ShareIcon style={{ marginRight: theme.spacing(1) }} />
-            {article ? article.shareCount || 0 : 0}
-          </DefaultButton>
+          <ShareButton article={article} />
         </Grid>
       </Grid>
 

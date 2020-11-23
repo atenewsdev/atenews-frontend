@@ -35,6 +35,7 @@
     "react-icons": "^3.11.0",
     "react-in-viewport": "^1.0.0-alpha.15",
     "react-infinite-scroll-component": "^5.1.0",
+    "react-share": "^4.3.1",
     "react-spring": "^8.0.27",
     "react-transition-group": "^4.4.1",
     "sitemap": "^6.3.3",
