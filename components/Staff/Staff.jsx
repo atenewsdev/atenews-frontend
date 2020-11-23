@@ -7,6 +7,8 @@ import {
 
 import useFirestore from '@/utils/hooks/useFirestore';
 
+import imageGenerator from '@/utils/imageGenerator';
+
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
     height: '100%',
@@ -74,7 +76,7 @@ const Column = ({ details }) => {
       <Paper variant="outlined" className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <Avatar className={classes.avatar} src={image} />
+            <Avatar className={classes.avatar} src={imageGenerator(image, 80)} />
           </Grid>
           <Grid item xs>
             <Typography variant="h6">{details.display_name}</Typography>

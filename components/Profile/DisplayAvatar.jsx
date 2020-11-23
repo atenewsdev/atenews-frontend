@@ -15,6 +15,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import { useSpring, animated } from 'react-spring';
 
+import imageGenerator from '@/utils/imageGenerator';
+
 const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 250,
@@ -37,7 +39,7 @@ export default function DisplayAvatar({ editMode, profile, cdnKey }) {
   const [props, set] = useSpring(() => ({ opacity: 0 }));
 
   React.useEffect(() => {
-    setPhotoURL(profile.photoURL);
+    setPhotoURL(imageGenerator(profile.photoURL, 250));
   }, []);
 
   const uploadImage = (imageFile) => {
@@ -64,7 +66,7 @@ export default function DisplayAvatar({ editMode, profile, cdnKey }) {
         await firebase.firestore().collection('users').doc(profile.id).update({
           photoURL: data.message,
         });
-        setPhotoURL(data.message);
+        setPhotoURL(imageGenerator(data.message, 250));
         setUploadingPhoto(false);
         setSuccess('Successfully updated display photo!');
       }).catch((err) => {

@@ -19,6 +19,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { useAuth } from '@/utils/hooks/useAuth';
+import imageGenerator from '@/utils/imageGenerator';
 import NotificationView from './PopoutViews/Notification';
 import ProfileView from './PopoutViews/Profile';
 
@@ -173,7 +174,7 @@ export default function AccountBar({ setDarkMode }) {
             {profile
               ? (
                 <Avatar
-                  src={profile.photoURL}
+                  src={imageGenerator(profile.photoURL, 40)}
                   style={{ width: 40, height: 40 }}
                 />
               )
