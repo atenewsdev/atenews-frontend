@@ -5,9 +5,11 @@ import Button from '@/components/Button';
 import localforage from 'localforage';
 
 import { useAuth } from '@/utils/hooks/useAuth';
+import { useError } from '@/utils/hooks/useSnackbar';
 
 export default function VerifyEmailButton() {
   const router = useRouter();
+  const { setSuccess } = useError();
 
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [timer, setTimer] = React.useState(30);
@@ -65,6 +67,7 @@ export default function VerifyEmailButton() {
         disabled={timerRunning}
         onClick={() => {
           authUser.sendEmailVerification();
+          setSuccess('Email sent! Please check your inbox and spam folder for the verification link.');
           initiateTimer();
         }}
       >
