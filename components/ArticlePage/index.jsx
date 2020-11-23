@@ -30,6 +30,7 @@ import {
   Divider,
   List,
   Hidden,
+  Avatar,
 } from '@material-ui/core';
 
 import ReadMore from '@/components/ArticlePage/ReadMore';
@@ -163,7 +164,29 @@ export default function Page({ post, relatedPosts }) {
         <WPGBlocks blocks={post.blocks} />
       </Typography>
 
-      <div style={{ height: theme.spacing(8) }} />
+      <div style={{ height: theme.spacing(4) }} />
+      {post.categories_detailed.filter((cat) => cat.slug === 'columns').length > 0 ? (
+        <>
+          <Divider style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }} />
+
+          <Grid container spacing={3} justify="center" alignItems="center">
+            <Grid item>
+              <Avatar
+                src={writerImages[post.coauthors[0].id]}
+                style={{ width: 150, height: 150 }}
+              />
+            </Grid>
+            <Grid item xs>
+              <Typography variant="h6">{`About ${post.coauthors[0].display_name} - ${post.coauthors[0].nickname}`}</Typography>
+              <Typography variant="body2">{post.coauthors[0].bio}</Typography>
+            </Grid>
+          </Grid>
+
+          <Divider style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }} />
+        </>
+      ) : null}
+
+      <div style={{ height: theme.spacing(4) }} />
 
       <ReactInfoArticle socialStats={article} />
 
