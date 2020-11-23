@@ -32,19 +32,54 @@ export default function Home({ staffs: staffsRaw }) {
   const theme = useTheme();
   const { loadingAuth } = useAuth();
 
-  const [staffs, setStaffs] = React.useState([]);
+  const [editors, setEditors] = React.useState([]);
+  const [seniors, setSeniors] = React.useState([]);
+  const [juniors, setJuniors] = React.useState([]);
 
   React.useEffect(() => {
-    setStaffs(staffsRaw.filter((staff) => {
-      const rolesIgnore = [
-        'subscriber',
-        'contributor',
-        'administrator',
-        'editor',
-      ];
+    const rolesIgnore = [
+      'subscriber',
+      'contributor',
+      'administrator',
+      'editor',
+    ];
+    setEditors(staffsRaw.filter((staff) => {
       const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
 
-      return cleanRoles.length > 0;
+      let isIncluded = false;
+      cleanRoles.forEach((role) => {
+        if (role.toLowerCase().includes('editor')) {
+          isIncluded = true;
+        }
+      });
+
+      return cleanRoles.length > 0 && isIncluded;
+    }));
+
+    setSeniors(staffsRaw.filter((staff) => {
+      const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
+
+      let isIncluded = false;
+      cleanRoles.forEach((role) => {
+        if (role.toLowerCase().includes('senior') || role.toLowerCase().includes('head')) {
+          isIncluded = true;
+        }
+      });
+
+      return cleanRoles.length > 0 && isIncluded;
+    }));
+
+    setJuniors(staffsRaw.filter((staff) => {
+      const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
+
+      let isIncluded = false;
+      cleanRoles.forEach((role) => {
+        if (role.toLowerCase().includes('junior')) {
+          isIncluded = true;
+        }
+      });
+
+      return cleanRoles.length > 0 && isIncluded;
     }));
   }, [staffsRaw]);
 
@@ -73,10 +108,30 @@ export default function Home({ staffs: staffsRaw }) {
             concern by publishing online articles, tabloids, magazines, and other forms of releases.
           </Typography>
 
-          <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Staff</Typography>
+          <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Editorial Board</Typography>
 
           <Grid container spacing={2}>
-            { staffs.map((staff, i) => (
+            { editors.map((staff, i) => (
+              <Grid item xs={12} sm={6} key={i}>
+                <Staff details={staff} />
+              </Grid>
+            )) }
+          </Grid>
+
+          <Typography variant="h4" style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>Senior Staff</Typography>
+
+          <Grid container spacing={2}>
+            { seniors.map((staff, i) => (
+              <Grid item xs={12} sm={6} key={i}>
+                <Staff details={staff} />
+              </Grid>
+            )) }
+          </Grid>
+
+          <Typography variant="h4" style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>Junior Staff</Typography>
+
+          <Grid container spacing={2}>
+            { juniors.map((staff, i) => (
               <Grid item xs={12} sm={6} key={i}>
                 <Staff details={staff} />
               </Grid>

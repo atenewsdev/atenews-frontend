@@ -21,7 +21,7 @@ export default class MyDocument extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#195EA9" />
 
-          <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="true" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
 
           <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" />
           <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" />
