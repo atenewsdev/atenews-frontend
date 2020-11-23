@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Trending = ({ author, images }) => {
+const IndividualWriter = ({ author, images }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -47,8 +47,15 @@ const Trending = ({ author, images }) => {
       </ListItemAvatar>
       <ListItemText
         primary={author.display_name}
+        secondaryTypographyProps={{ component: 'div' }}
         secondary={author.roles.map((role) => (!rolesIgnore.includes(role) ? (
-          <Typography variant="subtitle2" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}><i>{humanRole(role)}</i></Typography>
+          <Typography
+            key={`indi_${role}`}
+            variant="subtitle2"
+            style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}
+          >
+            <i>{humanRole(role)}</i>
+          </Typography>
         ) : null))}
         style={{ marginLeft: theme.spacing(2) }}
       />
@@ -56,4 +63,4 @@ const Trending = ({ author, images }) => {
   );
 };
 
-export default Trending;
+export default IndividualWriter;

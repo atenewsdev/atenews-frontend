@@ -18,7 +18,7 @@ export default handleViewport((props) => {
       <Grid container spacing={4} direction="row">
         {
           authors.map((author, i) => (
-            <IndividualWriter author={author} key={i} setWriterImages={setWriterImages} />
+            <IndividualWriter author={author} key={`author${i}`} setWriterImages={setWriterImages} />
           ))
         }
       </Grid>

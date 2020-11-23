@@ -69,7 +69,7 @@ export default handleViewport((props) => {
             </Grid>
             <Grid item>
               {author.roles.map((role) => (!rolesIgnore.includes(role) ? (
-                <Typography variant="subtitle2" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}><i>{humanRole(role)}</i></Typography>
+                <Typography key={role} variant="subtitle2" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}><i>{humanRole(role)}</i></Typography>
               ) : null)) }
             </Grid>
           </Grid>

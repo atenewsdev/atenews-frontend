@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Trending = () => {
+const Contact = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -65,4 +65,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default Contact;

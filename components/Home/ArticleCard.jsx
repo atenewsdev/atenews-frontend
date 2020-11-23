@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Trending = ({ article }) => {
+const ArticleCard = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -177,4 +177,4 @@ const Trending = ({ article }) => {
   );
 };
 
-export default Trending;
+export default ArticleCard;

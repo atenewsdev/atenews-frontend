@@ -13,15 +13,15 @@ import {
 
 import IndividualWriter from '@/components/ArticlePage/SideWriter/IndividualWriter';
 
-const Trending = ({ authors, tags, writerImages }) => {
+const SideWriter = ({ authors, tags, writerImages }) => {
   const theme = useTheme();
 
   return (
     <Hidden smDown>
       <List>
         <Typography>Written by:</Typography>
-        { authors.map((author) => (
-          <IndividualWriter author={author} images={writerImages} />
+        { authors.map((author, i) => (
+          <IndividualWriter key={`sideauthor${i}`} author={author} images={writerImages} />
         )) }
         <Divider style={{ marginBottom: theme.spacing(1), marginTop: theme.spacing(1) }} />
         <Typography style={{ marginBottom: theme.spacing(1) }}>Tags:</Typography>
@@ -29,7 +29,7 @@ const Trending = ({ authors, tags, writerImages }) => {
           {
             tags.map((tag, i) => (
               <Grid item key={i}>
-                <Tag type={tag} />
+                <Tag clickable type={tag} />
               </Grid>
             ))
           }
@@ -39,4 +39,4 @@ const Trending = ({ authors, tags, writerImages }) => {
   );
 };
 
-export default Trending;
+export default SideWriter;

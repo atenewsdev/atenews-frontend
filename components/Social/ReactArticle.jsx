@@ -55,7 +55,7 @@ const ReactInfo = ({
   const classes = useStyles();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { authUser } = useAuth();
+  const { authUser, profile } = useAuth();
   const { setError } = useError();
   const { firebase } = useFirestore();
 
@@ -64,9 +64,9 @@ const ReactInfo = ({
 
   React.useEffect(() => {
     let unsubscribe = () => { };
-    if (authUser) {
+    if (profile) {
       unsubscribe = firebase.firestore().collection('reacts')
-        .doc(`${slug}_${authUser.uid}`)
+        .doc(`${slug}_${profile.id}`)
         .onSnapshot((snapshot) => {
           if (!snapshot.exists) {
             setReact('');
@@ -79,7 +79,7 @@ const ReactInfo = ({
     return () => {
       unsubscribe();
     };
-  }, [slug]);
+  }, [profile, authUser, slug]);
 
   React.useEffect(() => {
     switch (react) {
@@ -125,18 +125,18 @@ const ReactInfo = ({
 
   const handleReact = (reactX) => {
     handlePopoverClose();
-    if (reactX === react && authUser) {
+    if (reactX === react && profile) {
       firebase.firestore()
-        .doc(`reacts/${slug}_${authUser.uid}`)
+        .doc(`reacts/${slug}_${profile.id}`)
         .delete();
     } else if (reactX !== '' && authUser) {
       firebase.firestore()
-        .doc(`reacts/${slug}_${authUser.uid}`)
+        .doc(`reacts/${slug}_${profile.id}`)
         .set({
           articleSlug: slug,
           content: reactX,
           timestamp: new Date(),
-          userId: authUser.uid,
+          userId: profile.id,
         }, { merge: true });
     }
   };

@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { useRouter } from 'next/router';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import { Typography } from '@material-ui/core';
+import { Typography, CardActionArea } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   tag: {
@@ -16,11 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tag = ({ type }) => {
+const Tag = ({ type, clickable: clickableRaw }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
+  const [clickable, setClickable] = React.useState(clickableRaw);
   const [text, setText] = React.useState('');
+  const [url, setURL] = React.useState('');
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
@@ -30,11 +35,21 @@ const Tag = ({ type }) => {
       case 18:
       case 19:
       case 7:
+        if (type.slug !== 'news') {
+          setURL(`/news/${type.slug}`);
+        } else {
+          setClickable(false);
+        }
         setColor(theme.palette.atenews.news);
         setText(type.name ? type.name : type.cat_name);
         break;
       case 4:
       case 437:
+        if (type.slug !== 'features') {
+          setURL(`/features/${type.slug}`);
+        } else {
+          setURL('/features');
+        }
         setColor(theme.palette.atenews.features);
         setText(type.name ? type.name : type.cat_name);
         break;
@@ -42,15 +57,30 @@ const Tag = ({ type }) => {
       case 21:
       case 428:
       case 590:
+        if (type.slug !== 'opinion') {
+          setURL(`/opinion/${type.slug === 'columns' ? 'column' : type.slug}`);
+        } else {
+          setClickable(false);
+        }
         setColor(theme.palette.atenews.highlight);
         setText(type.name ? type.name : type.cat_name);
         break;
       case 31:
+        if (type.slug !== 'features') {
+          setURL(`/features/${type.slug}`);
+        } else {
+          setURL('/features');
+        }
         setColor(theme.palette.atenews.montage);
         setText(type.name ? type.name : type.cat_name);
         break;
       case 430:
       case 431:
+        if (type.slug !== 'photos') {
+          setURL(`/photos/${type.slug === 'featured-photos' ? 'featured' : type.slug}`);
+        } else {
+          setClickable(false);
+        }
         setColor(theme.palette.atenews.diversions);
         setText(type.name ? type.name : type.cat_name);
         break;
@@ -59,9 +89,16 @@ const Tag = ({ type }) => {
   }, [type]);
 
   return (
-    <div className={classes.tag} style={{ backgroundColor: color }}>
+    <CardActionArea
+      disabled={!clickable}
+      onClick={() => {
+        router.push(url);
+      }}
+      className={classes.tag}
+      style={{ backgroundColor: color }}
+    >
       <Typography variant="body2">{text}</Typography>
-    </div>
+    </CardActionArea>
   );
 };
 

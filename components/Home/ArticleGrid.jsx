@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Trending = ({ articles }) => {
+const ArticleGrid = ({ articles }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -207,4 +207,4 @@ const Trending = ({ articles }) => {
   );
 };
 
-export default Trending;
+export default ArticleGrid;
