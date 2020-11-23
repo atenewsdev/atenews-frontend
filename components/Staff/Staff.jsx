@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { useRouter } from 'next/router';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import {
@@ -6,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 import useFirestore from '@/utils/hooks/useFirestore';
-
+import { useError } from '@/utils/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const Column = ({ details }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
 
   const rolesIgnore = [
     'subscriber',
@@ -56,13 +59,16 @@ const Column = ({ details }) => {
   ];
 
   const [image, setImage] = React.useState('');
+  const [username, setUsername] = React.useState('');
 
+  const { setError } = useError();
   const { getDocumentOnce } = useFirestore();
 
   React.useEffect(() => {
     getDocumentOnce(`wordpress/${details.id}`).then(async (wpFirebaseId) => {
       if (wpFirebaseId) {
         const profile = await getDocumentOnce(`users/${wpFirebaseId.id}`);
+        setUsername(profile.username);
         setImage(profile.photoURL);
       } else {
         setImage(details.avatar);
@@ -74,7 +80,13 @@ const Column = ({ details }) => {
 
   return (
     <CardActionArea
-      onClick={() => {}}
+      onClick={() => {
+        if (username) {
+          router.push(`/profile/${username}`);
+        } else {
+          setError('This member has yet to set up his/her profile!');
+        }
+      }}
       style={{
         marginTop: theme.spacing(1),
         borderRadius: 15,
