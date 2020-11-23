@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setSuccess('Welcome! You have successfully logged in.');
         await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
-          facebookUsername: result.additionalUserInfo.username,
+          facebookUsername: result.additionalUserInfo.profile.name,
         });
       }
     }).catch((err) => {
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
   const connectWithFacebook = () => firebase.auth()
     .currentUser.linkWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
       await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
-        facebookUsername: result.additionalUserInfo.username,
+        facebookUsername: result.additionalUserInfo.profile.name,
       });
     }).catch((err) => {
       setError(err.message);
