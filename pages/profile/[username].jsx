@@ -31,6 +31,7 @@ import useAdminFirestore from '@/utils/hooks/useAdminFirestore';
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: 80,
+    minHeight: 800,
   },
   iconStats: {
     width: 'fit-content',

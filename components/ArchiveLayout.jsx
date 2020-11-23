@@ -32,6 +32,9 @@ const useStyles = makeStyles({
     marginRight: 20,
     height: 65,
   },
+  container: {
+    minHeight: 800,
+  },
 });
 
 export default function Page({

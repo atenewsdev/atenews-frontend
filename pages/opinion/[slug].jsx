@@ -19,6 +19,9 @@ const useStyles = makeStyles(() => ({
     width: '90%',
     margin: 'auto',
   },
+  container: {
+    minHeight: 800,
+  },
 }));
 
 export default function Page({ post, relatedPosts }) {
