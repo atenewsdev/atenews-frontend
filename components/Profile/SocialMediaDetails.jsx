@@ -20,23 +20,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConnectButtons({ profile }) {
+export default function ConnectButtons({ profile: rawProfile }) {
   const theme = useTheme();
   const classes = useStyles();
 
   const [twitterFound, setTwitterFound] = React.useState(false);
   const [facebookFound, setFacebookFound] = React.useState(false);
 
+  const [profile, setProfile] = React.useState(rawProfile);
+
   React.useEffect(() => {
-    if (profile) {
-      if ('twitterUsername' in profile) {
+    setProfile(rawProfile);
+    if (rawProfile) {
+      if ('twitterUsername' in rawProfile) {
         setTwitterFound(true);
       }
-      if ('facebookUsername' in profile) {
+      if ('facebookUsername' in rawProfile) {
         setFacebookFound(true);
       }
     }
-  }, [profile]);
+  }, [rawProfile]);
 
   return (
     <Grid container spacing={2} style={{ marginTop: theme.spacing(2) }}>
