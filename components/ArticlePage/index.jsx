@@ -186,8 +186,9 @@ export default function Page({ post, relatedPosts }) {
       <div style={{ height: theme.spacing(4) }} />
 
       <List component="div">
-        {comments.map((comment) => (
+        {comments.map((comment, i) => (
           <Comment
+            key={`comment${i}`}
             user={{
               name: users[comment.userId].displayName,
               avatar: users[comment.userId].photoURL,
