@@ -92,7 +92,7 @@ const ReactInfo = ({
       case 'angry':
         setButtonText('Angry');
         break;
-      case 'disgust':
+      case 'disgusted':
         setButtonText('Disgusted');
         break;
       case 'worried':
@@ -153,7 +153,7 @@ const ReactInfo = ({
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/sad.svg" />;
       case 'angry':
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/angry.svg" />;
-      case 'disgust':
+      case 'disgusted':
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/disgust.svg" />;
       case 'worried':
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/worried.svg" />;
@@ -212,7 +212,7 @@ const ReactInfo = ({
                   </CardActionArea>
                 </Grid>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('disgust')}>
+                  <CardActionArea onClick={() => handleReact('disgusted')}>
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
                     </CardContent>
