@@ -125,7 +125,11 @@ const ReactInfo = ({
 
   const handleReact = (reactX) => {
     handlePopoverClose();
-    if (reactX !== '' && authUser) {
+    if (reactX === react && authUser) {
+      firebase.firestore()
+        .doc(`reacts/${slug}_${authUser.uid}`)
+        .delete();
+    } else if (reactX !== '' && authUser) {
       firebase.firestore()
         .doc(`reacts/${slug}_${authUser.uid}`)
         .set({
@@ -134,10 +138,6 @@ const ReactInfo = ({
           timestamp: new Date(),
           userId: authUser.uid,
         }, { merge: true });
-    } else if (reactX === '' && authUser) {
-      firebase.firestore()
-        .doc(`reacts/${slug}_${authUser.uid}`)
-        .delete();
     }
   };
 
