@@ -82,9 +82,9 @@ export default function Page({ post, relatedPosts }) {
   );
 }
 
-export const getStaticPaths = async () => {
-  const categories = [3, 20, 18, 19, 7];
+const categories = [3, 20, 18, 19, 7];
 
+export const getStaticPaths = async () => {
   let res = [];
   try {
     const temp = await Promise.all(
@@ -119,8 +119,11 @@ export const getStaticProps = async (ctx) => {
     res = [];
   }
   if (res.length > 0) {
+    if (res[0].categories.filter((cat) => categories.includes(cat)) === 0) {
+      return { props: { post: null, relatedPosts }, revalidate: 10 };
+    }
     relatedPosts = await WP.relatedPosts().id(res[0].id);
     return { props: { post: res[0], relatedPosts }, revalidate: 10 };
   }
-  return { props: { post: {}, relatedPosts: [] }, revalidate: 10 };
+  return { props: { post: null, relatedPosts }, revalidate: 10 };
 };

@@ -35,6 +35,7 @@ import {
 
 import ReadMore from '@/components/ArticlePage/ReadMore';
 import WriterInfo from '@/components/ArticlePage/WriterInfo';
+import Error404 from '@/components/404';
 
 const useStyles = makeStyles(() => ({
   account: {
@@ -73,6 +74,10 @@ export default function Page({ post, relatedPosts }) {
   const { users: [users, setUsers] } = useCache();
   const [article, setArticle] = React.useState(null);
   const [writerImages, setWriterImages] = React.useState({});
+
+  if (post === null) {
+    return <Error404 />;
+  }
 
   React.useEffect(() => {
     const unsubscribe = firebase.firestore().collection('comments')
