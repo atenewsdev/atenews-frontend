@@ -46,6 +46,9 @@ const useStyles = makeStyles(() => ({
       cursor: 'pointer',
     },
   },
+  focusHighlight: {
+    opacity: 0.3,
+  },
 }));
 
 const ReactInfo = ({
@@ -191,35 +194,60 @@ const ReactInfo = ({
             <Card elevation={0} variant="outlined" style={{ borderRadius: 40, marginBottom: theme.spacing(1) }}>
               <Grid container>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('happy')}>
+                  <CardActionArea
+                    onClick={() => handleReact('happy')}
+                    classes={{
+                      focusHighlight: react === 'happy' ? classes.focusHighlight : null,
+                    }}
+                  >
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/happy.svg" />
                     </CardContent>
                   </CardActionArea>
                 </Grid>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('sad')}>
+                  <CardActionArea
+                    onClick={() => handleReact('sad')}
+                    classes={{
+                      focusHighlight: react === 'sad' ? classes.focusHighlight : null,
+                    }}
+                  >
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/sad.svg" />
                     </CardContent>
                   </CardActionArea>
                 </Grid>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('angry')}>
+                  <CardActionArea
+                    onClick={() => handleReact('angry')}
+                    classes={{
+                      focusHighlight: react === 'angry' ? classes.focusHighlight : null,
+                    }}
+                  >
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/angry.svg" />
                     </CardContent>
                   </CardActionArea>
                 </Grid>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('disgusted')}>
+                  <CardActionArea
+                    onClick={() => handleReact('disgusted')}
+                    classes={{
+                      focusHighlight: react === 'disgusted' ? classes.focusHighlight : null,
+                    }}
+                  >
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
                     </CardContent>
                   </CardActionArea>
                 </Grid>
                 <Grid item>
-                  <CardActionArea onClick={() => handleReact('worried')}>
+                  <CardActionArea
+                    onClick={() => handleReact('worried')}
+                    classes={{
+                      focusHighlight: react === 'worried' ? classes.focusHighlight : null,
+                    }}
+                  >
                     <CardContent>
                       <Avatar className={classes.reacts} src="/reacts/worried.svg" />
                     </CardContent>
