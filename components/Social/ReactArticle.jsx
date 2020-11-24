@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
 const ReactInfo = ({
   disableHover,
   slug,
+  setArticle,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -126,10 +127,35 @@ const ReactInfo = ({
   const handleReact = (reactX) => {
     handlePopoverClose();
     if (reactX === react && profile) {
+      setArticle((curr) => ({
+        ...curr,
+        totalReactCount: curr.totalReactCount - 1,
+        reactCount: {
+          ...curr.reactCount,
+          [reactX]: curr.reactCount[reactX] - 1,
+        },
+      }));
       firebase.firestore()
         .doc(`reacts/${slug}_${profile.id}`)
         .delete();
     } else if (reactX !== '' && authUser) {
+      setArticle((curr) => ({
+        ...curr,
+        totalReactCount: curr.totalReactCount - 1,
+        reactCount: {
+          ...curr.reactCount,
+          [react]: curr.reactCount[react] - 1,
+        },
+      }));
+
+      setArticle((curr) => ({
+        ...curr,
+        totalReactCount: curr.totalReactCount + 1,
+        reactCount: {
+          ...curr.reactCount,
+          [reactX]: curr.reactCount[reactX] + 1,
+        },
+      }));
       firebase.firestore()
         .doc(`reacts/${slug}_${profile.id}`)
         .set({

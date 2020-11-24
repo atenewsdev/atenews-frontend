@@ -205,7 +205,7 @@ export default function Page({ post, relatedPosts }) {
 
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <ReactArticle slug={post.slug} />
+          <ReactArticle setArticle={setArticle} slug={post.slug} />
         </Grid>
         <Grid item xs={6}>
           <ShareButton article={article} />
