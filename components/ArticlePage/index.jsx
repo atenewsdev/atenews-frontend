@@ -217,11 +217,11 @@ export default function Page({ post, relatedPosts }) {
 
       <CommentField slug={post.slug} />
       <List component="div">
-        {comments.map((comment, i) => (
+        {comments.map((comment) => (
           <Comment
             commentId={comment.id}
             commenterId={comment.userId}
-            key={`comment${i}`}
+            key={comment.id}
             user={{
               name: users[comment.userId].displayName,
               avatar: users[comment.userId].photoURL,
