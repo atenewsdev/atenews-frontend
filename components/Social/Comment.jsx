@@ -27,6 +27,8 @@ import {
 import imageGenerator from '@/utils/imageGenerator';
 import useFirebase from '@/utils/hooks/useFirestore';
 import { useCache } from '@/utils/hooks/useCache';
+import { useAuth } from '@/utils/hooks/useAuth';
+import { useError } from '@/utils/hooks/useSnackbar';
 
 const Paper = withStyles((theme) => ({
   root: {
@@ -48,10 +50,66 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Template = ({
-  children, reply, user, comment, socialStats, getReplies, timestamp,
+  children,
+  reply,
+  user,
+  comment,
+  socialStats,
+  getReplies,
+  timestamp,
+  slug,
+  commentId,
+  replyId,
+  commenterId,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const { profile } = useAuth();
+  const { firebase } = useFirebase();
+  const { setError } = useError();
+
+  const [vote, setVote] = React.useState(null);
+
+  React.useEffect(() => {
+    const unsub = firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).onSnapshot(async (snapshot) => {
+      if (snapshot.exists) {
+        setVote(snapshot.data().content);
+      } else {
+        setVote(null);
+      }
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [reply ? replyId : commentId]);
+
+  const handleVote = async (voteHandle) => {
+    try {
+      if (vote !== voteHandle) {
+        let data = {
+          articleSlug: slug,
+          commenterId,
+          content: voteHandle,
+          timestamp: new Date(),
+          userId: profile.id,
+        };
+        if (commentId) {
+          data = { ...data, commentId };
+        }
+        if (replyId) {
+          data = { ...data, replyId };
+        }
+
+        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).set(data);
+      } else {
+        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).delete();
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
@@ -94,30 +152,48 @@ const Template = ({
         secondary={(
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>
-              <Grid item>
-                <Button variant="text" style={{ padding: 0 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-                  <LikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  {socialStats ? socialStats.upvoteCount || 0 : 0}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="text" style={{ padding: 0 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-                  <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  {socialStats ? socialStats.downvoteCount || 0 : 0}
-                </Button>
-              </Grid>
+              {profile ? (
+                <>
+                  <Grid item>
+                    <Button
+                      variant={vote === 'up' ? 'contained' : 'text'}
+                      style={{ padding: 0 }}
+                      color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                      size="small"
+                      onClick={() => { handleVote('up'); }}
+                    >
+                      <LikeIcon style={{ marginRight: theme.spacing(1) }} />
+                      {socialStats ? socialStats.upvoteCount || 0 : 0}
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant={vote === 'down' ? 'contained' : 'text'}
+                      style={{ padding: 0 }}
+                      color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                      size="small"
+                      onClick={() => { handleVote('down'); }}
+                    >
+                      <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
+                      {socialStats ? socialStats.downvoteCount || 0 : 0}
+                    </Button>
+                  </Grid>
+                </>
+              ) : null}
               {!reply ? (
                 <Grid item>
-                  <Button
-                    style={{ padding: 0 }}
-                    variant="text"
-                    color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-                    size="small"
-                    onClick={getReplies}
-                  >
-                    <CommentIcon style={{ marginRight: theme.spacing(1) }} />
-                    {socialStats.replyCount > 0 ? `View ${socialStats.replyCount} replies` : 'Reply'}
-                  </Button>
+                  { profile || socialStats.replyCount > 0 ? (
+                    <Button
+                      style={{ padding: 0 }}
+                      variant="text"
+                      color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                      size="small"
+                      onClick={getReplies}
+                    >
+                      <CommentIcon style={{ marginRight: theme.spacing(1) }} />
+                      {socialStats.replyCount > 0 ? `View ${socialStats.replyCount} replies` : 'Reply'}
+                    </Button>
+                  ) : null }
                 </Grid>
               ) : null}
             </Grid>
@@ -139,6 +215,7 @@ export default function Page({
   user: commentUser,
   comment: commentContent,
   socialStats: commentSocialStats,
+  commenterId,
   commentId,
   slug,
   timestamp,
@@ -194,13 +271,16 @@ export default function Page({
       socialStats={commentSocialStats}
       getReplies={getReplies}
       timestamp={timestamp}
+      slug={slug}
+      commentId={commentId}
+      commenterId={commenterId}
     >
       { showReplies ? (
         <>
           <CommentField slug={slug} commentId={commentId} reply />
           { replies.map((reply) => (
             <Template
-              commentId={reply.id}
+              replyId={reply.id}
               key={reply.id}
               user={{
                 name: users[reply.userId].displayName,
@@ -213,6 +293,8 @@ export default function Page({
                 downvoteCount: reply.downvoteCount,
               }}
               timestamp={reply.timestamp.toDate()}
+              slug={slug}
+              commenterId={reply.userId}
               reply
             />
           ))}

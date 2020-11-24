@@ -220,6 +220,7 @@ export default function Page({ post, relatedPosts }) {
         {comments.map((comment, i) => (
           <Comment
             commentId={comment.id}
+            commenterId={comment.userId}
             key={`comment${i}`}
             user={{
               name: users[comment.userId].displayName,
