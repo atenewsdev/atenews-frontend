@@ -8,6 +8,7 @@ import useFirebase from '@/utils/hooks/useFirestore';
 import imageGenerator from '@/utils/imageGenerator';
 
 import SendIcon from '@material-ui/icons/Send';
+import { isMobile } from 'react-device-detect';
 
 import {
   IconButton,
@@ -48,6 +49,7 @@ export default function Page({ reply, slug, commentId }) {
   const { setError } = useError();
 
   const [content, setContent] = React.useState('');
+  const inputRef = React.useRef();
 
   React.useEffect(() => {
     setContent('');
@@ -57,17 +59,19 @@ export default function Page({ reply, slug, commentId }) {
     e.preventDefault();
     if (authUser) {
       if (authUser.emailVerified) {
-        await firebase.firestore().collection('comments').add({
-          articleSlug: slug,
-          content,
-          downvoteCount: 0,
-          replyCount: 0,
-          socialScore: 0,
-          timestamp: new Date(),
-          upvoteCount: 0,
-          userId: profile.id,
-        });
-        setContent('');
+        if (content.trim()) {
+          await firebase.firestore().collection('comments').add({
+            articleSlug: slug,
+            content,
+            downvoteCount: 0,
+            replyCount: 0,
+            socialScore: 0,
+            timestamp: new Date(),
+            upvoteCount: 0,
+            userId: profile.id,
+          });
+          setContent('');
+        }
       } else {
         setError('A verified email is required to do this action!');
       }
@@ -80,21 +84,39 @@ export default function Page({ reply, slug, commentId }) {
     e.preventDefault();
     if (authUser) {
       if (authUser.emailVerified) {
-        await firebase.firestore().collection('replies').add({
-          articleSlug: slug,
-          commentId,
-          content,
-          downvoteCount: 0,
-          timestamp: new Date(),
-          upvoteCount: 0,
-          userId: profile.id,
-        });
-        setContent('');
+        if (content.trim()) {
+          await firebase.firestore().collection('replies').add({
+            articleSlug: slug,
+            commentId,
+            content,
+            downvoteCount: 0,
+            timestamp: new Date(),
+            upvoteCount: 0,
+            userId: profile.id,
+          });
+          setContent('');
+        }
       } else {
         setError('A verified email is required to do this action!');
       }
     } else {
       setError('You need to be logged in to do this action!');
+    }
+  };
+
+  const handleChange = (event) => {
+    setContent(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.charCode === 13) {
+      if (!event.shiftKey && !isMobile) {
+        if (reply) {
+          submitReply(event);
+        } else {
+          submitComment(event);
+        }
+      }
     }
   };
 
@@ -114,9 +136,12 @@ export default function Page({ reply, slug, commentId }) {
         primary={(
           <form onSubmit={reply ? submitReply : submitComment}>
             <TextField
+              ref={inputRef}
               variant="outlined"
               placeholder={reply ? 'Write a reply...' : 'Write a comment...'}
-              onChange={(e) => setContent(e.target.value)}
+              on
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
               value={content}
               multiline
               rows={1}
