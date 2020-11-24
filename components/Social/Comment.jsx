@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
+import { formatDistanceToNow } from 'date-fns';
 
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
@@ -47,7 +48,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Template = ({
-  children, reply, user, comment, socialStats, getReplies,
+  children, reply, user, comment, socialStats, getReplies, timestamp,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -75,7 +76,14 @@ const Template = ({
                     </Grid>
                   ) : null }
                 </Grid>
-                <Typography variant="body1">{comment}</Typography>
+                <Grid container direction="column" spacing={1}>
+                  <Grid item>
+                    <Typography variant="body1">{comment}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="caption"><i>{formatDistanceToNow(new Date(timestamp || null), { addSuffix: true })}</i></Typography>
+                  </Grid>
+                </Grid>
               </Paper>
               <IconButton style={{ marginLeft: theme.spacing(1) }}>
                 <MoreHorizIcon />
@@ -87,13 +95,13 @@ const Template = ({
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>
               <Grid item>
-                <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
+                <Button variant="text" style={{ padding: 0 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <LikeIcon style={{ marginRight: theme.spacing(1) }} />
                   {socialStats ? socialStats.upvoteCount || 0 : 0}
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="text" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
+                <Button variant="text" style={{ padding: 0 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
                   <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
                   {socialStats ? socialStats.downvoteCount || 0 : 0}
                 </Button>
@@ -101,6 +109,7 @@ const Template = ({
               {!reply ? (
                 <Grid item>
                   <Button
+                    style={{ padding: 0 }}
                     variant="text"
                     color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
                     size="small"
@@ -127,7 +136,12 @@ const Template = ({
 };
 
 export default function Page({
-  user: commentUser, comment: commentContent, socialStats: commentSocialStats, commentId, slug,
+  user: commentUser,
+  comment: commentContent,
+  socialStats: commentSocialStats,
+  commentId,
+  slug,
+  timestamp,
 }) {
   const { firebase } = useFirebase();
   const [showReplies, setShowReplies] = React.useState(false);
@@ -143,7 +157,7 @@ export default function Page({
     } else {
       repliesUnsubscribe = firebase.firestore().collection('replies')
         .where('commentId', '==', commentId)
-        .orderBy('timestamp', 'desc')
+        .orderBy('timestamp', 'asc')
         .onSnapshot(async (snapshot) => {
           const tempReplies = [];
           await Promise.all(snapshot.docs.map(async (doc) => {
@@ -175,6 +189,7 @@ export default function Page({
       comment={commentContent}
       socialStats={commentSocialStats}
       getReplies={getReplies}
+      timestamp={timestamp}
     >
       { showReplies ? (
         <>
@@ -193,6 +208,7 @@ export default function Page({
                 upvoteCount: reply.upvoteCount,
                 downvoteCount: reply.downvoteCount,
               }}
+              timestamp={reply.timestamp.toDate()}
               reply
             />
           ))}

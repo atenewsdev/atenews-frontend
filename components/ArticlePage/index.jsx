@@ -233,6 +233,7 @@ export default function Page({ post, relatedPosts }) {
               replyCount: comment.replyCount,
             }}
             slug={post.slug}
+            timestamp={comment.timestamp.toDate()}
           />
         )) }
         { /*
