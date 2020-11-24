@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ reply, slug }) {
+export default function Page({ reply, slug, commentId }) {
   const classes = useStyles();
   const theme = useTheme();
   const { profile, authUser } = useAuth();
@@ -76,6 +76,28 @@ export default function Page({ reply, slug }) {
     }
   };
 
+  const submitReply = async (e) => {
+    e.preventDefault();
+    if (authUser) {
+      if (authUser.emailVerified) {
+        await firebase.firestore().collection('replies').add({
+          articleSlug: slug,
+          commentId,
+          content,
+          downvoteCount: 0,
+          timestamp: new Date(),
+          upvoteCount: 0,
+          userId: profile.id,
+        });
+        setContent('');
+      } else {
+        setError('A verified email is required to do this action!');
+      }
+    } else {
+      setError('You need to be logged in to do this action!');
+    }
+  };
+
   if (!profile) {
     return null;
   }
@@ -90,7 +112,7 @@ export default function Page({ reply, slug }) {
       </ListItemIcon>
       <ListItemText
         primary={(
-          <form onSubmit={submitComment}>
+          <form onSubmit={reply ? submitReply : submitComment}>
             <TextField
               variant="outlined"
               placeholder={reply ? 'Write a reply...' : 'Write a comment...'}

@@ -219,6 +219,7 @@ export default function Page({ post, relatedPosts }) {
       <List component="div">
         {comments.map((comment, i) => (
           <Comment
+            commentId={comment.id}
             key={`comment${i}`}
             user={{
               name: users[comment.userId].displayName,
@@ -229,7 +230,9 @@ export default function Page({ post, relatedPosts }) {
             socialStats={{
               upvoteCount: comment.upvoteCount,
               downvoteCount: comment.downvoteCount,
+              replyCount: comment.replyCount,
             }}
+            slug={post.slug}
           />
         )) }
         { /*
