@@ -3,7 +3,7 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Comment from '@/components/Social/Comment';
-// import CommentField from '@/components/Social/CommentField';
+import CommentField from '@/components/Social/CommentField';
 import SideWriter from '@/components/ArticlePage/SideWriter';
 
 import ReactArticle from '@/components/Social/ReactArticle';
@@ -215,6 +215,7 @@ export default function Page({ post, relatedPosts }) {
       <Divider />
       <div style={{ height: theme.spacing(4) }} />
 
+      <CommentField slug={post.slug} />
       <List component="div">
         {comments.map((comment, i) => (
           <Comment
