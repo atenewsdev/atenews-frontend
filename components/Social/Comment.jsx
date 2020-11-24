@@ -171,7 +171,11 @@ export default function Page({
             tempReplies.push({ id: doc.id, ...doc.data() });
           }));
           setShowReplies(true);
-          setReplies(tempReplies);
+          setReplies(
+            tempReplies.sort((a, b) => (
+              a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime()
+            )),
+          );
         });
     }
   };

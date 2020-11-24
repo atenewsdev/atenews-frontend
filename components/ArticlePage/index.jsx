@@ -94,7 +94,7 @@ export default function Page({ post, relatedPosts }) {
           }
           tempComments.push({ id: doc.id, ...doc.data() });
         }));
-        setComments(tempComments);
+        setComments(tempComments.sort((a, b) => (b.socialScore - a.socialScore)));
       });
 
     setWriterImages({});
