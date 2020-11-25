@@ -27,6 +27,7 @@ export default function Page({
     if (showReplies) {
       setShowReplies(false);
       repliesUnsubscribe();
+      setReplies([]);
     } else {
       const repliesRef = firebase.firestore().collection('replies')
         .where('commentId', '==', commentId)
