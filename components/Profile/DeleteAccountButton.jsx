@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@material-ui/core/styles';
 
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 
 import {
   Typography,

@@ -19,7 +19,7 @@ import {
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useArticle } from '@/utils/hooks/useArticle';
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirestore from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 
 const useStyles = makeStyles(() => ({
   reacts: {
@@ -61,7 +61,6 @@ const ReactArticle = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { authUser, profile } = useAuth();
   const { setError } = useError();
-  const { firebase } = useFirestore();
   const { article: { setArticle } } = useArticle();
 
   const [buttonText, setButtonText] = React.useState('React');

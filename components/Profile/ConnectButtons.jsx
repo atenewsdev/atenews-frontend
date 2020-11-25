@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 

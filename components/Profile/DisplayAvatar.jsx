@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirestore from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DisplayAvatar({ editMode, profile, cdnKey }) {
   const classes = useStyles();
-  const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
   const [photoURL, setPhotoURL] = React.useState('');

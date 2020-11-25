@@ -7,7 +7,7 @@ import Article from '@/components/List/Article';
 import Trending from '@/components/Home/Trending';
 
 import FollowIcon from '@material-ui/icons/Add';
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 
 import {
   Typography, Grid, Hidden, CircularProgress,

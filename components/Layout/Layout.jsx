@@ -7,7 +7,7 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import Tag from '@/components/Tag';
+import Tag from '@/components/General/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
 import { useError } from '@/utils/hooks/useSnackbar';
@@ -36,8 +36,8 @@ import {
 
 import { Alert } from '@material-ui/lab';
 
-import Footer from './Footer';
-import Header from './Header';
+import Footer from '@/components/Layout/Footer';
+import Header from '@/components/Layout/Header';
 
 const TextField = withStyles({
   root: {

@@ -11,7 +11,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import imageGenerator from '@/utils/imageGenerator';
 import slugGenerator from '@/utils/slugGenerator';
 
-import useFirestore from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 
 import { formatDistanceToNow } from 'date-fns';
 
@@ -71,8 +71,6 @@ const ProfileFeed = ({ comment }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
-
-  const { firebase } = useFirestore();
 
   const [feedStats, setFeedStats] = React.useState(null);
   const [article, setArticle] = React.useState(null);

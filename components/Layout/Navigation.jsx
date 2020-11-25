@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import Menu from './Menu';
+import Menu from '@/components/Layout/Menu';
 
-import SubMenu from './SubMenu';
+import SubMenu from '@/components/Layout/SubMenu';
 
 const useStyles = makeStyles(() => ({
   container: {

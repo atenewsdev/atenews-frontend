@@ -2,17 +2,17 @@ import React from 'react';
 
 import { Grid, CircularProgress } from '@material-ui/core';
 
-import Template from '@/components/Social/CommentReplyTemplate';
-import useFirebase from '@/utils/hooks/useFirestore';
+import Template from '@/components/ArticlePage/Comments/Template';
+import firebase from '@/utils/firebase';
 import { useArticle } from '@/utils/hooks/useArticle';
 import useFirestoreSubscribe from '@/utils/hooks/useFirestoreSubscribe';
 
 export default function Replies({
   commentId,
   slug,
+  count,
 }) {
-  const { firebase } = useFirebase();
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(count !== 0);
 
   const {
     users: { users, setUsers },
@@ -69,7 +69,7 @@ export default function Replies({
   if (loading) {
     return (
       <Grid container direction="row" justify="center">
-        <CircularProgress style={{ marginTop: 100, marginBottom: 100 }} />
+        <CircularProgress style={{ marginTop: 20 }} />
       </Grid>
     );
   }

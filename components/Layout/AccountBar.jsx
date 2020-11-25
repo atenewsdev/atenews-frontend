@@ -20,8 +20,8 @@ import {
 } from '@material-ui/core';
 import { useAuth } from '@/utils/hooks/useAuth';
 import imageGenerator from '@/utils/imageGenerator';
-import NotificationView from './PopoutViews/Notification';
-import ProfileView from './PopoutViews/Profile';
+import NotificationView from '@/components/Layout/Popouts/Notification';
+import ProfileView from '@/components/Layout/Popouts/Profile';
 
 const TextField = withStyles({
   root: {

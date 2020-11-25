@@ -8,7 +8,7 @@ import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 import Flair from '@/components/Social/Flair';
 
 import {
@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 
 import imageGenerator from '@/utils/imageGenerator';
-import useFirebase from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useArticle } from '@/utils/hooks/useArticle';
@@ -70,7 +70,6 @@ const CommentReplyTemplate = ({
     replies: { repliesSocialStats, setRepliesSocialStats },
   } = useArticle();
   const { profile } = useAuth();
-  const { firebase } = useFirebase();
   const { setError } = useError();
 
   const [vote, setVote] = React.useState(null);

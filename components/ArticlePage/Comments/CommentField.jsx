@@ -4,7 +4,7 @@ import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirebase from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 import imageGenerator from '@/utils/imageGenerator';
 
 import SendIcon from '@material-ui/icons/Send';
@@ -45,7 +45,6 @@ export default function Page({ reply, slug, commentId }) {
   const classes = useStyles();
   const theme = useTheme();
   const { profile, authUser } = useAuth();
-  const { firebase } = useFirebase();
   const { setError } = useError();
 
   const [content, setContent] = React.useState('');

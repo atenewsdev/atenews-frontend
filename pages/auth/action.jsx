@@ -5,7 +5,7 @@ import { useTheme } from '@material-ui/core/styles';
 
 import { useRouter } from 'next/router';
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirebase from '@/utils/hooks/useFirebaseDatabase';
+import firebase from '@/utils/firebase';
 
 const ActionAuth = () => {
   const router = useRouter();
@@ -15,7 +15,6 @@ const ActionAuth = () => {
   const [oobCode] = React.useState(router.query.oobCode);
   const [continueUrl] = React.useState(router.query.continueUrl);
 
-  const { firebase } = useFirebase();
   const { setSuccess, setError } = useError();
   React.useEffect(() => {
     switch (mode) {

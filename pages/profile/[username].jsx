@@ -23,10 +23,10 @@ import EditProfileButton from '@/components/Profile/EditProfileButton';
 import SocialMediaDetails from '@/components/Profile/SocialMediaDetails';
 
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirestore from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
-import useAdminFirestore from '@/utils/hooks/useAdminFirestore';
+import firebaseAdmin from '@/utils/firebaseAdmin';
+import firebase from '@/utils/firebase';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,7 +67,6 @@ export default function Home({ profile, cdnKey }) {
     profile: authProfile,
     loadingAuth,
   } = useAuth();
-  const { firebase } = useFirestore();
   const { setError } = useError();
 
   const [loading, setLoading] = React.useState(true);
@@ -233,9 +232,8 @@ export default function Home({ profile, cdnKey }) {
 
 export async function getServerSideProps({ params }) {
   try {
-    const { firebase } = useAdminFirestore();
-    const snapshot = await firebase.firestore().collection('users').where('username', '==', params.username).get();
-    const keySnapshot = await firebase.firestore().collection('keys').doc('custom').get();
+    const snapshot = await firebaseAdmin.firestore().collection('users').where('username', '==', params.username).get();
+    const keySnapshot = await firebaseAdmin.firestore().collection('keys').doc('custom').get();
     if (!snapshot.empty) {
       return {
         props: {

@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import Layout from '@/components/Layout';
+import Layout from '@/components/Layout/Layout';
 import theme from '@/styles/theme';
 import Router from 'next/router';
 

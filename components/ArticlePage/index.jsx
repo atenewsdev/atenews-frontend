@@ -2,12 +2,12 @@ import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Comment from '@/components/Social/Comment';
-import CommentField from '@/components/Social/CommentField';
+import Comment from '@/components/ArticlePage/Comments/Comment';
+import CommentField from '@/components/ArticlePage/Comments/CommentField';
 import SideWriter from '@/components/ArticlePage/SideWriter';
 
-import ReactArticle from '@/components/Social/ReactArticle';
-import ReactInfoArticle from '@/components/Social/ReactInfoArticle';
+import ReactArticle from '@/components/ArticlePage/Reacts/ReactArticle';
+import ReactInfoArticle from '@/components/ArticlePage/Reacts/ReactInfoArticle';
 
 import WPGBlocks from 'react-gutenberg';
 

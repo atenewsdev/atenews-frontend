@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Navigation from './Navigation';
-import AccountBar from './AccountBar';
-import MobileBar from './MobileBar';
+import Navigation from '@/components/Layout/Navigation';
+import AccountBar from '@/components/Layout/AccountBar';
+import MobileBar from '@/components/Layout/MobileBar';
 
 const useStyles = makeStyles((theme) => ({
   margin: {

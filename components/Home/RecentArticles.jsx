@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 
-import Tag from '@/components/Tag';
-import Link from '@/components/Link';
+import Tag from '@/components/General/Tag';
+import Link from '@/components/General/Link';
 
 import RecentArticle from '@/components/Home/RecentArticle';
 

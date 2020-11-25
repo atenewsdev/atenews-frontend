@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import {
@@ -10,7 +10,7 @@ import {
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
-import useFirebase from '@/utils/hooks/useFirebaseDatabase';
+import firebase from '@/utils/firebase';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -39,7 +39,6 @@ const AuthForm = ({ close, mobile }) => {
     registerEmail,
     loginWithFacebook,
   } = useAuth();
-  const { firebase } = useFirebase();
   const theme = useTheme();
   const { setError } = useError();
 

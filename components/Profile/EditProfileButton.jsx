@@ -4,7 +4,7 @@ import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
 import DeleteAccountButton from '@/components/Profile/DeleteAccountButton';
 
-import Button from '@/components/Button';
+import Button from '@/components/General/Button';
 
 import {
   TextField as StockTextField,
@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 
 import { useError } from '@/utils/hooks/useSnackbar';
-import useFirestore from '@/utils/hooks/useFirestore';
+import firebase from '@/utils/firebase';
 import { useAuth } from '@/utils/hooks/useAuth';
 import {
   testDisplayName, testUsername, testBio, testEmail,
@@ -63,7 +63,6 @@ export default function EditProfileButton({
   const {
     authUser, profile: authProfile,
   } = useAuth();
-  const { firebase } = useFirestore();
   const { setError, setSuccess } = useError();
 
   const [updating, setUpdating] = React.useState(false);

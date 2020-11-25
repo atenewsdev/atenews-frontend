@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Link from '@/components/Link';
+import Link from '@/components/General/Link';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';

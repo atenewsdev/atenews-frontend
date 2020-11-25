@@ -1,8 +1,8 @@
 import React from 'react';
 
-import CommentField from '@/components/Social/CommentField';
-import Template from '@/components/Social/CommentReplyTemplate';
-import Replies from '@/components/Social/Replies';
+import CommentField from '@/components/ArticlePage/Comments/CommentField';
+import Template from '@/components/ArticlePage/Comments/Template';
+import Replies from '@/components/ArticlePage/Comments/Replies';
 
 export default function Page({
   comment: commentContent,
@@ -35,7 +35,7 @@ export default function Page({
       { showReplies ? (
         <>
           <CommentField slug={slug} commentId={commentId} reply />
-          <Replies commentId={commentId} slug={slug} />
+          <Replies commentId={commentId} slug={slug} count={commentSocialStats.replyCount} />
         </>
       ) : null }
     </Template>

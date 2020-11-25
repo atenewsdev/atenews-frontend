@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Tag from '@/components/Tag';
+import Tag from '@/components/General/Tag';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 import ReactInfo from '@/components/Social/ReactInfo';
