@@ -1,10 +1,9 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-import Article from '@/components/List/Article';
-import Trending from '@/components/Home/Trending';
 
 import FollowIcon from '@material-ui/icons/Add';
 import Button from '@/components/General/Button';
@@ -20,6 +19,9 @@ import { useAuth } from '@/utils/hooks/useAuth';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import WP from '@/utils/wordpress';
+
+const Article = dynamic(import('@/components/List/Article'));
+const Trending = dynamic(import('@/components/Home/Trending'));
 
 const useStyles = makeStyles({
   account: {

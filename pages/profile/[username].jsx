@@ -1,12 +1,9 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-import DisplayAvatar from '@/components/Profile/DisplayAvatar';
-
-import ProfileFeed from '@/components/Profile/ProfileFeed';
-import Trending from '@/components/Home/Trending';
 
 import DefaultErrorPage from '@/components/404';
 
@@ -16,17 +13,21 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-import ConnectButtons from '@/components/Profile/ConnectButtons';
-import ShowDetails from '@/components/Profile/ShowDetails';
-import EditDetails from '@/components/Profile/EditDetails';
-import EditProfileButton from '@/components/Profile/EditProfileButton';
-import SocialMediaDetails from '@/components/Profile/SocialMediaDetails';
-
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
 import firebaseAdmin from '@/utils/firebaseAdmin';
 import firebase from '@/utils/firebase';
+
+const ProfileFeed = dynamic(import('@/components/Profile/ProfileFeed'));
+const Trending = dynamic(import('@/components/Home/Trending'));
+const ConnectButtons = dynamic(import('@/components/Profile/ConnectButtons'));
+const ShowDetails = dynamic(import('@/components/Profile/ShowDetails'));
+const EditDetails = dynamic(import('@/components/Profile/EditDetails'));
+const EditProfileButton = dynamic(import('@/components/Profile/EditProfileButton'));
+const SocialMediaDetails = dynamic(import('@/components/Profile/SocialMediaDetails'));
+
+const DisplayAvatar = dynamic(import('@/components/Profile/DisplayAvatar'));
 
 const useStyles = makeStyles((theme) => ({
   container: {

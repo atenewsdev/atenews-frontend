@@ -1,13 +1,9 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-import Comment from '@/components/ArticlePage/Comments/Comment';
 import CommentField from '@/components/ArticlePage/Comments/CommentField';
-import SideWriter from '@/components/ArticlePage/SideWriter';
-
-import ReactArticle from '@/components/ArticlePage/Reacts/ReactArticle';
-import ReactInfoArticle from '@/components/ArticlePage/Reacts/ReactInfoArticle';
 
 import WPGBlocks from 'react-gutenberg';
 
@@ -27,11 +23,15 @@ import {
   Hidden,
   Avatar,
 } from '@material-ui/core';
-
-import ReadMore from '@/components/ArticlePage/ReadMore';
-import WriterInfo from '@/components/ArticlePage/WriterInfo';
 import ShareButton from '@/components/ArticlePage/ShareButton';
 import Error404 from '@/components/404';
+
+const WriterInfo = dynamic(import('@/components/ArticlePage/WriterInfo'));
+const ReactArticle = dynamic(import('@/components/ArticlePage/Reacts/ReactArticle'));
+const ReactInfoArticle = dynamic(import('@/components/ArticlePage/Reacts/ReactInfoArticle'));
+const Comment = dynamic(import('@/components/ArticlePage/Comments/Comment'));
+const ReadMore = dynamic(import('@/components/ArticlePage/ReadMore'));
+const SideWriter = dynamic(import('@/components/ArticlePage/SideWriter'));
 
 const useStyles = makeStyles(() => ({
   account: {

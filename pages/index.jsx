@@ -1,14 +1,10 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import RecentArticles from '@/components/Home/RecentArticles';
 import Title from '@/components/Home/Title';
-import ArticleGrid from '@/components/Home/ArticleGrid';
-import Trending from '@/components/Home/Trending';
-
-import Article from '@/components/List/Article';
-import Column from '@/components/List/Column';
 
 import WPGBlocks from 'react-gutenberg';
 
@@ -22,6 +18,13 @@ import { useAuth } from '@/utils/hooks/useAuth';
 import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
+
+const RecentArticles = dynamic(import('@/components/Home/RecentArticles'));
+const ArticleGrid = dynamic(import('@/components/Home/ArticleGrid'));
+const Trending = dynamic(import('@/components/Home/Trending'));
+
+const Article = dynamic(import('@/components/List/Article'));
+const Column = dynamic(import('@/components/List/Column'));
 
 const useStyles = makeStyles((theme) => ({
   container: {

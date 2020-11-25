@@ -1,8 +1,11 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
+
 import CommentField from '@/components/ArticlePage/Comments/CommentField';
 import Template from '@/components/ArticlePage/Comments/Template';
-import Replies from '@/components/ArticlePage/Comments/Replies';
+
+const Replies = dynamic(import('@/components/ArticlePage/Comments/Replies'));
 
 export default function Page({
   comment: commentContent,
