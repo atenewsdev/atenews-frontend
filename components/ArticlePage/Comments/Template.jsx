@@ -10,6 +10,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import Button from '@/components/General/Button';
 import Flair from '@/components/Social/Flair';
+import Link from '@/components/General/Link';
 
 import {
   Typography,
@@ -185,7 +186,7 @@ const CommentReplyTemplate = ({
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
                 <Grid container spacing={1} style={{ marginBottom: theme.spacing(0.5) }}>
                   <Grid item>
-                    <Typography variant="body2"><b>{users[commenterId].displayName}</b></Typography>
+                    <Typography variant="body2"><Link href={`/profile/${users[commenterId].username}`}><b>{users[commenterId].displayName}</b></Link></Typography>
                   </Grid>
                   { users[commenterId].staff ? (
                     <Grid item xs>
