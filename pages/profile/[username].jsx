@@ -5,7 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import DisplayAvatar from '@/components/Profile/DisplayAvatar';
 
-import ProfileFeed from '@/components/Social/ProfileFeed';
+import ProfileFeed from '@/components/Profile/ProfileFeed';
 import Trending from '@/components/Home/Trending';
 
 import DefaultErrorPage from '@/components/404';
@@ -93,18 +93,18 @@ export default function Home({ profile, cdnKey }) {
       setBio(profile.bio);
       setEmail(profile.email);
 
-      firebase.firestore().collection('profileFeeds').doc(profile.id)
+      firebase.firestore().collection('users')
+        .doc(profile.id)
+        .collection('profileFeeds')
+        .orderBy('timestamp', 'desc')
+        .limit(5)
         .get()
         .then(async (doc) => {
           const arrayList = [];
-          if (doc.exists) {
-            await Promise.all(Object.keys(doc.data()).map(async (key) => {
-              arrayList.push(doc.data()[key]);
-            }));
-
-            arrayList.sort(
-              (a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime(),
-            );
+          if (!doc.empty) {
+            doc.forEach((feed) => {
+              arrayList.push(feed.data());
+            });
           }
           setLoading(false);
           setComments(arrayList);
