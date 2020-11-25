@@ -6,17 +6,16 @@ import { formatDistanceToNow } from 'date-fns';
 import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import Button from '@/components/General/Button';
 import Flair from '@/components/Social/Flair';
 import Link from '@/components/General/Link';
+import Options from '@/components/ArticlePage/Comments/Options';
 
 import {
   Typography,
   Avatar,
   Grid,
-  IconButton,
   Paper as StockPaper,
   List,
   ListItem,
@@ -171,6 +170,10 @@ const CommentReplyTemplate = ({
     }
   };
 
+  const handleCommentDelete = async () => {
+    await firebase.firestore().collection('comments').doc(commentId).delete();
+  };
+
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
@@ -203,9 +206,9 @@ const CommentReplyTemplate = ({
                   </Grid>
                 </Grid>
               </Paper>
-              <IconButton style={{ marginLeft: theme.spacing(1) }}>
-                <MoreHorizIcon />
-              </IconButton>
+              {commenterId === profile.id ? (
+                <Options onDelete={handleCommentDelete} />
+              ) : null}
             </ListItem>
           </>
         )}
