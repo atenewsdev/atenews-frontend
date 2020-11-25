@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 
 import { useError } from '@/utils/hooks/useSnackbar';
+import { useArticle } from '@/utils/hooks/useArticle';
+
 import useFirestore from '@/utils/hooks/useFirestore';
 import imageGenerator from '@/utils/imageGenerator';
 
@@ -26,8 +28,13 @@ const useStyles = makeStyles(() => ({
 
 export default handleViewport((props) => {
   const {
-    author, key, setWriterImages, setProfiles, profiles,
+    author, key, profiles,
   } = props;
+
+  const {
+    writerImages: { setWriterImages },
+    profiles: { setProfiles },
+  } = useArticle();
 
   const classes = useStyles();
   const theme = useTheme();

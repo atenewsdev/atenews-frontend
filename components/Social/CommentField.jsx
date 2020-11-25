@@ -139,7 +139,6 @@ export default function Page({ reply, slug, commentId }) {
               ref={inputRef}
               variant="outlined"
               placeholder={reply ? 'Write a reply...' : 'Write a comment...'}
-              on
               onChange={handleChange}
               onKeyPress={handleKeyPress}
               value={content}

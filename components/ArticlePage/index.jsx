@@ -16,9 +16,7 @@ import { format } from 'date-fns';
 import { CSSTransition } from 'react-transition-group';
 
 import imageGenerator from '@/utils/imageGenerator';
-import useFirestore from '@/utils/hooks/useFirestore';
-import { useCache } from '@/utils/hooks/useCache';
-import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+import { useArticle } from '@/utils/hooks/useArticle';
 
 import {
   Typography,
@@ -63,52 +61,18 @@ const useStyles = makeStyles(() => ({
 export default function Page({ post, relatedPosts }) {
   const classes = useStyles();
   const theme = useTheme();
-  const { firebase } = useFirestore();
-  const { getDocument } = useFirebaseDatabase();
+  const {
+    article: { article },
+    writerImages: { writerImages },
+    profiles: { profiles },
+    comments: { comments, commentsSocialStats },
+  } = useArticle();
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
-
-  const [comments, setComments] = React.useState([]);
-  const { users: [users, setUsers] } = useCache();
-  const [article, setArticle] = React.useState(null);
-  const [writerImages, setWriterImages] = React.useState({});
-  const [profiles, setProfiles] = React.useState({});
 
   if (post === null) {
     return <Error404 />;
   }
-
-  React.useEffect(() => {
-    const unsubscribe = firebase.firestore().collection('comments')
-      .where('articleSlug', '==', post.slug)
-      .orderBy('socialScore', 'desc')
-      .onSnapshot(async (snapshot) => {
-        const tempComments = [];
-        await Promise.all(snapshot.docs.map(async (doc) => {
-          if (!users[doc.data().userId]) {
-            const user = await firebase.firestore().collection('users').doc(doc.data().userId).get();
-            setUsers((prevState) => ({
-              ...prevState,
-              [user.id]: user.data(),
-            }));
-          }
-          tempComments.push({ id: doc.id, ...doc.data() });
-        }));
-        setComments(tempComments.sort((a, b) => (b.socialScore - a.socialScore)));
-      });
-
-    setWriterImages({});
-    setProfiles({});
-
-    const unsubscribeStats = getDocument(`articles/${post.slug}`, (data) => {
-      setArticle(data);
-    });
-
-    return () => {
-      unsubscribe();
-      unsubscribeStats.off();
-    };
-  }, [post]);
 
   const enterWriterViewport = () => {
     setShowSideWriterBlock(false);
@@ -155,9 +119,7 @@ export default function Page({ post, relatedPosts }) {
       </CSSTransition>
       <WriterInfo
         authors={post.coauthors}
-        setWriterImages={setWriterImages}
         profiles={profiles}
-        setProfiles={setProfiles}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
@@ -198,7 +160,7 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(4) }} />
 
-      <ReactInfoArticle socialStats={article} />
+      <ReactInfoArticle />
 
       <div style={{ height: theme.spacing(2) }} />
       <Divider />
@@ -217,16 +179,11 @@ export default function Page({ post, relatedPosts }) {
 
       <CommentField slug={post.slug} />
       <List component="div">
-        {comments.map((comment) => (
+        {comments.map((comment) => (commentsSocialStats[comment.id] ? (
           <Comment
             commentId={comment.id}
             commenterId={comment.userId}
             key={comment.id}
-            user={{
-              name: users[comment.userId].displayName,
-              avatar: users[comment.userId].photoURL,
-              staff: users[comment.userId].staff,
-            }}
             comment={comment.content}
             socialStats={{
               upvoteCount: comment.upvoteCount,
@@ -236,23 +193,7 @@ export default function Page({ post, relatedPosts }) {
             slug={post.slug}
             timestamp={comment.timestamp.toDate()}
           />
-        )) }
-        { /*
-        <CommentField />
-        <Comment
-          user={{
-            name: 'Green',
-            avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/3/34/3_green.png/revision/latest/top-crop/width/360/height/450?cb=20200912125201',
-          }}
-          comment="Cyan sus"
-        >
-          <Comment user={{ name: 'Cyan', avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/f/f2/11_cyan.png/revision/latest/top-crop/width/360/height/450?cb=20200912125246' }} comment="No green sus. I was at electrical." reply />
-
-        </Comment>
-        <Comment user={{ name: 'Red', avatar: 'https://vignette.wikia.nocookie.net/among-us-wiki/images/a/a6/1_red.png/revision/latest/top-crop/width/360/height/450?cb=20200912125145' }} comment="Lol. Both of u sus">
-          <CommentField reply />
-        </Comment> */ }
-
+        ) : null)) }
       </List>
 
       <div style={{ height: theme.spacing(2) }} />

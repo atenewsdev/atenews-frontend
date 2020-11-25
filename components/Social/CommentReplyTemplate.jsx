@@ -27,6 +27,7 @@ import imageGenerator from '@/utils/imageGenerator';
 import useFirebase from '@/utils/hooks/useFirestore';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useError } from '@/utils/hooks/useSnackbar';
+import { useArticle } from '@/utils/hooks/useArticle';
 
 const Paper = withStyles((theme) => ({
   root: {
@@ -47,12 +48,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default ({
+const CommentReplyTemplate = ({
   children,
   reply,
-  user,
   comment,
-  socialStats,
   getReplies,
   timestamp,
   slug,
@@ -63,6 +62,13 @@ export default ({
   const classes = useStyles();
   const theme = useTheme();
 
+  const {
+    users: { users },
+    comments: {
+      commentsSocialStats, setCommentSocialStats,
+    },
+    replies: { repliesSocialStats, setRepliesSocialStats },
+  } = useArticle();
   const { profile } = useAuth();
   const { firebase } = useFirebase();
   const { setError } = useError();
@@ -81,7 +87,7 @@ export default ({
     return () => {
       unsub();
     };
-  }, [reply ? replyId : commentId]);
+  }, []);
 
   const handleVote = async (voteHandle) => {
     try {
@@ -95,13 +101,69 @@ export default ({
         };
         if (commentId) {
           data = { ...data, commentId };
+          if (vote !== null) {
+            setCommentSocialStats((prev) => ({
+              ...prev,
+              [commentId]: {
+                ...prev[commentId],
+                [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
+                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
+              },
+            }));
+          } else {
+            setCommentSocialStats((prev) => ({
+              ...prev,
+              [commentId]: {
+                ...prev[commentId],
+                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
+              },
+            }));
+          }
         }
         if (replyId) {
           data = { ...data, replyId };
+          if (vote !== null) {
+            setRepliesSocialStats((prev) => ({
+              ...prev,
+              [replyId]: {
+                ...prev[replyId],
+                [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
+                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
+              },
+            }));
+          } else {
+            setRepliesSocialStats((prev) => ({
+              ...prev,
+              [replyId]: {
+                ...prev[replyId],
+                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
+              },
+            }));
+          }
         }
 
         await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).set(data);
       } else {
+        if (commentId) {
+          setCommentSocialStats((prev) => ({
+            ...prev,
+            [commentId]: {
+              ...prev[commentId],
+              [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
+            },
+          }));
+        }
+
+        if (replyId) {
+          setRepliesSocialStats((prev) => ({
+            ...prev,
+            [replyId]: {
+              ...prev[replyId],
+              [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
+            },
+          }));
+        }
+
         await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).delete();
       }
     } catch (err) {
@@ -114,7 +176,7 @@ export default ({
       <ListItemAvatar>
         <Avatar
           className={reply ? classes.avatarReply : classes.avatar}
-          src={imageGenerator(user.avatar, 300)}
+          src={imageGenerator(users[commenterId].photoURL, 300)}
         />
       </ListItemAvatar>
       <ListItemText
@@ -124,9 +186,9 @@ export default ({
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
                 <Grid container spacing={1} style={{ marginBottom: theme.spacing(0.5) }}>
                   <Grid item>
-                    <Typography variant="body2"><b>{user.name}</b></Typography>
+                    <Typography variant="body2"><b>{users[commenterId].displayName}</b></Typography>
                   </Grid>
-                  { user.staff ? (
+                  { users[commenterId].staff ? (
                     <Grid item xs>
                       <Flair small />
                     </Grid>
@@ -161,7 +223,11 @@ export default ({
                       onClick={() => { handleVote('up'); }}
                     >
                       <LikeIcon style={{ marginRight: theme.spacing(1) }} />
-                      {socialStats ? socialStats.upvoteCount || 0 : 0}
+                      {reply ? (
+                        repliesSocialStats[replyId].upvoteCount || 0
+                      ) : (
+                        commentsSocialStats[commentId].upvoteCount || 0
+                      )}
                     </Button>
                   </Grid>
                   <Grid item>
@@ -173,14 +239,18 @@ export default ({
                       onClick={() => { handleVote('down'); }}
                     >
                       <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
-                      {socialStats ? socialStats.downvoteCount || 0 : 0}
+                      {reply ? (
+                        repliesSocialStats[replyId].downvoteCount || 0
+                      ) : (
+                        commentsSocialStats[commentId].downvoteCount || 0
+                      )}
                     </Button>
                   </Grid>
                 </>
               ) : null}
               {!reply ? (
                 <Grid item>
-                  { profile || socialStats.replyCount > 0 ? (
+                  { profile || commentsSocialStats[commentId].replyCount > 0 ? (
                     <Button
                       style={{ padding: 0 }}
                       variant="text"
@@ -189,7 +259,7 @@ export default ({
                       onClick={getReplies}
                     >
                       <CommentIcon style={{ marginRight: theme.spacing(1) }} />
-                      {socialStats.replyCount > 0 ? `View ${socialStats.replyCount} replies` : 'Reply'}
+                      {commentsSocialStats[commentId].replyCount > 0 ? `View ${commentsSocialStats[commentId].replyCount} replies` : 'Reply'}
                     </Button>
                   ) : null }
                 </Grid>
@@ -208,3 +278,5 @@ export default ({
     </ListItem>
   );
 };
+
+export default CommentReplyTemplate;

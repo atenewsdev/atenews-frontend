@@ -13,6 +13,7 @@ import ArticlePage from '@/components/ArticlePage';
 import { Grid, CircularProgress } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
+import { ArticleProvider } from '@/utils/hooks/useArticle';
 
 const useStyles = makeStyles(() => ({
   contentContainer: {
@@ -67,7 +68,9 @@ export default function Page({ post, relatedPosts }) {
         }}
       />
       { !loadingAuth ? (
-        <ArticlePage post={post} relatedPosts={relatedPosts} />
+        <ArticleProvider post={post} key={post.id}>
+          <ArticlePage post={post} relatedPosts={relatedPosts} />
+        </ArticleProvider>
       ) : (
         <Grid
           container

@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
+import { useArticle } from '@/utils/hooks/useArticle';
 import { useError } from '@/utils/hooks/useSnackbar';
 import useFirestore from '@/utils/hooks/useFirestore';
 
@@ -51,7 +52,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ReactInfo = ({
+const ReactArticle = ({
   disableHover,
   slug,
 }) => {
@@ -61,6 +62,7 @@ const ReactInfo = ({
   const { authUser, profile } = useAuth();
   const { setError } = useError();
   const { firebase } = useFirestore();
+  const { article: { setArticle } } = useArticle();
 
   const [buttonText, setButtonText] = React.useState('React');
   const [react, setReact] = React.useState(null);
@@ -128,11 +130,33 @@ const ReactInfo = ({
 
   const handleReact = (reactX) => {
     handlePopoverClose();
+    if (react === '') {
+      setArticle((prev) => ({
+        ...prev,
+        totalReactCount: prev.totalReactCount + 1,
+      }));
+    }
     if (reactX === react && profile) {
+      setArticle((prev) => ({
+        ...prev,
+        totalReactCount: prev.totalReactCount - 1,
+        reactCount: {
+          ...prev.reactCount,
+          [reactX]: prev.reactCount[reactX] - 1,
+        },
+      }));
       firebase.firestore()
         .doc(`reacts/${slug}_${profile.id}`)
         .delete();
     } else if (reactX !== '' && authUser) {
+      setArticle((prev) => ({
+        ...prev,
+        reactCount: {
+          ...prev.reactCount,
+          [react]: prev.reactCount[react] - 1,
+          [reactX]: prev.reactCount[reactX] + 1,
+        },
+      }));
       firebase.firestore()
         .doc(`reacts/${slug}_${profile.id}`)
         .set({
@@ -262,4 +286,4 @@ const ReactInfo = ({
   );
 };
 
-export default ReactInfo;
+export default ReactArticle;
