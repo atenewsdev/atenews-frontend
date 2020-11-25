@@ -19,7 +19,8 @@ import {
   Typography, CardActionArea, Grid, Paper,
 } from '@material-ui/core';
 
-const RecentArticles = dynamic(import('@/components/Home/RecentArticles'));
+import RecentArticles from '@/components/Home/RecentArticles';
+
 const ArticleGrid = dynamic(import('@/components/Home/ArticleGrid'));
 const Trending = dynamic(import('@/components/Home/Trending'));
 
