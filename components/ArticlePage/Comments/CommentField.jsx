@@ -10,6 +10,8 @@ import imageGenerator from '@/utils/imageGenerator';
 import SendIcon from '@material-ui/icons/Send';
 import { isMobile } from 'react-device-detect';
 
+import localforage from 'localforage';
+
 import {
   IconButton,
   Avatar,
@@ -50,6 +52,50 @@ export default function Page({ reply, slug, commentId }) {
   const [content, setContent] = React.useState('');
   const inputRef = React.useRef();
 
+  const [timerRunning, setTimerRunning] = React.useState(false);
+  const [timer, setTimer] = React.useState(3);
+  const [interval, setIntervalState] = React.useState(null);
+
+  const initiateTimer = () => {
+    setTimerRunning(true);
+    const temp = setInterval(() => {
+      if (timer !== 0) {
+        setTimer((prev) => prev - 1);
+      } else {
+        setContent('');
+        clearInterval(interval);
+      }
+    }, 1000);
+    setIntervalState(temp);
+  };
+
+  React.useEffect(() => {
+    localforage.getItem('verifyEmailTimer').then((state) => {
+      if (state) {
+        setTimer(state);
+      }
+    });
+    localforage.getItem('verifyEmailTimerRunning').then((state) => {
+      setTimerRunning(state);
+      if (state) {
+        initiateTimer();
+      }
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (timer === 0) {
+      setTimerRunning(false);
+      setContent('');
+      setTimer(3);
+    }
+    localforage.setItem('verifyEmailTimer', timer);
+  }, [timer]);
+
+  React.useEffect(() => {
+    localforage.setItem('verifyEmailTimerRunning', timerRunning);
+  }, [timerRunning]);
+
   React.useEffect(() => {
     setContent('');
   }, [slug]);
@@ -69,7 +115,8 @@ export default function Page({ reply, slug, commentId }) {
             upvoteCount: 0,
             userId: profile.id,
           });
-          setContent('');
+          initiateTimer();
+          setContent('You may comment again after 3 seconds.');
         }
       } else {
         setError('A verified email is required to do this action!');
@@ -93,7 +140,8 @@ export default function Page({ reply, slug, commentId }) {
             upvoteCount: 0,
             userId: profile.id,
           });
-          setContent('');
+          initiateTimer();
+          setContent('You may reply again after 3 seconds.');
         }
       } else {
         setError('A verified email is required to do this action!');
@@ -136,6 +184,7 @@ export default function Page({ reply, slug, commentId }) {
           <form onSubmit={reply ? submitReply : submitComment}>
             <TextField
               ref={inputRef}
+              disabled={timerRunning}
               variant="outlined"
               placeholder={reply ? 'Write a reply...' : 'Write a comment...'}
               onChange={handleChange}
