@@ -5,8 +5,6 @@ export default function Page() {
   return null;
 }
 
-const categories = [430, 431];
-
 export const getServerSideProps = async (ctx) => {
   let res = [];
   try {
@@ -15,9 +13,6 @@ export const getServerSideProps = async (ctx) => {
     res = [];
   }
   if (res.length > 0) {
-    if (res[0].categories.filter((cat) => categories.includes(cat)) === 0) {
-      return { notFound: true };
-    }
     return {
       redirect: {
         destination: slugGenerator(res[0]),

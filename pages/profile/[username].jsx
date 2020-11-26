@@ -248,15 +248,11 @@ export async function getServerSideProps({ params }) {
     }
 
     return {
-      props: {
-        profile: null,
-      },
+      notFound: true,
     };
   } catch (err) {
     return {
-      props: {
-        profile: null,
-      },
+      notFound: true,
     };
   }
 }

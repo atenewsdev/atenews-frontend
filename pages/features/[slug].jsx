@@ -125,11 +125,11 @@ export const getStaticProps = async (ctx) => {
     res = [];
   }
   if (res.length > 0) {
-    if (res[0].categories.filter((cat) => categories.includes(cat)) === 0) {
-      return { props: { post: null, relatedPosts }, revalidate: 10 };
+    if (res[0].categories.filter((cat) => categories.includes(cat)).length === 0) {
+      return { notFound: true, revalidate: 10 };
     }
     relatedPosts = await WP.relatedPosts().id(res[0].id);
     return { props: { post: res[0], relatedPosts }, revalidate: 10 };
   }
-  return { props: { post: null, relatedPosts }, revalidate: 10 };
+  return { notFound: true, revalidate: 10 };
 };
