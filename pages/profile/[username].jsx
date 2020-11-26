@@ -19,6 +19,8 @@ import { useTrending } from '@/utils/hooks/useTrending';
 import firebaseAdmin from '@/utils/firebaseAdmin';
 import firebase from '@/utils/firebase';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 const ProfileFeed = dynamic(import('@/components/Profile/ProfileFeed'));
 const Trending = dynamic(import('@/components/Home/Trending'));
 const ConnectButtons = dynamic(import('@/components/Profile/ConnectButtons'));
@@ -87,6 +89,9 @@ export default function Home({ profile, cdnKey }) {
     email: '',
   });
 
+  const [startAt, setStartAt] = React.useState(null);
+  const [hasMore, setHasMore] = React.useState(true);
+
   React.useEffect(() => {
     if (profile) {
       setDisplayName(profile.displayName);
@@ -98,17 +103,25 @@ export default function Home({ profile, cdnKey }) {
         .doc(profile.id)
         .collection('profileFeeds')
         .orderBy('timestamp', 'desc')
-        .limit(5)
+        .limit(6)
         .get()
         .then(async (doc) => {
+          setStartAt(doc.docs[doc.docs.length - 1]);
           const arrayList = [];
           if (!doc.empty) {
+            let i = 0;
             doc.forEach((feed) => {
-              arrayList.push(feed.data());
+              if (i < 5) {
+                arrayList.push(feed.data());
+              }
+              i += 1;
             });
           }
           setLoading(false);
           setComments(arrayList);
+          if (doc.docs.length < 6) {
+            setHasMore(false);
+          }
         })
         .catch((err) => {
           setLoading(false);
@@ -118,6 +131,42 @@ export default function Home({ profile, cdnKey }) {
       setError('User not found!');
     }
   }, [profile]);
+
+  const next = () => {
+    if (startAt) {
+      firebase.firestore().collection('users')
+        .doc(profile.id)
+        .collection('profileFeeds')
+        .orderBy('timestamp', 'desc')
+        .limit(6)
+        .startAt(startAt)
+        .get()
+        .then(async (doc) => {
+          setStartAt(doc.docs[doc.docs.length - 1]);
+          const arrayList = [];
+          if (!doc.empty) {
+            let i = 0;
+            doc.forEach((feed) => {
+              if (i < 5) {
+                arrayList.push(feed.data());
+              }
+              i += 1;
+            });
+            if (doc.docs.length < 6) {
+              setHasMore(false);
+            }
+          } else {
+            setHasMore(false);
+          }
+          setComments((prev) => [...prev, ...arrayList]);
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+    } else {
+      setHasMore(false);
+    }
+  };
 
   if (profile) {
     return (
@@ -195,10 +244,32 @@ export default function Home({ profile, cdnKey }) {
               </Grid>
             </Grid>
             <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
-
-            { !loading ? comments.map((comment) => (
-              <ProfileFeed key={comment.id} comment={comment} />
-            ))
+            { !loading ? (
+              <InfiniteScroll
+                style={{ overflow: 'hidden' }}
+                dataLength={comments.length}
+                next={next}
+                hasMore={hasMore}
+                loader={(
+                  <div style={{ overflow: 'hidden' }}>
+                    <Grid
+                      container
+                      spacing={0}
+                      alignItems="center"
+                      justify="center"
+                    >
+                      <Grid item>
+                        <CircularProgress />
+                      </Grid>
+                    </Grid>
+                  </div>
+                )}
+              >
+                {comments.map((comment) => (
+                  <ProfileFeed key={comment.id} comment={comment} />
+                ))}
+              </InfiniteScroll>
+            )
               : (
                 <Grid container justify="center" alignItems="center" spacing={2}>
                   <Grid item>
@@ -206,7 +277,6 @@ export default function Home({ profile, cdnKey }) {
                   </Grid>
                 </Grid>
               )}
-
             <Trending articles={trending} />
           </>
         ) : (

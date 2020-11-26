@@ -61,9 +61,6 @@ export default function Page({ reply, slug, commentId }) {
     const temp = setInterval(() => {
       if (timer !== 0) {
         setTimer((prev) => prev - 1);
-      } else {
-        setContent('');
-        clearInterval(interval);
       }
     }, 1000);
     setIntervalState(temp);
@@ -85,6 +82,7 @@ export default function Page({ reply, slug, commentId }) {
 
   React.useEffect(() => {
     if (timer === 0) {
+      clearInterval(interval);
       setTimerRunning(false);
       setContent('');
       setTimer(3);
