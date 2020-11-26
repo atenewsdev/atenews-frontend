@@ -48,7 +48,7 @@ export default function Home({ staffs: staffsRaw }) {
 
       let isIncluded = false;
       cleanRoles.forEach((role) => {
-        if (role.toLowerCase().includes('editor')) {
+        if (role.toLowerCase().includes('editor') && !role.toLowerCase().includes('junior') && !role.toLowerCase().includes('senior')) {
           isIncluded = true;
         }
       });

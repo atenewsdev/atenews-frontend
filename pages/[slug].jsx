@@ -16,7 +16,7 @@ export const getServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: slugGenerator(res[0]),
-        permanent: false,
+        permanent: true,
       },
     };
   }
