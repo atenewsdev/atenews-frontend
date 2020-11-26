@@ -14,6 +14,7 @@ import ReactInfo from '@/components/Social/ReactInfo';
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
 import imageGenerator from '@/utils/imageGenerator';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import {
   Typography, Hidden, Grid, Card, CardMedia, CardContent, CardActionArea,
@@ -84,10 +85,12 @@ const Article = ({ article, topImage }) => {
               <>
                 <Grid item xs={12}>
                   <CardActionArea onClick={() => router.push(slugGenerator(article))}>
-                    <CardMedia
-                      className={classes.media}
-                      image={imageGenerator(article.featured_image_src, 500)}
-                    />
+                    <LazyLoadComponent>
+                      <CardMedia
+                        className={classes.media}
+                        image={imageGenerator(article.featured_image_src, 500)}
+                      />
+                    </LazyLoadComponent>
                   </CardActionArea>
                 </Grid>
                 <Grid item xs={12}>
@@ -184,10 +187,12 @@ const Article = ({ article, topImage }) => {
                 <Hidden smUp>
                   <Grid item xs={12}>
                     <CardActionArea onClick={() => router.push(slugGenerator(article))}>
-                      <CardMedia
-                        className={classes.media}
-                        image={imageGenerator(article.featured_image_src, 600)}
-                      />
+                      <LazyLoadComponent>
+                        <CardMedia
+                          className={classes.media}
+                          image={imageGenerator(article.featured_image_src, 600)}
+                        />
+                      </LazyLoadComponent>
                     </CardActionArea>
                   </Grid>
                 </Hidden>

@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 
 import { CSSTransition } from 'react-transition-group';
 
+import { LazyLoadImage, LazyLoadComponent } from 'react-lazy-load-image-component';
 import imageGenerator from '@/utils/imageGenerator';
 import { useArticle } from '@/utils/hooks/useArticle';
 
@@ -97,7 +98,7 @@ export default function Page({ post, relatedPosts }) {
           marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
-        <img src={imageGenerator(post.featured_image_src, 800)} alt={post.featured_image_caption} width="100%" />
+        <LazyLoadImage src={imageGenerator(post.featured_image_src, 800)} alt={post.featured_image_caption} width="100%" effect="opacity" />
         <div style={{ padding: theme.spacing(2) }}>
           <Typography variant="body2"><i>{ post.featured_image_caption }</i></Typography>
         </div>
@@ -178,23 +179,25 @@ export default function Page({ post, relatedPosts }) {
       <div style={{ height: theme.spacing(4) }} />
 
       <CommentField slug={post.slug} />
-      <List component="div">
-        {comments.map((comment) => (commentsSocialStats[comment.id] ? (
-          <Comment
-            commentId={comment.id}
-            commenterId={comment.userId}
-            key={comment.id}
-            comment={comment.content}
-            socialStats={{
-              upvoteCount: comment.upvoteCount,
-              downvoteCount: comment.downvoteCount,
-              replyCount: comment.replyCount,
-            }}
-            slug={post.slug}
-            timestamp={comment.timestamp.toDate()}
-          />
-        ) : null)) }
-      </List>
+      <LazyLoadComponent>
+        <List component="div">
+          {comments.map((comment) => (commentsSocialStats[comment.id] ? (
+            <Comment
+              commentId={comment.id}
+              commenterId={comment.userId}
+              key={comment.id}
+              comment={comment.content}
+              socialStats={{
+                upvoteCount: comment.upvoteCount,
+                downvoteCount: comment.downvoteCount,
+                replyCount: comment.replyCount,
+              }}
+              slug={post.slug}
+              timestamp={comment.timestamp.toDate()}
+            />
+          ) : null)) }
+        </List>
+      </LazyLoadComponent>
 
       <div style={{ height: theme.spacing(2) }} />
 
@@ -202,11 +205,13 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(8) }} />
 
-      <ReadMore
-        relatedPosts={relatedPosts}
-        onLeaveViewport={leaveWriterViewport}
-        onEnterViewport={enterWriterViewport}
-      />
+      <LazyLoadComponent>
+        <ReadMore
+          relatedPosts={relatedPosts}
+          onLeaveViewport={leaveWriterViewport}
+          onEnterViewport={enterWriterViewport}
+        />
+      </LazyLoadComponent>
 
     </div>
   );

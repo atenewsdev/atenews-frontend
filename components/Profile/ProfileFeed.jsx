@@ -8,6 +8,7 @@ import LikeIcon from '@material-ui/icons/ArrowUpwardRounded';
 import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import imageGenerator from '@/utils/imageGenerator';
 import slugGenerator from '@/utils/slugGenerator';
 
@@ -214,7 +215,7 @@ const ProfileFeed = ({ comment }) => {
             ) : null}
           </Grid>
           <Grid item xs={3}>
-            <img src={imageGenerator(comment.featured_image_src, 400)} alt="Profile" width="100%" />
+            <LazyLoadImage src={imageGenerator(comment.featured_image_src, 400)} alt="Profile" width="100%" effect="opacity" />
           </Grid>
         </Grid>
       </Paper>

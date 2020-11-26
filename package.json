@@ -36,6 +36,7 @@
     "react-icons": "^4.1.0",
     "react-in-viewport": "^1.0.0-alpha.15",
     "react-infinite-scroll-component": "^5.1.0",
+    "react-lazy-load-image-component": "^1.5.0",
     "react-share": "^4.3.1",
     "react-spring": "^8.0.27",
     "react-transition-group": "^4.4.1",

@@ -9,6 +9,7 @@ import Title from '@/components/Home/Title';
 import WPGBlocks from 'react-gutenberg';
 
 import imageGenerator from '@/utils/imageGenerator';
+import { LazyLoadImage, LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import WP from '@/utils/wordpress';
 
@@ -89,128 +90,137 @@ export default function Home({
           </div>
           <Trending articles={trending} />
           <RecentArticles articles={recentArticles} />
-
-          <div className={classes.section}>
-            <Title color={theme.palette.atenews.news}>News</Title>
-            <ArticleGrid articles={news} />
-          </div>
-
-          <div className={classes.section}>
-            <Title color={theme.palette.atenews.features}>Features</Title>
-            <ArticleGrid articles={features} />
-          </div>
-
-          <div className={classes.section}>
-            <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-              <Grid item xs>
-                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-              </Grid>
-              <Grid item xs>
-                <Typography
-                  variant="h4"
-                  style={{
-                    fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-                  }}
-                >
-                  HULAGWAY
-                </Typography>
-              </Grid>
-              <Grid item xs>
-                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-              </Grid>
-            </Grid>
-            <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-              <img src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" style={{ width: '100%' }} />
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Title color={theme.palette.atenews.news}>News</Title>
+              <ArticleGrid articles={news} />
             </div>
-            <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
-              <Grid container justify="center">
-                <Grid item>
-                  <WPGBlocks blocks={featuredPhoto.blocks} />
+          </LazyLoadComponent>
+
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Title color={theme.palette.atenews.features}>Features</Title>
+              <ArticleGrid articles={features} />
+            </div>
+          </LazyLoadComponent>
+
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
+                <Grid item xs>
+                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+                </Grid>
+                <Grid item xs>
+                  <Typography
+                    variant="h4"
+                    style={{
+                      fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
+                    }}
+                  >
+                    HULAGWAY
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
                 </Grid>
               </Grid>
-            </Typography>
+              <div style={{ borderRadius: 10, overflow: 'hidden' }}>
+                <LazyLoadImage src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
+              </div>
+              <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
+                <Grid container justify="center">
+                  <Grid item>
+                    <WPGBlocks blocks={featuredPhoto.blocks} />
+                  </Grid>
+                </Grid>
+              </Typography>
 
-            <Typography variant="body2" style={{ textAlign: 'center' }}>
-              <i>
-                Photo by&nbsp;
-                {
-                featuredPhoto.coauthors.map((author, i) => {
-                  if (i === featuredPhoto.coauthors.length - 2) {
-                    return `${author.display_name} `;
-                  } if (i !== featuredPhoto.coauthors.length - 1) {
-                    return `${author.display_name}, `;
-                  } if (featuredPhoto.coauthors.length === 1) {
-                    return author.display_name;
-                  }
-                  return `and ${author.display_name}`;
-                })
-              }
-              </i>
+              <Typography variant="body2" style={{ textAlign: 'center' }}>
+                <i>
+                  Photo by&nbsp;
+                  {
+                  featuredPhoto.coauthors.map((author, i) => {
+                    if (i === featuredPhoto.coauthors.length - 2) {
+                      return `${author.display_name} `;
+                    } if (i !== featuredPhoto.coauthors.length - 1) {
+                      return `${author.display_name}, `;
+                    } if (featuredPhoto.coauthors.length === 1) {
+                      return author.display_name;
+                    }
+                    return `and ${author.display_name}`;
+                  })
+                }
+                </i>
 
-            </Typography>
-          </div>
+              </Typography>
+            </div>
+          </LazyLoadComponent>
 
-          <div className={classes.section}>
-            <Title color={theme.palette.atenews.highlight}>Opinion</Title>
-            <Grid container spacing={4}>
-              <Grid item xs={12} sm={6}>
-                <Typography
-                  variant="h4"
-                  style={{
-                    fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-                  }}
-                >
-                  Editorial
-                </Typography>
-                <Article article={editorial} topImage />
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Title color={theme.palette.atenews.highlight}>Opinion</Title>
+              <Grid container spacing={4}>
+                <Grid item xs={12} sm={6}>
+                  <Typography
+                    variant="h4"
+                    style={{
+                      fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
+                    }}
+                  >
+                    Editorial
+                  </Typography>
+                  <Article article={editorial} topImage />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography
+                    variant="h4"
+                    style={{
+                      fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
+                    }}
+                  >
+                    Columns
+                  </Typography>
+                  {
+                      columns.map((column) => (
+                        <Column article={column} key={column.id} />
+                      ))
+                    }
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography
-                  variant="h4"
-                  style={{
-                    fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-                  }}
-                >
-                  Columns
-                </Typography>
-                {
-                    columns.map((column) => (
-                      <Column article={column} key={column.id} />
-                    ))
-                  }
-              </Grid>
-            </Grid>
-          </div>
+            </div>
+          </LazyLoadComponent>
 
-          <div className={classes.section}>
-            <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-              <Grid item xs>
-                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
+                <Grid item xs>
+                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+                </Grid>
+                <Grid item xs>
+                  <Typography
+                    variant="h4"
+                    style={{
+                      fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
+                    }}
+                  >
+                    LATEST RELEASE
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
+                </Grid>
               </Grid>
-              <Grid item xs>
-                <Typography
-                  variant="h4"
-                  style={{
-                    fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-                  }}
-                >
-                  LATEST RELEASE
-                </Typography>
+              <Grid container justify="center">
+                <Grid item xs={12} sm={6}>
+                  <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
+                    <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
+                      <LazyLoadImage src="/issuu-demo.png" alt="Issuu" style={{ width: '100%' }} effect="blur" />
+                    </Paper>
+                  </CardActionArea>
+                </Grid>
               </Grid>
-              <Grid item xs>
-                <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-              </Grid>
-            </Grid>
-            <Grid container justify="center">
-              <Grid item xs={12} sm={6}>
-                <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
-                  <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
-                    <img src="/issuu-demo.png" alt="Issuu" style={{ width: '100%' }} />
-                  </Paper>
-                </CardActionArea>
-              </Grid>
-            </Grid>
-          </div>
+            </div>
+          </LazyLoadComponent>
         </>
       ) : (
         <Grid
