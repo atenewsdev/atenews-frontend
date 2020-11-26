@@ -100,7 +100,7 @@ const ArticleGrid = ({ articles }) => {
             </Grid>
           </Hidden>
           <Hidden xsDown>
-            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${articles[0].featured_image_src})` }} onClick={() => router.push(slugGenerator(articles[0]))} />
+            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(articles[0].featured_image_src, 600)})` }} onClick={() => router.push(slugGenerator(articles[0]))} />
           </Hidden>
           <Grid item xs={12} sm={6} style={{ padding: theme.spacing(1) }}>
             <CardContent>
