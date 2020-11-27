@@ -69,17 +69,31 @@ export default function AccountBar({ setDarkMode }) {
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
   const [search, setSearch] = React.useState('');
-  const { profile } = useAuth();
+  const { profile, setFormOpen, formOpen } = useAuth();
 
   const searchBar = React.useRef();
+  const notifButton = React.useRef();
+  const accountButton = React.useRef();
 
   const [activeButton, setActiveButton] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  React.useEffect(() => {
+    if (formOpen) {
+      setActiveButton('Account');
+      setAnchorEl(accountButton.current);
+    }
+  }, [formOpen]);
 
   const handleClick = (event, button) => {
     if (activeButton === button) {
       setActiveButton(null);
       setAnchorEl(null);
+      if (button === 'Account') {
+        setFormOpen(false);
+      }
+    } else if (button === 'Account') {
+      setFormOpen(true);
     } else {
       setActiveButton(button);
       setAnchorEl(event.currentTarget);
@@ -89,6 +103,7 @@ export default function AccountBar({ setDarkMode }) {
   const handleClose = () => {
     setActiveButton(null);
     setAnchorEl(null);
+    setFormOpen(false);
     if (searchOpened) {
       set({ width: '0vw', opacity: 0 });
       setSearchOpened(false);
@@ -158,6 +173,7 @@ export default function AccountBar({ setDarkMode }) {
               <IconButton
                 aria-label="Open notifications"
                 className={classes.button}
+                ref={notifButton}
                 color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
                 onClick={(e) => handleClick(e, 'Notifications')}
               >
@@ -167,6 +183,7 @@ export default function AccountBar({ setDarkMode }) {
             : null}
           <IconButton
             aria-label="Open account settings"
+            ref={accountButton}
             className={classes.button}
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
             onClick={(e) => handleClick(e, 'Account')}

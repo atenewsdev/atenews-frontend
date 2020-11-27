@@ -6,18 +6,18 @@ import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Title from '@/components/Home/Title';
 
-import WPGBlocks from 'react-gutenberg';
-
-import imageGenerator from '@/utils/imageGenerator';
-import { LazyLoadImage, LazyLoadComponent } from 'react-lazy-load-image-component';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import WP from '@/utils/wordpress';
 
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useAuth } from '@/utils/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { useError } from '@/utils/hooks/useSnackbar';
+import firebase from '@/utils/firebase';
 
 import {
-  Typography, CardActionArea, Grid, Paper,
+  Typography, Grid,
 } from '@material-ui/core';
 
 import RecentArticles from '@/components/Home/RecentArticles';
@@ -25,8 +25,9 @@ import RecentArticles from '@/components/Home/RecentArticles';
 const ArticleGrid = dynamic(import('@/components/Home/ArticleGrid'));
 const Trending = dynamic(import('@/components/Home/Trending'));
 
-const Article = dynamic(import('@/components/List/Article'));
-const Column = dynamic(import('@/components/List/Column'));
+const EditorialColumn = dynamic(import('@/components/Home/EditorialColumn'));
+const Hulagway = dynamic(import('@/components/Home/Hulagway'));
+const LatestRelease = dynamic(import('@/components/Home/LatestRelease'));
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,7 +59,42 @@ export default function Home({
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
-  const { loadingAuth } = useAuth();
+  const {
+    loadingAuth,
+  } = useAuth();
+  const router = useRouter();
+
+  const [mode] = React.useState(router.query.mode);
+  const [oobCode] = React.useState(router.query.oobCode);
+  const [continueUrl] = React.useState(router.query.continueUrl);
+
+  const { setSuccess, setError } = useError();
+  React.useEffect(() => {
+    switch (mode) {
+      case 'resetPassword':
+        // Display reset password handler and UI.
+        setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'recoverEmail':
+        // Display email recovery handler and UI.
+        setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'verifyEmail':
+        // Display email verification handler and UI.
+        firebase.auth().applyActionCode(oobCode).then(() => {
+          setSuccess('Successfully verified email!');
+          if (continueUrl) {
+            router.push(continueUrl);
+          }
+        }).catch((err) => {
+          setError(err.message);
+        });
+        break;
+      default:
+        // Error: invalid mode.
+        break;
+    }
+  }, [mode]);
 
   return (
     <div className={classes.container}>
@@ -105,121 +141,15 @@ export default function Home({
           </LazyLoadComponent>
 
           <LazyLoadComponent>
-            <div className={classes.section}>
-              <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-                <Grid item xs>
-                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-                </Grid>
-                <Grid item xs>
-                  <Typography
-                    variant="h4"
-                    style={{
-                      fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-                    }}
-                  >
-                    HULAGWAY
-                  </Typography>
-                </Grid>
-                <Grid item xs>
-                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-                </Grid>
-              </Grid>
-              <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-                <LazyLoadImage src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
-              </div>
-              <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
-                <Grid container justify="center">
-                  <Grid item>
-                    <WPGBlocks blocks={featuredPhoto.blocks} />
-                  </Grid>
-                </Grid>
-              </Typography>
-
-              <Typography variant="body2" style={{ textAlign: 'center' }}>
-                <i>
-                  Photo by&nbsp;
-                  {
-                  featuredPhoto.coauthors.map((author, i) => {
-                    if (i === featuredPhoto.coauthors.length - 2) {
-                      return `${author.display_name} `;
-                    } if (i !== featuredPhoto.coauthors.length - 1) {
-                      return `${author.display_name}, `;
-                    } if (featuredPhoto.coauthors.length === 1) {
-                      return author.display_name;
-                    }
-                    return `and ${author.display_name}`;
-                  })
-                }
-                </i>
-
-              </Typography>
-            </div>
+            <Hulagway featuredPhoto={featuredPhoto} />
           </LazyLoadComponent>
 
           <LazyLoadComponent>
-            <div className={classes.section}>
-              <Title color={theme.palette.atenews.highlight}>Opinion</Title>
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={6}>
-                  <Typography
-                    variant="h4"
-                    style={{
-                      fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-                    }}
-                  >
-                    Editorial
-                  </Typography>
-                  <Article article={editorial} topImage />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography
-                    variant="h4"
-                    style={{
-                      fontFamily: 'Open Sans', fontWeight: 400, letterSpacing: 5, marginBottom: theme.spacing(4),
-                    }}
-                  >
-                    Columns
-                  </Typography>
-                  {
-                      columns.map((column) => (
-                        <Column article={column} key={column.id} />
-                      ))
-                    }
-                </Grid>
-              </Grid>
-            </div>
+            <EditorialColumn editorial={editorial} columns={columns} />
           </LazyLoadComponent>
 
           <LazyLoadComponent>
-            <div className={classes.section}>
-              <Grid container justify="center" alignItems="center" spacing={1} style={{ marginBottom: theme.spacing(4), paddingLeft: theme.spacing(8), paddingRight: theme.spacing(8) }}>
-                <Grid item xs>
-                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-                </Grid>
-                <Grid item xs>
-                  <Typography
-                    variant="h4"
-                    style={{
-                      fontFamily: 'Open Sans', fontWeight: 300, letterSpacing: 5, textAlign: 'center',
-                    }}
-                  >
-                    LATEST RELEASE
-                  </Typography>
-                </Grid>
-                <Grid item xs>
-                  <div style={{ backgroundColor: theme.palette.type === 'light' ? 'black' : 'white', height: 1, width: '100%' }} />
-                </Grid>
-              </Grid>
-              <Grid container justify="center">
-                <Grid item xs={12} sm={6}>
-                  <CardActionArea onClick={() => window.open('https://issuu.com/atenews/docs/vol66no1', '_blank')}>
-                    <Paper variant="outlined" style={{ borderRadius: 10, overflow: 'hidden' }}>
-                      <LazyLoadImage src="/issuu-demo.png" alt="Issuu" style={{ width: '100%' }} effect="blur" />
-                    </Paper>
-                  </CardActionArea>
-                </Grid>
-              </Grid>
-            </div>
+            <LatestRelease />
           </LazyLoadComponent>
         </>
       ) : (

@@ -128,6 +128,8 @@ const Layout = ({ children, setDarkMode }) => {
   const {
     profile,
     loadingAuth,
+    setFormOpen,
+    formOpen,
   } = useAuth();
 
   const {
@@ -197,6 +199,12 @@ const Layout = ({ children, setDarkMode }) => {
     }
   }, [router.pathname]);
 
+  React.useEffect(() => {
+    if (!profile) {
+      setValue(2);
+    }
+  }, [formOpen]);
+
   if (loadingAuth) {
     return children;
   }
@@ -241,7 +249,11 @@ const Layout = ({ children, setDarkMode }) => {
             } else {
               setOpen(true);
             }
-            setValue(newValue);
+            if (newValue === 2 && !profile) {
+              setFormOpen(true);
+            } else {
+              setValue(newValue);
+            }
           }}
           showLabels
           className={classes.root}

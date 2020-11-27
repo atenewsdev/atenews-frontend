@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Button from '@/components/General/Button';
@@ -38,12 +39,13 @@ const AuthForm = ({ close, mobile }) => {
     loginWithTwitter,
     registerEmail,
     loginWithFacebook,
+    formMode,
+    setFormMode,
   } = useAuth();
   const theme = useTheme();
   const { setError } = useError();
 
   const [loading, setLoading] = React.useState(false);
-  const [isRegister, setIsRegister] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -101,7 +103,7 @@ const AuthForm = ({ close, mobile }) => {
     }
   };
 
-  if (!isRegister) {
+  if (formMode === 'login') {
     return (
       <Paper variant="outlined" className={classes.viewContainer}>
         <form onSubmit={handleLogin}>
@@ -169,7 +171,76 @@ const AuthForm = ({ close, mobile }) => {
             </Grid>
             <Grid item style={{ width: '100%' }}>
               <Divider style={{ marginBottom: theme.spacing(2) }} />
-              <Button onClick={() => { setIsRegister(true); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
+              <Button onClick={() => { setFormMode('register'); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    );
+  }
+  if (formMode === 'register') {
+    return (
+      <Paper variant="outlined" className={classes.viewContainer}>
+        <form onSubmit={handleRegister}>
+          { mobile ? null : <div className={classes.arrowUp} /> }
+          <Grid container spacing={2} alignItems="center" direction="column">
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                variant="outlined"
+                label="Email"
+                fullWidth
+                required
+                error={!(testEmail()) && email !== ''}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                variant="outlined"
+                label="Username"
+                fullWidth
+                required
+                error={!(testUsername()) && username !== ''}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={loading}
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                type="password"
+                variant="outlined"
+                label="Password"
+                fullWidth
+                required
+                error={!(testPassword()) && password !== ''}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                error={password !== confirmPassword}
+                type="password"
+                variant="outlined"
+                label="Confirm Password"
+                fullWidth
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={loading}
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Divider style={{ marginBottom: theme.spacing(2) }} />
+              <Button onClick={() => { setFormMode('login'); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
             </Grid>
           </Grid>
         </form>
@@ -177,73 +248,7 @@ const AuthForm = ({ close, mobile }) => {
     );
   }
 
-  return (
-    <Paper variant="outlined" className={classes.viewContainer}>
-      <form onSubmit={handleRegister}>
-        { mobile ? null : <div className={classes.arrowUp} /> }
-        <Grid container spacing={2} alignItems="center" direction="column">
-          <Grid item style={{ width: '100%' }}>
-            <TextField
-              variant="outlined"
-              label="Email"
-              fullWidth
-              required
-              error={!(testEmail()) && email !== ''}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading}
-              autoFocus
-            />
-          </Grid>
-          <Grid item style={{ width: '100%' }}>
-            <TextField
-              variant="outlined"
-              label="Username"
-              fullWidth
-              required
-              error={!(testUsername()) && username !== ''}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={loading}
-            />
-          </Grid>
-          <Grid item style={{ width: '100%' }}>
-            <TextField
-              type="password"
-              variant="outlined"
-              label="Password"
-              fullWidth
-              required
-              error={!(testPassword()) && password !== ''}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
-            />
-          </Grid>
-          <Grid item style={{ width: '100%' }}>
-            <TextField
-              error={password !== confirmPassword}
-              type="password"
-              variant="outlined"
-              label="Confirm Password"
-              fullWidth
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              disabled={loading}
-            />
-          </Grid>
-          <Grid item style={{ width: '100%' }}>
-            <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
-          </Grid>
-          <Grid item style={{ width: '100%' }}>
-            <Divider style={{ marginBottom: theme.spacing(2) }} />
-            <Button onClick={() => { setIsRegister(false); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
-  );
+  return null;
 };
 
 export default AuthForm;

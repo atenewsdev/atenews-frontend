@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
 
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState('login');
+
   const { setError, setSuccess } = useError();
 
   const { getDocument, saveDocument } = useFirestore();
@@ -152,6 +155,10 @@ export const AuthProvider = ({ children }) => {
       logout,
       loadingAuth,
       deleteAccount,
+      formOpen,
+      setFormOpen,
+      formMode,
+      setFormMode,
     }}
     >
       {children}

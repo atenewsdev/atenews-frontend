@@ -5,9 +5,6 @@ import dynamic from 'next/dynamic';
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import FollowIcon from '@material-ui/icons/Add';
-import Button from '@/components/General/Button';
-
 import {
   Typography, Grid, Hidden, CircularProgress,
 } from '@material-ui/core';
@@ -22,6 +19,7 @@ import WP from '@/utils/wordpress';
 
 const Article = dynamic(import('@/components/List/Article'));
 const Trending = dynamic(import('@/components/Home/Trending'));
+const FollowButton = dynamic(import('@/components/Social/FollowButton'));
 
 const useStyles = makeStyles({
   account: {
@@ -108,10 +106,7 @@ export default function Page({
             </Grid>
             {baseUrlMenu(router.pathname) !== '/search' ? (
               <Grid item xs>
-                <Button aria-label={`Follow ${name}`} variant="outlined" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} size="small">
-                  <FollowIcon style={{ marginRight: theme.spacing(1) }} />
-                  Follow
-                </Button>
+                <FollowButton category={category} />
               </Grid>
             ) : null }
           </Grid>

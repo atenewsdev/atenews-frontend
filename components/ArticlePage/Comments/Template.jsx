@@ -69,7 +69,7 @@ const CommentReplyTemplate = ({
     },
     replies: { repliesSocialStats, setRepliesSocialStats },
   } = useArticle();
-  const { profile } = useAuth();
+  const { profile, authUser } = useAuth();
   const { setError } = useError();
 
   const [vote, setVote] = React.useState(null);
@@ -89,6 +89,15 @@ const CommentReplyTemplate = ({
   }, []);
 
   const handleVote = async (voteHandle) => {
+    if (!authUser) {
+      setError('You need to be logged in to do this action!');
+      return;
+    }
+
+    if (!authUser.emailVerified) {
+      setError('A verified email is required to do this action!');
+      return;
+    }
     try {
       if (vote !== voteHandle) {
         let data = {
