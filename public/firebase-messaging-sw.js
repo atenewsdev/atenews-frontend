@@ -45,10 +45,15 @@ if (!firebase.apps.length) {
     await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
     self.registration.showNotification(payload.data.description, {
       body: payload.data.title,
+      actions: [{
+        action: 'read',
+        title: 'Read new article'
+      }],
       icon: '/icons/icon-512x512.png',
       image: payload.data.featured_photo,
       tag: 'atenews-article',
       data: { ...payload.data },
+      vibrate: [300, 100, 400],
     });
   });
 }
