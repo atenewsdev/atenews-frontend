@@ -190,6 +190,7 @@ const Layout = ({ children, setDarkMode }) => {
   React.useEffect(() => {
     const largerWidthPages = [
       '/',
+      '/news',
       '/news/university',
       '/news/local',
       '/news/national',
@@ -197,9 +198,11 @@ const Layout = ({ children, setDarkMode }) => {
       '/features',
       '/features/montage',
       '/features/artists',
+      '/opinion',
       '/opinion/column',
       '/opinion/editorial',
       '/opinion/blueblood',
+      '/photos',
       '/photos/featured',
       '/search',
     ];

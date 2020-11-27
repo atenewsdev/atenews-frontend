@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 });
 
 export default function Page({
-  articlesRaw, name, category, query, totalPages,
+  articlesRaw, name, category, query, totalPages, nofollow,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -104,7 +104,7 @@ export default function Page({
                 <Typography variant="h4" component="h1">{name}</Typography>
               </Hidden>
             </Grid>
-            {baseUrlMenu(router.pathname) !== '/search' ? (
+            {baseUrlMenu(router.pathname) !== '/search' && !nofollow ? (
               <Grid item xs>
                 <FollowButton category={category} />
               </Grid>

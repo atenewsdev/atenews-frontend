@@ -81,6 +81,7 @@ export default function Navigation() {
         color={theme.palette.atenews.news}
         label={<Typography variant="body1">News</Typography>}
         active={activeMenu === '/news'}
+        onClick={() => handleClick('/news')}
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant="body1">University</Typography>} color={theme.palette.atenews.news} onClick={() => handleClick('/news/university')} />
@@ -94,6 +95,7 @@ export default function Navigation() {
         color={theme.palette.atenews.features}
         label={<Typography variant="body1">Features</Typography>}
         active={activeMenu === '/features'}
+        onClick={() => handleClick('/features')}
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant="body1">Features</Typography>} color={theme.palette.atenews.features} onClick={() => handleClick('/features')} />
@@ -106,6 +108,7 @@ export default function Navigation() {
         color={theme.palette.atenews.highlight}
         label={<Typography variant="body1">Opinion</Typography>}
         active={activeMenu === '/opinion'}
+        onClick={() => handleClick('/opinion')}
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant="body1">Column</Typography>} color={theme.palette.atenews.highlight} onClick={() => handleClick('/opinion/column')} />
@@ -118,6 +121,7 @@ export default function Navigation() {
         color={theme.palette.atenews.diversions}
         label={<Typography variant="body1">Photos</Typography>}
         active={activeMenu === '/photos'}
+        onClick={() => handleClick('/photos')}
       >
         <div className={classes.submenu}>
           <SubMenu label={<Typography variant="body1">Featured Photos</Typography>} color={theme.palette.atenews.diversions} onClick={() => handleClick('/photos/featured')} />

@@ -102,7 +102,6 @@ export default function Menu({
       className={classes.menu}
       onMouseOver={handleHover}
       onMouseLeave={handleClose}
-      onClick={handleClose}
     >
       <CardActionArea
         onClick={onClick}
