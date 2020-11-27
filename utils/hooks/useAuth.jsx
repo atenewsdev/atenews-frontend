@@ -3,6 +3,7 @@ import {
 } from 'react';
 
 import firebase from '@/utils/firebase';
+import localforage from 'localforage';
 import useFirestore from './useFirestore';
 import { useError } from './useSnackbar';
 
@@ -20,6 +21,36 @@ export const AuthProvider = ({ children }) => {
 
   const { getDocument, saveDocument } = useFirestore();
 
+  const [fcmToken, setFcmToken] = useState(null);
+
+  const generateToken = () => {
+    Notification.requestPermission().then(async (status) => {
+      if (status && status === 'granted') {
+        const fcmTokenProvided = await firebase.messaging().getToken();
+        if (fcmTokenProvided) {
+          setFcmToken(fcmTokenProvided);
+          localforage.setItem('fcm_token', fcmTokenProvided);
+          let tokens = [fcmTokenProvided];
+          if (profile.fcmTokens) {
+            tokens = [...tokens, ...profile.fcmTokens];
+          }
+          await firebase.firestore().collection('users').doc(profile.id).update({
+            fcmTokens: tokens,
+          });
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (profile) {
+      setFcmToken(localforage.getItem('fcm_token'));
+      if (!fcmToken) {
+        generateToken();
+      }
+    }
+  }, [profile]);
+
   useEffect(() => {
     let unsubscribeProfile = () => { };
     const unsubscribe = firebase.auth()
@@ -36,6 +67,8 @@ export const AuthProvider = ({ children }) => {
             setProfile({ ...data, id: user.uid });
           });
         } else {
+          setFcmToken(null);
+          localforage.removeItem('fcm_token');
           unsubscribeProfile();
           setProfile(null);
         }
@@ -159,6 +192,7 @@ export const AuthProvider = ({ children }) => {
       setFormOpen,
       formMode,
       setFormMode,
+      fcmToken,
     }}
     >
       {children}
