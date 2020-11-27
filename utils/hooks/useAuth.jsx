@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const { getDocument, saveDocument } = useFirestore();
 
   const [fcmToken, setFcmToken] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   const generateToken = async () => {
     const status = await Notification.requestPermission();
@@ -47,10 +48,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (profile) {
-      setFcmToken(localforage.getItem('fcm_token'));
-      if (!fcmToken) {
-        generateToken();
-      }
+      localforage.getItem('fcm_token').then((token) => {
+        setFcmToken(token);
+        if (!fcmToken) {
+          generateToken().then(async () => {
+            const notifs = await localforage.getItem('atenews-notifs');
+            if (notifs) {
+              setNotifications(JSON.parse(notifs));
+            } else {
+              setNotifications([]);
+            }
+          });
+        }
+      });
     }
   }, [profile]);
 
@@ -71,6 +81,8 @@ export const AuthProvider = ({ children }) => {
           });
         } else {
           setFcmToken(null);
+          localforage.removeItem('atenews-notifs');
+          setNotifications([]);
           localforage.removeItem('fcm_token');
           unsubscribeProfile();
           setProfile(null);
@@ -196,6 +208,7 @@ export const AuthProvider = ({ children }) => {
       formMode,
       setFormMode,
       fcmToken,
+      notifications,
     }}
     >
       {children}

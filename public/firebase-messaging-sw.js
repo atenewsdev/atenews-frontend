@@ -1,5 +1,6 @@
 importScripts('https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js');
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js');
 
 const config = {
   apiKey: 'AIzaSyDZUirIEu-BkcM6Hr6l0bvTCI_E4lwQ5Bo',
@@ -35,13 +36,18 @@ if (!firebase.apps.length) {
 
   firebase.messaging();
 
-  firebase.messaging().setBackgroundMessageHandler((payload) => {
-    console.log('payload', payload.data)
+  firebase.messaging().setBackgroundMessageHandler(async (payload) => {
+    let newNotifs = [payload.data];
+    const notifs = await localforage.getItem('atenews-notifs');
+    if (notifs) {
+      newNotifs = [...newNotifs, ...JSON.parse(notifs)]
+    }
+    await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
     self.registration.showNotification('Check out our new article!', {
       body: payload.data.title,
       icon: '/icons/icon-512x512.png',
       tag: 'atenews-article',
       data: { ...payload.data },
-    })
+    });
   });
 }

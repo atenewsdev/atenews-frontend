@@ -1,7 +1,19 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
+import { useRouter } from 'next/router';
 
-import { Paper } from '@material-ui/core';
+import {
+  Paper,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  ListSubheader,
+} from '@material-ui/core';
+
+import { useAuth } from '@/utils/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -24,11 +36,30 @@ const useStyles = makeStyles((theme) => ({
 
 const PopoutView = () => {
   const classes = useStyles();
+  const router = useRouter();
+  const { notifications } = useAuth();
 
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
       <div className={classes.arrowUp} />
-      Notifications coming soon!
+      <List subheader={<ListSubheader>Recent Notifications</ListSubheader>}>
+        {notifications.slice(0, 3).map((notification, i) => (
+          <ListItem
+            key={`${notification.slug}_${i}`}
+            button
+            onClick={() => {
+              router.push(`/${notification.slug}`);
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <AnnouncementIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={notification.title} secondary="New article!" />
+          </ListItem>
+        ))}
+      </List>
     </Paper>
   );
 };

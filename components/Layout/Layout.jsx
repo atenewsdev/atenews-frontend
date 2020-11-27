@@ -6,6 +6,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
 
 import Tag from '@/components/General/Tag';
 import slugGenerator from '@/utils/slugGenerator';
@@ -32,6 +33,12 @@ import {
   InputAdornment,
   CircularProgress,
   Snackbar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  ListSubheader,
 } from '@material-ui/core';
 
 import { Alert } from '@material-ui/lab';
@@ -130,6 +137,7 @@ const Layout = ({ children, setDarkMode }) => {
     loadingAuth,
     setFormOpen,
     formOpen,
+    notifications,
   } = useAuth();
 
   const {
@@ -345,7 +353,28 @@ const Layout = ({ children, setDarkMode }) => {
               )
               : null }
             { value === 2 && profile
-              ? <Typography>Notifications coming soon!</Typography>
+              ? (
+                <List subheader={<ListSubheader>Recent Notifications</ListSubheader>}>
+                  {notifications.slice(0, 3).map((notification, i) => (
+                    <ListItem
+                      key={`${notification.slug}_${i}`}
+                      button
+                      onClick={() => {
+                        router.push(`/${notification.slug}`);
+                        setValue(0);
+                        setOpen(false);
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <AnnouncementIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={notification.title} secondary="New article!" />
+                    </ListItem>
+                  ))}
+                </List>
+              )
               : null}
             { value === 2 && !profile ? (
               <AuthForm
