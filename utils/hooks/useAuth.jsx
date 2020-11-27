@@ -23,23 +23,26 @@ export const AuthProvider = ({ children }) => {
 
   const [fcmToken, setFcmToken] = useState(null);
 
-  const generateToken = () => {
-    Notification.requestPermission().then(async (status) => {
-      if (status && status === 'granted') {
-        const fcmTokenProvided = await firebase.messaging().getToken();
-        if (fcmTokenProvided) {
-          setFcmToken(fcmTokenProvided);
-          localforage.setItem('fcm_token', fcmTokenProvided);
-          let tokens = [fcmTokenProvided];
-          if (profile.fcmTokens) {
+  const generateToken = async () => {
+    const status = await Notification.requestPermission();
+    if (status && status === 'granted') {
+      const fcmTokenProvided = await firebase.messaging().getToken();
+      if (fcmTokenProvided) {
+        setFcmToken(fcmTokenProvided);
+        localforage.setItem('fcm_token', fcmTokenProvided);
+        let tokens = [fcmTokenProvided];
+        if (profile.fcmTokens) {
+          if (!profile.fcmTokens.includes(fcmTokenProvided)) {
             tokens = [...tokens, ...profile.fcmTokens];
+          } else {
+            tokens = profile.fcmTokens;
           }
-          await firebase.firestore().collection('users').doc(profile.id).update({
-            fcmTokens: tokens,
-          });
         }
+        await firebase.firestore().collection('users').doc(profile.id).update({
+          fcmTokens: tokens,
+        });
       }
-    });
+    }
   };
 
   useEffect(() => {
