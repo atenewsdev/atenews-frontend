@@ -39,6 +39,7 @@ import {
   Avatar,
   ListItemText,
   ListSubheader,
+  Badge,
 } from '@material-ui/core';
 
 import { Alert } from '@material-ui/lab';
@@ -138,6 +139,8 @@ const Layout = ({ children, setDarkMode }) => {
     setFormOpen,
     formOpen,
     notifications,
+    newNotif,
+    setNewNotif,
   } = useAuth();
 
   const {
@@ -260,6 +263,7 @@ const Layout = ({ children, setDarkMode }) => {
             if (newValue === 2 && !profile) {
               setFormOpen(true);
             } else {
+              setNewNotif(0);
               setValue(newValue);
             }
           }}
@@ -271,7 +275,13 @@ const Layout = ({ children, setDarkMode }) => {
           <BottomNavigationAction icon={<HomeIcon />} />
           <BottomNavigationAction icon={<SearchIcon />} />
           {profile ? (
-            <BottomNavigationAction icon={<NotificationIcon />} />
+            <BottomNavigationAction
+              icon={(
+                <Badge color="primary" badgeContent={newNotif}>
+                  <NotificationIcon />
+                </Badge>
+              )}
+            />
           ) : (
             <BottomNavigationAction icon={<AccountCircleIcon />} />
           ) }

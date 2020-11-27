@@ -17,6 +17,7 @@ import {
   Grid,
   TextField as StockTextField,
   InputAdornment,
+  Badge,
 } from '@material-ui/core';
 import { useAuth } from '@/utils/hooks/useAuth';
 import imageGenerator from '@/utils/imageGenerator';
@@ -69,7 +70,13 @@ export default function AccountBar({ setDarkMode }) {
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
   const [searchOpened, setSearchOpened] = React.useState(false);
   const [search, setSearch] = React.useState('');
-  const { profile, setFormOpen, formOpen } = useAuth();
+  const {
+    profile,
+    setFormOpen,
+    formOpen,
+    newNotif,
+    setNewNotif,
+  } = useAuth();
 
   const searchBar = React.useRef();
   const notifButton = React.useRef();
@@ -112,6 +119,7 @@ export default function AccountBar({ setDarkMode }) {
 
   const PopperView = () => {
     if (activeButton === 'Notifications') {
+      setNewNotif(0);
       return <NotificationView />;
     }
 
@@ -177,7 +185,9 @@ export default function AccountBar({ setDarkMode }) {
                 color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
                 onClick={(e) => handleClick(e, 'Notifications')}
               >
-                <BellIcon />
+                <Badge color="primary" badgeContent={newNotif}>
+                  <BellIcon />
+                </Badge>
               </IconButton>
             )
             : null}

@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const [fcmToken, setFcmToken] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [newNotif, setNewNotif] = useState(0);
 
   const generateToken = async () => {
     const status = await Notification.requestPermission();
@@ -48,26 +49,27 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (profile) {
-      localforage.getItem('fcm_token').then((token) => {
+      localforage.getItem('fcm_token').then(async (token) => {
         setFcmToken(token);
         if (!fcmToken) {
-          generateToken().then(async () => {
-            const notifs = await localforage.getItem('atenews-notifs');
-            if (notifs) {
-              setNotifications(JSON.parse(notifs));
-            } else {
-              setNotifications([]);
-            }
-            firebase.messaging().onMessage(async (payload) => {
-              let newNotifs = [...notifications];
-              if (notifications) {
-                newNotifs = [payload.data, ...newNotifs];
-              }
-              setNotifications(newNotifs);
-              await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
-            });
-          });
+          generateToken();
         }
+
+        const notifs = await localforage.getItem('atenews-notifs');
+        if (notifs) {
+          setNotifications(JSON.parse(notifs));
+        } else {
+          setNotifications([]);
+        }
+        firebase.messaging().onMessage(async (payload) => {
+          setNewNotif((prev) => prev + 1);
+          let newNotifs = [...notifications];
+          if (notifications) {
+            newNotifs = [payload.data, ...newNotifs];
+          }
+          setNotifications(newNotifs);
+          await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
+        });
       });
     }
   }, [profile]);
@@ -88,10 +90,6 @@ export const AuthProvider = ({ children }) => {
             setProfile({ ...data, id: user.uid });
           });
         } else {
-          setFcmToken(null);
-          localforage.removeItem('atenews-notifs');
-          setNotifications([]);
-          localforage.removeItem('fcm_token');
           unsubscribeProfile();
           setProfile(null);
         }
@@ -187,6 +185,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => firebase.auth().signOut().then(() => {
     setProfile(null);
+    setFcmToken(null);
+    localforage.removeItem('atenews-notifs');
+    setNotifications([]);
+    localforage.removeItem('fcm_token');
   }).catch((err) => {
     setError(err.message);
   });
@@ -217,6 +219,8 @@ export const AuthProvider = ({ children }) => {
       setFormMode,
       fcmToken,
       notifications,
+      newNotif,
+      setNewNotif,
     }}
     >
       {children}
