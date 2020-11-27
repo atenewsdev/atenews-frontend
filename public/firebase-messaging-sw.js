@@ -46,6 +46,7 @@ if (!firebase.apps.length) {
     self.registration.showNotification(payload.data.description, {
       body: payload.data.title,
       icon: '/icons/icon-512x512.png',
+      image: payload.data.featured_photo,
       tag: 'atenews-article',
       data: { ...payload.data },
     });
