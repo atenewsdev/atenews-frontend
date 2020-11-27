@@ -48,6 +48,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    setAuthUser(firebase.auth().currentUser);
+  }, [firebase.auth().currentUser]);
+
+  useEffect(() => {
     if (profile) {
       localforage.getItem('fcm_token').then(async (token) => {
         setFcmToken(token);
