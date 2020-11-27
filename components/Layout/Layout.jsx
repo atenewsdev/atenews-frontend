@@ -383,7 +383,10 @@ const Layout = ({ children, setDarkMode }) => {
                           <AnnouncementIcon />
                         </Avatar>
                       </ListItemAvatar>
-                      <ListItemText primary={notification.title} secondary="New article!" />
+                      <ListItemText
+                        primary={notification.title}
+                        secondary={notification.description}
+                      />
                     </ListItem>
                   ))}
                 </List>

@@ -43,7 +43,7 @@ if (!firebase.apps.length) {
       newNotifs = [...newNotifs, ...JSON.parse(notifs)]
     }
     await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
-    self.registration.showNotification('Check out our new article!', {
+    self.registration.showNotification(payload.data.description, {
       body: payload.data.title,
       icon: '/icons/icon-512x512.png',
       tag: 'atenews-article',
