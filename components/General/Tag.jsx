@@ -18,12 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tag = ({ type, clickable: clickableRaw }) => {
+const Tag = ({ type, clickable }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
-
-  const [clickable, setClickable] = React.useState(clickableRaw);
   const [text, setText] = React.useState('');
   const [url, setURL] = React.useState('');
   const [color, setColor] = React.useState(theme.palette.atenews.news);
@@ -38,7 +36,7 @@ const Tag = ({ type, clickable: clickableRaw }) => {
         if (type.slug !== 'news') {
           setURL(`/news/${type.slug}`);
         } else {
-          setClickable(false);
+          setURL('/news');
         }
         setColor(theme.palette.atenews.news);
         setText(type.name ? type.name : type.cat_name);
@@ -60,7 +58,7 @@ const Tag = ({ type, clickable: clickableRaw }) => {
         if (type.slug !== 'opinion') {
           setURL(`/opinion/${type.slug === 'columns' ? 'column' : type.slug}`);
         } else {
-          setClickable(false);
+          setURL('/opinion');
         }
         setColor(theme.palette.atenews.highlight);
         setText(type.name ? type.name : type.cat_name);
@@ -79,7 +77,7 @@ const Tag = ({ type, clickable: clickableRaw }) => {
         if (type.slug !== 'photos') {
           setURL(`/photos/${type.slug === 'featured-photos' ? 'featured' : type.slug}`);
         } else {
-          setClickable(false);
+          setURL('/photos');
         }
         setColor(theme.palette.atenews.diversions);
         setText(type.name ? type.name : type.cat_name);
