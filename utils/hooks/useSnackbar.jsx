@@ -1,5 +1,5 @@
 import {
-  useState, createContext, useContext,
+  useState, createContext, useContext, useEffect,
 } from 'react';
 
 import firebase from '@/utils/firebase';
@@ -11,7 +11,7 @@ export const ErrorProvider = ({ children }) => {
   const [success, setSuccess] = useState(null);
   const [warning, setWarning] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (error) {
       firebase.analytics().logEvent('error', {
         error,
@@ -19,7 +19,7 @@ export const ErrorProvider = ({ children }) => {
     }
   }, [error]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (success) {
       firebase.analytics().logEvent('success', {
         success,
@@ -27,7 +27,7 @@ export const ErrorProvider = ({ children }) => {
     }
   }, [success]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (warning) {
       firebase.analytics().logEvent('warning', {
         warning,
