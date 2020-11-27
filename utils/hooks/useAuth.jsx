@@ -58,6 +58,14 @@ export const AuthProvider = ({ children }) => {
             } else {
               setNotifications([]);
             }
+            firebase.messaging().onMessage(async (payload) => {
+              let newNotifs = [...notifications];
+              if (notifications) {
+                newNotifs = [payload.data, ...newNotifs];
+              }
+              setNotifications(newNotifs);
+              await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
+            });
           });
         }
       });
