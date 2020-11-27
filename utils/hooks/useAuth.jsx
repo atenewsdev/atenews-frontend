@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [newNotif, setNewNotif] = useState(0);
 
-  const [generatedToken, setGeneratedToken] = useState(false);
-
   const generateToken = async () => {
     const status = await Notification.requestPermission();
     if (status && status === 'granted') {
@@ -54,8 +52,7 @@ export const AuthProvider = ({ children }) => {
   }, [firebase.auth().currentUser]);
 
   useEffect(() => {
-    if (profile && !generatedToken) {
-      setGeneratedToken(true);
+    if (profile && 'username' in profile) {
       localforage.getItem('fcm_token').then(async (token) => {
         setFcmToken(token);
         if (!fcmToken) {
@@ -205,7 +202,6 @@ export const AuthProvider = ({ children }) => {
       localforage.removeItem('atenews-notifs');
       setNotifications([]);
       localforage.removeItem('fcm_token');
-      setGeneratedToken(false);
     }).catch((err) => {
       setError(err.message);
     });
