@@ -82,6 +82,7 @@ export default function Home({
       case 'verifyEmail':
         // Display email verification handler and UI.
         firebase.auth().applyActionCode(oobCode).then(() => {
+          firebase.auth().currentUser.reload();
           setSuccess('Successfully verified email!');
           if (continueUrl) {
             router.push(continueUrl);
