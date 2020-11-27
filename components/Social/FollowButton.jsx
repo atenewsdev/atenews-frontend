@@ -14,25 +14,27 @@ export default function FollowButton({ category }) {
 
   const { profile, authUser } = useAuth();
 
+  const [ready, setReady] = React.useState(false);
   const [unfollowed, setUnfollowed] = React.useState(false);
 
   React.useEffect(() => {
     if (profile) {
-      firebase.firestore().collection('unfollows').doc(profile.id).get()
+      firebase.database().ref(`unfollows/${profile.id}`).once('value')
         .then((snapshot) => {
-          if (snapshot.exists) {
-            const data = snapshot.data();
+          if (snapshot.exists()) {
+            const data = snapshot.val();
             setUnfollowed(data[category]);
           }
+          setReady(true);
         });
     }
   }, [profile]);
 
   React.useEffect(() => {
     if (profile) {
-      firebase.firestore().collection('unfollows').doc(profile.id).set({
+      firebase.database().ref(`unfollows/${profile.id}`).update({
         [category]: unfollowed,
-      }, { merge: true });
+      });
     }
   }, [unfollowed]);
 
@@ -41,6 +43,10 @@ export default function FollowButton({ category }) {
   }
 
   if (!authUser.emailVerified) {
+    return null;
+  }
+
+  if (!ready) {
     return null;
   }
 
