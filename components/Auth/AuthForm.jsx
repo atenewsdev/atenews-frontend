@@ -144,10 +144,10 @@ const AuthForm = ({ close, mobile }) => {
                 size="small"
                 fullWidth
                 disabled={loading}
-                style={{
+                style={!loading ? ({
                   backgroundColor: '#00acee',
                   color: 'white',
-                }}
+                }) : {}}
               >
                 <TwitterIcon style={{ marginRight: theme.spacing(1) }} />
                 Login with Twitter
@@ -160,10 +160,10 @@ const AuthForm = ({ close, mobile }) => {
                 size="small"
                 fullWidth
                 disabled={loading}
-                style={{
+                style={!loading ? ({
                   backgroundColor: '#3b5998',
                   color: 'white',
-                }}
+                }) : {}}
               >
                 <FacebookIcon style={{ marginRight: theme.spacing(1) }} />
                 Login with FB
