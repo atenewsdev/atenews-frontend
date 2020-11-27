@@ -183,15 +183,25 @@ export const AuthProvider = ({ children }) => {
       setError(err.message);
     });
 
-  const logout = () => firebase.auth().signOut().then(() => {
-    setProfile(null);
-    setFcmToken(null);
-    localforage.removeItem('atenews-notifs');
-    setNotifications([]);
-    localforage.removeItem('fcm_token');
-  }).catch((err) => {
-    setError(err.message);
-  });
+  const logout = async () => {
+    let tokens = [];
+    if (profile.fcmTokens) {
+      tokens = profile.fcmTokens.filter((token) => token !== fcmToken);
+    }
+    await firebase.firestore().collection('users').doc(profile.id).update({
+      fcmTokens: tokens,
+    });
+
+    return firebase.auth().signOut().then(() => {
+      setProfile(null);
+      setFcmToken(null);
+      localforage.removeItem('atenews-notifs');
+      setNotifications([]);
+      localforage.removeItem('fcm_token');
+    }).catch((err) => {
+      setError(err.message);
+    });
+  };
 
   const deleteAccount = () => firebase.auth().currentUser.delete().then(async () => {
     await firebase.auth().signOut();
