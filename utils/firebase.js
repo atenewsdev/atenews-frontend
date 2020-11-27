@@ -2,6 +2,7 @@ import 'firebase/firestore';
 import 'firebase/database';
 import 'firebase/auth';
 import 'firebase/messaging';
+import 'firebase/analytics';
 
 import firebase from 'firebase/app';
 
@@ -16,8 +17,12 @@ const config = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-if (!firebase.apps.length) {
+if (typeof window !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(config);
+
+  if ('measurementId' in config) {
+    firebase.analytics();
+  }
 }
 
 export default firebase;

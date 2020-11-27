@@ -33,7 +33,10 @@ Router.onRouteChangeStart = () => {
   NProgress.start();
 };
 
-Router.onRouteChangeComplete = () => {
+Router.onRouteChangeComplete = (url) => {
+  firebase.analytics().logEvent('route_change', {
+    url,
+  });
   NProgress.done();
 };
 

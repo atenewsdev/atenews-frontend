@@ -75,6 +75,8 @@ export const AuthProvider = ({ children }) => {
           await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
         });
       });
+
+      firebase.analytics().setUserId(profile.id);
     }
   }, [profile]);
 
