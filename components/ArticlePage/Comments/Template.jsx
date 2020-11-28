@@ -183,6 +183,10 @@ const CommentReplyTemplate = ({
     await firebase.firestore().collection('comments').doc(commentId).delete();
   };
 
+  const handleReplyDelete = async () => {
+    await firebase.firestore().collection('replies').doc(commentId).delete();
+  };
+
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
@@ -216,7 +220,7 @@ const CommentReplyTemplate = ({
                 </Grid>
               </Paper>
               {commenterId === profile.id ? (
-                <Options onDelete={handleCommentDelete} />
+                <Options onDelete={reply ? handleReplyDelete : handleCommentDelete} />
               ) : null}
             </ListItem>
           </>
