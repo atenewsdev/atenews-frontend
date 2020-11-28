@@ -3,6 +3,7 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import DateFnsUtils from '@date-io/date-fns';
 
 import Layout from '@/components/Layout/Layout';
@@ -48,7 +49,7 @@ Router.events.on('routeChangeComplete', () => { window.scrollTo(0, 0); });
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
-
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [darkMode, setDarkMode] = React.useState(false);
 
   React.useEffect(() => {
@@ -60,18 +61,25 @@ export default function MyApp(props) {
     }
 
     localforage.getItem('savedDarkModeState').then((state) => {
-      setDarkMode(state);
+      if (state !== null) {
+        setDarkMode(state);
+      } else {
+        setDarkMode(prefersDarkMode);
+      }
     });
 
     firebase.auth().onAuthStateChanged(() => {
       if (!firebase.auth().currentUser) {
         setDarkMode(false);
+        localforage.removeItem('savedDarkModeState');
       }
     });
   }, []);
 
   React.useEffect(() => {
-    localforage.setItem('savedDarkModeState', darkMode);
+    if (firebase.auth().currentUser) {
+      localforage.setItem('savedDarkModeState', darkMode);
+    }
   }, [darkMode]);
 
   return (
