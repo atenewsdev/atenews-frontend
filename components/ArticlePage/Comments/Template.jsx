@@ -180,13 +180,21 @@ const CommentReplyTemplate = ({
   };
 
   const handleCommentDelete = async () => {
-    await firebase.firestore().collection('comments').doc(commentId).delete();
-    setSuccess('Successfully deleted comment!');
+    try {
+      await firebase.firestore().collection('comments').doc(commentId).delete();
+      setSuccess('Successfully deleted comment!');
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const handleReplyDelete = async () => {
-    await firebase.firestore().collection('replies').doc(commentId).delete();
-    setSuccess('Successfully deleted reply!');
+    try {
+      await firebase.firestore().collection('replies').doc(replyId).delete();
+      setSuccess('Successfully deleted reply!');
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
