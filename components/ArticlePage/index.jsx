@@ -134,7 +134,20 @@ export default function Page({ post, relatedPosts }) {
           color: theme.palette.text.primary,
         }}
       >
-        <WPGBlocks blocks={post.blocks} />
+        {post.blocks.length > 1 ? (
+          <WPGBlocks blocks={post.blocks} />
+        ) : (
+          <Typography
+            style={{
+              marginTop: theme.spacing(2),
+              lineHeight: '1.9em',
+              width: '100%',
+              color: theme.palette.text.primary,
+            }}
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+          />
+        )}
       </Typography>
 
       <div style={{ height: theme.spacing(4) }} />
@@ -208,6 +221,7 @@ export default function Page({ post, relatedPosts }) {
       <LazyLoadComponent>
         <ReadMore
           relatedPosts={relatedPosts}
+          postId={post.id}
           onLeaveViewport={leaveWriterViewport}
           onEnterViewport={enterWriterViewport}
         />
