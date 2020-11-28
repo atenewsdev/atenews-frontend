@@ -75,13 +75,16 @@ const CommentReplyTemplate = ({
   const [vote, setVote] = React.useState(null);
 
   React.useEffect(() => {
-    const unsub = firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).onSnapshot(async (snapshot) => {
-      if (snapshot.exists) {
-        setVote(snapshot.data().content);
-      } else {
-        setVote(null);
-      }
-    });
+    let unsub = () => { };
+    if (profile) {
+      unsub = firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).onSnapshot(async (snapshot) => {
+        if (snapshot.exists) {
+          setVote(snapshot.data().content);
+        } else {
+          setVote(null);
+        }
+      });
+    }
 
     return () => {
       unsub();
@@ -197,6 +200,15 @@ const CommentReplyTemplate = ({
     }
   };
 
+  const isOwner = () => {
+    if (profile) {
+      if (commenterId === profile.id) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
@@ -229,7 +241,7 @@ const CommentReplyTemplate = ({
                   </Grid>
                 </Grid>
               </Paper>
-              {commenterId === profile.id ? (
+              {isOwner() ? (
                 <Options onDelete={reply ? handleReplyDelete : handleCommentDelete} />
               ) : null}
             </ListItem>
@@ -238,42 +250,40 @@ const CommentReplyTemplate = ({
         secondary={(
           <div style={{ marginTop: theme.spacing(1) }}>
             <Grid container spacing={1} style={{ color: theme.palette.primary.main }}>
-              {profile ? (
-                <>
-                  <Grid item>
-                    <Button
-                      variant={vote === 'up' ? 'contained' : 'text'}
-                      style={{ padding: 0 }}
-                      color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-                      size="small"
-                      onClick={() => { handleVote('up'); }}
-                    >
-                      <LikeIcon style={{ marginRight: theme.spacing(1) }} />
-                      {reply ? (
-                        repliesSocialStats[replyId].upvoteCount || 0
-                      ) : (
-                        commentsSocialStats[commentId].upvoteCount || 0
-                      )}
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      variant={vote === 'down' ? 'contained' : 'text'}
-                      style={{ padding: 0 }}
-                      color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-                      size="small"
-                      onClick={() => { handleVote('down'); }}
-                    >
-                      <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
-                      {reply ? (
-                        repliesSocialStats[replyId].downvoteCount || 0
-                      ) : (
-                        commentsSocialStats[commentId].downvoteCount || 0
-                      )}
-                    </Button>
-                  </Grid>
-                </>
-              ) : null}
+              <Grid item>
+                <Button
+                  variant={vote === 'up' ? 'contained' : 'text'}
+                  style={{ padding: 0 }}
+                  color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                  size="small"
+                  onClick={() => { handleVote('up'); }}
+                  disabled={!profile}
+                >
+                  <LikeIcon style={{ marginRight: theme.spacing(1) }} />
+                  {reply ? (
+                    repliesSocialStats[replyId].upvoteCount || 0
+                  ) : (
+                    commentsSocialStats[commentId].upvoteCount || 0
+                  )}
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant={vote === 'down' ? 'contained' : 'text'}
+                  style={{ padding: 0 }}
+                  color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                  size="small"
+                  onClick={() => { handleVote('down'); }}
+                  disabled={!profile}
+                >
+                  <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
+                  {reply ? (
+                    repliesSocialStats[replyId].downvoteCount || 0
+                  ) : (
+                    commentsSocialStats[commentId].downvoteCount || 0
+                  )}
+                </Button>
+              </Grid>
               {!reply ? (
                 <Grid item>
                   { profile || commentsSocialStats[commentId].replyCount > 0 ? (
