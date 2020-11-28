@@ -67,12 +67,12 @@ export default function Page({ reply, slug, commentId }) {
   };
 
   React.useEffect(() => {
-    localforage.getItem('verifyEmailTimer').then((state) => {
+    localforage.getItem(`commentTimer_${commentId}`).then((state) => {
       if (state) {
         setTimer(state);
       }
     });
-    localforage.getItem('verifyEmailTimerRunning').then((state) => {
+    localforage.getItem(`commentTimerRunning_${commentId}`).then((state) => {
       setTimerRunning(state);
       if (state) {
         initiateTimer();
@@ -87,11 +87,11 @@ export default function Page({ reply, slug, commentId }) {
       setContent('');
       setTimer(3);
     }
-    localforage.setItem('verifyEmailTimer', timer);
+    localforage.setItem(`commentTimer_${commentId}`, timer);
   }, [timer]);
 
   React.useEffect(() => {
-    localforage.setItem('verifyEmailTimerRunning', timerRunning);
+    localforage.setItem(`commentTimerRunning_${commentId}`, timerRunning);
   }, [timerRunning]);
 
   React.useEffect(() => {
