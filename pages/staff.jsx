@@ -36,14 +36,21 @@ export default function Home({ staffs: staffsRaw }) {
   const [seniors, setSeniors] = React.useState([]);
   const [juniors, setJuniors] = React.useState([]);
 
+  const checkAssocManEd = () => (
+    staffsRaw.find((staff) => (staff.roles.includes('associate_editor'))) === staffsRaw.find((staff) => (staff.roles.includes('managing_editor')))
+  );
+
   React.useEffect(() => {
     const rolesIgnore = [
       'subscriber',
       'contributor',
       'administrator',
       'editor',
+      'editor-in-chief',
+      'associate_editor',
+      'managing_editor',
     ];
-    setEditors(staffsRaw.filter((staff) => {
+    const nonEICEditors = staffsRaw.filter((staff) => {
       const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
 
       let isIncluded = false;
@@ -54,7 +61,21 @@ export default function Home({ staffs: staffsRaw }) {
       });
 
       return cleanRoles.length > 0 && isIncluded;
-    }));
+    });
+    if (checkAssocManEd) {
+      setEditors([
+        staffsRaw.find((staff) => (staff.roles.includes('editor-in-chief'))),
+        staffsRaw.find((staff) => (staff.roles.includes('associate_editor'))),
+        ...nonEICEditors,
+      ]);
+    } else {
+      setEditors([
+        staffsRaw.find((staff) => (staff.roles.includes('editor-in-chief'))),
+        staffsRaw.find((staff) => (staff.roles.includes('associate_editor'))),
+        staffsRaw.find((staff) => (staff.roles.includes('managing_editor'))),
+        ...nonEICEditors,
+      ]);
+    }
 
     setSeniors(staffsRaw.filter((staff) => {
       const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));

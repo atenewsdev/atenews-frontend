@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
 import DefaultErrorPage from '@/components/404';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -10,7 +9,7 @@ import WP from '@/utils/wordpress';
 import ReactHtmlParser from 'react-html-parser';
 import CustomPage from '@/components/CustomPage';
 
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 
@@ -25,17 +24,6 @@ export default function Page({ page }) {
   const classes = useStyles();
   const theme = useTheme();
   const { loadingAuth } = useAuth();
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return (
-      <div className={classes.contentContainer}>
-        <Grid container direction="row" justify="center">
-          <CircularProgress style={{ marginTop: 100, marginBottom: 100 }} />
-        </Grid>
-      </div>
-    );
-  }
 
   if (!page) {
     return (
