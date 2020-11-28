@@ -70,7 +70,7 @@ const CommentReplyTemplate = ({
     replies: { repliesSocialStats, setRepliesSocialStats },
   } = useArticle();
   const { profile, authUser } = useAuth();
-  const { setError } = useError();
+  const { setError, setSuccess } = useError();
 
   const [vote, setVote] = React.useState(null);
 
@@ -181,10 +181,12 @@ const CommentReplyTemplate = ({
 
   const handleCommentDelete = async () => {
     await firebase.firestore().collection('comments').doc(commentId).delete();
+    setSuccess('Successfully deleted comment!');
   };
 
   const handleReplyDelete = async () => {
     await firebase.firestore().collection('replies').doc(commentId).delete();
+    setSuccess('Successfully deleted reply!');
   };
 
   return (
