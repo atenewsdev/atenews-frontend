@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
@@ -22,8 +21,8 @@ import {
 import { useAuth } from '@/utils/hooks/useAuth';
 import imageGenerator from '@/utils/imageGenerator';
 
-const NotificationView = dynamic(import('@/components/Layout/Popouts/Notification'));
-const ProfileView = dynamic(import('@/components/Layout/Popouts/Profile'));
+import NotificationView from '@/components/Layout/Popouts/Notification';
+import ProfileView from '@/components/Layout/Popouts/Profile';
 
 const TextField = withStyles({
   root: {
@@ -68,7 +67,16 @@ export default function AccountBar({ setDarkMode }) {
   const theme = useTheme();
   const router = useRouter();
 
+  const [accountActive, setAccountActive] = React.useState(false);
+  const [notifActive, setNotifActive] = React.useState(false);
+
   const [props, set] = useSpring(() => ({ width: '0vw', opacity: 0 }));
+  const [accountProps, setAccountProps] = useSpring(() => ({
+    opacity: 0,
+  }));
+  const [notifProps, setNotifProps] = useSpring(() => ({
+    opacity: 0,
+  }));
   const [searchOpened, setSearchOpened] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const {
@@ -83,56 +91,66 @@ export default function AccountBar({ setDarkMode }) {
   const notifButton = React.useRef();
   const accountButton = React.useRef();
 
-  const [activeButton, setActiveButton] = React.useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const closeAccount = () => setAccountProps({
+    opacity: 0,
+    onRest: setAccountActive(false),
+  });
+
+  const openAccount = () => setAccountProps({
+    opacity: 1,
+    config: {
+      duration: 100,
+    },
+    onStart: setAccountActive(true),
+  });
+
+  const closeNotif = () => setNotifProps({
+    opacity: 0,
+    onRest: setNotifActive(false),
+  });
+
+  const openNotif = () => setNotifProps({
+    opacity: 1,
+    config: {
+      duration: 100,
+    },
+    onStart: setNotifActive(true),
+  });
 
   React.useEffect(() => {
     if (formOpen) {
-      setActiveButton('Account');
-      setAnchorEl(accountButton.current);
+      openAccount();
+    } else {
+      closeAccount();
     }
   }, [formOpen]);
 
-  const handleClick = (event, button) => {
-    if (formOpen) {
-      setActiveButton('Account');
-      setAnchorEl(accountButton.current);
-    }
-    if (activeButton === button) {
-      setActiveButton(null);
-      setAnchorEl(null);
-      if (button === 'Account') {
-        setFormOpen(false);
-      }
-    } else if (button === 'Account') {
+  React.useEffect(() => {
+    if (accountActive) {
       setFormOpen(true);
+      setNotifActive(false);
     } else {
-      setActiveButton(button);
-      setAnchorEl(event.currentTarget);
+      setFormOpen(false);
     }
-  };
+  }, [accountActive]);
+
+  React.useEffect(() => {
+    if (notifActive) {
+      openNotif();
+      setFormOpen(false);
+      setNewNotif(0);
+    } else {
+      closeNotif();
+    }
+  }, [notifActive]);
 
   const handleClose = () => {
-    setActiveButton(null);
-    setAnchorEl(null);
+    closeNotif();
     setFormOpen(false);
     if (searchOpened) {
       set({ width: '0vw', opacity: 0 });
       setSearchOpened(false);
     }
-  };
-
-  const PopperView = () => {
-    if (activeButton === 'Notifications') {
-      setNewNotif(0);
-      return <NotificationView />;
-    }
-
-    if (activeButton === 'Account') {
-      return <ProfileView close={handleClose} setDarkMode={setDarkMode} />;
-    }
-
-    return null;
   };
 
   return (
@@ -188,7 +206,7 @@ export default function AccountBar({ setDarkMode }) {
                 className={classes.button}
                 ref={notifButton}
                 color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-                onClick={(e) => handleClick(e, 'Notifications')}
+                onClick={() => setNotifActive((prev) => !prev)}
               >
                 <Badge color="primary" badgeContent={newNotif}>
                   <BellIcon />
@@ -201,7 +219,7 @@ export default function AccountBar({ setDarkMode }) {
             ref={accountButton}
             className={classes.button}
             color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-            onClick={(e) => handleClick(e, 'Account')}
+            onClick={() => setAccountActive((prev) => !prev)}
           >
             {profile
               ? (
@@ -213,8 +231,8 @@ export default function AccountBar({ setDarkMode }) {
               : <UserIcon />}
           </IconButton>
           <Popper
-            open={Boolean(anchorEl)}
-            anchorEl={anchorEl}
+            open
+            anchorEl={notifButton.current}
             placement="bottom-end"
             disablePortal
             modifiers={{
@@ -227,7 +245,33 @@ export default function AccountBar({ setDarkMode }) {
               },
             }}
           >
-            <PopperView />
+            <animated.div style={notifProps}>
+              {notifActive ? (
+                <NotificationView />
+              ) : null}
+            </animated.div>
+          </Popper>
+
+          <Popper
+            open
+            anchorEl={accountButton.current}
+            placement="bottom-end"
+            disablePortal
+            modifiers={{
+              flip: {
+                enabled: false,
+              },
+              preventOverflow: {
+                enabled: true,
+                boundariesElement: 'scrollParent',
+              },
+            }}
+          >
+            <animated.div style={accountProps}>
+              {accountActive ? (
+                <ProfileView close={handleClose} setDarkMode={setDarkMode} />
+              ) : null}
+            </animated.div>
           </Popper>
         </div>
       </div>
