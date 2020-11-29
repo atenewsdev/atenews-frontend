@@ -214,7 +214,7 @@ const Layout = ({ children, setDarkMode }) => {
   }, [router.pathname]);
 
   React.useEffect(() => {
-    if (!profile) {
+    if (!profile && formOpen) {
       setValue(2);
     }
   }, [formOpen]);
