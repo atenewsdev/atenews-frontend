@@ -30,9 +30,6 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" />
 
           <link rel="manifest" href="/manifest.json" />
-          <link rel="icon" href="/icons/cropped-atenews-header-logo-1-32x32.png" sizes="32x32" />
-          <link rel="icon" href="/icons/cropped-atenews-header-logo-1-192x192.png" sizes="192x192" />
-          <link rel="apple-touch-icon" href="/icons/cropped-atenews-header-logo-1-180x180.png" />
         </Head>
         <body>
           <Main />
