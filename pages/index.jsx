@@ -19,9 +19,9 @@ import {
   Typography, Grid,
 } from '@material-ui/core';
 
-const Title = dynamic(import('@/components/Home/Title'));
+import RecentArticles from '@/components/Home/RecentArticles';
 
-const RecentArticles = dynamic(import('@/components/Home/RecentArticles'));
+const Title = dynamic(import('@/components/Home/Title'));
 
 const ArticleGrid = dynamic(import('@/components/Home/ArticleGrid'));
 const Trending = dynamic(import('@/components/Home/Trending'));

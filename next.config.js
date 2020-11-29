@@ -1,5 +1,6 @@
 const withPWA = require('next-pwa');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+
+module.exports = withPWA({
   pwa: {
     dest: 'public',
     // importScripts: ['/firebase-messaging-sw.js'],
@@ -10,5 +11,3 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
     domains: ['atenews.ph'],
   },
 });
-
-module.exports = withPWA(withBundleAnalyzer({}));

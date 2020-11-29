@@ -41,8 +41,8 @@ import {
 
 import { Alert } from '@material-ui/lab';
 
-const Footer = dynamic(import('@/components/Layout/Footer'));
-const Header = dynamic(import('@/components/Layout/Header'));
+import Footer from '@/components/Layout/Footer';
+import Header from '@/components/Layout/Header';
 
 const AuthForm = dynamic(import('@/components/Auth/AuthForm'));
 
