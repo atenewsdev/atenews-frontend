@@ -50,7 +50,7 @@ if (!firebase.apps.length) {
         action: 'read',
         title: 'Read new article'
       }],
-      icon: '/icons/icon-512x512.png',
+      icon: '/icons/maskable_512x512.png',
       image: payload.data.featured_photo,
       tag: 'atenews-article',
       data: { ...payload.data },
