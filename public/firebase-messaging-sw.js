@@ -44,6 +44,7 @@ if (!firebase.apps.length) {
     }
     await localforage.setItem('atenews-notifs', JSON.stringify(newNotifs));
     self.registration.showNotification(payload.data.description, {
+      badge: '/icons/alpha.png',
       body: payload.data.title,
       actions: [{
         action: 'read',
