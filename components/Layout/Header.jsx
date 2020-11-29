@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import dynamic from 'next/dynamic';
 
-import Navigation from '@/components/Layout/Navigation';
-import AccountBar from '@/components/Layout/AccountBar';
-import MobileBar from '@/components/Layout/MobileBar';
+const Navigation = dynamic(import('@/components/Layout/Navigation'));
+const AccountBar = dynamic(import('@/components/Layout/AccountBar'));
+const MobileBar = dynamic(import('@/components/Layout/MobileBar'));
 
 const useStyles = makeStyles((theme) => ({
   margin: {

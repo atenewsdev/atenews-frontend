@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 
 import { NextSeo } from 'next-seo';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Title from '@/components/Home/Title';
 
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
@@ -20,7 +19,9 @@ import {
   Typography, Grid,
 } from '@material-ui/core';
 
-import RecentArticles from '@/components/Home/RecentArticles';
+const Title = dynamic(import('@/components/Home/Title'));
+
+const RecentArticles = dynamic(import('@/components/Home/RecentArticles'));
 
 const ArticleGrid = dynamic(import('@/components/Home/ArticleGrid'));
 const Trending = dynamic(import('@/components/Home/Trending'));

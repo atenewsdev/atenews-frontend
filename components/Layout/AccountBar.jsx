@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
-
+import dynamic from 'next/dynamic';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
@@ -21,8 +21,9 @@ import {
 } from '@material-ui/core';
 import { useAuth } from '@/utils/hooks/useAuth';
 import imageGenerator from '@/utils/imageGenerator';
-import NotificationView from '@/components/Layout/Popouts/Notification';
-import ProfileView from '@/components/Layout/Popouts/Profile';
+
+const NotificationView = dynamic(import('@/components/Layout/Popouts/Notification'));
+const ProfileView = dynamic(import('@/components/Layout/Popouts/Profile'));
 
 const TextField = withStyles({
   root: {
@@ -93,6 +94,10 @@ export default function AccountBar({ setDarkMode }) {
   }, [formOpen]);
 
   const handleClick = (event, button) => {
+    if (formOpen) {
+      setActiveButton('Account');
+      setAnchorEl(accountButton.current);
+    }
     if (activeButton === button) {
       setActiveButton(null);
       setAnchorEl(null);

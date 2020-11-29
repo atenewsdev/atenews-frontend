@@ -8,12 +8,15 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import WP from '@/utils/wordpress';
 
 import ReactHtmlParser from 'react-html-parser';
-import ArticlePage from '@/components/ArticlePage';
+
+import dynamic from 'next/dynamic';
 
 import { Grid, CircularProgress } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 import { ArticleProvider } from '@/utils/hooks/useArticle';
+
+const ArticlePage = dynamic(import('@/components/ArticlePage'));
 
 const useStyles = makeStyles(() => ({
   contentContainer: {

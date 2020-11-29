@@ -3,7 +3,6 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CommentField from '@/components/ArticlePage/Comments/CommentField';
 
 import WPGBlocks from 'react-gutenberg';
 
@@ -24,8 +23,11 @@ import {
   Hidden,
   Avatar,
 } from '@material-ui/core';
-import ShareButton from '@/components/ArticlePage/ShareButton';
-import Error404 from '@/components/404';
+
+const CommentField = dynamic(import('@/components/ArticlePage/Comments/CommentField'));
+
+const ShareButton = dynamic(import('@/components/ArticlePage/ShareButton'));
+const Error404 = dynamic(import('@/components/404'));
 
 const WriterInfo = dynamic(import('@/components/ArticlePage/WriterInfo'));
 const ReactArticle = dynamic(import('@/components/ArticlePage/Reacts/ReactArticle'));

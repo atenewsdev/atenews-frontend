@@ -1,21 +1,18 @@
 import React from 'react';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
-
-import Tag from '@/components/General/Tag';
 import slugGenerator from '@/utils/slugGenerator';
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
-
-import AuthForm from '@/components/Auth/AuthForm';
 
 import {
   Hidden,
@@ -44,8 +41,12 @@ import {
 
 import { Alert } from '@material-ui/lab';
 
-import Footer from '@/components/Layout/Footer';
-import Header from '@/components/Layout/Header';
+const Footer = dynamic(import('@/components/Layout/Footer'));
+const Header = dynamic(import('@/components/Layout/Header'));
+
+const AuthForm = dynamic(import('@/components/Auth/AuthForm'));
+
+const Tag = dynamic(import('@/components/General/Tag'));
 
 const TextField = withStyles({
   root: {
