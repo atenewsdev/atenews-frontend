@@ -47,6 +47,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const clearNotifs = async () => {
+    setNotifications([]);
+    await localforage.setItem('atenews-notifs', JSON.stringify([]));
+  };
+
   useEffect(() => {
     setAuthUser(firebase.auth().currentUser);
   }, [firebase.auth().currentUser]);
@@ -237,6 +242,7 @@ export const AuthProvider = ({ children }) => {
       notifications,
       newNotif,
       setNewNotif,
+      clearNotifs,
     }}
     >
       {children}

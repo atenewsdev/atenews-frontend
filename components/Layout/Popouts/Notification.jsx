@@ -11,6 +11,7 @@ import {
   Avatar,
   ListItemText,
   ListSubheader,
+  Button,
 } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const PopoutView = () => {
   const classes = useStyles();
   const router = useRouter();
-  const { notifications } = useAuth();
+  const { notifications, clearNotifs } = useAuth();
 
   return (
     <Paper variant="outlined" className={classes.viewContainer}>
@@ -59,6 +60,7 @@ const PopoutView = () => {
             <ListItemText primary={notification.title} secondary={notification.description} />
           </ListItem>
         ))}
+        <Button fullWidth variant="text" onClick={clearNotifs}>Clear Notifications</Button>
       </List>
     </Paper>
   );

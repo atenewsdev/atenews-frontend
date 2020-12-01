@@ -37,6 +37,7 @@ import {
   ListItemText,
   ListSubheader,
   Badge,
+  Button,
 } from '@material-ui/core';
 
 import { Alert } from '@material-ui/lab';
@@ -142,6 +143,7 @@ const Layout = ({ children, setDarkMode }) => {
     notifications,
     newNotif,
     setNewNotif,
+    clearNotifs,
   } = useAuth();
 
   const {
@@ -395,6 +397,7 @@ const Layout = ({ children, setDarkMode }) => {
                       />
                     </ListItem>
                   ))}
+                  <Button fullWidth variant="text" onClick={clearNotifs}>Clear Notifications</Button>
                 </List>
               )
               : null}
