@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }) => {
   }, [firebase.auth().currentUser]);
 
   useEffect(() => {
+    let unsub = () => { };
     if (profile && 'username' in profile) {
       localforage.getItem('fcm_token').then(async (token) => {
         setFcmToken(token);
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           setNotifications([]);
         }
-        firebase.messaging().onMessage(async (payload) => {
+        unsub = firebase.messaging().onMessage(async (payload) => {
           setNewNotif((prev) => prev + 1);
           let newNotifs = [...notifications];
           if (notifications) {
@@ -83,6 +84,10 @@ export const AuthProvider = ({ children }) => {
 
       firebase.analytics().setUserId(profile.id);
     }
+
+    return () => {
+      unsub();
+    };
   }, [profile]);
 
   useEffect(() => {
