@@ -188,6 +188,18 @@ const Layout = ({ children, setDarkMode }) => {
     setWarning(null);
   };
 
+  const submitSearch = () => {
+    router.push(`/search?query=${search}`);
+    setValue(0);
+    setOpen(false);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.charCode === 13) {
+      submitSearch();
+    }
+  };
+
   React.useEffect(() => {
     const largerWidthPages = [
       '/',
@@ -297,32 +309,24 @@ const Layout = ({ children, setDarkMode }) => {
             { value === 1
               ? (
                 <>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      router.push(`/search?query=${search}`);
-                      setValue(0);
-                      setOpen(false);
+                  <TextField
+                    variant="outlined"
+                    placeholder="Search Atenews"
+                    fullWidth
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment>
+                          <IconButton onClick={submitSearch}>
+                            <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
                     }}
-                  >
-                    <TextField
-                      variant="outlined"
-                      placeholder="Search Atenews"
-                      fullWidth
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment>
-                            <IconButton type="submit">
-                              <SearchIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      autoFocus
-                    />
-                  </form>
+                    autoFocus
+                  />
                   <Grid container spacing={0} component={Paper} variant="outlined" style={{ borderRadius: 10, overflow: 'hidden', marginTop: theme.spacing(4) }}>
                     <Paper variant="outlined" square className={classes.trendingHead}>
                       <Typography variant="h5">Trending</Typography>
