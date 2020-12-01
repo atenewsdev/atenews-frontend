@@ -196,6 +196,7 @@ const Layout = ({ children, setDarkMode }) => {
 
   const handleKeyPress = (event) => {
     if (event.charCode === 13) {
+      event.preventDefault();
       submitSearch();
     }
   };
