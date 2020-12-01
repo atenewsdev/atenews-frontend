@@ -376,7 +376,7 @@ const Layout = ({ children, setDarkMode }) => {
             { value === 2 && profile
               ? (
                 <List subheader={<ListSubheader>Recent Notifications</ListSubheader>}>
-                  {notifications.slice(0, 3).map((notification, i) => (
+                  {notifications.map((notification, i) => (
                     <ListItem
                       key={`${notification.slug}_${i}`}
                       button
