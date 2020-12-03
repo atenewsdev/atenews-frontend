@@ -10,7 +10,7 @@ export default function Page(props) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const [articlesRaw] = await Promise.all([
       WP.posts().categories(590),
@@ -22,9 +22,8 @@ export async function getStaticProps() {
         // eslint-disable-next-line no-underscore-dangle
         totalPages: articlesRaw._paging ? articlesRaw._paging.totalPages : 0,
       },
-      revalidate: 1,
     };
   } catch (err) {
-    return { props: { articlesRaw: [], category: 590, totalPages: 0 }, revalidate: 1 };
+    return { props: { articlesRaw: [], category: 590, totalPages: 0 } };
   }
 }
