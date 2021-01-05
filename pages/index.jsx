@@ -77,6 +77,8 @@ export default function Home({
 
   React.useEffect(() => {
     if (mode && oobCode) {
+      console.log(mode);
+      console.log(oobCode);
       switch (mode) {
         case 'resetPassword':
           // Display reset password handler and UI.
@@ -198,9 +200,9 @@ export async function getServerSideProps({ query }) {
         featuredPhoto: featuredPhoto[0],
         editorial: editorial[0],
         columns,
-        mode: query.mode,
-        oobCode: query.oobCode,
-        continueUrl: query.continueUrl,
+        mode: 'mode' in query ? query.mode : null,
+        oobCode: 'oobCode' in query ? query.oobCode : null,
+        continueUrl: 'continueUrl' in query ? query.continueUrl : null,
       },
     };
   } catch (err) {
