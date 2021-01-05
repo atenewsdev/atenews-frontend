@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 export const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
-  const alert = useAlert();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [warning, setWarning] = useState(null);
