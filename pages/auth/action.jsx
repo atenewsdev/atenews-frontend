@@ -13,36 +13,38 @@ const ActionAuth = () => {
 
   const { setSuccess, setError } = useError();
   React.useEffect(() => {
-    switch (router.query.mode) {
-      case 'resetPassword':
-        // Display reset password handler and UI.
-        setError('Reset password has not been implemented yet!');
-        router.push('/');
-        break;
-      case 'recoverEmail':
-        // Display email recovery handler and UI.
-        setError('Email recovery has not been implemented yet!');
-        router.push('/');
-        break;
-      case 'verifyEmail':
-        // Display email verification handler and UI.
-        firebase.auth().applyActionCode(router.query.oobCode).then(() => {
-          setSuccess('Successfully verified email!');
-          if (router.query.continueUrl) {
-            router.push(router.query.continueUrl);
-          } else {
-            router.push('/');
-          }
-        }).catch((err) => {
-          setError(err.message);
+    if (router.query.oobCode) {
+      switch (router.query.mode) {
+        case 'resetPassword':
+          // Display reset password handler and UI.
+          setError('Reset password has not been implemented yet!');
           router.push('/');
-        });
-        break;
-      default:
-        // Error: invalid mode.
-        break;
+          break;
+        case 'recoverEmail':
+          // Display email recovery handler and UI.
+          setError('Email recovery has not been implemented yet!');
+          router.push('/');
+          break;
+        case 'verifyEmail':
+          // Display email verification handler and UI.
+          firebase.auth().applyActionCode(router.query.oobCode).then(() => {
+            setSuccess('Successfully verified email!');
+            if (router.query.continueUrl) {
+              router.push(router.query.continueUrl);
+            } else {
+              router.push('/');
+            }
+          }).catch((err) => {
+            setError(err.message);
+            router.push('/');
+          });
+          break;
+        default:
+          // Error: invalid mode.
+          break;
+      }
     }
-  }, [router.query.mode, router.query.oobCode]);
+  }, [router.query.oobCode]);
 
   return (
     <Grid container justify="center" alignItems="center" spacing={2}>

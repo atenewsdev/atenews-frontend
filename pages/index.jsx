@@ -71,32 +71,34 @@ export default function Home({
 
   const { setSuccess, setError } = useError();
   React.useEffect(() => {
-    switch (mode) {
-      case 'resetPassword':
-        // Display reset password handler and UI.
-        setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-        break;
-      case 'recoverEmail':
-        // Display email recovery handler and UI.
-        setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-        break;
-      case 'verifyEmail':
-        // Display email verification handler and UI.
-        firebase.auth().applyActionCode(oobCode).then(() => {
-          firebase.auth().currentUser.reload();
-          setSuccess('Successfully verified email!');
-          if (continueUrl) {
-            router.push(continueUrl);
-          }
-        }).catch((err) => {
-          setError(err.message);
-        });
-        break;
-      default:
-        // Error: invalid mode.
-        break;
+    if (oobCode) {
+      switch (mode) {
+        case 'resetPassword':
+          // Display reset password handler and UI.
+          setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+          break;
+        case 'recoverEmail':
+          // Display email recovery handler and UI.
+          setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+          break;
+        case 'verifyEmail':
+          // Display email verification handler and UI.
+          firebase.auth().applyActionCode(oobCode).then(() => {
+            firebase.auth().currentUser.reload();
+            setSuccess('Successfully verified email!');
+            if (continueUrl) {
+              router.push(continueUrl);
+            }
+          }).catch((err) => {
+            setError(err.message);
+          });
+          break;
+        default:
+          // Error: invalid mode.
+          break;
+      }
     }
-  }, [mode]);
+  }, [oobCode]);
 
   return (
     <div className={classes.container}>
