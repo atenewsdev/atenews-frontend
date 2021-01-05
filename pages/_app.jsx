@@ -38,6 +38,10 @@ Router.onRouteChangeComplete = (url) => {
   firebase.analytics().logEvent('route_change', {
     url,
   });
+  
+  if (firebase.auth().currentUser) {
+    firebase.auth().currentUser.reload();
+  }
   NProgress.done();
 };
 
