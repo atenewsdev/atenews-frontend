@@ -28,6 +28,7 @@ import localforage from 'localforage';
 
 
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 NProgress.configure({
   showSpinner: false,
