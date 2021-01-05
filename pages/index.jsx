@@ -100,6 +100,7 @@ export default function Home({
             }
           }).catch((err) => {
             setError(err.message);
+            router.push('/');
           });
           break;
         default:
@@ -107,7 +108,7 @@ export default function Home({
           break;
       }
     }
-  }, []);
+  }, [oobCode]);
 
   return (
     <div className={classes.container}>
