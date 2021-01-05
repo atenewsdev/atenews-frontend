@@ -4,7 +4,7 @@ import {
 
 import firebase from '@/utils/firebase';
 
-import { useAlert } from 'react-alert';
+import { toast } from 'react-toastify';
 
 export const ErrorContext = createContext();
 
@@ -19,7 +19,16 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('error', {
         error,
       });
-      alert.error(error);
+
+      toast.error(error, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setError(null);
     }
   }, [error]);
@@ -29,7 +38,15 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('success', {
         success,
       });
-      alert.success(success);
+      toast.success(success, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setSuccess(null);
     }
   }, [success]);
@@ -39,7 +56,15 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('warning', {
         warning,
       });
-      alert.info(warning);
+      toast.warning(warning, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setWarning(null);
     }
   }, [warning]);
