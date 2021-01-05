@@ -65,40 +65,34 @@ export default function Home({
   } = useAuth();
   const router = useRouter();
 
-  const [mode] = React.useState(router.query.mode);
-  const [oobCode] = React.useState(router.query.oobCode);
-  const [continueUrl] = React.useState(router.query.continueUrl);
-
   const { setSuccess, setError } = useError();
   React.useEffect(() => {
-    if (oobCode) {
-      switch (mode) {
-        case 'resetPassword':
-          // Display reset password handler and UI.
-          setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          break;
-        case 'recoverEmail':
-          // Display email recovery handler and UI.
-          setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          break;
-        case 'verifyEmail':
-          // Display email verification handler and UI.
-          firebase.auth().applyActionCode(oobCode).then(() => {
-            firebase.auth().currentUser.reload();
-            setSuccess('Successfully verified email!');
-            if (continueUrl) {
-              router.push(continueUrl);
-            }
-          }).catch((err) => {
-            setError(err.message);
-          });
-          break;
-        default:
-          // Error: invalid mode.
-          break;
-      }
+    switch (router.query.mode) {
+      case 'resetPassword':
+        // Display reset password handler and UI.
+        setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'recoverEmail':
+        // Display email recovery handler and UI.
+        setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'verifyEmail':
+        // Display email verification handler and UI.
+        firebase.auth().applyActionCode(router.query.oobCode).then(() => {
+          firebase.auth().currentUser.reload();
+          setSuccess('Successfully verified email!');
+          if (router.query.continueUrl) {
+            router.push(router.query.continueUrl);
+          }
+        }).catch((err) => {
+          setError(err.message);
+        });
+        break;
+      default:
+        // Error: invalid mode.
+        break;
     }
-  }, [oobCode]);
+  }, [router.query]);
 
   return (
     <div className={classes.container}>
