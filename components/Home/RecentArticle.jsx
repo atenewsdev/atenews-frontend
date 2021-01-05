@@ -113,13 +113,11 @@ function RecentArticle({ article }) {
       >
         <Grid
           item
-          xs={12}
         >
           <Tag type={article.categories_detailed[0]} />
         </Grid>
         <Grid
           item
-          xs={12}
         >
           <Typography
             variant="body1"
@@ -130,7 +128,6 @@ function RecentArticle({ article }) {
         </Grid>
         <Grid
           item
-          xs={12}
         >
           <Grid
             container
@@ -140,6 +137,7 @@ function RecentArticle({ article }) {
           >
             <Grid
               item
+              xs
             >
               <ReactInfo
                 IconProps={{ className: classes.trendingStatsText }}
@@ -151,6 +149,7 @@ function RecentArticle({ article }) {
             </Grid>
             <Grid
               item
+              xs
             >
               <Grid
                 container
@@ -172,6 +171,7 @@ function RecentArticle({ article }) {
             </Grid>
             <Grid
               item
+              xs
             >
               <Grid
                 container
