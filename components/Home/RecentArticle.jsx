@@ -129,12 +129,14 @@ function RecentArticle({ article }) {
         </Grid>
         <Grid
           item
+          style={{ width: '100%' }}
         >
           <Grid
             container
             className={classes.trendingStats}
             justify="space-between"
             alignItems="baseline"
+            style={{ width: '100%' }}
           >
             <Grid
               item
