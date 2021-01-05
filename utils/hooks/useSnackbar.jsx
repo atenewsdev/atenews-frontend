@@ -4,9 +4,12 @@ import {
 
 import firebase from '@/utils/firebase';
 
+import { useAlert } from 'react-alert';
+
 export const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
+  const alert = useAlert();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [warning, setWarning] = useState(null);
@@ -16,6 +19,8 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('error', {
         error,
       });
+      alert.error(error);
+      setError(null);
     }
   }, [error]);
 
@@ -24,6 +29,8 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('success', {
         success,
       });
+      alert.success(success);
+      setSuccess(null);
     }
   }, [success]);
 
@@ -32,6 +39,8 @@ export const ErrorProvider = ({ children }) => {
       firebase.analytics().logEvent('warning', {
         warning,
       });
+      alert.info(warning);
+      setWarning(null);
     }
   }, [warning]);
 

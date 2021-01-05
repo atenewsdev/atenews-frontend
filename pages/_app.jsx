@@ -26,6 +26,10 @@ import firebase from '@/utils/firebase';
 
 import localforage from 'localforage';
 
+import { positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+import AlertTemplateDark from 'react-alert-template-oldschool-dark';
+
 NProgress.configure({
   showSpinner: false,
 });
@@ -55,6 +59,13 @@ export default function MyApp(props) {
   const { Component, pageProps } = props;
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [darkMode, setDarkMode] = React.useState(false);
+
+  const alertOptions = {
+    // you can also just use 'bottom center'
+    position: positions.BOTTOM_CENTER,
+    timeout: 5000,
+    offset: '30px',
+  }
 
   React.useEffect(() => {
     // Notification.requestPermission();
@@ -94,19 +105,21 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme(darkMode)}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <CacheProvider>
-            <ErrorProvider>
-              <AuthProvider>
-                <TrendingProvider>
-                  <Layout setDarkMode={setDarkMode}>
-                    <Component {...pageProps} />
-                  </Layout>
-                </TrendingProvider>
-              </AuthProvider>
-            </ErrorProvider>
-          </CacheProvider>
-        </MuiPickersUtilsProvider>
+        <AlertProvider template={darkMode ? AlertTemplateDark : AlertTemplate} {...alertOptions}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <CacheProvider>
+              <ErrorProvider>
+                <AuthProvider>
+                  <TrendingProvider>
+                    <Layout setDarkMode={setDarkMode}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </TrendingProvider>
+                </AuthProvider>
+              </ErrorProvider>
+            </CacheProvider>
+          </MuiPickersUtilsProvider>
+        </AlertProvider>
       </ThemeProvider>
     </>
   );

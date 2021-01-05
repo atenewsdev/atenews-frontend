@@ -10,7 +10,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import slugGenerator from '@/utils/slugGenerator';
 
-import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
 
@@ -39,8 +38,6 @@ import {
   Badge,
   Button,
 } from '@material-ui/core';
-
-import { Alert } from '@material-ui/lab';
 
 import Footer from '@/components/Layout/Footer';
 import Header from '@/components/Layout/Header';
@@ -146,15 +143,6 @@ const Layout = ({ children, setDarkMode }) => {
     clearNotifs,
   } = useAuth();
 
-  const {
-    error,
-    setError,
-    success,
-    setSuccess,
-    warning,
-    setWarning,
-  } = useError();
-
   const trending = useTrending();
 
   const [isLargeWidth, setIsLargeWidth] = React.useState(false);
@@ -165,30 +153,6 @@ const Layout = ({ children, setDarkMode }) => {
   const [open, setOpen] = React.useState(false);
 
   const [search, setSearch] = React.useState('');
-
-  const handleCloseError = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setError(null);
-  };
-
-  const handleCloseSuccess = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSuccess(null);
-  };
-
-  const handleCloseWarning = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setWarning(null);
-  };
 
   const submitSearch = () => {
     router.push(`/search?query=${search}`);
@@ -249,21 +213,6 @@ const Layout = ({ children, setDarkMode }) => {
         setDarkMode={setDarkMode}
       />
       <div className={isLargeWidth ? classes.homeContainer : classes.contentContainer}>
-        <Snackbar open={error !== null} autoHideDuration={3000} onClose={handleCloseError}>
-          <Alert onClose={handleCloseError} severity="error">
-            {error}
-          </Alert>
-        </Snackbar>
-        <Snackbar open={warning !== null} autoHideDuration={3000} onClose={handleCloseWarning}>
-          <Alert onClose={handleCloseWarning} severity="warning">
-            {warning}
-          </Alert>
-        </Snackbar>
-        <Snackbar open={success !== null} autoHideDuration={3000} onClose={handleCloseSuccess}>
-          <Alert onClose={handleCloseSuccess} severity="success">
-            {success}
-          </Alert>
-        </Snackbar>
         {children}
         <Footer />
       </div>
