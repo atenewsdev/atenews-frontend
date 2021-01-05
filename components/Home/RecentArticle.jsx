@@ -131,7 +131,6 @@ function RecentArticle({ article }) {
         >
           <Grid
             container
-            spacing={2}
             className={classes.trendingStats}
             justify="space-between"
           >
@@ -156,7 +155,7 @@ function RecentArticle({ article }) {
                 spacing={1}
                 alignItems="center"
               >
-                <Grid item>
+                <Grid item >
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
                 <Grid item>
