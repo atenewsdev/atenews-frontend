@@ -79,16 +79,15 @@ export default function Home({
 
   React.useEffect(() => {
     if (mode && oobCode && !applied) {
+      setApplied(true);
       switch (mode) {
         case 'resetPassword':
           // Display reset password handler and UI.
           setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          setApplied(true);
           break;
         case 'recoverEmail':
           // Display email recovery handler and UI.
           setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          setApplied(true);
           break;
         case 'verifyEmail':
           // Display email verification handler and UI.
@@ -100,7 +99,7 @@ export default function Home({
           }).catch((err) => {
             setError(err.message);
           });
-          setApplied(true);
+          
           break;
         default:
           // Error: invalid mode.
