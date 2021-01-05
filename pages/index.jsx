@@ -55,7 +55,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home({
-  recentArticles, news, features, featuredPhoto, editorial, columns,
+  recentArticles, 
+  news, 
+  features, 
+  featuredPhoto, 
+  editorial,
+  columns,
+  mode,
+  oobCode,
+  continueUrl,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -66,33 +74,38 @@ export default function Home({
   const router = useRouter();
 
   const { setSuccess, setError } = useError();
+
   React.useEffect(() => {
-    switch (router.query.mode) {
-      case 'resetPassword':
-        // Display reset password handler and UI.
-        setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-        break;
-      case 'recoverEmail':
-        // Display email recovery handler and UI.
-        setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-        break;
-      case 'verifyEmail':
-        // Display email verification handler and UI.
-        firebase.auth().applyActionCode(router.query.oobCode).then(() => {
-          firebase.auth().currentUser.reload();
-          setSuccess('Successfully verified email!');
-          if (router.query.continueUrl) {
-            router.push(router.query.continueUrl);
-          }
-        }).catch((err) => {
-          setError(err.message);
-        });
-        break;
-      default:
-        // Error: invalid mode.
-        break;
+    if (mode && oobCode) {
+      switch (mode) {
+        case 'resetPassword':
+          // Display reset password handler and UI.
+          setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+          break;
+        case 'recoverEmail':
+          // Display email recovery handler and UI.
+          setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+          break;
+        case 'verifyEmail':
+          // Display email verification handler and UI.
+          firebase.auth().applyActionCode(oobCode).then(() => {
+            firebase.auth().currentUser.reload();
+            setSuccess('Successfully verified email!');
+            if (continueUrl) {
+              router.push(continueUrl);
+            } else {
+              router.push('/');
+            }
+          }).catch((err) => {
+            setError(err.message);
+          });
+          break;
+        default:
+          // Error: invalid mode.
+          break;
+      }
     }
-  }, [router.query]);
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -167,7 +180,7 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
   try {
     const [recentArticles, news, features, featuredPhoto, editorial, columns] = await Promise.all([
       WP.posts().perPage(5),
@@ -185,6 +198,9 @@ export async function getServerSideProps() {
         featuredPhoto: featuredPhoto[0],
         editorial: editorial[0],
         columns,
+        mode: query.mode,
+        oobCode: query.oobCode,
+        continueUrl: query.continueUrl,
       },
     };
   } catch (err) {
