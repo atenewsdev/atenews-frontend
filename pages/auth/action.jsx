@@ -11,13 +11,9 @@ const ActionAuth = () => {
   const router = useRouter();
   const theme = useTheme();
 
-  const [mode] = React.useState(router.query.mode);
-  const [oobCode] = React.useState(router.query.oobCode);
-  const [continueUrl] = React.useState(router.query.continueUrl);
-
   const { setSuccess, setError } = useError();
   React.useEffect(() => {
-    switch (mode) {
+    switch (router.query.mode) {
       case 'resetPassword':
         // Display reset password handler and UI.
         setError('Reset password has not been implemented yet!');
@@ -30,10 +26,10 @@ const ActionAuth = () => {
         break;
       case 'verifyEmail':
         // Display email verification handler and UI.
-        firebase.auth().applyActionCode(oobCode).then(() => {
+        firebase.auth().applyActionCode(router.query.oobCode).then(() => {
           setSuccess('Successfully verified email!');
-          if (continueUrl) {
-            router.push(continueUrl);
+          if (router.query.continueUrl) {
+            router.push(router.query.continueUrl);
           } else {
             router.push('/');
           }
@@ -46,7 +42,7 @@ const ActionAuth = () => {
         // Error: invalid mode.
         break;
     }
-  }, [mode]);
+  }, [router.query.mode, router.query.oobCode]);
 
   return (
     <Grid container justify="center" alignItems="center" spacing={2}>
