@@ -108,8 +108,9 @@ function RecentArticle({ article }) {
       <Grid
         container
         direction="column"
+        justify="flex-start"
+        alignItems="flex-start"
         spacing={1}
-        justify="space-between"
       >
         <Grid
           item
@@ -155,7 +156,7 @@ function RecentArticle({ article }) {
                 spacing={1}
                 alignItems="center"
               >
-                <Grid item >
+                <Grid item>
                   <CommentIcon className={classes.trendingStatsText} />
                 </Grid>
                 <Grid item>
