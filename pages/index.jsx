@@ -75,40 +75,38 @@ export default function Home({
 
   const { setSuccess, setError } = useError();
 
-  React.useEffect(() => {
-    if (mode && oobCode) {
-      console.log(mode);
-      console.log(oobCode);
-      switch (mode) {
-        case 'resetPassword':
-          // Display reset password handler and UI.
-          setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          break;
-        case 'recoverEmail':
-          // Display email recovery handler and UI.
-          setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
-          break;
-        case 'verifyEmail':
-          // Display email verification handler and UI.
-          firebase.auth().applyActionCode(oobCode).then(() => {
-            firebase.auth().currentUser.reload();
-            setSuccess('Successfully verified email!');
-            if (continueUrl) {
-              router.push(continueUrl);
-            } else {
-              router.push('/');
-            }
-          }).catch((err) => {
-            setError(err.message);
+  if (mode && oobCode) {
+    console.log(mode);
+    console.log(oobCode);
+    switch (mode) {
+      case 'resetPassword':
+        // Display reset password handler and UI.
+        setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'recoverEmail':
+        // Display email recovery handler and UI.
+        setError('Email recovery has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+        break;
+      case 'verifyEmail':
+        // Display email verification handler and UI.
+        firebase.auth().applyActionCode(oobCode).then(() => {
+          firebase.auth().currentUser.reload();
+          setSuccess('Successfully verified email!');
+          if (continueUrl) {
+            router.push(continueUrl);
+          } else {
             router.push('/');
-          });
-          break;
-        default:
-          // Error: invalid mode.
-          break;
-      }
+          }
+        }).catch((err) => {
+          setError(err.message);
+          router.push('/');
+        });
+        break;
+      default:
+        // Error: invalid mode.
+        break;
     }
-  }, [oobCode]);
+  }
 
   return (
     <div className={classes.container}>
