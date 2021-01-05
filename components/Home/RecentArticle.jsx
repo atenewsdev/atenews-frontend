@@ -134,10 +134,11 @@ function RecentArticle({ article }) {
             container
             className={classes.trendingStats}
             justify="space-between"
+            alignItems="baseline"
           >
             <Grid
               item
-              xs
+              xs={4}
             >
               <ReactInfo
                 IconProps={{ className: classes.trendingStatsText }}
@@ -149,7 +150,7 @@ function RecentArticle({ article }) {
             </Grid>
             <Grid
               item
-              xs
+              xs={4}
             >
               <Grid
                 container
@@ -171,7 +172,7 @@ function RecentArticle({ article }) {
             </Grid>
             <Grid
               item
-              xs
+              xs={4}
             >
               <Grid
                 container
