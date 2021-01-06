@@ -31,7 +31,7 @@ export default function SocialCounts({
       <Grid container>
         <Grid item>
           <div className={classes.iconStats}>
-            <Grid container alignItems="center" spacing={1}>
+            <Grid container alignItems="center" spacing={1} wrap="nowrap">
               <Grid item>
                 <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
               </Grid>
@@ -50,7 +50,7 @@ export default function SocialCounts({
         </Grid>
         <Grid item>
           <div className={classes.iconStats}>
-            <Grid container alignItems="center" spacing={1}>
+            <Grid container alignItems="center" spacing={1} wrap="nowrap">
               <Grid item>
                 <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
               </Grid>

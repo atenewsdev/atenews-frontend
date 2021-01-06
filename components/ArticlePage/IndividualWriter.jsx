@@ -84,7 +84,7 @@ export default handleViewport((props) => {
           }
         }}
       >
-        <Grid container direction="row" alignItems="center" spacing={2} component="div" key={author.user_nicename}>
+        <Grid container direction="row" alignItems="center" spacing={2} component="div" key={author.user_nicename} wrap="nowrap">
           <Grid item>
             <Avatar className={classes.avatar} src={imageGenerator(image, 60)} />
           </Grid>

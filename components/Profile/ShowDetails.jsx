@@ -58,7 +58,7 @@ export default function ShowDetails({
         <Grid container spacing={2}>
           <Grid item>
             <div className={classes.iconStats}>
-              <Grid container spacing={1}>
+              <Grid container spacing={1} wrap="nowrap">
                 <Grid item>
                   <MailIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                 </Grid>

@@ -48,7 +48,7 @@ export default function ConnectButtons({ profile: rawProfile }) {
           <Grid container>
             <Grid item>
               <div className={classes.iconStats}>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} wrap="nowrap">
                   <Grid item>
                     <TwitterIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                   </Grid>
@@ -66,7 +66,7 @@ export default function ConnectButtons({ profile: rawProfile }) {
           <Grid container>
             <Grid item>
               <div className={classes.iconStats}>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} wrap="nowrap">
                   <Grid item>
                     <FacebookIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
                   </Grid>
