@@ -45,38 +45,30 @@ export default function ConnectButtons({ profile: rawProfile }) {
     <Grid container spacing={2} style={{ marginTop: theme.spacing(2) }}>
       { twitterFound ? (
         <Grid item>
-          <Grid container>
-            <Grid item>
-              <div className={classes.iconStats}>
-                <Grid container spacing={1} wrap="nowrap">
-                  <Grid item>
-                    <TwitterIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body1">{`@${profile.twitterUsername}`}</Typography>
-                  </Grid>
-                </Grid>
-              </div>
+          <div className={classes.iconStats}>
+            <Grid container spacing={1} wrap="nowrap">
+              <Grid item>
+                <TwitterIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">{`@${profile.twitterUsername}`}</Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
         </Grid>
       ) : null}
       { facebookFound ? (
         <Grid item>
-          <Grid container>
-            <Grid item>
-              <div className={classes.iconStats}>
-                <Grid container spacing={1} wrap="nowrap">
-                  <Grid item>
-                    <FacebookIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body1">{profile.facebookUsername}</Typography>
-                  </Grid>
-                </Grid>
-              </div>
+          <div className={classes.iconStats}>
+            <Grid container spacing={1} wrap="nowrap">
+              <Grid item>
+                <FacebookIcon color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">{profile.facebookUsername}</Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
         </Grid>
       ) : null}
     </Grid>
