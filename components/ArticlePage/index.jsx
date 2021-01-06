@@ -84,9 +84,7 @@ export default function Page({ post, relatedPosts }) {
   const leaveWriterViewport = () => {
     setShowSideWriterBlock(true);
   };
-
-  const isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-
+  
   return (
     <div className={classes.container}>
       <Hidden smDown>
@@ -222,16 +220,14 @@ export default function Page({ post, relatedPosts }) {
 
       <div style={{ height: theme.spacing(8) }} />
       
-      {!isSafari ? (
-        <LazyLoadComponent>
-          <ReadMore
-            relatedPosts={relatedPosts}
-            postId={post.id}
-            onLeaveViewport={leaveWriterViewport}
-            onEnterViewport={enterWriterViewport}
-          />
-        </LazyLoadComponent>
-      ) : null}
+      <LazyLoadComponent>
+        <ReadMore
+          relatedPosts={relatedPosts}
+          postId={post.id}
+          onLeaveViewport={leaveWriterViewport}
+          onEnterViewport={enterWriterViewport}
+        />
+      </LazyLoadComponent>
 
     </div>
   );
