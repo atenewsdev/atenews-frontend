@@ -112,6 +112,7 @@ function RecentArticle({ article }) {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',
+        border: 0,
       } : {
         padding: theme.spacing(2),
       }}
