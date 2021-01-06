@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentArticle({ article }) {
+function RecentArticle({ article, mobile }) {
   const classes = useStyles();
   const { getDocument } = useFirebaseDatabase();
 
@@ -104,99 +104,109 @@ function RecentArticle({ article }) {
     <Paper
       variant="outlined"
       className={classes.trendingItem}
+      style={mobile ? {
+        background: `url(${imageGenerator(article.featured_image_src, 600)})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        color: 'white',
+      } : null}
     >
-      <Grid
-        container
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        spacing={1}
-      >
+      <div style={mobile ? {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        } : null}>
         <Grid
-          item
-        >
-          <Tag type={article.categories_detailed[0]} />
-        </Grid>
-        <Grid
-          item
-        >
-          <Typography
-            variant="body1"
-            component="div"
-            className={classes.twoLineText}
-            dangerouslySetInnerHTML={{ __html: article.title.rendered }}
-          />
-        </Grid>
-        <Grid
-          item
-          style={{ width: '100%' }}
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="flex-start"
+          spacing={1}
         >
           <Grid
-            container
-            className={classes.trendingStats}
-            justify="space-between"
-            alignItems="baseline"
+            item
+          >
+            <Tag type={article.categories_detailed[0]} />
+          </Grid>
+          <Grid
+            item
+          >
+            <Typography
+              variant="body1"
+              component="div"
+              className={classes.twoLineText}
+              dangerouslySetInnerHTML={{ __html: article.title.rendered }}
+            />
+          </Grid>
+          <Grid
+            item
             style={{ width: '100%' }}
           >
             <Grid
-              item
-              xs={4}
-            >
-              <ReactInfo
-                IconProps={{ className: classes.trendingStatsText }}
-                TextProps={{ className: classes.trendingStatsText }}
-                GridProps={{ alignItems: 'center' }}
-                socialStats={socialStats}
-                disableHover
-              />
-            </Grid>
-            <Grid
-              item
-              xs={4}
+              container
+              className={classes.trendingStats}
+              justify="space-between"
+              alignItems="baseline"
+              style={{ width: '100%' }}
             >
               <Grid
-                container
-                spacing={1}
-                alignItems="center"
+                item
+                xs={4}
               >
-                <Grid item>
-                  <CommentIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography
-                    className={classes.trendingStatsText}
-                    variant="subtitle2"
-                  >
-                    {socialStats ? socialStats.commentCount : 0}
-                  </Typography>
+                <ReactInfo
+                  IconProps={{ className: classes.trendingStatsText }}
+                  TextProps={{ className: classes.trendingStatsText }}
+                  GridProps={{ alignItems: 'center' }}
+                  socialStats={socialStats}
+                  disableHover
+                />
+              </Grid>
+              <Grid
+                item
+                xs={4}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <CommentIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography
+                      className={classes.trendingStatsText}
+                      variant="subtitle2"
+                    >
+                      {socialStats ? socialStats.commentCount : 0}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-            >
               <Grid
-                container
-                spacing={1}
-                alignItems="center"
+                item
+                xs={4}
               >
-                <Grid item>
-                  <ShareIcon className={classes.trendingStatsText} />
-                </Grid>
-                <Grid item>
-                  <Typography
-                    className={classes.trendingStatsText}
-                    variant="subtitle2"
-                  >
-                    {socialStats ? socialStats.shareCount || 0 : 0}
-                  </Typography>
+                <Grid
+                  container
+                  spacing={1}
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <ShareIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography
+                      className={classes.trendingStatsText}
+                      variant="subtitle2"
+                    >
+                      {socialStats ? socialStats.shareCount || 0 : 0}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </Paper>
   );
 }
