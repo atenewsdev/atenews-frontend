@@ -12,6 +12,8 @@ import {
 
 import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
 
+import imageGenerator from '@/utils/imageGenerator';
+
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
     width: '100%',
