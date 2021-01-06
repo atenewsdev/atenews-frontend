@@ -69,8 +69,6 @@ const CommentReplyTemplate = ({
     },
     replies: { repliesSocialStats, setRepliesSocialStats },
   } = useArticle();
-
-  console.log(timestamp);
   const { profile, authUser } = useAuth();
   const { setError, setSuccess } = useError();
 
@@ -238,9 +236,9 @@ const CommentReplyTemplate = ({
                   <Grid item>
                     <Typography variant="body1">{comment}</Typography>
                   </Grid>
-                  {/*<Grid item>
+                  <Grid item>
                     <Typography variant="caption"><i>{formatDistanceToNow(new Date(timestamp || null), { addSuffix: true })}</i></Typography>
-                  </Grid>*/}
+                  </Grid>
                 </Grid>
               </Paper>
               {isOwner() ? (

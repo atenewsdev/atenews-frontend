@@ -135,7 +135,7 @@ const Article = ({ article, topImage }) => {
                             <ClockIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="caption">{ formatDistanceToNow(new Date(article.date), { addSuffix: true }) }</Typography>
+                            <Typography variant="caption">{ formatDistanceToNow(new Date(parseInt(article.date)), { addSuffix: true }) }</Typography>
                           </Grid>
                         </Grid>
                       </Grid>
