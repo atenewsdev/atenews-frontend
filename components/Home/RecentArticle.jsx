@@ -117,7 +117,7 @@ function RecentArticle({ article }) {
       }}
     >
       <div style={xsDown ? {
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
           padding: theme.spacing(2),
           width: '100%'
         } : { width: '100%' }}>
