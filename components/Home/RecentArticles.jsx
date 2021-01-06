@@ -269,7 +269,7 @@ function RecentArticles({ articles }) {
             onMouseOver={() => onHover({ index, ...article })}
             ref={elRefs[index]}
           >
-            <RecentArticle article={article} mobile />
+            <RecentArticle article={article} />
           </CardActionArea>
         )) }
       </Grid>

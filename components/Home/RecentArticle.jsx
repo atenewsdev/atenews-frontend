@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Tag from '@/components/General/Tag';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
@@ -7,7 +7,7 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 import ReactInfo from '@/components/Social/ReactInfo';
 
 import {
-  Typography, Paper, Grid,
+  Typography, Paper, Grid, useMediaQuery,
 } from '@material-ui/core';
 
 import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: 0,
     borderRight: 0,
     borderLeft: 0,
-    padding: theme.spacing(2),
   },
   trendingStats: {
     color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
@@ -86,8 +85,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentArticle({ article, mobile }) {
+function RecentArticle({ article }) {
   const classes = useStyles();
+  const theme = useTheme();
+  const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
   const { getDocument } = useFirebaseDatabase();
 
   const [socialStats, setSocialStats] = React.useState(null);
@@ -106,16 +107,20 @@ function RecentArticle({ article, mobile }) {
     <Paper
       variant="outlined"
       className={classes.trendingItem}
-      style={mobile ? {
+      style={xsDown ? {
         background: `url(${imageGenerator(article.featured_image_src, 600)})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',
-      } : null}
+      } : {
+        padding: theme.spacing(2),
+      }}
     >
-      <div style={mobile ? {
-          backgroundColor: 'rgba(0, 0, 0, 0.5)'
-        } : null}>
+      <div style={xsDown ? {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          padding: theme.spacing(2),
+          width: '100%'
+        } : { width: '100%' }}>
         <Grid
           container
           direction="column"
@@ -147,7 +152,7 @@ function RecentArticle({ article, mobile }) {
               className={classes.trendingStats}
               justify="space-between"
               alignItems="baseline"
-              style={{ width: '100%' }}
+              style={xsDown ? { width: '100%', color: 'white' } : { width: '100%' }}
             >
               <Grid
                 item
