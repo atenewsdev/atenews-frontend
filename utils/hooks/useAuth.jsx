@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }) => {
       password,
       username
     }),
-  }).then(() => {
+  }).then(response => response.json()).then(() => {
     callback();
     setSuccess('Registration success! Email verification is required to interact with the community.');
   }).catch((err) => {

@@ -1,10 +1,13 @@
 import admin from '@/utils/firebaseAdmin';
 
 export default async (req, res) => {
+  let email = '', username = '', password = '';
   if (req.method === 'POST') {
     // Process a POST request
     const DOMAIN = 'https://beta.atenews.ph'
-    const { email, username, password } = req.body;
+    email = req.body.email;
+    username = req.body.username;
+    password = req.body.password;
     try {
       const user = await admin.auth().createUser({
         email,
