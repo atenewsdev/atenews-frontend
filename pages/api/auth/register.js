@@ -121,7 +121,6 @@ export default async (req, res) => {
                     </style>
                   </head>
                   <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-                    <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Are you ready to help us end the silence of the gagged?</span>
                     <center>
                       <img src="${DOMAIN}/logo-blue.png" width="80" style="margin-top: 20px;" />
                     </center>
@@ -195,7 +194,7 @@ export default async (req, res) => {
       ]);
       res.status(200).json({ message: 'success' });
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json({...err, email, username, password});
     }
   } else {
     res.status(404).send();
