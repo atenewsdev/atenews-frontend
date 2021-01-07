@@ -58,6 +58,29 @@ export default function VerifyEmailButton() {
     authUser,
   } = useAuth();
 
+  const verifyAction = () => {
+    var params = {
+      email: authUser.email
+    };
+
+    var formBody = [];
+    for (var property in params) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(params[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    return fetch('/api/auth/verify', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: formBody,
+    }).then(response => response.json());
+  }
+
   if (!authUser.emailVerified) {
     return (
       <Button
@@ -66,9 +89,10 @@ export default function VerifyEmailButton() {
         size="small"
         disabled={timerRunning}
         onClick={() => {
-          authUser.sendEmailVerification();
-          setSuccess('Email sent! Please check your inbox and spam folder for the verification link.');
-          initiateTimer();
+          verifyAction().then(() => {
+            setSuccess('Email sent! Please check your inbox and spam folder for the verification link.');
+            initiateTimer();
+          });
         }}
       >
         Verify Email
