@@ -7,9 +7,7 @@ export default async (req, res) => {
   const accessToken = (await admin.firestore().collection('keys').doc('facebook').get()).data().accessToken;
   const bearerToken = (await admin.firestore().collection('keys').doc('twitter').get()).data().bearerToken;
 
-  await Promise.all(Object.keys(articles).sort((a, b) => {
-    return articles[b].timestamp - articles[a].timestamp;
-  }).slice(0, 20).map(async (slug) => {
+  await Promise.all(Object.keys(articles).map(async (slug) => {
     const article = articles[slug];
     let data = null;
     let twitterData = null;
