@@ -193,10 +193,10 @@ export default async (req, res) => {
             },
           }),
       ]);
+      res.status(200).json({ message: 'success' });
     } catch (err) {
       res.status(500).json(err);
     }
-    res.status(200).json({ message: 'success' });
   } else {
     res.status(404).send();
     // Handle any other HTTP method
