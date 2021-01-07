@@ -156,13 +156,8 @@ export const AuthProvider = ({ children }) => {
       },
       body: formBody,
     }).then(response => response.json()).then(() => {
-      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-        callback();
-        setSuccess('Registration success! Email verification is required to interact with the community.');
-      }).catch((err) => {
-        error();
-        setError(err.message);
-      });
+      callback();
+      setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       error();
       setError(err.message);
