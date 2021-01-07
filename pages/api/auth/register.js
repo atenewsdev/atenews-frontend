@@ -4,7 +4,7 @@ export default async (req, res) => {
   let email = '', username = '', password = '';
   if (req.method === 'POST') {
     // Process a POST request
-    const DOMAIN = 'https://beta.atenews.ph'
+    const DOMAIN = process.env.NEXT_PUBLIC_URL
     email = req.body.email;
     username = req.body.username;
     password = req.body.password;
@@ -200,7 +200,7 @@ export default async (req, res) => {
       res.status(500).json({...err, email, username, password});
     }
   } else {
-    res.status(404).send();
+    res.status(404).send({ message: 'not found' });
     // Handle any other HTTP method
   }
 }
