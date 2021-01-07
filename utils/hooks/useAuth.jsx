@@ -133,21 +133,23 @@ export const AuthProvider = ({ children }) => {
     .doc(`users/${firebase.auth().currentUser.uid}`)
     .update(document);
 
-  const registerEmail = (email, password, username, callback, error) => firebase.auth()
-    .createUserWithEmailAndPassword(email, password).then(async () => {
-      callback();
-      await Promise.all([
-        firebase.auth().currentUser.sendEmailVerification(),
-        saveDocument(`users/${firebase.auth().currentUser.uid}`, {
-          username,
-          displayName: username,
-        }),
-      ]);
-      setSuccess('Registration success! Email verification is required to interact with the community.');
-    }).catch((err) => {
-      error();
-      setError(err.message);
-    });
+  const registerEmail = (email, password, username, callback, error) => fetch('/api/auth/register', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      username
+    }),
+  }).then(() => {
+    callback();
+    setSuccess('Registration success! Email verification is required to interact with the community.');
+  }).catch((err) => {
+    error();
+    setError(err.message);
+  });
 
   const loginWithFacebook = () => firebase.auth()
     .signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
