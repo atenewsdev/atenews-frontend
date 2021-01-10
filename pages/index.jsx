@@ -55,10 +55,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home({
-  recentArticles, 
-  news, 
-  features, 
-  featuredPhoto, 
+  recentArticles,
+  news,
+  features,
+  featuredPhoto,
   editorial,
   columns,
   mode,
@@ -99,7 +99,7 @@ export default function Home({
           }).catch((err) => {
             setError(err.message);
           });
-          
+
           break;
         default:
           // Error: invalid mode.

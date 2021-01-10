@@ -26,7 +26,6 @@ import firebase from '@/utils/firebase';
 
 import localforage from 'localforage';
 
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -42,7 +41,7 @@ Router.onRouteChangeComplete = (url) => {
   firebase.analytics().logEvent('route_change', {
     url,
   });
-  
+
   if (firebase.auth().currentUser) {
     firebase.auth().currentUser.reload();
   }
@@ -104,7 +103,7 @@ export default function MyApp(props) {
               <AuthProvider>
                 <TrendingProvider>
                   <Layout setDarkMode={setDarkMode}>
-                    <ToastContainer 
+                    <ToastContainer
                       position="bottom-center"
                       autoClose={5000}
                       hideProgressBar={false}

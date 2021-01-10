@@ -84,7 +84,7 @@ export default function Page({ post, relatedPosts }) {
   const leaveWriterViewport = () => {
     setShowSideWriterBlock(true);
   };
-  
+
   return (
     <div className={classes.container}>
       <Hidden smDown>
@@ -93,7 +93,7 @@ export default function Page({ post, relatedPosts }) {
       <Hidden mdUp>
         <Typography variant="h4" component="h1" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       </Hidden>
-      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy') }</Typography>
+      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy (h:mm a)') }</Typography>
       <Paper
         elevation={0}
         style={{
@@ -219,7 +219,7 @@ export default function Page({ post, relatedPosts }) {
       <Divider />
 
       <div style={{ height: theme.spacing(8) }} />
-      
+
       <LazyLoadComponent>
         <ReadMore
           relatedPosts={relatedPosts}
