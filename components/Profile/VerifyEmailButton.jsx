@@ -58,18 +58,18 @@ export default function VerifyEmailButton() {
     authUser,
   } = useAuth();
 
-  const verifyAction = () => {
-    var params = {
-      email: authUser.email
+  const verifyAction = (email) => {
+    const params = {
+      email,
     };
 
-    var formBody = [];
-    for (var property in params) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(params[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
+    let formBody = [];
+    Object.keys(params).forEach((property) => {
+      const encodedKey = encodeURIComponent(property);
+      const encodedValue = encodeURIComponent(params[property]);
+      formBody.push(`${encodedKey}=${encodedValue}`);
+    });
+    formBody = formBody.join('&');
 
     return fetch('/api/auth/verify', {
       method: 'POST',
@@ -78,8 +78,8 @@ export default function VerifyEmailButton() {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       body: formBody,
-    }).then(response => response.json());
-  }
+    }).then((response) => response.json());
+  };
 
   if (!authUser.emailVerified) {
     return (
@@ -89,7 +89,7 @@ export default function VerifyEmailButton() {
         size="small"
         disabled={timerRunning}
         onClick={() => {
-          verifyAction().then(() => {
+          verifyAction(authUser.email).then(() => {
             setSuccess('Email sent! Please check your inbox and spam folder for the verification link.');
             initiateTimer();
           });

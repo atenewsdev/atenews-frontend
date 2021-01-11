@@ -7,9 +7,6 @@ export default async (req, res) => {
 
   const roles = Object.keys(req.body).filter((key) => key.includes('roles')).map((key) => req.body[key]);
 
-  console.log(roles);
-  console.log(req.body);
-
   if (email && apiKey === process.env.NEXT_PUBLIC_WP_USER_KEY) {
     const querySnapshot = await admin.firestore().collection('users').where('email', '==', email).get();
     if (querySnapshot.docs.length > 0) {

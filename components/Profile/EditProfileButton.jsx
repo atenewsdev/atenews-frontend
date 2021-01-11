@@ -80,6 +80,29 @@ export default function EditProfileButton({
     setConfirmPasswordDialog(true);
   };
 
+  const verifyAction = (tEmail) => {
+    const params = {
+      email: tEmail,
+    };
+
+    let formBody = [];
+    Object.keys(params).forEach((property) => {
+      const encodedKey = encodeURIComponent(property);
+      const encodedValue = encodeURIComponent(params[property]);
+      formBody.push(`${encodedKey}=${encodedValue}`);
+    });
+    formBody = formBody.join('&');
+
+    return fetch('/api/auth/verify', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: formBody,
+    }).then((response) => response.json());
+  };
+
   const handleEditProfile = async () => {
     if (editMode) {
       setUpdating(true);
@@ -114,7 +137,7 @@ export default function EditProfileButton({
       try {
         if (email !== backup.email) {
           await firebaseUser.updateEmail(email);
-          await firebase.auth().currentUser.sendEmailVerification();
+          await verifyAction(email);
         }
         await firebase.firestore().collection('users').doc(authUser.uid).update({
           displayName,
