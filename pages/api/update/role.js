@@ -2,9 +2,12 @@ import admin from '@/utils/firebaseAdmin';
 
 export default async (req, res) => {
   const {
-    id, email, roles, api_key: apiKey,
+    id, email, api_key: apiKey,
   } = req.body;
 
+  const roles = Object.keys(req.body).filter((key) => key.includes('roles')).map((key) => req.body[key]);
+
+  console.log(roles);
   console.log(req.body);
 
   if (email && apiKey === process.env.NEXT_PUBLIC_WP_USER_KEY) {
