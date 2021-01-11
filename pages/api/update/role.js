@@ -1,9 +1,11 @@
 import admin from '@/utils/firebaseAdmin';
 
 export default async (req, res) => {
-  let { id, email, roles, api_key } = req.body;
+  const {
+    id, email, roles, api_key: apiKey,
+  } = req.body;
 
-  if (email && api_key === process.env.NEXT_PUBLIC_WP_USER_KEY) {
+  if (email && apiKey === process.env.NEXT_PUBLIC_WP_USER_KEY) {
     const querySnapshot = await admin.firestore().collection('users').where('email', '==', email).get();
     if (querySnapshot.docs.length > 0) {
       await admin.firestore().collection('users').doc(querySnapshot.docs[0].id).update({
@@ -18,9 +20,9 @@ export default async (req, res) => {
 
     res.status(200).send({
       email,
-      roles
+      roles,
     });
   } else {
-    res.status(500).send('WP is required.')
+    res.status(500).send('WP is required.');
   }
-}
+};

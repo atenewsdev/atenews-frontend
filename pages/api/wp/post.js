@@ -2,14 +2,23 @@ import admin from '@/utils/firebaseAdmin';
 import trendFunction from '@/utils/trendFunction';
 
 export default async (req, res) => {
-  let { title, slug, date, categories_detailed, trashed, api_key } = req.body;
+  const {
+    title, slug, date, categories_detailed: categoriesDetailed, trashed, api_key: apiKey,
+  } = req.body;
 
-  if (title && slug && date && categories_detailed && api_key === process.env.NEXT_PUBLIC_WP_ARTICLE_KEY && trashed !== null) {
+  if (
+    title
+    && slug
+    && date
+    && categoriesDetailed
+    && apiKey === process.env.NEXT_PUBLIC_WP_ARTICLE_KEY
+    && trashed !== null
+  ) {
     const categories = {};
     let i = 0;
-    categories_detailed.forEach((category) => {
-      const { term_id, name, slug } = category;
-      categories[i] = { term_id, name, slug };
+    categoriesDetailed.forEach((category) => {
+      const { term_id: termId, name, slug: catSlug } = category;
+      categories[i] = { termId, name, catSlug };
       i += 1;
     });
 
@@ -32,23 +41,23 @@ export default async (req, res) => {
       trashed: trashed === '1',
     });
 
-    await Promise.all(categories_detailed.map(async (category) => {
+    await Promise.all(categoriesDetailed.map(async (category) => {
       await admin.messaging().send({
         data: {
           title,
-          categories_detailed,
+          categoriesDetailed,
           slug,
         },
-        topic: `${category.term_id}`
-      })
+        topic: `${category.term_id}`,
+      });
     }));
 
     res.status(200).send({
       title,
       categories,
       timestamp: new Date(date),
-    })
+    });
   } else {
-    res.status(500).send('WP Article is required.')
+    res.status(500).send('WP Article is required.');
   }
-}
+};

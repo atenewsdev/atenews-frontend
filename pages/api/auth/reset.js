@@ -1,4 +1,4 @@
-import { verifyEmail } from '@/utils/email';
+import { forgotPassword } from '@/utils/email';
 
 export default async (req, res) => {
   let email = '';
@@ -6,7 +6,7 @@ export default async (req, res) => {
     // Process a POST request
     email = req.body.email;
     try {
-      await verifyEmail(email);
+      await forgotPassword(email);
       res.status(200).json({ message: 'success' });
     } catch (err) {
       res.status(500).json({ ...err, email });

@@ -3,9 +3,9 @@ import fetch from 'node-fetch';
 import trendFunction from '@/utils/trendFunction';
 
 export default async (req, res) => {
-  const articles = await (await admin.database().ref(`articles`).once('value')).val();
-  const accessToken = (await admin.firestore().collection('keys').doc('facebook').get()).data().accessToken;
-  const bearerToken = (await admin.firestore().collection('keys').doc('twitter').get()).data().bearerToken;
+  const articles = await (await admin.database().ref('articles').once('value')).val();
+  const { accessToken } = (await admin.firestore().collection('keys').doc('facebook').get()).data();
+  const { bearerToken } = (await admin.firestore().collection('keys').doc('twitter').get()).data();
 
   await Promise.all(Object.keys(articles).map(async (slug) => {
     const article = articles[slug];
@@ -22,7 +22,7 @@ export default async (req, res) => {
       const twitterResponse = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"/${slug}"&tweet.fields=public_metrics`, {
         method: 'get',
         headers: new fetch.Headers({
-          'Authorization': `Bearer ${bearerToken}`,
+          Authorization: `Bearer ${bearerToken}`,
         }),
       });
       twitterData = await twitterResponse.json();
@@ -34,7 +34,10 @@ export default async (req, res) => {
     try {
       if (twitterData) {
         if ('data' in twitterData) {
-          retweetCount = twitterData.data[0].public_metrics.retweet_count + twitterData.data[0].public_metrics.quote_count;
+          retweetCount = (
+            twitterData.data[0].public_metrics.retweet_count
+            + twitterData.data[0].public_metrics.quote_count
+          );
           await admin.database().ref(`articles/${slug}`).update({
             retweetCount,
           });
@@ -58,7 +61,7 @@ export default async (req, res) => {
             data.engagement.share_count + retweetCount,
             article.totalReactCount,
             article.votesCount,
-            article.timestamp ? new Date(article.timestamp) : 0
+            article.timestamp ? new Date(article.timestamp) : 0,
           ),
         });
       } else {
@@ -69,7 +72,7 @@ export default async (req, res) => {
             article.shareCount + retweetCount,
             article.totalReactCount,
             article.votesCount,
-            article.timestamp ? new Date(article.timestamp) : 0
+            article.timestamp ? new Date(article.timestamp) : 0,
           ),
         });
       }
@@ -81,13 +84,11 @@ export default async (req, res) => {
           article.shareCount + retweetCount,
           article.totalReactCount,
           article.votesCount,
-          article.timestamp ? new Date(article.timestamp) : 0
+          article.timestamp ? new Date(article.timestamp) : 0,
         ),
       });
     }
-  }).map(p => p.catch(error => {
-    return null;
-  })));
+  }).map((p) => p.catch(() => null)));
 
   res.status(200).send(true);
-}
+};

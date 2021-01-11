@@ -1,5 +1,5 @@
 import admin from '@/utils/firebaseAdmin';
-import verifyEmail from '@/utils/verifyEmail';
+import { verifyEmail } from '@/utils/email';
 
 export default async (req, res) => {
   let email = '';
