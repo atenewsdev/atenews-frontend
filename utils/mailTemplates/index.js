@@ -1,4 +1,4 @@
-const mainTemplate = require('./main');
+import mainTemplate from './main';
 
 const verifyEmail = (link) => mainTemplate(`
   <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;"><i>Kalinaw!</i></p>

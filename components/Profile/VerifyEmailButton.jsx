@@ -58,28 +58,14 @@ export default function VerifyEmailButton() {
     authUser,
   } = useAuth();
 
-  const verifyAction = (email) => {
-    const params = {
-      email,
-    };
-
-    let formBody = [];
-    Object.keys(params).forEach((property) => {
-      const encodedKey = encodeURIComponent(property);
-      const encodedValue = encodeURIComponent(params[property]);
-      formBody.push(`${encodedKey}=${encodedValue}`);
-    });
-    formBody = formBody.join('&');
-
-    return fetch('/api/auth/verify', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-      body: formBody,
-    }).then((response) => response.json());
-  };
+  const verifyAction = (email) => fetch('/api/auth/verify', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    body: `email=${email}`,
+  }).then((response) => response.json());
 
   if (!authUser.emailVerified) {
     return (
