@@ -134,19 +134,20 @@ export const AuthProvider = ({ children }) => {
     .update(document);
 
   const registerEmail = (email, password, username, callback, error) => {
-    var params = {
+    const params = {
       email,
       password,
-      username
+      username,
     };
 
-    var formBody = [];
-    for (var property in params) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(params[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
+    let formBody = [];
+    // eslint-disable-next-line guard-for-in
+    for (const property in params) {
+      const encodedKey = encodeURIComponent(property);
+      const encodedValue = encodeURIComponent(params[property]);
+      formBody.push(`${encodedKey}=${encodedValue}`);
     }
-    formBody = formBody.join("&");
+    formBody = formBody.join('&');
 
     return fetch('/api/auth/register', {
       method: 'POST',
@@ -155,14 +156,14 @@ export const AuthProvider = ({ children }) => {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       body: formBody,
-    }).then(response => response.json()).then(() => {
+    }).then((response) => response.json()).then(() => {
       callback();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
       error();
       setError(err.message);
     });
-  }
+  };
 
   const loginWithFacebook = () => firebase.auth()
     .signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {

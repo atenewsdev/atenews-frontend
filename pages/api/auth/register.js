@@ -2,7 +2,9 @@ import admin from '@/utils/firebaseAdmin';
 import verifyEmail from '@/utils/verifyEmail';
 
 export default async (req, res) => {
-  let email = '', username = '', password = '';
+  let email = '';
+  let username = '';
+  let password = '';
   if (req.method === 'POST') {
     // Process a POST request
     email = req.body.email;
@@ -11,7 +13,7 @@ export default async (req, res) => {
     try {
       const user = await admin.auth().createUser({
         email,
-        password
+        password,
       });
 
       await Promise.all([
@@ -23,10 +25,12 @@ export default async (req, res) => {
       ]);
       res.status(200).json({ message: 'success' });
     } catch (err) {
-      res.status(500).json({...err, email, username, password});
+      res.status(500).json({
+        ...err, email, username, password,
+      });
     }
   } else {
     res.status(404).send({ message: 'not found' });
     // Handle any other HTTP method
   }
-}
+};
