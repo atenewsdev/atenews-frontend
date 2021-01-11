@@ -5,6 +5,8 @@ export default async (req, res) => {
     id, email, roles, api_key: apiKey,
   } = req.body;
 
+  console.log(req.body);
+
   if (email && apiKey === process.env.NEXT_PUBLIC_WP_USER_KEY) {
     const querySnapshot = await admin.firestore().collection('users').where('email', '==', email).get();
     if (querySnapshot.docs.length > 0) {
