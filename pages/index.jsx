@@ -99,7 +99,6 @@ export default function Home({
           }).catch((err) => {
             setError(err.message);
           });
-
           break;
         default:
           // Error: invalid mode.

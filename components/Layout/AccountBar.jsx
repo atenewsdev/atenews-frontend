@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import BellIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
-import UserIcon from '@material-ui/icons/Person';
 
 import { useSpring, animated } from 'react-spring';
 
 import {
   IconButton,
+  Button,
   Popper,
   ClickAwayListener,
   Avatar,
@@ -37,10 +37,6 @@ const TextField = withStyles({
 const useStyles = makeStyles((theme) => ({
   account: {
     position: 'fixed',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    textAlign: 'center',
     right: 0,
     marginRight: '0.5vw',
     height: 65,
@@ -181,55 +177,68 @@ export default function AccountBar({ setDarkMode }) {
             </Grid>
           </Grid>
         </animated.div>
-        <div className={classes.account}>
-          <IconButton
-            aria-label="Open Search Bar"
-            className={classes.button}
-            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-            onClick={() => {
-              if (searchOpened) {
-                set({ width: '0vw', opacity: 0 });
-                setSearchOpened(false);
-              } else {
-                searchBar.current.focus();
-                set({ width: '66vw', opacity: 1 });
-                setSearchOpened(true);
-              }
-            }}
-          >
-            <SearchIcon />
-          </IconButton>
+        <Grid component="div" container className={classes.account} justify="space-around" alignItems="center">
+          <Grid item>
+            <IconButton
+              aria-label="Open Search Bar"
+              className={classes.button}
+              color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+              onClick={() => {
+                if (searchOpened) {
+                  set({ width: '0vw', opacity: 0 });
+                  setSearchOpened(false);
+                } else {
+                  searchBar.current.focus();
+                  set({ width: '66vw', opacity: 1 });
+                  setSearchOpened(true);
+                }
+              }}
+            >
+              <SearchIcon />
+            </IconButton>
+          </Grid>
           {profile
             ? (
-              <IconButton
-                aria-label="Open notifications"
-                className={classes.button}
-                ref={notifButton}
-                color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-                onClick={() => setNotifActive((prev) => !prev)}
-              >
-                <Badge color="primary" badgeContent={newNotif}>
-                  <BellIcon />
-                </Badge>
-              </IconButton>
+              <Grid item>
+                <IconButton
+                  aria-label="Open notifications"
+                  className={classes.button}
+                  ref={notifButton}
+                  color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                  onClick={() => setNotifActive((prev) => !prev)}
+                >
+                  <Badge color="primary" badgeContent={newNotif}>
+                    <BellIcon />
+                  </Badge>
+                </IconButton>
+              </Grid>
             )
             : null}
-          <IconButton
-            aria-label="Open account settings"
-            ref={accountButton}
-            className={classes.button}
-            color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
-            onClick={() => setAccountActive((prev) => !prev)}
-          >
-            {profile
-              ? (
+          <Grid item>
+            { profile ? (
+              <IconButton
+                aria-label="Open account settings"
+                ref={accountButton}
+                className={classes.button}
+                color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                onClick={() => setAccountActive((prev) => !prev)}
+              >
                 <Avatar
                   src={imageGenerator(profile.photoURL, 40)}
                   style={{ width: 40, height: 40 }}
                 />
-              )
-              : <UserIcon />}
-          </IconButton>
+              </IconButton>
+            ) : (
+              <Button
+                aria-label="Open account settings"
+                ref={accountButton}
+                color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+                onClick={() => setAccountActive((prev) => !prev)}
+              >
+                Login
+              </Button>
+            ) }
+          </Grid>
           <Popper
             open
             anchorEl={notifButton.current}
@@ -273,7 +282,7 @@ export default function AccountBar({ setDarkMode }) {
               ) : null}
             </animated.div>
           </Popper>
-        </div>
+        </Grid>
       </div>
     </ClickAwayListener>
   );
