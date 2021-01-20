@@ -9,6 +9,7 @@ import ShareIcon from '@material-ui/icons/ShareOutlined';
 import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
+import coauthors from '@/utils/coauthors';
 import slugGenerator from '@/utils/slugGenerator';
 import imageGenerator from '@/utils/imageGenerator';
 
@@ -80,11 +81,11 @@ const Column = ({ article }) => {
           <Grid item>
             <Avatar
               className={classes.avatar}
-              src={imageGenerator(article.coauthors[0].avatar, 300)}
+              src={imageGenerator(article.coauthors.nodes[0].avatar.url, 300)}
             />
           </Grid>
           <Grid item xs>
-            <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+            <Typography variant="h6" component="div" className={classes.twoLineText} style={{ marginBottom: theme.spacing(1) }} dangerouslySetInnerHTML={{ __html: article.title }} />
             <Grid container spacing={1}>
               <Grid item sm={12}>
                 <Grid container spacing={1} wrap="nowrap" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}>
@@ -93,18 +94,7 @@ const Column = ({ article }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="caption">
-                      {
-                        article.coauthors.map((author, i) => {
-                          if (i === article.coauthors.length - 2) {
-                            return `${author.display_name} `;
-                          } if (i !== article.coauthors.length - 1) {
-                            return `${author.display_name}, `;
-                          } if (article.coauthors.length === 1) {
-                            return author.display_name;
-                          }
-                          return `and ${author.display_name}`;
-                        })
-                      }
+                      { coauthors(article.coauthors.nodes) }
                     </Typography>
                   </Grid>
                 </Grid>

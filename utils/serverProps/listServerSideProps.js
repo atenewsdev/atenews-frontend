@@ -1,24 +1,12 @@
-import React from 'react';
-
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
 
-import ArchiveLayout from '@/components/ArchiveLayout';
-
-export default function Page(props) {
-  return (
-    // eslint-disable-next-line react/destructuring-assignment
-    <ArchiveLayout {...props} name={`Search Results for "${props.query}"`} />
-  );
-}
-
-export async function getServerSideProps({ query: rawQuery }) {
+const listServerSideProps = async (CATEGORY_ID) => {
   try {
-    const { query } = rawQuery;
     const { data } = await WPGraphQL.query({
       query: gql`
-        query Search {
-          posts(first: 10, where: { search: "${query}" }) {
+        query Articles {
+          posts(first: 5, where: { categoryId: ${CATEGORY_ID} }) {
             pageInfo {
               hasNextPage
               hasPreviousPage
@@ -58,16 +46,13 @@ export async function getServerSideProps({ query: rawQuery }) {
     return {
       props: {
         articlesRaw: data.posts.nodes,
+        category: CATEGORY_ID,
         pageInfo: data.posts.pageInfo,
-        query,
-        category: 'search',
       },
     };
   } catch (err) {
-    return {
-      props: {
-        articlesRaw: [], query: '', category: 'search',
-      },
-    };
+    return { props: { articlesRaw: [], category: CATEGORY_ID } };
   }
-}
+};
+
+export default listServerSideProps;

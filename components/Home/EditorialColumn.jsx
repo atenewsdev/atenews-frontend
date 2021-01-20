@@ -47,7 +47,7 @@ export default function EditorialColumn({ editorial, columns }) {
           </Typography>
           {
               columns.map((column) => (
-                <Column article={column} key={column.id} />
+                <Column article={column} key={column.databaseId} />
               ))
             }
         </Grid>

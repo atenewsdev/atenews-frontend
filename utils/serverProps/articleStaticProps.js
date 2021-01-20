@@ -1,24 +1,22 @@
-import React from 'react';
-
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
+import WP from '@/utils/wordpress';
 
-import ArchiveLayout from '@/components/ArchiveLayout';
-
-export default function Page(props) {
-  return (
-    // eslint-disable-next-line react/destructuring-assignment
-    <ArchiveLayout {...props} name={`Search Results for "${props.query}"`} />
-  );
-}
-
-export async function getServerSideProps({ query: rawQuery }) {
+const articleStaticProps = async (ctx, categories) => {
+  let res = [];
   try {
-    const { query } = rawQuery;
+    res = await WP.posts().slug(ctx.params.slug);
+  } catch (err) {
+    res = [];
+  }
+  if (res.length > 0) {
+    if (res[0].categories.filter((cat) => categories.includes(cat)).length === 0) {
+      return { notFound: true, revalidate: 10 };
+    }
     const { data } = await WPGraphQL.query({
       query: gql`
-        query Search {
-          posts(first: 10, where: { search: "${query}" }) {
+        query Articles {
+          posts(first: 5, where: { notIn: [${res[0].id}], categoryIn: [${categories.toString()}] }) {
             pageInfo {
               hasNextPage
               hasPreviousPage
@@ -57,17 +55,15 @@ export async function getServerSideProps({ query: rawQuery }) {
     });
     return {
       props: {
-        articlesRaw: data.posts.nodes,
+        post: res[0],
+        relatedPosts: data.posts.nodes,
+        categories,
         pageInfo: data.posts.pageInfo,
-        query,
-        category: 'search',
       },
-    };
-  } catch (err) {
-    return {
-      props: {
-        articlesRaw: [], query: '', category: 'search',
-      },
+      revalidate: 10,
     };
   }
-}
+  return { notFound: true, revalidate: 10 };
+};
+
+export default articleStaticProps;

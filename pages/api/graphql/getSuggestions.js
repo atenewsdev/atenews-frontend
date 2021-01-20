@@ -1,24 +1,20 @@
-import React from 'react';
-
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
 
-import ArchiveLayout from '@/components/ArchiveLayout';
-
-export default function Page(props) {
-  return (
-    // eslint-disable-next-line react/destructuring-assignment
-    <ArchiveLayout {...props} name={`Search Results for "${props.query}"`} />
-  );
-}
-
-export async function getServerSideProps({ query: rawQuery }) {
+export default async (req, res) => {
+  const {
+    categories, cursor, articleId,
+  } = req.body;
+  if (req.method !== 'POST') {
+    res.status(500).send({
+      error: 'Not a POST request.',
+    });
+  }
   try {
-    const { query } = rawQuery;
     const { data } = await WPGraphQL.query({
       query: gql`
-        query Search {
-          posts(first: 10, where: { search: "${query}" }) {
+        query Articles {
+          posts(first: 5, after: ${cursor ? `"${cursor}"` : null}, where: { notIn: [${articleId}], categoryIn: [${JSON.parse(categories).toString()}] }) {
             pageInfo {
               hasNextPage
               hasPreviousPage
@@ -55,19 +51,13 @@ export async function getServerSideProps({ query: rawQuery }) {
         }            
       `,
     });
-    return {
-      props: {
-        articlesRaw: data.posts.nodes,
-        pageInfo: data.posts.pageInfo,
-        query,
-        category: 'search',
-      },
-    };
+    res.status(200).send({
+      articlesRaw: data.posts.nodes,
+      pageInfo: data.posts.pageInfo,
+    });
   } catch (err) {
-    return {
-      props: {
-        articlesRaw: [], query: '', category: 'search',
-      },
-    };
+    res.status(500).send({
+      error: err.message,
+    });
   }
-}
+};

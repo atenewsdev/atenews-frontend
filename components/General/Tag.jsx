@@ -27,7 +27,7 @@ const Tag = ({ type, clickable }) => {
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
-    switch (parseInt(type.term_id, 10)) {
+    switch (parseInt(type.term_id || type.databaseId, 10)) {
       case 3:
       case 20:
       case 18:
@@ -39,7 +39,7 @@ const Tag = ({ type, clickable }) => {
           setURL('/news');
         }
         setColor(theme.palette.atenews.news);
-        setText(type.name ? type.name : type.cat_name);
+        setText(type.name || type.cat_name);
         break;
       case 4:
       case 437:
@@ -49,7 +49,7 @@ const Tag = ({ type, clickable }) => {
           setURL('/features');
         }
         setColor(theme.palette.atenews.features);
-        setText(type.name ? type.name : type.cat_name);
+        setText(type.name || type.cat_name);
         break;
       case 13:
       case 21:
@@ -61,7 +61,7 @@ const Tag = ({ type, clickable }) => {
           setURL('/opinion');
         }
         setColor(theme.palette.atenews.highlight);
-        setText(type.name ? type.name : type.cat_name);
+        setText(type.name || type.cat_name);
         break;
       case 31:
         if (type.slug !== 'features') {
@@ -70,7 +70,7 @@ const Tag = ({ type, clickable }) => {
           setURL('/features');
         }
         setColor(theme.palette.atenews.montage);
-        setText(type.name ? type.name : type.cat_name);
+        setText(type.name || type.cat_name);
         break;
       case 430:
       case 431:
@@ -80,7 +80,7 @@ const Tag = ({ type, clickable }) => {
           setURL('/photos');
         }
         setColor(theme.palette.atenews.diversions);
-        setText(type.name ? type.name : type.cat_name);
+        setText(type.name || type.cat_name);
         break;
       default:
     }

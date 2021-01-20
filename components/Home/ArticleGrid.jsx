@@ -14,6 +14,7 @@ import ArticleCard from '@/components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
+import coauthors from '@/utils/coauthors';
 import imageGenerator from '@/utils/imageGenerator';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
@@ -96,18 +97,18 @@ const ArticleGrid = ({ articles }) => {
                 <LazyLoadComponent>
                   <CardMedia
                     className={classes.media}
-                    image={imageGenerator(articles[0].featured_image_src, 600)}
+                    image={imageGenerator(articles[0].featuredImage.node.sourceUrl, 600)}
                   />
                 </LazyLoadComponent>
               </CardActionArea>
             </Grid>
           </Hidden>
           <Hidden xsDown>
-            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(articles[0].featured_image_src, 600)})` }} onClick={() => router.push(slugGenerator(articles[0]))} />
+            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(articles[0].featuredImage.node.sourceUrl, 600)})` }} onClick={() => router.push(slugGenerator(articles[0]))} />
           </Hidden>
           <Grid item xs={12} sm={6} style={{ padding: theme.spacing(1) }}>
             <CardContent>
-              <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title.rendered }} /></Link>
+              <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title }} /></Link>
               <Grid
                 container
                 style={
@@ -125,18 +126,7 @@ const ArticleGrid = ({ articles }) => {
                     </Grid>
                     <Grid item>
                       <Typography variant="caption">
-                        {
-                          articles[0].coauthors.map((author, i) => {
-                            if (i === articles[0].coauthors.length - 2) {
-                              return `${author.display_name} `;
-                            } if (i !== articles[0].coauthors.length - 1) {
-                              return `${author.display_name}, `;
-                            } if (articles[0].coauthors.length === 1) {
-                              return author.display_name;
-                            }
-                            return `and ${author.display_name}`;
-                          })
-                        }
+                        { coauthors(articles[0].coauthors.nodes) }
                       </Typography>
                     </Grid>
                   </Grid>
@@ -153,16 +143,14 @@ const ArticleGrid = ({ articles }) => {
                 </Grid>
               </Grid>
 
-              <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt.rendered }} />
+              <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: articles[0].excerpt }} />
               <Grid
                 container
-                style={
-                {
+                style={{
                   color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
                   marginTop: theme.spacing(2),
                   width: '100%',
-                }
-}
+                }}
                 spacing={2}
                 justify="space-between"
                 alignItems="center"

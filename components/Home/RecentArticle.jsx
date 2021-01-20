@@ -108,7 +108,7 @@ function RecentArticle({ article }) {
       variant="outlined"
       className={classes.trendingItem}
       style={xsDown ? {
-        background: `url(${imageGenerator(article.featured_image_src, 600)})`,
+        background: `url(${imageGenerator(article.featuredImage.node.sourceUrl, 600)})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',
@@ -118,10 +118,11 @@ function RecentArticle({ article }) {
       }}
     >
       <div style={xsDown ? {
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          padding: theme.spacing(2),
-          width: '100%'
-        } : { width: '100%' }}>
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        padding: theme.spacing(2),
+        width: '100%',
+      } : { width: '100%' }}
+      >
         <Grid
           container
           direction="column"
@@ -132,7 +133,7 @@ function RecentArticle({ article }) {
           <Grid
             item
           >
-            <Tag type={article.categories_detailed[0]} />
+            <Tag type={article.categories.nodes[0]} />
           </Grid>
           <Grid
             item
@@ -141,7 +142,7 @@ function RecentArticle({ article }) {
               variant="body1"
               component="div"
               className={classes.twoLineText}
-              dangerouslySetInnerHTML={{ __html: article.title.rendered }}
+              dangerouslySetInnerHTML={{ __html: article.title }}
             />
           </Grid>
           <Grid

@@ -12,41 +12,34 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import WP from '@/utils/wordpress';
+import postFetch from '@/utils/postFetch';
 
 export default handleViewport((props) => {
-  const { forwardedRef, relatedPosts, postId } = props;
+  const {
+    forwardedRef, relatedPosts, postId, pageInfo, categories,
+  } = props;
   const theme = useTheme();
 
   const [articles, setArticles] = React.useState(relatedPosts);
-  const [page, setPage] = React.useState(2);
   const [hasMore, setHasMore] = React.useState(true);
-
-  const checkPage = () => {
-    if (Math.ceil(articles[0].total_count / 5) < page) {
-      setHasMore(false);
-    }
-  };
+  const [cursor, setCursor] = React.useState(null);
 
   React.useEffect(() => {
     setArticles(relatedPosts);
-    setPage(2);
-    setHasMore(true);
-    checkPage();
+    setCursor(pageInfo.endCursor);
+    setHasMore(pageInfo.hasNextPage);
   }, [relatedPosts]);
 
   const next = () => {
-    WP.relatedPosts().id(postId).page(page)
-      .then((posts) => {
-        if (posts.length === 0) {
-          setHasMore(false);
-        }
-        setArticles([...articles, ...posts]);
-      });
-    setPage((prev) => prev + 1);
-    if (articles.length > 0) {
-      checkPage();
-    }
+    postFetch('/api/graphql/getSuggestions', {
+      categories: JSON.stringify(categories),
+      cursor,
+      articleId: postId,
+    }).then((res) => res.json()).then((x) => {
+      setHasMore(x.pageInfo.hasNextPage);
+      setCursor(x.pageInfo.endCursor);
+      setArticles([...articles, ...x.articlesRaw]);
+    });
   };
 
   return (
@@ -76,20 +69,8 @@ export default handleViewport((props) => {
           {
             articles.map((post) => (
               <Article
-                key={post.ID}
-                article={{
-                  featured_image_src: post.featured_image_url,
-                  coauthors: post.coauthors,
-                  title: {
-                    rendered: post.post_title,
-                  },
-                  date: post.post_date,
-                  excerpt: {
-                    rendered: post.excerpt,
-                  },
-                  categories_detailed: post.categories,
-                  slug: post.post_name,
-                }}
+                key={post.databaseId}
+                article={post}
               />
             ))
             }

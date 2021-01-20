@@ -7,8 +7,8 @@ import {
   Typography, Grid,
 } from '@material-ui/core';
 
-import WPGBlocks from 'react-gutenberg';
 import imageGenerator from '@/utils/imageGenerator';
+import coauthors from '@/utils/coauthors';
 
 const useStyles = makeStyles(() => ({
   section: {
@@ -41,12 +41,13 @@ export default function Hulagway({ featuredPhoto }) {
         </Grid>
       </Grid>
       <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-        <LazyLoadImage src={imageGenerator(featuredPhoto.featured_image_src, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
+        <LazyLoadImage src={imageGenerator(featuredPhoto.featuredImage.node.sourceUrl, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
       </div>
       <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
         <Grid container justify="center">
           <Grid item>
-            <WPGBlocks blocks={featuredPhoto.blocks} />
+            { /* eslint-disable-next-line react/no-danger */ }
+            <div dangerouslySetInnerHTML={{ __html: featuredPhoto.content }} />
           </Grid>
         </Grid>
       </Typography>
@@ -54,18 +55,7 @@ export default function Hulagway({ featuredPhoto }) {
       <Typography variant="body2" style={{ textAlign: 'center' }}>
         <i>
           Photo by&nbsp;
-          {
-          featuredPhoto.coauthors.map((author, i) => {
-            if (i === featuredPhoto.coauthors.length - 2) {
-              return `${author.display_name} `;
-            } if (i !== featuredPhoto.coauthors.length - 1) {
-              return `${author.display_name}, `;
-            } if (featuredPhoto.coauthors.length === 1) {
-              return author.display_name;
-            }
-            return `and ${author.display_name}`;
-          })
-        }
+          { coauthors(featuredPhoto.coauthors.nodes) }
         </i>
 
       </Typography>

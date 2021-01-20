@@ -27,7 +27,10 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/mouse-events-have-key-events': 'off',
-    'import/no-unresolved': ['error', { ignore: ['^@'] }],
+    'import/no-unresolved': [
+      'error',
+      { ignore: ['^@'] },
+    ],
   },
   settings: {
     'import/resolver': {
@@ -35,6 +38,9 @@ module.exports = {
         ['@/components', './components'],
         ['@/classes', './classes'],
       ],
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
   globals: {

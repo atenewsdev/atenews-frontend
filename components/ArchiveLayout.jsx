@@ -15,7 +15,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/utils/hooks/useAuth';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import WP from '@/utils/wordpress';
+
+import postFetch from '@/utils/postFetch';
 
 const Article = dynamic(import('@/components/List/Article'));
 const Trending = dynamic(import('@/components/Home/Trending'));
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
 });
 
 export default function Page({
-  articlesRaw, name, category, query, totalPages, nofollow,
+  articlesRaw, name, category, nofollow, pageInfo,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -48,39 +49,29 @@ export default function Page({
   // eslint-disable-next-line no-underscore-dangle
   const [articles, setArticles] = React.useState(articlesRaw);
   const [hasMore, setHasMore] = React.useState(true);
-  const [page, setPage] = React.useState(2);
-
-  const checkPage = () => {
-    if (totalPages < page) {
-      setHasMore(false);
-    }
-  };
+  const [cursor, setCursor] = React.useState(null);
 
   React.useEffect(() => {
     setArticles(articlesRaw);
-    setPage(2);
-    setHasMore(true);
-    checkPage();
+    setCursor(pageInfo.endCursor);
+    if (category !== 'search') {
+      setHasMore(pageInfo.hasNextPage);
+    } else {
+      setHasMore(false);
+    }
   }, [articlesRaw]);
 
   const next = () => {
     if (category !== 'search') {
-      WP.posts().categories(category).page(page).then((posts) => {
-        if (posts.length === 0) {
-          setHasMore(false);
-        }
-        setArticles([...articles, ...posts]);
-      });
-    } else {
-      WP.posts().search(query).page(page).then((posts) => {
-        if (posts.length === 0) {
-          setHasMore(false);
-        }
-        setArticles([...articles, ...posts]);
+      postFetch('/api/graphql/getArticles', {
+        category,
+        cursor,
+      }).then((res) => res.json()).then((x) => {
+        setHasMore(x.pageInfo.hasNextPage);
+        setCursor(x.pageInfo.endCursor);
+        setArticles([...articles, ...x.articlesRaw]);
       });
     }
-    setPage((prev) => prev + 1);
-    checkPage();
   };
 
   const trending = useTrending();

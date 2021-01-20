@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import imageGenerator from '@/utils/imageGenerator';
+import coauthors from '@/utils/coauthors';
 import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
 
 const useStyles = makeStyles(() => ({
@@ -72,7 +73,7 @@ const ArticleCard = ({ article }) => {
   };
 
   return (
-    <Grid item sm={6} key={article.id}>
+    <Grid item sm={6} key={article.databaseId}>
       <CardActionArea
         onClick={() => router.push(slugGenerator(article))}
         style={{ borderRadius: 10 }}
@@ -84,7 +85,7 @@ const ArticleCard = ({ article }) => {
             borderRadius: 10,
             border: 0,
             height: '100%',
-            background: `url(${imageGenerator(article.featured_image_src, 600)})`,
+            background: `url(${imageGenerator(article.featuredImage.node.sourceUrl, 600)})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -95,7 +96,7 @@ const ArticleCard = ({ article }) => {
               <Grid container alignItems="flex-end">
                 <Grid item xs={12}>
                   <animated.div style={textProps}>
-                    <Typography variant="h5" component="div" className={classes.twoLineText} style={{ color: 'white' }} dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                    <Typography variant="h5" component="div" className={classes.twoLineText} style={{ color: 'white' }} dangerouslySetInnerHTML={{ __html: article.title }} />
                   </animated.div>
                 </Grid>
                 <Grid item xs={12} style={{ marginTop: theme.spacing(1) }}>
@@ -108,18 +109,7 @@ const ArticleCard = ({ article }) => {
                           </Grid>
                           <Grid item>
                             <Typography variant="caption" style={{ color: 'white' }}>
-                              {
-                                article.coauthors.map((author, i) => {
-                                  if (i === article.coauthors.length - 2) {
-                                    return `${author.display_name} `;
-                                  } if (i !== article.coauthors.length - 1) {
-                                    return `${author.display_name}, `;
-                                  } if (article.coauthors.length === 1) {
-                                    return author.display_name;
-                                  }
-                                  return `and ${author.display_name}`;
-                                })
-                              }
+                              { coauthors(article.coauthors.nodes) }
                             </Typography>
                           </Grid>
                         </Grid>

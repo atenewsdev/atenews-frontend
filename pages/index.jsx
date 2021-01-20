@@ -7,7 +7,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
-import WP from '@/utils/wordpress';
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
 
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -182,22 +183,185 @@ export default function Home({
 
 export async function getServerSideProps({ query }) {
   try {
-    const [recentArticles, news, features, featuredPhoto, editorial, columns] = await Promise.all([
-      WP.posts().perPage(5),
-      WP.posts().categories(3).perPage(5),
-      WP.posts().categories(4).perPage(5),
-      WP.posts().categories(430).perPage(1),
-      WP.posts().categories(428).perPage(1),
-      WP.posts().categories(21).perPage(4),
-    ]);
+    const { data } = await WPGraphQL.query({
+      query: gql`
+        query Home {
+          recentArticles: posts(first: 5) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+            }
+          }
+          news: posts(first: 5, where: { categoryName: "news" }) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              excerpt
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          features: posts(first: 5, where: { categoryName: "features" }) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              excerpt
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          featuredPhoto: posts(first: 1, where: { categoryName: "featured-photos" }) {
+            nodes {
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              content
+              excerpt
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          editorial: posts(first: 1, where: { categoryName: "editorial" }) {
+            nodes {
+              title(format: RENDERED)
+              databaseId
+              date
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              excerpt
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          columns: posts(first: 4, where: { categoryName: "columns" }) {
+            nodes {
+              title(format: RENDERED)
+              databaseId
+              date
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                  avatar {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }        
+      `,
+    });
     return {
       props: {
-        recentArticles,
-        news,
-        features,
-        featuredPhoto: featuredPhoto[0],
-        editorial: editorial[0],
-        columns,
+        recentArticles: data.recentArticles.nodes,
+        news: data.news.nodes,
+        features: data.features.nodes,
+        featuredPhoto: data.featuredPhoto.nodes[0],
+        editorial: data.editorial.nodes[0],
+        columns: data.columns.nodes,
         mode: 'mode' in query ? query.mode : null,
         oobCode: 'oobCode' in query ? query.oobCode : null,
         continueUrl: 'continueUrl' in query ? query.continueUrl : null,

@@ -61,7 +61,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ post, relatedPosts }) {
+export default function Page({
+  post, relatedPosts, pageInfo, categories,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const {
@@ -223,6 +225,8 @@ export default function Page({ post, relatedPosts }) {
       <LazyLoadComponent>
         <ReadMore
           relatedPosts={relatedPosts}
+          pageInfo={pageInfo}
+          categories={categories}
           postId={post.id}
           onLeaveViewport={leaveWriterViewport}
           onEnterViewport={enterWriterViewport}

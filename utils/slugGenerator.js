@@ -1,6 +1,8 @@
 const generator = (article) => {
   let category = '';
-  switch (parseInt(article.categories_detailed[0].term_id, 10)) {
+  switch (
+    parseInt(article.categories.nodes[0].databaseId, 10)
+  ) {
     case 3:
     case 20:
     case 18:

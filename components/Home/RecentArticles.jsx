@@ -14,6 +14,7 @@ import { animated, useSpring } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
 import slugGenerator from '@/utils/slugGenerator';
 import imageGenerator from '@/utils/imageGenerator';
+import coauthors from '@/utils/coauthors';
 
 import {
   Typography, Paper, Grid, CardActionArea, Hidden,
@@ -150,7 +151,7 @@ function RecentArticles({ articles }) {
           />
           <div
             className={classes.bannerImage}
-            style={{ backgroundImage: `url(${imageGenerator(hoveredData.featured_image_src, 800)})` }}
+            style={{ backgroundImage: `url(${imageGenerator(hoveredData.featuredImage.node.sourceUrl, 800)})` }}
           >
             <div className={classes.bannerDetailsContainer}>
               <div className={classes.bannerDetails}>
@@ -159,7 +160,7 @@ function RecentArticles({ articles }) {
                     item
                     xs={12}
                   >
-                    <Tag type={hoveredData.categories_detailed[0]} />
+                    <Tag type={hoveredData.categories.nodes[0]} />
                   </Grid>
                   <Grid
                     item
@@ -170,7 +171,7 @@ function RecentArticles({ articles }) {
                       href={slugGenerator(hoveredData)}
                     >
                       <Typography
-                        dangerouslySetInnerHTML={{ __html: hoveredData.title.rendered }}
+                        dangerouslySetInnerHTML={{ __html: hoveredData.title }}
                         style={{ marginTop: theme.spacing(1) }}
                         variant="h5"
                       />
@@ -202,19 +203,7 @@ function RecentArticles({ articles }) {
                           style={{ fontSize: '0.7rem' }}
                           variant="subtitle2"
                         >
-                          {
-                            hoveredData.coauthors.map((author, i) => {
-                              if (i === hoveredData.coauthors.length - 2) {
-                                return `${author.display_name} `;
-                              } if (i !== hoveredData.coauthors.length - 1) {
-                                return `${author.display_name}, `;
-                              } if (hoveredData.coauthors.length === 1) {
-                                return author.display_name;
-                              }
-
-                              return `and ${author.display_name}`;
-                            })
-                          }
+                          { coauthors(hoveredData.coauthors.nodes) }
                         </Typography>
                       </Grid>
                     </Grid>

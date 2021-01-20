@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WP from '@/utils/wordpress';
+import listServerSideProps from '@/utils/serverProps/listServerSideProps';
 
 import ArchiveLayout from '@/components/ArchiveLayout';
 
@@ -10,21 +10,8 @@ export default function Page(props) {
   );
 }
 
-export async function getServerSideProps() {
-  try {
-    const [articlesRaw] = await Promise.all([
-      WP.posts().categories(430),
-    ]);
+const CATEGORY_ID = 430;
 
-    return {
-      props: {
-        articlesRaw,
-        category: 430,
-        // eslint-disable-next-line no-underscore-dangle
-        totalPages: articlesRaw._paging ? articlesRaw._paging.totalPages : 0,
-      },
-    };
-  } catch (err) {
-    return { props: { articlesRaw: [], category: 430, totalPages: 0 } };
-  }
+export async function getServerSideProps() {
+  return listServerSideProps(CATEGORY_ID);
 }

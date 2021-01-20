@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import DefaultErrorPage from '@/components/404';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import WP from '@/utils/wordpress';
+import articlePaths from '@/utils/serverProps/articlePaths';
+import articleStaticProps from '@/utils/serverProps/articleStaticProps';
 
 import ReactHtmlParser from 'react-html-parser';
 
@@ -26,7 +27,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ post, relatedPosts }) {
+export default function Page(args) {
+  const { post } = args;
   const classes = useStyles();
   const theme = useTheme();
   const { loadingAuth } = useAuth();
@@ -70,7 +72,7 @@ export default function Page({ post, relatedPosts }) {
       />
       { !loadingAuth ? (
         <ArticleProvider post={post} key={post.id}>
-          <ArticlePage post={post} relatedPosts={relatedPosts} />
+          <ArticlePage {...args} />
         </ArticleProvider>
       ) : (
         <Grid
@@ -91,46 +93,5 @@ export default function Page({ post, relatedPosts }) {
 
 const categories = [4, 437, 31];
 
-export const getStaticPaths = async () => {
-  let res = [];
-  try {
-    const temp = await Promise.all(
-      categories.map(
-        async (cat) => WP.posts().categories(cat).perPage(1),
-      ),
-    );
-    temp.forEach((arr) => {
-      res = [...res, ...arr];
-    });
-  } catch (err) {
-    res = [];
-  }
-  const paths = [];
-  for (const post of res) {
-    paths.push({
-      params: { slug: post.slug },
-    });
-  }
-  return {
-    paths,
-    fallback: true,
-  };
-};
-
-export const getStaticProps = async (ctx) => {
-  let res = [];
-  let relatedPosts = [];
-  try {
-    res = await WP.posts().slug(ctx.params.slug);
-  } catch (err) {
-    res = [];
-  }
-  if (res.length > 0) {
-    if (res[0].categories.filter((cat) => categories.includes(cat)).length === 0) {
-      return { notFound: true, revalidate: 10 };
-    }
-    relatedPosts = await WP.relatedPosts().id(res[0].id);
-    return { props: { post: res[0], relatedPosts }, revalidate: 10 };
-  }
-  return { notFound: true, revalidate: 10 };
-};
+export const getStaticPaths = async () => articlePaths(categories);
+export const getStaticProps = async (ctx) => articleStaticProps(ctx, categories);
