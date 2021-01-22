@@ -102,7 +102,8 @@ export default function Page({
       >
         <LazyLoadImage src={imageGenerator(post.featuredImage.node.sourceUrl, 800)} alt={post.featuredImage.node.caption} width="100%" effect="opacity" />
         <div style={{ padding: theme.spacing(2) }}>
-          <Typography variant="body2"><i>{ post.featuredImage.node.caption }</i></Typography>
+          {/* eslint-disable-next-line react/no-danger */}
+          <Typography variant="body2"><i dangerouslySetInnerHTML={{ __html: post.featuredImage.node.caption }} /></Typography>
         </div>
       </Paper>
       <CSSTransition
