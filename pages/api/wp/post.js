@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import admin from '@/utils/firebaseAdmin';
 import trendFunction from '@/utils/trendFunction';
+import { decode } from 'html-entities';
 
 export default async (req, res) => {
   const {
@@ -44,8 +45,8 @@ export default async (req, res) => {
     await Promise.all(categories_detailed.map(async (category) => {
       await admin.messaging().send({
         data: {
-          title,
-          description: category.name,
+          title: decode(title),
+          description: decode(category.name),
           featured_photo,
           slug,
         },
