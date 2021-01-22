@@ -129,7 +129,7 @@ const Trending = ({ articles }) => {
                 <CardActionArea
                   key={article.slug}
                   onClick={() => router.push(slugGenerator({
-                    categories_detailed: article.categories,
+                    categories: article.categories,
                     slug: article.slug,
                   }))}
                 >

@@ -86,7 +86,7 @@ export default function Page({
   };
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} key={post.databaseId}>
       <Hidden smDown>
         <Typography variant="h3" component="h1" dangerouslySetInnerHTML={{ __html: post.title }} />
       </Hidden>
