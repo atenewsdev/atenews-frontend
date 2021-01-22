@@ -4,7 +4,7 @@ import trendFunction from '@/utils/trendFunction';
 
 export default async (req, res) => {
   const {
-    title, slug, date, categories_detailed, trashed, api_key,
+    title, slug, date, categories_detailed, trashed, api_key, featured_photo,
   } = req.body;
 
   await admin.firestore().collection('error').add({
@@ -46,6 +46,7 @@ export default async (req, res) => {
         data: {
           title,
           description: category.name,
+          featured_photo,
           slug,
         },
         topic: `${category.term_id}`,
