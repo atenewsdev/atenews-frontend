@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 });
 
 export default function Page({
-  articlesRaw, name, category, nofollow, pageInfo,
+  articlesRaw, name, category, nofollow, pageInfo, query,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -54,17 +54,22 @@ export default function Page({
   React.useEffect(() => {
     setArticles(articlesRaw);
     setCursor(pageInfo.endCursor);
-    if (category !== 'search') {
-      setHasMore(pageInfo.hasNextPage);
-    } else {
-      setHasMore(false);
-    }
+    setHasMore(pageInfo.hasNextPage);
   }, [articlesRaw]);
 
   const next = () => {
     if (category !== 'search') {
       postFetch('/api/graphql/getArticles', {
         category,
+        cursor,
+      }).then((res) => res.json()).then((x) => {
+        setHasMore(x.pageInfo.hasNextPage);
+        setCursor(x.pageInfo.endCursor);
+        setArticles([...articles, ...x.articlesRaw]);
+      });
+    } else {
+      postFetch('/api/graphql/getSearch', {
+        query,
         cursor,
       }).then((res) => res.json()).then((x) => {
         setHasMore(x.pageInfo.hasNextPage);
