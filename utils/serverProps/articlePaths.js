@@ -1,15 +1,26 @@
-import WP from '@/utils/wordpress';
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
 
 const articlePaths = async (categories) => {
   let res = [];
   try {
     const temp = await Promise.all(
       categories.map(
-        async (cat) => WP.posts().categories(cat).perPage(1),
+        async (cat) => WPGraphQL.query({
+          query: gql`
+            query Slugs {
+              posts(first: 1, where: { categoryId: ${cat} }) {
+                nodes {
+                  slug
+                }
+              }
+            }             
+          `,
+        }),
       ),
     );
     temp.forEach((arr) => {
-      res = [...res, ...arr];
+      res = [...res, ...arr.data.posts.nodes];
     });
   } catch (err) {
     res = [];

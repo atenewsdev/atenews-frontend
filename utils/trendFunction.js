@@ -5,7 +5,12 @@ const timestampWeight = 5;
 const shareWeight = 0.01;
 
 export default (comments, shares, reacts, votes, timestamp) => {
-  var timestampScore = Math.floor(new Date(timestamp).getTime() / 1000) / 1000000;
+  const timestampScore = Math.floor(new Date(timestamp).getTime() / 1000) / 1000000;
 
-  return ((comments * commentsWeight) + (shares * shareWeight) + (reacts * reactsWeight) + (votes * votesWeight) + (timestampScore * timestampWeight)) / 100;
-}
+  return (
+    (comments * commentsWeight)
+    + (shares * shareWeight)
+    + (reacts * reactsWeight)
+    + (votes * votesWeight)
+    + (timestampScore * timestampWeight)) / 100;
+};

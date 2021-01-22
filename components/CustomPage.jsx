@@ -2,8 +2,6 @@ import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import WPGBlocks from 'react-gutenberg';
-
 import { format } from 'date-fns';
 
 import {
@@ -47,10 +45,10 @@ export default function Page({ page }) {
   return (
     <div className={classes.container}>
       <Hidden smDown>
-        <Typography variant="h3" component="h1" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+        <Typography variant="h3" component="h1" dangerouslySetInnerHTML={{ __html: page.title }} />
       </Hidden>
       <Hidden mdUp>
-        <Typography variant="h4" component="h1" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+        <Typography variant="h4" component="h1" dangerouslySetInnerHTML={{ __html: page.title }} />
       </Hidden>
       <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{format(new Date(page.date), 'MMMM d, yyyy')}</Typography>
       <Typography
@@ -62,9 +60,8 @@ export default function Page({ page }) {
           width: '100%',
           color: theme.palette.text.primary,
         }}
-      >
-        <WPGBlocks blocks={page.blocks} />
-      </Typography>
+        dangerouslySetInnerHTML={{ __html: page.content }}
+      />
     </div>
   );
 }

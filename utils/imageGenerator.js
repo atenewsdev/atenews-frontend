@@ -8,8 +8,7 @@ const imageGenerator = (url, width) => {
     if (urlObject.hostname === 'secure.gravatar.com') {
       return url;
     }
-    return url;
-    // return `https://cdn.statically.io/img/${urlObject.hostname}/w=${width},f=auto${urlObject.pathname}`;
+    return `https://cdn.statically.io/img/${urlObject.hostname}/w=${width},f=auto${urlObject.pathname}`;
   } catch (err) {
     return url;
   }

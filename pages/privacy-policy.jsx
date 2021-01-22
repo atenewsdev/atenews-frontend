@@ -4,7 +4,8 @@ import { NextSeo } from 'next-seo';
 import DefaultErrorPage from '@/components/404';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import WP from '@/utils/wordpress';
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
 
 import ReactHtmlParser from 'react-html-parser';
 import CustomPage from '@/components/CustomPage';
@@ -34,11 +35,9 @@ export default function Page({ page }) {
   return (
     <div className={classes.container}>
       <NextSeo
-        title={`${ReactHtmlParser(page.title.rendered)} - Atenews`}
-        description={page.excerpt.rendered.replace(/<[^>]+>/g, '')}
+        title={`${ReactHtmlParser(page.title)} - Atenews`}
         openGraph={{
-          title: `${ReactHtmlParser(page.title.rendered)} - Atenews`,
-          description: page.excerpt.rendered.replace(/<[^>]+>/g, ''),
+          title: `${ReactHtmlParser(page.title)} - Atenews`,
           images: [
             {
               url: '/default-thumbnail.jpg',
@@ -71,14 +70,25 @@ export default function Page({ page }) {
 }
 
 export const getStaticProps = async () => {
-  let res = [];
+  let res = {};
   try {
-    res = await WP.pages().slug('privacy-policy');
+    const { data } = await WPGraphQL.query({
+      query: gql`
+        query Terms {
+          page(id: "privacy-policy", idType: URI) {
+            content
+            title
+            date
+          }
+        }             
+      `,
+    });
+    res = data.page;
   } catch (err) {
-    res = [];
+    res = {};
   }
-  if (res.length > 0) {
-    return { props: { page: res[0] }, revalidate: 10 };
+  if ('content' in res) {
+    return { props: { page: res }, revalidate: 10 };
   }
-  return { props: { page: {} }, revalidate: 10 };
+  return { props: { page: null }, revalidate: 10 };
 };
