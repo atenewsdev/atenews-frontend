@@ -1,4 +1,5 @@
-import WP from '@/utils/wordpress';
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
 import slugGenerator from '@/utils/slugGenerator';
 
 export default function Page() {
@@ -6,16 +7,32 @@ export default function Page() {
 }
 
 export const getServerSideProps = async (ctx) => {
-  let res = [];
+  let res = {};
   try {
-    res = await WP.posts().slug(ctx.params.slug);
+    const { data: raw } = await WPGraphQL.query({
+      query: gql`
+        query Article {
+          post( id: "${ctx.params.slug}" , idType: SLUG ) {
+            categories {
+              nodes {
+                name
+                databaseId
+                slug
+              }
+            }
+            slug
+          }
+        }            
+      `,
+    });
+    res = raw.post;
   } catch (err) {
-    res = [];
+    res = {};
   }
-  if (res.length > 0) {
+  if ('categories' in res) {
     return {
       redirect: {
-        destination: slugGenerator(res[0]),
+        destination: slugGenerator(res),
         permanent: true,
       },
     };
