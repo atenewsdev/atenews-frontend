@@ -29,7 +29,7 @@ const IndividualWriter = ({ author, images, profiles }) => {
   const [image, setImage] = React.useState('');
 
   React.useEffect(() => {
-    setImage(images[author.id]);
+    setImage(images[author.databaseId]);
   }, [images]);
 
   const rolesIgnore = [
@@ -39,6 +39,8 @@ const IndividualWriter = ({ author, images, profiles }) => {
     'editor',
   ];
 
+  // TODO: edit to graphql pati na pud tong isa ka indiwriter file
+
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
   return (
@@ -47,7 +49,7 @@ const IndividualWriter = ({ author, images, profiles }) => {
       onClick={() => {
         if (profiles) {
           if (profiles[author.id]) {
-            router.push(`/profile/${profiles[author.id].username}`);
+            router.push(`/profile/${profiles[author.databaseId].username}`);
           } else {
             setError('This member has yet to set up his/her profile!');
           }
@@ -56,21 +58,21 @@ const IndividualWriter = ({ author, images, profiles }) => {
         }
       }}
       style={{ marginTop: theme.spacing(1) }}
-      key={author.user_nicename}
+      key={author.databaseId}
     >
       <ListItemAvatar>
         <Avatar className={classes.avatar} src={imageGenerator(image, 60)} />
       </ListItemAvatar>
       <ListItemText
-        primary={author.display_name}
+        primary={`${author.firstName} ${author.lastName}`}
         secondaryTypographyProps={{ component: 'div' }}
-        secondary={author.roles.map((role) => (!rolesIgnore.includes(role) ? (
+        secondary={author.roles.nodes.map((role) => (!rolesIgnore.includes(role.name) ? (
           <Typography
-            key={`indi_${role}`}
+            key={`indi_${role.name}`}
             variant="subtitle2"
             style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}
           >
-            <i>{humanRole(role)}</i>
+            <i>{humanRole(role.name)}</i>
           </Typography>
         ) : null))}
         style={{ marginLeft: theme.spacing(2) }}

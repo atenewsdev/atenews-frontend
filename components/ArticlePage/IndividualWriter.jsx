@@ -53,15 +53,15 @@ export default handleViewport((props) => {
   const { getDocumentOnce } = useFirestore();
 
   React.useEffect(() => {
-    getDocumentOnce(`wordpress/${author.id}`).then(async (wpFirebaseId) => {
+    getDocumentOnce(`wordpress/${author.databaseId}`).then(async (wpFirebaseId) => {
       if (wpFirebaseId) {
         const profile = await getDocumentOnce(`users/${wpFirebaseId.id}`);
-        setProfiles((prev) => ({ ...prev, [author.id]: profile }));
+        setProfiles((prev) => ({ ...prev, [author.databaseId]: profile }));
         setImage(profile.photoURL);
-        setWriterImages((prev) => ({ ...prev, [author.id]: profile.photoURL }));
+        setWriterImages((prev) => ({ ...prev, [author.databaseId]: profile.photoURL }));
       } else {
-        setImage(author.avatar);
-        setWriterImages((prev) => ({ ...prev, [author.id]: author.avatar }));
+        setImage(author.avatar.url);
+        setWriterImages((prev) => ({ ...prev, [author.databaseId]: author.avatar.url }));
       }
     });
   }, []);
@@ -74,8 +74,8 @@ export default handleViewport((props) => {
         style={{ marginBottom: theme.spacing(2), padding: theme.spacing(2) }}
         onClick={() => {
           if (profiles) {
-            if (profiles[author.id]) {
-              router.push(`/profile/${profiles[author.id].username}`);
+            if (profiles[author.databaseId]) {
+              router.push(`/profile/${profiles[author.databaseId].username}`);
             } else {
               setError('This member has yet to set up his/her profile!');
             }
@@ -84,7 +84,7 @@ export default handleViewport((props) => {
           }
         }}
       >
-        <Grid container direction="row" alignItems="center" spacing={2} component="div" key={author.user_nicename} wrap="nowrap">
+        <Grid container direction="row" alignItems="center" spacing={2} component="div" key={author.databaseId} wrap="nowrap">
           <Grid item>
             <Avatar className={classes.avatar} src={imageGenerator(image, 60)} />
           </Grid>
@@ -92,12 +92,12 @@ export default handleViewport((props) => {
             <Grid container direction="column" justify="center">
               <Grid item>
                 <Typography variant="body1">
-                  {author.display_name}
+                  {`${author.firstName} ${author.lastName}`}
                 </Typography>
               </Grid>
               <Grid item>
-                {author.roles.map((role) => (!rolesIgnore.includes(role) ? (
-                  <Typography key={role} variant="subtitle2" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}><i>{humanRole(role)}</i></Typography>
+                {author.roles.nodes.map((role) => (!rolesIgnore.includes(role.name) ? (
+                  <Typography key={role.name} variant="subtitle2" style={{ color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white' }}><i>{humanRole(role.name)}</i></Typography>
                 ) : null)) }
               </Grid>
             </Grid>

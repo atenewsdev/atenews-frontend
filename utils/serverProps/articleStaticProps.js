@@ -1,22 +1,67 @@
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
-import WP from '@/utils/wordpress';
 
 const articleStaticProps = async (ctx, categories) => {
-  let res = [];
+  let articleData = null;
+
   try {
-    res = await WP.posts().slug(ctx.params.slug);
+    const { data: tempData } = await WPGraphQL.query({
+      query: gql`
+        query Article {
+          post( id: "${ctx.params.slug}" , idType: SLUG ) {
+            title(format: RENDERED)
+            slug
+            date
+            coauthors {
+              nodes {
+                firstName
+                lastName
+                databaseId
+                nickname
+                description
+                avatar {
+                  url
+                }
+                roles {
+                  nodes {
+                    name
+                  }
+                }
+              }
+            }
+            content
+            excerpt
+            categories {
+              nodes {
+                name
+                databaseId
+                slug
+              }
+            }
+            databaseId
+            featuredImage {
+              node {
+                sourceUrl(size: LARGE)
+                caption
+              }
+            }
+          }
+        }            
+      `,
+    });
+    articleData = tempData.post;
   } catch (err) {
-    res = [];
+    articleData = null;
   }
-  if (res.length > 0) {
-    if (res[0].categories.filter((cat) => categories.includes(cat)).length === 0) {
+  if (articleData) {
+    const articleCategories = articleData.categories.nodes;
+    if (articleCategories.filter((cat) => categories.includes(cat.databaseId)).length === 0) {
       return { notFound: true, revalidate: 10 };
     }
     const { data } = await WPGraphQL.query({
       query: gql`
         query Articles {
-          posts(first: 5, where: { notIn: [${res[0].id}], categoryIn: [${categories.toString()}] }) {
+          posts(first: 5, where: { notIn: [${articleData.databaseId}], categoryIn: [${categories.toString()}] }) {
             pageInfo {
               hasNextPage
               hasPreviousPage
@@ -55,7 +100,7 @@ const articleStaticProps = async (ctx, categories) => {
     });
     return {
       props: {
-        post: res[0],
+        post: articleData,
         relatedPosts: data.posts.nodes,
         categories,
         pageInfo: data.posts.pageInfo,
