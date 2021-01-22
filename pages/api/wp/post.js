@@ -58,6 +58,6 @@ export default async (req, res) => {
       timestamp: new Date(date),
     });
   } else {
-    res.status(500).send(categories_detailed);
+    res.status(500).send('WP Article is required.');
   }
 };
