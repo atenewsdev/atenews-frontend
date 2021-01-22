@@ -45,7 +45,7 @@ export default async (req, res) => {
       await admin.messaging().send({
         data: {
           title,
-          categories_detailed,
+          categories_detailed: JSON.stringify(categories_detailed),
           slug,
         },
         topic: `${category.term_id}`,
