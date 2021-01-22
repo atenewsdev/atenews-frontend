@@ -27,7 +27,7 @@ const Tag = ({ type, clickable }) => {
   const [color, setColor] = React.useState(theme.palette.atenews.news);
 
   React.useEffect(() => {
-    switch (parseInt(type.term_id || type.databaseId, 10)) {
+    switch (parseInt(type.term_id || type.databaseId || type.termId, 10)) {
       case 3:
       case 20:
       case 18:

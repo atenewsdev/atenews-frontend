@@ -18,7 +18,7 @@ export default async (req, res) => {
     let i = 0;
     categories_detailed.forEach((category) => {
       const { term_id, name, slug: catSlug } = category;
-      categories[i] = { term_id, name, catSlug };
+      categories[i] = { term_id, name, slug: catSlug };
       i += 1;
     });
 
