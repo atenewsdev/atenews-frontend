@@ -29,13 +29,15 @@ export const getServerSideProps = async (ctx) => {
   } catch (err) {
     res = {};
   }
-  if ('categories' in res) {
-    return {
-      redirect: {
-        destination: slugGenerator(res),
-        permanent: true,
-      },
-    };
+  if (res) {
+    if ('categories' in res) {
+      return {
+        redirect: {
+          destination: slugGenerator(res),
+          permanent: true,
+        },
+      };
+    }
   }
   return { notFound: true };
 };
