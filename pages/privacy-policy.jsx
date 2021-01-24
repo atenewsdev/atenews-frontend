@@ -87,8 +87,10 @@ export const getStaticProps = async () => {
   } catch (err) {
     res = {};
   }
-  if ('content' in res) {
-    return { props: { page: res }, revalidate: 10 };
+  if (res) {
+    if ('content' in res) {
+      return { props: { page: res }, revalidate: 10 };
+    }
   }
   return { props: { page: null }, revalidate: 10 };
 };
