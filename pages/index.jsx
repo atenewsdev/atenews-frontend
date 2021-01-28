@@ -300,6 +300,7 @@ export async function getServerSideProps({ query }) {
               title(format: RENDERED)
               databaseId
               date
+              slug
               featuredImage {
                 node {
                   sourceUrl(size: LARGE)
@@ -327,6 +328,7 @@ export async function getServerSideProps({ query }) {
               title(format: RENDERED)
               databaseId
               date
+              slug
               featuredImage {
                 node {
                   sourceUrl(size: LARGE)
