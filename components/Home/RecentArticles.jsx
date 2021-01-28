@@ -12,7 +12,7 @@ import ClockIcon from '@material-ui/icons/AccessTime';
 
 import { animated, useSpring } from 'react-spring';
 import { formatDistanceToNow } from 'date-fns';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 import imageGenerator from '@/utils/imageGenerator';
 import coauthors from '@/utils/coauthors';
 
@@ -168,7 +168,7 @@ function RecentArticles({ articles }) {
                   >
                     <Link
                       color="white"
-                      href={slugGenerator(hoveredData)}
+                      href={urlGenerator(hoveredData)}
                     >
                       <Typography
                         dangerouslySetInnerHTML={{ __html: hoveredData.title }}
@@ -254,7 +254,7 @@ function RecentArticles({ articles }) {
         { articles.map((article, index) => (
           <CardActionArea
             key={index}
-            onClick={() => router.push(slugGenerator(article))}
+            onClick={() => router.push(urlGenerator(article))}
             onMouseOver={() => onHover({ index, ...article })}
             ref={elRefs[index]}
           >

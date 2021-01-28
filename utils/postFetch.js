@@ -1,4 +1,4 @@
-const postFetch = (url, params) => {
+const postFetch = (url, params, auth) => {
   let formBody = [];
   // eslint-disable-next-line guard-for-in
   for (const property in params) {
@@ -12,6 +12,7 @@ const postFetch = (url, params) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      Authorization: auth ? `Bearer ${auth}` : null,
     },
     body: formBody,
   });

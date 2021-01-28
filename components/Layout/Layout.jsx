@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
@@ -8,10 +9,10 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useTrending } from '@/utils/hooks/useTrending';
+import { useAuth } from '@/hooks/useAuth';
+import { useTrending } from '@/hooks/useTrending';
 
 import {
   Hidden,
@@ -28,7 +29,6 @@ import {
   TextField as StockTextField,
   InputAdornment,
   CircularProgress,
-  Snackbar,
   List,
   ListItem,
   ListItemAvatar,
@@ -284,7 +284,7 @@ const Layout = ({ children, setDarkMode }) => {
                       <Typography variant="h5">Trending</Typography>
                     </Paper>
                     {
-                    trending.length === 0
+                    trending?.length === 0
                       ? (
                         <Grid container justify="center" alignItems="center" spacing={2}>
                           <Grid item>
@@ -294,15 +294,15 @@ const Layout = ({ children, setDarkMode }) => {
                       )
                       : null
                   }
-                    { trending.map((article) => (
+                    { trending?.map((article) => (
                       <CardActionArea
-                        key={article.slug}
+                        key={article._id}
                         onClick={() => {
                           setValue(0);
                           setOpen(false);
-                          router.push(slugGenerator({
+                          router.push(urlGenerator({
                             categories_detailed: article.categories,
-                            slug: article.slug,
+                            slug: article._id,
                           }));
                         }}
                       >

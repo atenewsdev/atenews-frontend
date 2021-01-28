@@ -20,7 +20,7 @@ export const ErrorProvider = ({ children }) => {
       });
 
       toast.error(error, {
-        position: "bottom-center",
+        position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -38,7 +38,7 @@ export const ErrorProvider = ({ children }) => {
         success,
       });
       toast.success(success, {
-        position: "bottom-center",
+        position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -56,7 +56,7 @@ export const ErrorProvider = ({ children }) => {
         warning,
       });
       toast.warning(warning, {
-        position: "bottom-center",
+        position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

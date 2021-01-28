@@ -1,6 +1,6 @@
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
 export default function Page() {
   return null;
@@ -33,7 +33,7 @@ export const getServerSideProps = async (ctx) => {
     if ('categories' in res) {
       return {
         redirect: {
-          destination: slugGenerator(res),
+          destination: urlGenerator(res),
           permanent: true,
         },
       };

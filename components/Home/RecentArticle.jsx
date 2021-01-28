@@ -10,9 +10,8 @@ import {
   Typography, Paper, Grid, useMediaQuery,
 } from '@material-ui/core';
 
-import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
-
 import imageGenerator from '@/utils/imageGenerator';
+import useArticleStats from '@/hooks/useArticleStats';
 
 const useStyles = makeStyles((theme) => ({
   bannerImage: {
@@ -89,19 +88,8 @@ function RecentArticle({ article }) {
   const classes = useStyles();
   const theme = useTheme();
   const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
-  const { getDocument } = useFirebaseDatabase();
 
-  const [socialStats, setSocialStats] = React.useState(null);
-
-  React.useEffect(() => {
-    const unsubscribe = getDocument(`articles/${article.slug}`, (doc) => {
-      setSocialStats(doc);
-    });
-
-    return () => {
-      unsubscribe.off();
-    };
-  }, [article]);
+  const articleStats = useArticleStats(article.slug);
 
   return (
     <Paper
@@ -164,7 +152,7 @@ function RecentArticle({ article }) {
                   IconProps={{ className: classes.trendingStatsText }}
                   TextProps={{ className: classes.trendingStatsText }}
                   GridProps={{ alignItems: 'center' }}
-                  socialStats={socialStats}
+                  socialStats={articleStats?.reacts}
                   disableHover
                 />
               </Grid>
@@ -185,7 +173,7 @@ function RecentArticle({ article }) {
                       className={classes.trendingStatsText}
                       variant="subtitle2"
                     >
-                      {socialStats ? socialStats.commentCount : 0}
+                      {articleStats?.comments || 0 + articleStats?.replies || 0}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -207,7 +195,7 @@ function RecentArticle({ article }) {
                       className={classes.trendingStatsText}
                       variant="subtitle2"
                     >
-                      {socialStats ? socialStats.shareCount || 0 : 0}
+                      {articleStats?.twitterShareCount || 0 + articleStats?.fbShareCount || 0}
                     </Typography>
                   </Grid>
                 </Grid>

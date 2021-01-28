@@ -12,7 +12,7 @@ import CustomPage from '@/components/CustomPage';
 
 import { Grid } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 const useStyles = makeStyles(() => ({
   contentContainer: {

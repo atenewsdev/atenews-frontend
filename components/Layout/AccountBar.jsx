@@ -18,7 +18,7 @@ import {
   InputAdornment,
   Badge,
 } from '@material-ui/core';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import imageGenerator from '@/utils/imageGenerator';
 
 import NotificationView from '@/components/Layout/Popouts/Notification';
@@ -224,7 +224,7 @@ export default function AccountBar({ setDarkMode }) {
                 onClick={() => setAccountActive((prev) => !prev)}
               >
                 <Avatar
-                  src={imageGenerator(profile.photoURL, 40)}
+                  src={imageGenerator(profile.displayPhoto, 40)}
                   style={{ width: 40, height: 40 }}
                 />
               </IconButton>

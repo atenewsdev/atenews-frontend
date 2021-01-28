@@ -13,9 +13,9 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useTrending } from '@/utils/hooks/useTrending';
+import { useError } from '@/hooks/useSnackbar';
+import { useAuth } from '@/hooks/useAuth';
+import { useTrending } from '@/hooks/useTrending';
 import firebaseAdmin from '@/utils/firebaseAdmin';
 import firebase from '@/utils/firebase';
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import dynamic from 'next/dynamic';
@@ -10,7 +11,9 @@ import { CSSTransition } from 'react-transition-group';
 
 import { LazyLoadImage, LazyLoadComponent } from 'react-lazy-load-image-component';
 import imageGenerator from '@/utils/imageGenerator';
-import { useArticle } from '@/utils/hooks/useArticle';
+
+import useArticleStats from '@/hooks/useArticleStats';
+import useArticleComments from '@/hooks/useArticleComments';
 
 import {
   Typography,
@@ -64,12 +67,8 @@ export default function Page({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  const {
-    article: { article },
-    writerImages: { writerImages },
-    profiles: { profiles },
-    comments: { comments, commentsSocialStats },
-  } = useArticle();
+  const articleStats = useArticleStats(post.slug);
+  const comments = useArticleComments(post.slug);
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
 
@@ -115,15 +114,12 @@ export default function Page({
         <div className={classes.sideWriter}>
           <SideWriter
             authors={post.coauthors.nodes}
-            profiles={profiles}
             tags={post.categories.nodes}
-            writerImages={writerImages}
           />
         </div>
       </CSSTransition>
       <WriterInfo
         authors={post.coauthors.nodes}
-        profiles={profiles}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
@@ -157,7 +153,7 @@ export default function Page({
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item>
               <Avatar
-                src={writerImages[post.coauthors.nodes[0].databaseId]}
+                src={post.coauthors.nodes[0].avatar}
                 style={{ width: 150, height: 150 }}
               />
             </Grid>
@@ -173,7 +169,7 @@ export default function Page({
 
       <div style={{ height: theme.spacing(4) }} />
 
-      <ReactInfoArticle />
+      <ReactInfoArticle stats={articleStats} />
 
       <div style={{ height: theme.spacing(2) }} />
       <Divider />
@@ -183,7 +179,7 @@ export default function Page({
           <ReactArticle slug={post.slug} />
         </Grid>
         <Grid item xs={6}>
-          <ShareButton article={article} />
+          <ShareButton article={articleStats} />
         </Grid>
       </Grid>
 
@@ -193,21 +189,13 @@ export default function Page({
       <CommentField slug={post.slug} />
       <LazyLoadComponent>
         <List component="div">
-          {comments.map((comment) => (commentsSocialStats[comment.id] ? (
+          {comments?.map((comment) => (
             <Comment
-              commentId={comment.id}
-              commenterId={comment.userId}
-              key={comment.id}
-              comment={comment.content}
-              socialStats={{
-                upvoteCount: comment.upvoteCount,
-                downvoteCount: comment.downvoteCount,
-                replyCount: comment.replyCount,
-              }}
+              key={comment._id}
+              comment={comment}
               slug={post.slug}
-              timestamp={comment.timestamp.toDate()}
             />
-          ) : null)) }
+          ))}
         </List>
       </LazyLoadComponent>
 

@@ -9,10 +9,10 @@ import {
   Typography, Grid, Hidden, CircularProgress,
 } from '@material-ui/core';
 
-import { useTrending } from '@/utils/hooks/useTrending';
+import { useTrending } from '@/hooks/useTrending';
 import { useRouter } from 'next/router';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 

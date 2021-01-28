@@ -4,8 +4,8 @@ import Button from '@/components/General/Button';
 
 import localforage from 'localforage';
 
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useError } from '@/utils/hooks/useSnackbar';
+import { useAuth } from '@/hooks/useAuth';
+import { useError } from '@/hooks/useSnackbar';
 
 export default function VerifyEmailButton() {
   const router = useRouter();

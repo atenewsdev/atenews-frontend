@@ -13,7 +13,7 @@ import ReactInfo from '@/components/Social/ReactInfo';
 import ArticleCard from '@/components/Home/ArticleCard';
 
 import { formatDistanceToNow } from 'date-fns';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 import coauthors from '@/utils/coauthors';
 import imageGenerator from '@/utils/imageGenerator';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
@@ -22,7 +22,7 @@ import {
   Typography, Grid, Card, CardMedia, CardContent, CardActionArea, Hidden,
 } from '@material-ui/core';
 
-import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+import useArticleStats from '@/hooks/useArticleStats';
 
 const useStyles = makeStyles((theme) => ({
   trendingStats: {
@@ -73,19 +73,7 @@ const ArticleGrid = ({ articles }) => {
   const theme = useTheme();
   const router = useRouter();
 
-  const { getDocument } = useFirebaseDatabase();
-
-  const [socialStats, setSocialStats] = React.useState(null);
-
-  React.useEffect(() => {
-    const unsubscribe = getDocument(`articles/${articles[0].slug}`, (doc) => {
-      setSocialStats(doc);
-    });
-
-    return () => {
-      unsubscribe.off();
-    };
-  }, [articles]);
+  const articleStats = useArticleStats(articles[0].slug);
 
   return (
     <div>
@@ -93,7 +81,7 @@ const ArticleGrid = ({ articles }) => {
         <Grid container alignItems="stretch">
           <Hidden smUp>
             <Grid item xs={12}>
-              <CardActionArea onClick={() => router.push(slugGenerator(articles[0]))}>
+              <CardActionArea onClick={() => router.push(urlGenerator(articles[0]))}>
                 <LazyLoadComponent>
                   <CardMedia
                     className={classes.media}
@@ -104,11 +92,11 @@ const ArticleGrid = ({ articles }) => {
             </Grid>
           </Hidden>
           <Hidden xsDown>
-            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(articles[0].featuredImage.node.sourceUrl, 600)})` }} onClick={() => router.push(slugGenerator(articles[0]))} />
+            <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(articles[0].featuredImage.node.sourceUrl, 600)})` }} onClick={() => router.push(urlGenerator(articles[0]))} />
           </Hidden>
           <Grid item xs={12} sm={6} style={{ padding: theme.spacing(1) }}>
             <CardContent>
-              <Link href={slugGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title }} /></Link>
+              <Link href={urlGenerator(articles[0])}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: articles[0].title }} /></Link>
               <Grid
                 container
                 style={
@@ -156,7 +144,7 @@ const ArticleGrid = ({ articles }) => {
                 alignItems="center"
               >
                 <Grid item xs>
-                  <ReactInfo socialStats={socialStats} />
+                  <ReactInfo socialStats={articleStats?.reacts} />
                 </Grid>
                 <Grid item xs>
                   <Grid container spacing={1}>
@@ -164,7 +152,7 @@ const ArticleGrid = ({ articles }) => {
                       <CommentIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
+                      <Typography variant="subtitle2">{articleStats?.comments || 0 + articleStats?.replies || 0}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -174,7 +162,7 @@ const ArticleGrid = ({ articles }) => {
                       <ShareIcon />
                     </Grid>
                     <Grid item>
-                      <Typography variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
+                      <Typography variant="subtitle2">{articleStats?.twitterShareCount || 0 + articleStats?.fbShareCount || 0}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>

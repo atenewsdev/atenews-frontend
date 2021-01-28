@@ -10,7 +10,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import imageGenerator from '@/utils/imageGenerator';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
 import firebase from '@/utils/firebase';
 
@@ -148,7 +148,7 @@ const ProfileFeed = ({ comment }) => {
 
   return (
     <CardActionArea
-      onClick={() => router.push(slugGenerator({
+      onClick={() => router.push(urlGenerator({
         categories_detailed: article.categories,
         slug: comment.articleSlug,
       }))}

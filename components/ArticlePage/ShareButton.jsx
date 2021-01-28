@@ -54,7 +54,7 @@ export default function Page({ article }) {
         style={{ height: '100%' }}
       >
         <ShareIcon style={{ marginRight: theme.spacing(1) }} />
-        {article ? article.shareCount || 0 : 0}
+        {article?.twitterShareCount || 0 + article?.fbShareCount || 0}
       </Button>
       <Dialog
         fullScreen={fullScreen}

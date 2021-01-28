@@ -11,7 +11,7 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import SocialCounts from '@/components/Profile/SocialCounts';
 import VerifyEmailButton from '@/components/Profile/VerifyEmailButton';

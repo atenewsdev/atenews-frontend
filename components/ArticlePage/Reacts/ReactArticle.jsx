@@ -16,10 +16,9 @@ import {
   Popper,
 } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useArticle } from '@/utils/hooks/useArticle';
-import { useError } from '@/utils/hooks/useSnackbar';
-import firebase from '@/utils/firebase';
+import { useAuth } from '@/hooks/useAuth';
+import { useError } from '@/hooks/useSnackbar';
+import useReactArticle from '@/hooks/useReactArticle';
 
 const useStyles = makeStyles(() => ({
   reacts: {
@@ -61,32 +60,12 @@ const ReactArticle = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { authUser, profile } = useAuth();
   const { setError } = useError();
-  const { article: { setArticle } } = useArticle();
 
   const [buttonText, setButtonText] = React.useState('React');
-  const [react, setReact] = React.useState(null);
+  const [react, setReact] = useReactArticle(slug);
 
   React.useEffect(() => {
-    let unsubscribe = () => { };
-    if (profile) {
-      unsubscribe = firebase.firestore().collection('reacts')
-        .doc(`${slug}_${profile.id}`)
-        .onSnapshot((snapshot) => {
-          if (!snapshot.exists) {
-            setReact('');
-          } else {
-            setReact(snapshot.data().content);
-          }
-        });
-    }
-
-    return () => {
-      unsubscribe();
-    };
-  }, [profile, authUser, slug]);
-
-  React.useEffect(() => {
-    switch (react) {
+    switch (react?.content) {
       case 'happy':
         setButtonText('Happy');
         break;
@@ -109,6 +88,7 @@ const ReactArticle = ({
 
   const handlePopoverOpen = (event) => {
     if (!disableHover) {
+      setAnchorEl(event.currentTarget);
       if (authUser) {
         if (authUser.emailVerified) {
           setAnchorEl(event.currentTarget);
@@ -127,43 +107,12 @@ const ReactArticle = ({
     }
   };
 
-  const handleReact = (reactX) => {
+  const handleReact = (_react) => {
     handlePopoverClose();
-    if (react === '') {
-      setArticle((prev) => ({
-        ...prev,
-        totalReactCount: prev.totalReactCount + 1,
-      }));
-    }
-    if (reactX === react && profile) {
-      setArticle((prev) => ({
-        ...prev,
-        totalReactCount: prev.totalReactCount - 1,
-        reactCount: {
-          ...prev.reactCount,
-          [reactX]: prev.reactCount[reactX] - 1,
-        },
-      }));
-      firebase.firestore()
-        .doc(`reacts/${slug}_${profile.id}`)
-        .delete();
-    } else if (reactX !== '' && authUser) {
-      setArticle((prev) => ({
-        ...prev,
-        reactCount: {
-          ...prev.reactCount,
-          [react]: prev.reactCount[react] - 1,
-          [reactX]: prev.reactCount[reactX] + 1,
-        },
-      }));
-      firebase.firestore()
-        .doc(`reacts/${slug}_${profile.id}`)
-        .set({
-          articleSlug: slug,
-          content: reactX,
-          timestamp: new Date(),
-          userId: profile.id,
-        }, { merge: true });
+    if (profile) {
+      setReact(_react);
+    } else {
+      setError('You need to be logged in to do this action!');
     }
   };
 
@@ -172,7 +121,7 @@ const ReactArticle = ({
       return <InsertEmoticonIcon style={{ marginRight: theme.spacing(1) }} />;
     }
 
-    switch (react) {
+    switch (react?.content) {
       case 'happy':
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/happy.svg" />;
       case 'sad':
@@ -184,7 +133,7 @@ const ReactArticle = ({
       case 'worried':
         return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/worried.svg" />;
       default:
-        return null;
+        return <InsertEmoticonIcon style={{ marginRight: theme.spacing(1) }} />;
     }
   };
 
@@ -220,7 +169,7 @@ const ReactArticle = ({
                   <CardActionArea
                     onClick={() => handleReact('happy')}
                     classes={{
-                      focusHighlight: react === 'happy' ? classes.focusHighlight : null,
+                      focusHighlight: react?.content === 'happy' ? classes.focusHighlight : null,
                     }}
                   >
                     <CardContent>
@@ -232,7 +181,7 @@ const ReactArticle = ({
                   <CardActionArea
                     onClick={() => handleReact('sad')}
                     classes={{
-                      focusHighlight: react === 'sad' ? classes.focusHighlight : null,
+                      focusHighlight: react?.content === 'sad' ? classes.focusHighlight : null,
                     }}
                   >
                     <CardContent>
@@ -244,7 +193,7 @@ const ReactArticle = ({
                   <CardActionArea
                     onClick={() => handleReact('angry')}
                     classes={{
-                      focusHighlight: react === 'angry' ? classes.focusHighlight : null,
+                      focusHighlight: react?.content === 'angry' ? classes.focusHighlight : null,
                     }}
                   >
                     <CardContent>
@@ -256,7 +205,7 @@ const ReactArticle = ({
                   <CardActionArea
                     onClick={() => handleReact('disgusted')}
                     classes={{
-                      focusHighlight: react === 'disgusted' ? classes.focusHighlight : null,
+                      focusHighlight: react?.content === 'disgusted' ? classes.focusHighlight : null,
                     }}
                   >
                     <CardContent>
@@ -268,7 +217,7 @@ const ReactArticle = ({
                   <CardActionArea
                     onClick={() => handleReact('worried')}
                     classes={{
-                      focusHighlight: react === 'worried' ? classes.focusHighlight : null,
+                      focusHighlight: react?.content === 'worried' ? classes.focusHighlight : null,
                     }}
                   >
                     <CardContent>

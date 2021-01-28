@@ -15,10 +15,9 @@ import '@/styles/nprogress.css';
 import '@/styles/main.css';
 import 'react-gutenberg/default.css';
 
-import { TrendingProvider } from '@/utils/hooks/useTrending';
-import { AuthProvider } from '@/utils/hooks/useAuth';
-import { ErrorProvider } from '@/utils/hooks/useSnackbar';
-import { CacheProvider } from '@/utils/hooks/useCache';
+import { TrendingProvider } from '@/hooks/useTrending';
+import { AuthProvider } from '@/hooks/useAuth';
+import { ErrorProvider } from '@/hooks/useSnackbar';
 
 import { CssBaseline } from '@material-ui/core';
 
@@ -98,28 +97,26 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <CacheProvider>
-            <ErrorProvider>
-              <AuthProvider>
-                <TrendingProvider>
-                  <Layout setDarkMode={setDarkMode}>
-                    <ToastContainer
-                      position="bottom-center"
-                      autoClose={5000}
-                      hideProgressBar={false}
-                      newestOnTop
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                    />
-                    <Component {...pageProps} />
-                  </Layout>
-                </TrendingProvider>
-              </AuthProvider>
-            </ErrorProvider>
-          </CacheProvider>
+          <ErrorProvider>
+            <AuthProvider>
+              <TrendingProvider>
+                <Layout setDarkMode={setDarkMode}>
+                  <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                  />
+                  <Component {...pageProps} />
+                </Layout>
+              </TrendingProvider>
+            </AuthProvider>
+          </ErrorProvider>
         </MuiPickersUtilsProvider>
       </ThemeProvider>
     </>

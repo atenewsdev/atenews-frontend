@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import {
   useEffect, useState, createContext, useContext,
 } from 'react';
 
 import firebase from '@/utils/firebase';
 import localforage from 'localforage';
-import useFirestore from './useFirestore';
+import fetch from '@/utils/backendFetch';
 import { useError } from './useSnackbar';
 
 export const AuthContext = createContext();
@@ -18,8 +19,6 @@ export const AuthProvider = ({ children }) => {
   const [formMode, setFormMode] = useState('login');
 
   const { setError, setSuccess } = useError();
-
-  const { getDocument, saveDocument } = useFirestore();
 
   const [fcmToken, setFcmToken] = useState(null);
   const [notifications, setNotifications] = useState([]);
@@ -40,7 +39,8 @@ export const AuthProvider = ({ children }) => {
             tokens = profile.fcmTokens;
           }
         }
-        await firebase.firestore().collection('users').doc(profile.id).update({
+
+        await fetch.put(`/users/${profile._id}`, {
           fcmTokens: tokens,
         });
       }
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         });
       });
 
-      firebase.analytics().setUserId(profile.id);
+      firebase.analytics().setUserId(profile._id);
     }
 
     return () => {
@@ -91,7 +91,6 @@ export const AuthProvider = ({ children }) => {
   }, [profile]);
 
   useEffect(() => {
-    let unsubscribeProfile = () => { };
     const unsubscribe = firebase.auth()
       .onAuthStateChanged(async (user) => {
         if (loadingAuth) {
@@ -102,16 +101,19 @@ export const AuthProvider = ({ children }) => {
 
         setAuthUser(user);
         if (user) {
-          unsubscribeProfile = getDocument(`users/${user.uid}`, async (data) => {
-            setProfile({ ...data, id: user.uid });
-          });
+          try {
+            const res = await fetch.get('/auth/current');
+            const userData = await res.json();
+            setProfile(userData);
+          } catch (err) {
+            setProfile(null);
+            setError('User data not found!');
+          }
         } else {
-          unsubscribeProfile();
           setProfile(null);
         }
       });
     return () => {
-      unsubscribeProfile();
       unsubscribe();
     };
   }, []);
@@ -140,23 +142,7 @@ export const AuthProvider = ({ children }) => {
       username,
     };
 
-    let formBody = [];
-    // eslint-disable-next-line guard-for-in
-    for (const property in params) {
-      const encodedKey = encodeURIComponent(property);
-      const encodedValue = encodeURIComponent(params[property]);
-      formBody.push(`${encodedKey}=${encodedValue}`);
-    }
-    formBody = formBody.join('&');
-
-    return fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-      body: formBody,
-    }).then((response) => response.json()).then(() => {
+    return fetch.post('/auth/register', params).then((response) => response.json()).then(() => {
       callback();
       setSuccess('Registration success! Email verification is required to interact with the community.');
     }).catch((err) => {
@@ -173,7 +159,7 @@ export const AuthProvider = ({ children }) => {
         setProfile(null);
       } else {
         setSuccess('Welcome! You have successfully logged in.');
-        await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+        await fetch.put(`/users/${firebase.auth().currentUser.uid}`, {
           facebookUsername: result.additionalUserInfo.profile.name,
         });
       }
@@ -183,7 +169,7 @@ export const AuthProvider = ({ children }) => {
 
   const connectWithFacebook = () => firebase.auth()
     .currentUser.linkWithPopup(new firebase.auth.FacebookAuthProvider()).then(async (result) => {
-      await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+      await fetch.put(`/users/${firebase.auth().currentUser.uid}`, {
         facebookUsername: result.additionalUserInfo.profile.name,
       });
     }).catch((err) => {
@@ -197,7 +183,7 @@ export const AuthProvider = ({ children }) => {
         setError('This Twitter account has not been connected to any Atenews account yet!');
         setProfile(null);
       } else {
-        await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+        await fetch.put(`/users/${firebase.auth().currentUser.uid}`, {
           twitterUsername: result.additionalUserInfo.username,
         });
         setSuccess('Welcome! You have successfully logged in.');
@@ -208,7 +194,7 @@ export const AuthProvider = ({ children }) => {
 
   const connectWithTwitter = () => firebase.auth()
     .currentUser.linkWithPopup(new firebase.auth.TwitterAuthProvider()).then(async (result) => {
-      await saveDocument(`users/${firebase.auth().currentUser.uid}`, {
+      await fetch.put(`/users/${firebase.auth().currentUser.uid}`, {
         twitterUsername: result.additionalUserInfo.username,
       });
     }).catch((err) => {
@@ -220,7 +206,7 @@ export const AuthProvider = ({ children }) => {
     if (profile.fcmTokens) {
       tokens = profile.fcmTokens.filter((token) => token !== fcmToken);
     }
-    await firebase.firestore().collection('users').doc(profile.id).update({
+    await fetch.put(`/users/${profile._id}`, {
       fcmTokens: tokens,
     });
 

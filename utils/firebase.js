@@ -1,10 +1,10 @@
-import 'firebase/firestore';
-import 'firebase/database';
-import 'firebase/auth';
-import 'firebase/messaging';
-import 'firebase/analytics';
+require('firebase/firestore');
+require('firebase/database');
+require('firebase/auth');
+require('firebase/messaging');
+require('firebase/analytics');
 
-import firebase from 'firebase/app';
+const firebase = require('firebase/app').default;
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -28,4 +28,4 @@ if (!firebase.apps.length) {
   }
 }
 
-export default firebase;
+module.exports = firebase;

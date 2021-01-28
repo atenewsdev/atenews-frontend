@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+const admin = require('firebase-admin');
 
 try {
   admin.initializeApp({
@@ -7,7 +7,7 @@ try {
       private_key: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
       client_email: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
     }),
-    databaseURL: 'https://atenews-socials.firebaseio.com',
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
   });
 } catch (error) {
   /*
@@ -20,4 +20,4 @@ try {
   }
 }
 
-export default admin;
+module.exports = admin;

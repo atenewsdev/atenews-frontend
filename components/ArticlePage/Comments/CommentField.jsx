@@ -2,9 +2,8 @@ import React from 'react';
 
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useError } from '@/utils/hooks/useSnackbar';
-import firebase from '@/utils/firebase';
+import { useAuth } from '@/hooks/useAuth';
+import { useError } from '@/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
 
 import SendIcon from '@material-ui/icons/Send';
@@ -103,6 +102,7 @@ export default function Page({ reply, slug, commentId }) {
     if (authUser) {
       if (authUser.emailVerified) {
         if (content.trim()) {
+          /*
           await firebase.firestore().collection('comments').add({
             articleSlug: slug,
             content,
@@ -113,6 +113,7 @@ export default function Page({ reply, slug, commentId }) {
             upvoteCount: 0,
             userId: profile.id,
           });
+          */
           initiateTimer();
           setContent('You may comment again after 3 seconds.');
         }
@@ -129,6 +130,7 @@ export default function Page({ reply, slug, commentId }) {
     if (authUser) {
       if (authUser.emailVerified) {
         if (content.trim()) {
+          /*
           await firebase.firestore().collection('replies').add({
             articleSlug: slug,
             commentId,
@@ -138,6 +140,7 @@ export default function Page({ reply, slug, commentId }) {
             upvoteCount: 0,
             userId: profile.id,
           });
+          */
           initiateTimer();
           setContent('You may reply again after 3 seconds.');
         }
@@ -173,7 +176,7 @@ export default function Page({ reply, slug, commentId }) {
     <ListItem style={{ padding: 0, marginBottom: reply ? 0 : theme.spacing(2) }}>
       <ListItemIcon>
         <Avatar
-          src={imageGenerator(profile.photoURL, 60)}
+          src={imageGenerator(profile.displayPhoto, 60)}
           className={reply ? classes.avatarReply : classes.avatar}
         />
       </ListItemIcon>

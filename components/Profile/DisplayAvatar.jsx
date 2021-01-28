@@ -8,7 +8,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
+import { useError } from '@/hooks/useSnackbar';
 import firebase from '@/utils/firebase';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';

@@ -13,10 +13,9 @@ import {
   CardActionArea,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
-import { useArticle } from '@/utils/hooks/useArticle';
+import { useError } from '@/hooks/useSnackbar';
+import useWPUser from '@/hooks/useWPUser';
 
-import useFirestore from '@/utils/hooks/useFirestore';
 import imageGenerator from '@/utils/imageGenerator';
 
 const useStyles = makeStyles(() => ({
@@ -28,18 +27,14 @@ const useStyles = makeStyles(() => ({
 
 export default handleViewport((props) => {
   const {
-    author, key, profiles,
+    author, key,
   } = props;
-
-  const {
-    writerImages: { setWriterImages },
-    profiles: { setProfiles },
-  } = useArticle();
 
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const { setError } = useError();
+  const wpUser = useWPUser(author.databaseId);
 
   const rolesIgnore = [
     'subscriber',
@@ -48,24 +43,6 @@ export default handleViewport((props) => {
     'editor',
   ];
 
-  const [image, setImage] = React.useState('');
-
-  const { getDocumentOnce } = useFirestore();
-
-  React.useEffect(() => {
-    getDocumentOnce(`wordpress/${author.databaseId}`).then(async (wpFirebaseId) => {
-      if (wpFirebaseId) {
-        const profile = await getDocumentOnce(`users/${wpFirebaseId.id}`);
-        setProfiles((prev) => ({ ...prev, [author.databaseId]: profile }));
-        setImage(profile.photoURL);
-        setWriterImages((prev) => ({ ...prev, [author.databaseId]: profile.photoURL }));
-      } else {
-        setImage(author.avatar.url);
-        setWriterImages((prev) => ({ ...prev, [author.databaseId]: author.avatar.url }));
-      }
-    });
-  }, []);
-
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
   return (
@@ -73,12 +50,8 @@ export default handleViewport((props) => {
       <CardActionArea
         style={{ marginBottom: theme.spacing(2), padding: theme.spacing(2) }}
         onClick={() => {
-          if (profiles) {
-            if (profiles[author.databaseId]) {
-              router.push(`/profile/${profiles[author.databaseId].username}`);
-            } else {
-              setError('This member has yet to set up his/her profile!');
-            }
+          if (wpUser) {
+            router.push(`/profile/${wpUser?.username}`);
           } else {
             setError('This member has yet to set up his/her profile!');
           }
@@ -86,7 +59,7 @@ export default handleViewport((props) => {
       >
         <Grid container direction="row" alignItems="center" spacing={2} component="div" key={author.databaseId} wrap="nowrap">
           <Grid item>
-            <Avatar className={classes.avatar} src={imageGenerator(image, 60)} />
+            <Avatar className={classes.avatar} src={imageGenerator(wpUser?.displayPhoto, 60)} />
           </Grid>
           <Grid item>
             <Grid container direction="column" justify="center">

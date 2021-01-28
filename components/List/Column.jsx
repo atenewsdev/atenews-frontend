@@ -10,14 +10,14 @@ import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
 import coauthors from '@/utils/coauthors';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 import imageGenerator from '@/utils/imageGenerator';
 
 import {
   Typography, Paper, Grid, CardActionArea, Avatar,
 } from '@material-ui/core';
 
-import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+import useArticleStats from '@/hooks/useArticleStats';
 
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
@@ -58,22 +58,11 @@ const Column = ({ article }) => {
   const theme = useTheme();
   const router = useRouter();
 
-  const { getDocument } = useFirebaseDatabase();
-
-  const [socialStats, setSocialStats] = React.useState(null);
-
-  React.useEffect(() => {
-    const unsubscribe = getDocument(`articles/${article.slug}`, (doc) => {
-      setSocialStats(doc);
-    });
-    return () => {
-      unsubscribe.off();
-    };
-  }, [article]);
+  const articleStats = useArticleStats(article.slug);
 
   return (
     <CardActionArea
-      onClick={() => router.push(slugGenerator(article))}
+      onClick={() => router.push(urlGenerator(article))}
       style={{ marginTop: theme.spacing(1) }}
     >
       <Paper variant="outlined" className={classes.trendingItem}>
@@ -117,7 +106,7 @@ const Column = ({ article }) => {
                   IconProps={{ className: classes.trendingStatsText }}
                   TextProps={{ className: classes.trendingStatsText }}
                   GridProps={{ alignItems: 'center' }}
-                  socialStats={socialStats}
+                  socialStats={articleStats?.reacts}
                 />
               </Grid>
               <Grid item xs>
@@ -126,7 +115,7 @@ const Column = ({ article }) => {
                     <CommentIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{articleStats?.comments || 0 + articleStats?.replies || 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -136,7 +125,7 @@ const Column = ({ article }) => {
                     <ShareIcon className={classes.trendingStatsText} />
                   </Grid>
                   <Grid item>
-                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{articleStats?.twitterShareCount || 0 + articleStats?.fbShareCount || 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

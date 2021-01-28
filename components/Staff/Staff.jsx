@@ -7,9 +7,9 @@ import {
   Typography, Paper, Grid, CardActionArea, Avatar,
 } from '@material-ui/core';
 
-import useFirestore from '@/utils/hooks/useFirestore';
-import { useError } from '@/utils/hooks/useSnackbar';
+import { useError } from '@/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
+import useWPUser from '@/hooks/useWPUser';
 
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
@@ -50,6 +50,7 @@ const Column = ({ details }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+  const wpUser = useWPUser(details.id);
 
   const rolesIgnore = [
     'subscriber',
@@ -58,22 +59,9 @@ const Column = ({ details }) => {
     'editor',
   ];
 
-  const [image, setImage] = React.useState('');
-  const [username, setUsername] = React.useState('');
-
   const { setError } = useError();
-  const { getDocumentOnce } = useFirestore();
 
   React.useEffect(() => {
-    getDocumentOnce(`wordpress/${details.id}`).then(async (wpFirebaseId) => {
-      if (wpFirebaseId) {
-        const profile = await getDocumentOnce(`users/${wpFirebaseId.id}`);
-        setUsername(profile.username);
-        setImage(profile.photoURL);
-      } else {
-        setImage(details.avatar);
-      }
-    });
   }, []);
 
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -81,8 +69,8 @@ const Column = ({ details }) => {
   return (
     <CardActionArea
       onClick={() => {
-        if (username) {
-          router.push(`/profile/${username}`);
+        if (wpUser) {
+          router.push(`/profile/${wpUser.username}`);
         } else {
           setError('This member has yet to set up his/her profile!');
         }
@@ -95,7 +83,7 @@ const Column = ({ details }) => {
       <Paper elevation={0} className={classes.trendingItem}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <Avatar className={classes.avatar} src={imageGenerator(image, 80)} />
+            <Avatar className={classes.avatar} src={imageGenerator(wpUser.displayPhoto, 80)} />
           </Grid>
           <Grid item xs>
             <Typography variant="h6">{details.display_name}</Typography>

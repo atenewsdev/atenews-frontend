@@ -15,7 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import AuthForm from '@/components/Auth/AuthForm';
 
 import { useRouter } from 'next/router';

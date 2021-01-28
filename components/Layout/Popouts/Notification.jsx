@@ -14,7 +14,7 @@ import {
   Button,
 } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {

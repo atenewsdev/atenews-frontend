@@ -5,7 +5,7 @@ import FollowIcon from '@material-ui/icons/Add';
 import UnfollowIcon from '@material-ui/icons/Remove';
 import { useTheme } from '@material-ui/core/styles';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import firebase from '@/utils/firebase';
 

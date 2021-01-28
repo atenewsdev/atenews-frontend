@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
 import Tag from '@/components/General/Tag';
 
@@ -117,7 +118,7 @@ const Trending = ({ articles }) => {
             <Typography variant="h5">Trending</Typography>
           </Paper>
           {
-            articles.length === 0
+            articles?.length === 0
               ? (
                 <Grid container justify="center" alignItems="center" spacing={2}>
                   <Grid item>
@@ -125,12 +126,12 @@ const Trending = ({ articles }) => {
                   </Grid>
                 </Grid>
               )
-              : articles.map((article) => (
+              : articles?.map((article) => (
                 <CardActionArea
-                  key={article.slug}
-                  onClick={() => router.push(slugGenerator({
+                  key={article._id}
+                  onClick={() => router.push(urlGenerator({
                     categories: article.categories,
-                    slug: article.slug,
+                    slug: article._id,
                   }))}
                 >
                   <Paper variant="outlined" square className={classes.trendingItem}>

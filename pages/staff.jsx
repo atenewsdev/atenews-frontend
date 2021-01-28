@@ -10,11 +10,11 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
 import MapIcon from '@material-ui/icons/PinDrop';
 
-import WP from '@/utils/wordpress';
+import WP from '@/utils/wprest';
 
 import { Typography, Grid, Hidden } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   container: {

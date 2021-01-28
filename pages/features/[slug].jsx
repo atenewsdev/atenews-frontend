@@ -12,8 +12,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 import { Grid, CircularProgress } from '@material-ui/core';
 
-import { useAuth } from '@/utils/hooks/useAuth';
-import { ArticleProvider } from '@/utils/hooks/useArticle';
+import { useAuth } from '@/hooks/useAuth';
 
 import ArticlePage from '@/components/ArticlePage';
 
@@ -71,9 +70,7 @@ export default function Page(args) {
         }}
       />
       { !loadingAuth ? (
-        <ArticleProvider post={post} key={post.id}>
-          <ArticlePage {...args} />
-        </ArticleProvider>
+        <ArticlePage {...args} />
       ) : (
         <Grid
           container

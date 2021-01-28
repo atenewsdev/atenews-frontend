@@ -1,5 +1,5 @@
 import { SitemapStream, streamToPromise } from 'sitemap';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
@@ -57,7 +57,7 @@ export default async (req, res) => {
     // Create each URL row
     data.posts.nodes.forEach((post) => {
       smStream.write({
-        url: slugGenerator(post),
+        url: urlGenerator(post),
         changefreq: 'daily',
         priority: 0.5,
       });

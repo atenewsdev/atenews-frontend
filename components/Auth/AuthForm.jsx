@@ -9,9 +9,8 @@ import {
   Paper, Grid, TextField, Divider,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
-import { useAuth } from '@/utils/hooks/useAuth';
-import firebase from '@/utils/firebase';
+import { useError } from '@/hooks/useSnackbar';
+import { useAuth } from '@/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
@@ -62,14 +61,17 @@ const AuthForm = ({ close, mobile }) => {
         setError('Username is limited to 15 alphanumeric characters only!');
         return;
       }
-
-      const existingUser = await firebase.firestore().collection('users').where('username', '==', username).get();
+      /*
+      const existingUser = await firebase.firestore()
+        .collection('users')
+        .where('username', '==', username)
+        .get();
 
       if (!existingUser.empty) {
         setError('Username already taken!');
         return;
       }
-
+      */
       if (!testEmail()) {
         setError('Invalid email format detected!');
         return;

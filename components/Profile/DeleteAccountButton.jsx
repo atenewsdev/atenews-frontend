@@ -14,8 +14,8 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useError } from '@/hooks/useSnackbar';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function DeleteAccountButton({ updating }) {
   const theme = useTheme();

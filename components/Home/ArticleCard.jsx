@@ -13,7 +13,7 @@ import ReactInfo from '@/components/Social/ReactInfo';
 import { useSpring, animated } from 'react-spring';
 
 import { formatDistanceToNow } from 'date-fns';
-import slugGenerator from '@/utils/slugGenerator';
+import urlGenerator from '@/utils/urlGenerator';
 
 import {
   Typography, Grid, Card, CardContent, CardActionArea,
@@ -21,7 +21,8 @@ import {
 
 import imageGenerator from '@/utils/imageGenerator';
 import coauthors from '@/utils/coauthors';
-import useFirebaseDatabase from '@/utils/hooks/useFirebaseDatabase';
+
+import useArticleStats from '@/hooks/useArticleStats';
 
 const useStyles = makeStyles(() => ({
   bannerDetailsContainer: {
@@ -44,23 +45,10 @@ const ArticleCard = ({ article }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
+  const articleStats = useArticleStats(article.slug);
 
   const [containerProps, setContainerProps] = useSpring(() => ({ backgroundColor: 'rgba(0, 0, 0, 0.5)' }));
   const [textProps, setTextProps] = useSpring(() => ({ opacity: 1 }));
-
-  const { getDocument } = useFirebaseDatabase();
-
-  const [socialStats, setSocialStats] = React.useState(null);
-
-  React.useEffect(() => {
-    const unsubscribe = getDocument(`articles/${article.slug}`, (doc) => {
-      setSocialStats(doc);
-    });
-
-    return () => {
-      unsubscribe.off();
-    };
-  }, [article]);
 
   const onHover = () => {
     setContainerProps({ backgroundColor: 'rgba(0, 0, 0, 0)' });
@@ -75,7 +63,7 @@ const ArticleCard = ({ article }) => {
   return (
     <Grid item sm={6} key={article.databaseId}>
       <CardActionArea
-        onClick={() => router.push(slugGenerator(article))}
+        onClick={() => router.push(urlGenerator(article))}
         style={{ borderRadius: 10 }}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
@@ -133,7 +121,7 @@ const ArticleCard = ({ article }) => {
                       <ReactInfo
                         TextProps={{ style: { color: 'white' } }}
                         IconProps={{ style: { color: 'white' } }}
-                        socialStats={socialStats}
+                        socialStats={articleStats?.reacts}
                       />
                     </Grid>
                     <Grid item xs>
@@ -142,7 +130,7 @@ const ArticleCard = ({ article }) => {
                           <CommentIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.commentCount : 0}</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">{articleStats?.comments || 0 + articleStats?.replies || 0}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -152,7 +140,7 @@ const ArticleCard = ({ article }) => {
                           <ShareIcon style={{ color: 'white' }} />
                         </Grid>
                         <Grid item>
-                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">{articleStats?.twitterShareCount || 0 + articleStats?.fbShareCount || 0}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

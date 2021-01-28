@@ -10,7 +10,7 @@ import IndividualWriter from '@/components/ArticlePage/IndividualWriter';
 
 export default handleViewport((props) => {
   const {
-    forwardedRef, authors, profiles,
+    forwardedRef, authors,
   } = props;
 
   return (
@@ -18,7 +18,7 @@ export default handleViewport((props) => {
       <Grid container spacing={4} direction="row">
         {
           authors.map((author, i) => (
-            <IndividualWriter profiles={profiles} author={author} key={`author${i}`} />
+            <IndividualWriter author={author} key={`author${i}`} />
           ))
         }
       </Grid>

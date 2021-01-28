@@ -17,9 +17,9 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import { useError } from '@/utils/hooks/useSnackbar';
+import { useError } from '@/hooks/useSnackbar';
 import firebase from '@/utils/firebase';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import {
   testDisplayName, testUsername, testBio, testEmail,
 } from '@/utils/regexTests';

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
@@ -24,10 +25,12 @@ import {
 } from '@material-ui/core';
 
 import imageGenerator from '@/utils/imageGenerator';
-import firebase from '@/utils/firebase';
-import { useAuth } from '@/utils/hooks/useAuth';
-import { useError } from '@/utils/hooks/useSnackbar';
-import { useArticle } from '@/utils/hooks/useArticle';
+
+import { useAuth } from '@/hooks/useAuth';
+import { useError } from '@/hooks/useSnackbar';
+import useCommentStats from '@/hooks/useCommentStats';
+import useReplyStats from '@/hooks/useReplyStats';
+import useVoteCommentReply from '@/hooks/useVoteCommentReply';
 
 const Paper = withStyles((theme) => ({
   root: {
@@ -50,46 +53,25 @@ const useStyles = makeStyles(() => ({
 
 const CommentReplyTemplate = ({
   children,
-  reply,
-  comment,
+  content,
   getReplies,
-  timestamp,
-  slug,
-  commentId,
-  replyId,
-  commenterId,
+  reply,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const {
-    users: { users },
-    comments: {
-      commentsSocialStats, setCommentSocialStats,
-    },
-    replies: { repliesSocialStats, setRepliesSocialStats },
-  } = useArticle();
   const { profile, authUser } = useAuth();
   const { setError, setSuccess } = useError();
 
-  const [vote, setVote] = React.useState(null);
+  let stats = null;
 
-  React.useEffect(() => {
-    let unsub = () => { };
-    if (profile) {
-      unsub = firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).onSnapshot(async (snapshot) => {
-        if (snapshot.exists) {
-          setVote(snapshot.data().content);
-        } else {
-          setVote(null);
-        }
-      });
-    }
+  if (reply) {
+    stats = useReplyStats(content._id);
+  } else {
+    stats = useCommentStats(content._id);
+  }
 
-    return () => {
-      unsub();
-    };
-  }, []);
+  const [vote, setVote] = useVoteCommentReply(content._id, reply ? 'reply' : 'comment');
 
   const handleVote = async (voteHandle) => {
     if (!authUser) {
@@ -101,90 +83,11 @@ const CommentReplyTemplate = ({
       setError('A verified email is required to do this action!');
       return;
     }
-    try {
-      if (vote !== voteHandle) {
-        let data = {
-          articleSlug: slug,
-          commenterId,
-          content: voteHandle,
-          timestamp: new Date(),
-          userId: profile.id,
-        };
-        if (commentId) {
-          data = { ...data, commentId };
-          if (vote !== null) {
-            setCommentSocialStats((prev) => ({
-              ...prev,
-              [commentId]: {
-                ...prev[commentId],
-                [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
-                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
-              },
-            }));
-          } else {
-            setCommentSocialStats((prev) => ({
-              ...prev,
-              [commentId]: {
-                ...prev[commentId],
-                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
-              },
-            }));
-          }
-        }
-        if (replyId) {
-          data = { ...data, replyId };
-          if (vote !== null) {
-            setRepliesSocialStats((prev) => ({
-              ...prev,
-              [replyId]: {
-                ...prev[replyId],
-                [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
-                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
-              },
-            }));
-          } else {
-            setRepliesSocialStats((prev) => ({
-              ...prev,
-              [replyId]: {
-                ...prev[replyId],
-                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
-              },
-            }));
-          }
-        }
-
-        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).set(data);
-      } else {
-        if (commentId) {
-          setCommentSocialStats((prev) => ({
-            ...prev,
-            [commentId]: {
-              ...prev[commentId],
-              [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
-            },
-          }));
-        }
-
-        if (replyId) {
-          setRepliesSocialStats((prev) => ({
-            ...prev,
-            [replyId]: {
-              ...prev[replyId],
-              [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
-            },
-          }));
-        }
-
-        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).delete();
-      }
-    } catch (err) {
-      setError(err.message);
-    }
+    setVote(voteHandle);
   };
 
   const handleCommentDelete = async () => {
     try {
-      await firebase.firestore().collection('comments').doc(commentId).delete();
       setSuccess('Successfully deleted comment!');
     } catch (err) {
       setError(err.message);
@@ -193,7 +96,6 @@ const CommentReplyTemplate = ({
 
   const handleReplyDelete = async () => {
     try {
-      await firebase.firestore().collection('replies').doc(replyId).delete();
       setSuccess('Successfully deleted reply!');
     } catch (err) {
       setError(err.message);
@@ -202,19 +104,18 @@ const CommentReplyTemplate = ({
 
   const isOwner = () => {
     if (profile) {
-      if (commenterId === profile.id) {
+      if (content.user._id === profile.id) {
         return true;
       }
     }
     return false;
   };
-
   return (
     <ListItem style={{ padding: 0 }} alignItems="flex-start" component="div">
       <ListItemAvatar>
         <Avatar
           className={reply ? classes.avatarReply : classes.avatar}
-          src={imageGenerator(users[commenterId].photoURL, 300)}
+          src={imageGenerator(content.user.displayPhoto, 300)}
         />
       </ListItemAvatar>
       <ListItemText
@@ -224,9 +125,9 @@ const CommentReplyTemplate = ({
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
                 <Grid container spacing={1} style={{ marginBottom: theme.spacing(0.5) }}>
                   <Grid item>
-                    <Typography variant="body2"><Link href={`/profile/${users[commenterId].username}`}><b>{users[commenterId].displayName}</b></Link></Typography>
+                    <Typography variant="body2"><Link href={`/profile/${content.user.username}`}><b>{content.user.displayName}</b></Link></Typography>
                   </Grid>
-                  { users[commenterId].staff ? (
+                  { content.user.isStaff ? (
                     <Grid item xs>
                       <Flair small />
                     </Grid>
@@ -234,10 +135,10 @@ const CommentReplyTemplate = ({
                 </Grid>
                 <Grid container direction="column" spacing={1}>
                   <Grid item>
-                    <Typography variant="body1">{comment}</Typography>
+                    <Typography variant="body1">{content.content}</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="caption"><i>{formatDistanceToNow(new Date(timestamp || null), { addSuffix: true })}</i></Typography>
+                    <Typography variant="caption"><i>{formatDistanceToNow(new Date(content.timestamp || null), { addSuffix: true })}</i></Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -260,11 +161,7 @@ const CommentReplyTemplate = ({
                   disabled={!profile}
                 >
                   <LikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  {reply ? (
-                    repliesSocialStats[replyId].upvoteCount || 0
-                  ) : (
-                    commentsSocialStats[commentId].upvoteCount || 0
-                  )}
+                  {stats?.upvotes || 0}
                 </Button>
               </Grid>
               <Grid item>
@@ -277,16 +174,12 @@ const CommentReplyTemplate = ({
                   disabled={!profile}
                 >
                   <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
-                  {reply ? (
-                    repliesSocialStats[replyId].downvoteCount || 0
-                  ) : (
-                    commentsSocialStats[commentId].downvoteCount || 0
-                  )}
+                  {stats?.downvotes || 0}
                 </Button>
               </Grid>
               {!reply ? (
                 <Grid item>
-                  { profile || commentsSocialStats[commentId].replyCount > 0 ? (
+                  { profile || stats?.replies > 0 ? (
                     <Button
                       style={{ padding: 0 }}
                       variant="text"
@@ -295,7 +188,7 @@ const CommentReplyTemplate = ({
                       onClick={getReplies}
                     >
                       <CommentIcon style={{ marginRight: theme.spacing(1) }} />
-                      {commentsSocialStats[commentId].replyCount > 0 ? `View ${commentsSocialStats[commentId].replyCount} replies` : 'Reply'}
+                      {stats?.replies > 0 ? `View ${stats?.replies} replies` : 'Reply'}
                     </Button>
                   ) : null }
                 </Grid>

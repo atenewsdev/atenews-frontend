@@ -10,10 +10,10 @@ import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import WPGraphQL from '@/utils/wpgraphql';
 import { gql } from '@apollo/client';
 
-import { useTrending } from '@/utils/hooks/useTrending';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useTrending } from '@/hooks/useTrending';
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { useError } from '@/utils/hooks/useSnackbar';
+import { useError } from '@/hooks/useSnackbar';
 import firebase from '@/utils/firebase';
 
 import {
@@ -300,6 +300,7 @@ export async function getServerSideProps({ query }) {
               title(format: RENDERED)
               databaseId
               date
+              slug
               featuredImage {
                 node {
                   sourceUrl(size: LARGE)
@@ -327,6 +328,7 @@ export async function getServerSideProps({ query }) {
               title(format: RENDERED)
               databaseId
               date
+              slug
               featuredImage {
                 node {
                   sourceUrl(size: LARGE)

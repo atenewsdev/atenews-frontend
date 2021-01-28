@@ -14,7 +14,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 
 import imageGenerator from '@/utils/imageGenerator';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import {
   AppBar,
@@ -336,7 +336,7 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
               {profile
                 ? (
                   <Avatar
-                    src={imageGenerator(profile.photoURL, 40)}
+                    src={imageGenerator(profile.displayPhoto, 40)}
                     style={{ width: 40, height: 40 }}
                   />
                 )
