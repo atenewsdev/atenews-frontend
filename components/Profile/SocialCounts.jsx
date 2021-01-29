@@ -8,6 +8,8 @@ import DislikeIcon from '@material-ui/icons/ArrowDownwardRounded';
 import {
   Typography,
   Grid,
+  Card,
+  CardContent,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,47 +29,65 @@ export default function SocialCounts({
   const theme = useTheme();
 
   return (
-    <>
-      <Grid container>
-        <Grid item>
-          <div className={classes.iconStats}>
-            <Grid container alignItems="center" spacing={1} wrap="nowrap">
+    <Card variant="outlined">
+      <CardContent>
+        <Grid container spacing={2}>
+          <Grid item xs={12} xl={4}>
+            <Grid container spacing={1}>
               <Grid item>
-                <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                <Typography variant="subtitle2" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} style={{ fontWeight: 'bold', marginBottom: theme.spacing(1) }}>Social Stats</Typography>
               </Grid>
               <Grid item>
-                <Grid container direction="column" justify="center">
-                  <Grid item>
-                    <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.upvotesReceived || 0}</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2">Upvotes</Typography>
+                <Typography variant="caption" color={theme.palette.type === 'light' ? 'primary' : 'secondary'} style={{ fontStyle: 'italic' }}>based on article comments and replies</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={6} xl={4}>
+            <div className={classes.iconStats}>
+              <Grid container alignItems="center" spacing={1} wrap="nowrap">
+                <Grid item>
+                  <LikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" justify="center">
+                    <Grid item>
+                      <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.upvotesReceived || 0}</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">Upvotes</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">Received</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </div>
-        </Grid>
-        <Grid item>
-          <div className={classes.iconStats}>
-            <Grid container alignItems="center" spacing={1} wrap="nowrap">
-              <Grid item>
-                <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
-              </Grid>
-              <Grid item>
-                <Grid container direction="column" justify="center">
-                  <Grid item>
-                    <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.downvotesReceived || 0}</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2">Downvotes</Typography>
+            </div>
+          </Grid>
+          <Grid item xs={6} xl={4}>
+            <div className={classes.iconStats}>
+              <Grid container alignItems="center" spacing={1} wrap="nowrap">
+                <Grid item>
+                  <DislikeIcon style={{ fontSize: 50 }} color={theme.palette.type === 'light' ? 'primary' : 'secondary'} />
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" justify="center">
+                    <Grid item>
+                      <Typography variant="h5" color={theme.palette.type === 'light' ? 'primary' : 'secondary'}>{profile.downvotesReceived || 0}</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">Downvotes</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">Received</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </div>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-    </>
+      </CardContent>
+    </Card>
   );
 }
