@@ -133,16 +133,16 @@ const ReactArticle = ({
     if (react === '') {
       setArticle((prev) => ({
         ...prev,
-        totalReactCount: prev.totalReactCount + 1,
+        totalReactCount: prev?.totalReactCount || 0 + 1,
       }));
     }
     if (reactX === react && profile) {
       setArticle((prev) => ({
         ...prev,
-        totalReactCount: prev.totalReactCount - 1,
+        totalReactCount: prev?.totalReactCount || 0 - 1,
         reactCount: {
           ...prev.reactCount,
-          [reactX]: prev.reactCount[reactX] - 1,
+          [reactX]: prev?.reactCount[reactX] || 0 - 1,
         },
       }));
       firebase.firestore()
@@ -152,9 +152,9 @@ const ReactArticle = ({
       setArticle((prev) => ({
         ...prev,
         reactCount: {
-          ...prev.reactCount,
-          [react]: prev.reactCount[react] - 1,
-          [reactX]: prev.reactCount[reactX] + 1,
+          ...prev?.reactCount,
+          [react]: prev?.reactCount[react] || 0 - 1,
+          [reactX]: prev?.reactCount[reactX] || 0 + 1,
         },
       }));
       firebase.firestore()
