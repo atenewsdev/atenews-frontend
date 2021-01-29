@@ -67,7 +67,7 @@ const IndividualWriter = ({ author }) => {
         <Avatar className={classes.avatar} src={imageGenerator(image, 60)} />
       </ListItemAvatar>
       <ListItemText
-        primary={`${author.firstName} ${author.lastName}`}
+        primary={`${author.firstName} ${author.lastName || ''}`}
         secondaryTypographyProps={{ component: 'div' }}
         secondary={author.roles.nodes.map((role) => (!rolesIgnore.includes(role.name) ? (
           <Typography

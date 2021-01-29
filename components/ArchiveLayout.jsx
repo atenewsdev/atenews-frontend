@@ -102,7 +102,7 @@ export default function Page({
             </Grid>
             {baseUrlMenu(router.pathname) !== '/search' && !nofollow ? (
               <Grid item xs>
-                <FollowButton category={category} />
+                <FollowButton key={category} category={category} />
               </Grid>
             ) : null }
           </Grid>

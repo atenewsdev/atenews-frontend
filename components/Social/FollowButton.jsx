@@ -15,7 +15,7 @@ export default function FollowButton({ category }) {
   const { profile, authUser } = useAuth();
 
   const [ready, setReady] = React.useState(false);
-  const [unfollowed, setUnfollowed] = React.useState(false);
+  const [unfollowed, _setUnfollowed] = React.useState(false);
   const [hovered, setHovered] = React.useState(false);
 
   React.useEffect(() => {
@@ -24,20 +24,19 @@ export default function FollowButton({ category }) {
         .then((snapshot) => {
           if (snapshot.exists()) {
             const data = snapshot.val();
-            setUnfollowed(data[category]);
+            _setUnfollowed(data[category]);
           }
           setReady(true);
         });
     }
   }, [profile]);
 
-  React.useEffect(() => {
-    if (profile) {
-      firebase.database().ref(`unfollows/${profile.id}`).update({
-        [category]: unfollowed,
-      });
-    }
-  }, [unfollowed]);
+  const toggleUnfollowed = () => {
+    firebase.database().ref(`unfollows/${profile.id}`).update({
+      [category]: !unfollowed,
+    });
+    _setUnfollowed((prev) => !prev);
+  };
 
   if (!profile) {
     return null;
@@ -59,7 +58,7 @@ export default function FollowButton({ category }) {
         size="small"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={() => setUnfollowed((prev) => !prev)}
+        onClick={() => toggleUnfollowed()}
       >
         { hovered ? (
           <>
@@ -81,7 +80,7 @@ export default function FollowButton({ category }) {
       elevation={0}
       color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
       size="small"
-      onClick={() => setUnfollowed((prev) => !prev)}
+      onClick={() => toggleUnfollowed()}
     >
       <FollowIcon style={{ marginRight: theme.spacing(1) }} />
       Follow

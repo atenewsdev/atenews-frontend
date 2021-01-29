@@ -92,7 +92,7 @@ export default handleViewport((props) => {
             <Grid container direction="column" justify="center">
               <Grid item>
                 <Typography variant="body1">
-                  {`${author.firstName} ${author.lastName}`}
+                  {`${author.firstName} ${author.lastName || ''}`}
                 </Typography>
               </Grid>
               <Grid item>
