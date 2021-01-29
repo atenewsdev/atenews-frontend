@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {
   useState, createContext, useContext,
 } from 'react';
@@ -5,6 +6,8 @@ import React, {
 import firebase from '@/utils/firebase';
 
 import useFirestoreSubscribe from '@/utils/hooks/useFirestoreSubscribe';
+
+import fetch from '@/utils/postFetch';
 
 export const ArticleContext = createContext();
 
@@ -65,7 +68,25 @@ export const ArticleProvider = ({ children, post }) => {
   React.useEffect(() => {
     const statsRef = firebase.database().ref(`articles/${post.slug}`);
     statsRef.once('value').then((data) => {
-      setArticle(data.val());
+      if (data.exists()) {
+        setArticle(data.val());
+      } else {
+        const categories = [];
+        post.categories.nodes.forEach((category) => {
+          const { databaseId: term_id, name, slug } = category;
+          categories.push({ term_id, name, slug });
+        });
+        fetch('/api/wp/post', {
+          title: post.title,
+          slug: post.slug,
+          date: post.date,
+          categories_detailed: categories,
+          trashed: '0',
+          api_key: process.env.NEXT_PUBLIC_WP_ARTICLE_KEY,
+        }).then((res) => res.json()).then((newArticle) => {
+          setArticle(newArticle);
+        });
+      }
     });
 
     const onUpdate = (data) => {

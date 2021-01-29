@@ -89,7 +89,7 @@ const Article = ({ article, topImage }) => {
                     <LazyLoadComponent>
                       <CardMedia
                         className={classes.media}
-                        image={imageGenerator(article.featuredImage.node.sourceUrl, 500)}
+                        image={imageGenerator(article.featuredImage?.node.sourceUrl, 500)}
                       />
                     </LazyLoadComponent>
                   </CardActionArea>
@@ -180,14 +180,14 @@ const Article = ({ article, topImage }) => {
                       <LazyLoadComponent>
                         <CardMedia
                           className={classes.media}
-                          image={imageGenerator(article.featuredImage.node.sourceUrl, 600)}
+                          image={imageGenerator(article.featuredImage?.node.sourceUrl, 600)}
                         />
                       </LazyLoadComponent>
                     </CardActionArea>
                   </Grid>
                 </Hidden>
                 <Hidden xsDown>
-                  <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(article.featuredImage.node.sourceUrl, 600)})` }} onClick={() => router.push(slugGenerator(article))} />
+                  <Grid item sm={6} component={CardActionArea} className={classes.bannerImage} style={{ backgroundImage: `url(${imageGenerator(article.featuredImage?.node.sourceUrl, 600)})` }} onClick={() => router.push(slugGenerator(article))} />
                 </Hidden>
                 <Grid item xs={12} sm={6}>
                   <CardContent style={{ padding: theme.spacing(4) }}>

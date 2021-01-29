@@ -23,7 +23,7 @@ export default async (req, res) => {
       i += 1;
     });
 
-    await admin.database().ref(`articles/${slug.replace('__trashed', '')}`).set({
+    const newArticle = {
       title,
       categories,
       timestamp: new Date(date).getTime(),
@@ -40,25 +40,23 @@ export default async (req, res) => {
       trendScore: trendFunction(0, 0, 0, 0, new Date(date).getTime()),
       votesCount: 0,
       trashed: trashed === '1',
-    });
+    };
+    await admin.database().ref(`articles/${slug.replace('__trashed', '')}`).set(newArticle);
 
-    await Promise.all(categories_detailed.map(async (category) => {
-      await admin.messaging().send({
-        data: {
-          title: decode(title),
-          description: decode(category.name),
-          featured_photo,
-          slug,
-        },
-        topic: `${category.term_id}`,
-      });
-    }));
-
-    res.status(200).send({
-      title,
-      categories,
-      timestamp: new Date(date),
-    });
+    if (featured_photo) {
+      await Promise.all(categories_detailed.map(async (category) => {
+        await admin.messaging().send({
+          data: {
+            title: decode(title),
+            description: decode(category.name),
+            featured_photo,
+            slug,
+          },
+          topic: `${category.term_id}`,
+        });
+      }));
+    }
+    res.status(200).send(newArticle);
   } else {
     res.status(500).send('WP Article is required.');
   }
