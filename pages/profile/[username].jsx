@@ -13,6 +13,7 @@ import {
   CircularProgress,
   Tabs,
   Tab,
+  Typography,
 } from '@material-ui/core';
 
 import WPGraphQL from '@/utils/wpgraphql';
@@ -106,8 +107,8 @@ export default function Home({ profile, cdnKey, staffArticles }) {
 
   React.useEffect(() => {
     setArticles(staffArticles?.articlesRaw);
-    setCursor(staffArticles?.pageInfo.endCursor);
-    setHasMoreArticles(staffArticles?.pageInfo.hasNextPage);
+    setCursor(staffArticles?.pageInfo?.endCursor);
+    setHasMoreArticles(staffArticles?.pageInfo?.hasNextPage);
   }, [staffArticles]);
 
   const nextArticles = () => {
@@ -229,9 +230,104 @@ export default function Home({ profile, cdnKey, staffArticles }) {
     }
   };
 
+  const WrittenArticles = () => {
+    if (!articles?.length) {
+      return (
+        <Grid
+          container
+          direction="column"
+          spacing={0}
+          alignItems="center"
+          justify="center"
+          style={{ marginTop: theme.spacing(4) }}
+        >
+          <Grid item>
+            <img src="/reacts/sad.svg" alt="sad" width={40} />
+          </Grid>
+          <Grid item>
+            <Typography variant="body1">Nothing to see here!</Typography>
+          </Grid>
+        </Grid>
+      );
+    }
+    return (
+      <InfiniteScroll
+        dataLength={articles?.length || 0}
+        next={nextArticles}
+        hasMore={hasMoreArticles}
+        loader={(
+          <div style={{ overflow: 'hidden' }}>
+            <Grid
+              container
+              spacing={0}
+              alignItems="center"
+              justify="center"
+            >
+              <Grid item>
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          </div>
+          )}
+      >
+        { articles?.map((article, index) => (
+          <Article key={index} article={article} />
+        ))}
+      </InfiniteScroll>
+    );
+  };
+
+  const RecentActivities = () => {
+    if (!comments?.length) {
+      return (
+        <Grid
+          container
+          direction="column"
+          spacing={0}
+          alignItems="center"
+          justify="center"
+          style={{ marginTop: theme.spacing(4) }}
+        >
+          <Grid item>
+            <img src="/reacts/sad.svg" alt="sad" width={40} />
+          </Grid>
+          <Grid item>
+            <Typography variant="body1">Nothing to see here!</Typography>
+          </Grid>
+        </Grid>
+      );
+    }
+    return (
+      <InfiniteScroll
+        style={{ overflow: 'hidden' }}
+        dataLength={comments?.length || 0}
+        next={next}
+        hasMore={hasMore}
+        loader={(
+          <div style={{ overflow: 'hidden' }}>
+            <Grid
+              container
+              spacing={0}
+              alignItems="center"
+              justify="center"
+            >
+              <Grid item>
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+      >
+        {comments?.map((comment) => (
+          <ProfileFeed key={comment.id} comment={comment} />
+        ))}
+      </InfiniteScroll>
+    );
+  };
+
   if (profile) {
     return (
-      <div className={classes.container}>
+      <div className={classes.container} key={profile.username}>
         <NextSeo
           title={`${profile.displayName} (@${profile.username}) - Atenews`}
           description={`The latest interactions from ${profile.displayName} (@${profile.username}). Join us here in the Atenews website!`}
@@ -309,74 +405,43 @@ export default function Home({ profile, cdnKey, staffArticles }) {
               value={tabValue}
               onChange={handleTabChange}
               indicatorColor="primary"
-              textColor="primary"
+              textColor="default"
               centered
               style={{ marginBottom: theme.spacing(2) }}
             >
-              { profile?.staff ? (
+              { profile.staff ? (
                 <Tab label="Written Articles" />
-              ) : null }
+              ) : null}
               <Tab label="Recent Activities" />
             </Tabs>
-            <SwipeableViews
-              index={tabValue}
-              onChangeIndex={handleTabChangeIndex}
-              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            >
-              { profile?.staff ? (
+            { profile.staff ? (
+              <SwipeableViews
+                index={tabValue}
+                onChangeIndex={handleTabChangeIndex}
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              >
                 <TabPanel value={tabValue} index={0} dir={theme.direction}>
-                  <InfiniteScroll
-                    dataLength={articles.length}
-                    next={nextArticles}
-                    hasMore={hasMoreArticles}
-                    loader={(
-                      <div style={{ overflow: 'hidden' }}>
-                        <Grid
-                          container
-                          spacing={0}
-                          alignItems="center"
-                          justify="center"
-                        >
-                          <Grid item>
-                            <CircularProgress />
-                          </Grid>
-                        </Grid>
-                      </div>
-                    )}
-                  >
-                    { articles.map((article, index) => (
-                      <Article key={index} article={article} />
-                    ))}
-                  </InfiniteScroll>
+                  <WrittenArticles />
                 </TabPanel>
-              ) : null }
-              <TabPanel value={tabValue} index={profile?.staff ? 1 : 0} dir={theme.direction}>
+                <TabPanel value={tabValue} index={1} dir={theme.direction}>
+                  <>
+                    { !loading ? (
+                      <RecentActivities />
+                    ) : (
+                      <Grid container justify="center" alignItems="center" spacing={2}>
+                        <Grid item>
+                          <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
+                        </Grid>
+                      </Grid>
+                    ) }
+                  </>
+                </TabPanel>
+              </SwipeableViews>
+            ) : (
+              <TabPanel value={tabValue} index={0} dir={theme.direction}>
                 <>
                   { !loading ? (
-                    <InfiniteScroll
-                      style={{ overflow: 'hidden' }}
-                      dataLength={comments.length}
-                      next={next}
-                      hasMore={hasMore}
-                      loader={(
-                        <div style={{ overflow: 'hidden' }}>
-                          <Grid
-                            container
-                            spacing={0}
-                            alignItems="center"
-                            justify="center"
-                          >
-                            <Grid item>
-                              <CircularProgress />
-                            </Grid>
-                          </Grid>
-                        </div>
-                      )}
-                    >
-                      {comments.map((comment) => (
-                        <ProfileFeed key={comment.id} comment={comment} />
-                      ))}
-                    </InfiniteScroll>
+                    <RecentActivities />
                   ) : (
                     <Grid container justify="center" alignItems="center" spacing={2}>
                       <Grid item>
@@ -386,7 +451,7 @@ export default function Home({ profile, cdnKey, staffArticles }) {
                   ) }
                 </>
               </TabPanel>
-            </SwipeableViews>
+            ) }
             <Trending articles={trending} />
           </>
         ) : (
@@ -471,9 +536,9 @@ export async function getServerSideProps({ params }) {
             id: snapshot.docs[0].id,
           },
           staffArticles: {
-            articlesRaw: wpData?.posts.nodes,
+            articlesRaw: wpData ? wpData.posts.nodes : null,
             wpId,
-            pageInfo: wpData?.posts.pageInfo,
+            pageInfo: wpData ? wpData.posts.pageInfo : null,
           },
           cdnKey: keySnapshot.data().cdn,
         },
