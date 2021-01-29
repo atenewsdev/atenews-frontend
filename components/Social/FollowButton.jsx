@@ -54,7 +54,7 @@ export default function FollowButton({ category }) {
     return (
       <Button
         variant="outlined"
-        style={{ backgroundColor: hovered ? 'red' : theme.palette.primary.main }}
+        style={{ backgroundColor: hovered ? 'red' : theme.palette.primary.main, color: 'white' }}
         size="small"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
