@@ -28,12 +28,12 @@ const useStyles = makeStyles(() => ({
 
 export default handleViewport((props) => {
   const {
-    author, key, profiles,
+    author, key,
   } = props;
 
   const {
     writerImages: { setWriterImages },
-    profiles: { setProfiles },
+    profiles: { setProfiles, profiles },
   } = useArticle();
 
   const classes = useStyles();

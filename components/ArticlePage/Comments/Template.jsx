@@ -51,13 +51,9 @@ const useStyles = makeStyles(() => ({
 const CommentReplyTemplate = ({
   children,
   reply,
-  comment,
+  details,
   getReplies,
-  timestamp,
   slug,
-  commentId,
-  replyId,
-  commenterId,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -77,7 +73,7 @@ const CommentReplyTemplate = ({
   React.useEffect(() => {
     let unsub = () => { };
     if (profile) {
-      unsub = firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).onSnapshot(async (snapshot) => {
+      unsub = firebase.firestore().collection('votes').doc(`${details.id}_${profile.id}`).onSnapshot(async (snapshot) => {
         if (snapshot.exists) {
           setVote(snapshot.data().content);
         } else {
@@ -105,77 +101,74 @@ const CommentReplyTemplate = ({
       if (vote !== voteHandle) {
         let data = {
           articleSlug: slug,
-          commenterId,
+          commenterId: details.userId,
           content: voteHandle,
           timestamp: new Date(),
           userId: profile.id,
         };
-        if (commentId) {
-          data = { ...data, commentId };
+        if (!reply) {
+          data = { ...data, commentId: details.id };
           if (vote !== null) {
             setCommentSocialStats((prev) => ({
               ...prev,
-              [commentId]: {
-                ...prev[commentId],
-                [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
-                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
+              [details.id]: {
+                ...prev[details.id],
+                [`${vote}voteCount`]: prev[details.id][`${vote}voteCount`] - 1,
+                [`${voteHandle}voteCount`]: prev[details.id][`${voteHandle}voteCount`] + 1,
               },
             }));
           } else {
             setCommentSocialStats((prev) => ({
               ...prev,
-              [commentId]: {
-                ...prev[commentId],
-                [`${voteHandle}voteCount`]: prev[commentId][`${voteHandle}voteCount`] + 1,
+              [details.id]: {
+                ...prev[details.id],
+                [`${voteHandle}voteCount`]: prev[details.id][`${voteHandle}voteCount`] + 1,
               },
             }));
           }
-        }
-        if (replyId) {
-          data = { ...data, replyId };
+        } else {
+          data = { ...data, replyId: details.id };
           if (vote !== null) {
             setRepliesSocialStats((prev) => ({
               ...prev,
-              [replyId]: {
-                ...prev[replyId],
-                [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
-                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
+              [details.id]: {
+                ...prev[details.id],
+                [`${vote}voteCount`]: prev[details.id][`${vote}voteCount`] - 1,
+                [`${voteHandle}voteCount`]: prev[details.id][`${voteHandle}voteCount`] + 1,
               },
             }));
           } else {
             setRepliesSocialStats((prev) => ({
               ...prev,
-              [replyId]: {
-                ...prev[replyId],
-                [`${voteHandle}voteCount`]: prev[replyId][`${voteHandle}voteCount`] + 1,
+              [details.id]: {
+                ...prev[details.id],
+                [`${voteHandle}voteCount`]: prev[details.id][`${voteHandle}voteCount`] + 1,
               },
             }));
           }
         }
 
-        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).set(data);
+        await firebase.firestore().collection('votes').doc(`${details.id}_${profile.id}`).set(data);
       } else {
-        if (commentId) {
+        if (!reply) {
           setCommentSocialStats((prev) => ({
             ...prev,
-            [commentId]: {
-              ...prev[commentId],
-              [`${vote}voteCount`]: prev[commentId][`${vote}voteCount`] - 1,
+            [details.id]: {
+              ...prev[details.id],
+              [`${vote}voteCount`]: prev[details.id][`${vote}voteCount`] - 1,
             },
           }));
-        }
-
-        if (replyId) {
+        } else {
           setRepliesSocialStats((prev) => ({
             ...prev,
-            [replyId]: {
-              ...prev[replyId],
-              [`${vote}voteCount`]: prev[replyId][`${vote}voteCount`] - 1,
+            [details.id]: {
+              ...prev[details.id],
+              [`${vote}voteCount`]: prev[details.id][`${vote}voteCount`] - 1,
             },
           }));
         }
 
-        await firebase.firestore().collection('votes').doc(`${reply ? replyId : commentId}_${profile.id}`).delete();
+        await firebase.firestore().collection('votes').doc(`${details.id}_${profile.id}`).delete();
       }
     } catch (err) {
       setError(err.message);
@@ -184,7 +177,7 @@ const CommentReplyTemplate = ({
 
   const handleCommentDelete = async () => {
     try {
-      await firebase.firestore().collection('comments').doc(commentId).delete();
+      await firebase.firestore().collection('comments').doc(details.id).delete();
       setSuccess('Successfully deleted comment!');
     } catch (err) {
       setError(err.message);
@@ -193,7 +186,7 @@ const CommentReplyTemplate = ({
 
   const handleReplyDelete = async () => {
     try {
-      await firebase.firestore().collection('replies').doc(replyId).delete();
+      await firebase.firestore().collection('replies').doc(details.id).delete();
       setSuccess('Successfully deleted reply!');
     } catch (err) {
       setError(err.message);
@@ -202,7 +195,7 @@ const CommentReplyTemplate = ({
 
   const isOwner = () => {
     if (profile) {
-      if (commenterId === profile.id) {
+      if (details.userId === profile.id) {
         return true;
       }
     }
@@ -214,7 +207,7 @@ const CommentReplyTemplate = ({
       <ListItemAvatar>
         <Avatar
           className={reply ? classes.avatarReply : classes.avatar}
-          src={imageGenerator(users[commenterId].photoURL, 300)}
+          src={imageGenerator(users[details.userId].photoURL, 300)}
         />
       </ListItemAvatar>
       <ListItemText
@@ -224,9 +217,9 @@ const CommentReplyTemplate = ({
               <Paper elevation={0} style={{ width: 'fit-content', maxWidth: '80%' }}>
                 <Grid container spacing={1} style={{ marginBottom: theme.spacing(0.5) }}>
                   <Grid item>
-                    <Typography variant="body2"><Link href={`/profile/${users[commenterId].username}`}><b>{users[commenterId].displayName}</b></Link></Typography>
+                    <Typography variant="body2"><Link href={`/profile/${users[details.userId].username}`}><b>{users[details.userId].displayName}</b></Link></Typography>
                   </Grid>
-                  { users[commenterId].staff ? (
+                  { users[details.userId].staff ? (
                     <Grid item xs>
                       <Flair small />
                     </Grid>
@@ -234,10 +227,10 @@ const CommentReplyTemplate = ({
                 </Grid>
                 <Grid container direction="column" spacing={1}>
                   <Grid item>
-                    <Typography variant="body1">{comment}</Typography>
+                    <Typography variant="body1">{details.content}</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="caption"><i>{formatDistanceToNow(new Date(timestamp || null), { addSuffix: true })}</i></Typography>
+                    <Typography variant="caption"><i>{formatDistanceToNow(new Date(details.timestamp.toDate() || null), { addSuffix: true })}</i></Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -261,9 +254,9 @@ const CommentReplyTemplate = ({
                 >
                   <LikeIcon style={{ marginRight: theme.spacing(1) }} />
                   {reply ? (
-                    repliesSocialStats[replyId].upvoteCount || 0
+                    repliesSocialStats[details.id].upvoteCount || 0
                   ) : (
-                    commentsSocialStats[commentId].upvoteCount || 0
+                    commentsSocialStats[details.id].upvoteCount || 0
                   )}
                 </Button>
               </Grid>
@@ -278,15 +271,15 @@ const CommentReplyTemplate = ({
                 >
                   <DislikeIcon style={{ marginRight: theme.spacing(1) }} />
                   {reply ? (
-                    repliesSocialStats[replyId].downvoteCount || 0
+                    repliesSocialStats[details.id].downvoteCount || 0
                   ) : (
-                    commentsSocialStats[commentId].downvoteCount || 0
+                    commentsSocialStats[details.id].downvoteCount || 0
                   )}
                 </Button>
               </Grid>
               {!reply ? (
                 <Grid item>
-                  { profile || commentsSocialStats[commentId].replyCount > 0 ? (
+                  { profile || commentsSocialStats[details.id].replyCount > 0 ? (
                     <Button
                       style={{ padding: 0 }}
                       variant="text"
@@ -295,7 +288,7 @@ const CommentReplyTemplate = ({
                       onClick={getReplies}
                     >
                       <CommentIcon style={{ marginRight: theme.spacing(1) }} />
-                      {commentsSocialStats[commentId].replyCount > 0 ? `View ${commentsSocialStats[commentId].replyCount} replies` : 'Reply'}
+                      {commentsSocialStats[details.id].replyCount > 0 ? `View ${commentsSocialStats[details.id].replyCount} replies` : 'Reply'}
                     </Button>
                   ) : null }
                 </Grid>

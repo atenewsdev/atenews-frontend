@@ -8,11 +8,10 @@ import { useArticle } from '@/utils/hooks/useArticle';
 import useFirestoreSubscribe from '@/utils/hooks/useFirestoreSubscribe';
 
 export default function Replies({
-  commentId,
+  rootDetails,
   slug,
-  count,
 }) {
-  const [loading, setLoading] = React.useState(count !== 0);
+  const [loading, setLoading] = React.useState(false);
 
   const {
     users: { users, setUsers },
@@ -30,10 +29,13 @@ export default function Replies({
   };
 
   const repliesRef = firebase.firestore().collection('replies')
-    .where('commentId', '==', commentId)
+    .where('commentId', '==', rootDetails.id)
     .orderBy('timestamp', 'asc');
 
   const [replies] = useFirestoreSubscribe(repliesRef, {
+    started: () => {
+      setLoading(true);
+    },
     added: async (change) => {
       await updateUsersCache(change.doc.data().userId);
       setRepliesSocialStats((prev) => ({
@@ -78,16 +80,9 @@ export default function Replies({
     <>
       { replies.map((reply) => (repliesSocialStats[reply.id] ? (
         <Template
-          replyId={reply.id}
+          details={reply}
           key={reply.id}
-          comment={reply.content}
-          socialStats={{
-            upvoteCount: reply.upvoteCount,
-            downvoteCount: reply.downvoteCount,
-          }}
-          timestamp={reply.timestamp.toDate()}
           slug={slug}
-          commenterId={reply.userId}
           reply
         />
       ) : null))}

@@ -16,6 +16,7 @@ export default function FollowButton({ category }) {
 
   const [ready, setReady] = React.useState(false);
   const [unfollowed, setUnfollowed] = React.useState(false);
+  const [hovered, setHovered] = React.useState(false);
 
   React.useEffect(() => {
     if (profile) {
@@ -54,12 +55,22 @@ export default function FollowButton({ category }) {
     return (
       <Button
         variant="outlined"
-        color={theme.palette.type === 'light' ? 'primary' : 'secondary'}
+        style={{ backgroundColor: hovered ? 'red' : theme.palette.primary.main }}
         size="small"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         onClick={() => setUnfollowed((prev) => !prev)}
       >
-        <UnfollowIcon style={{ marginRight: theme.spacing(1) }} />
-        Unfollow
+        { hovered ? (
+          <>
+            <UnfollowIcon style={{ marginRight: theme.spacing(1) }} />
+            Unfollow
+          </>
+        ) : (
+          <>
+            Following
+          </>
+        ) }
       </Button>
     );
   }

@@ -76,11 +76,8 @@ export default function Home({
 
   const { setSuccess, setError } = useError();
 
-  const [applied, setApplied] = React.useState(false);
-
   React.useEffect(() => {
-    if (mode && oobCode && !applied) {
-      setApplied(true);
+    if (mode && oobCode) {
       switch (mode) {
         case 'resetPassword':
           // Display reset password handler and UI.

@@ -7,6 +7,7 @@ const useFirestoreSubscribe = (
     modified = () => {},
     removed = () => {},
     any = () => {},
+    started = () => {},
     sort = null,
   },
 ) => {
@@ -15,6 +16,7 @@ const useFirestoreSubscribe = (
   const sortArray = (array) => (sort ? array.sort(sort) : array);
 
   useEffect(() => {
+    started();
     const unsubscribe = docRef.onSnapshot(async (snapshot) => {
       snapshot.docChanges().forEach(async (change) => {
         if (change.type === 'added') {

@@ -14,6 +14,7 @@ import {
   ClickAwayListener,
   Grow,
   Popper,
+  Tooltip,
 } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -168,24 +169,30 @@ const ReactArticle = ({
   };
 
   const ButtonIcon = () => {
-    if (!react) {
-      return <InsertEmoticonIcon style={{ marginRight: theme.spacing(1) }} />;
-    }
-
+    let currentReact = null;
     switch (react) {
       case 'happy':
-        return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/happy.svg" />;
+        currentReact = 'happy';
+        break;
       case 'sad':
-        return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/sad.svg" />;
+        currentReact = 'sad';
+        break;
       case 'angry':
-        return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/angry.svg" />;
+        currentReact = 'angry';
+        break;
       case 'disgusted':
-        return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/disgust.svg" />;
+        currentReact = 'disgust';
+        break;
       case 'worried':
-        return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src="/reacts/worried.svg" />;
+        currentReact = 'worried';
+        break;
       default:
-        return null;
+        currentReact = null;
     }
+    if (!currentReact) {
+      return <InsertEmoticonIcon style={{ marginRight: theme.spacing(1) }} />;
+    }
+    return <Avatar className={classes.buttonReacts} style={{ marginRight: theme.spacing(1) }} src={`/reacts/${currentReact}.svg`} />;
   };
 
   return (
@@ -217,64 +224,74 @@ const ReactArticle = ({
             <Card elevation={0} variant="outlined" style={{ borderRadius: 40, marginBottom: theme.spacing(1) }}>
               <Grid container>
                 <Grid item>
-                  <CardActionArea
-                    onClick={() => handleReact('happy')}
-                    classes={{
-                      focusHighlight: react === 'happy' ? classes.focusHighlight : null,
-                    }}
-                  >
-                    <CardContent>
-                      <Avatar className={classes.reacts} src="/reacts/happy.svg" />
-                    </CardContent>
-                  </CardActionArea>
+                  <Tooltip title="Happy" placement="top" arrow>
+                    <CardActionArea
+                      onClick={() => handleReact('happy')}
+                      classes={{
+                        focusHighlight: react === 'happy' ? classes.focusHighlight : null,
+                      }}
+                    >
+                      <CardContent>
+                        <Avatar className={classes.reacts} src="/reacts/happy.svg" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Tooltip>
                 </Grid>
                 <Grid item>
-                  <CardActionArea
-                    onClick={() => handleReact('sad')}
-                    classes={{
-                      focusHighlight: react === 'sad' ? classes.focusHighlight : null,
-                    }}
-                  >
-                    <CardContent>
-                      <Avatar className={classes.reacts} src="/reacts/sad.svg" />
-                    </CardContent>
-                  </CardActionArea>
+                  <Tooltip title="Sad" placement="top" arrow>
+                    <CardActionArea
+                      onClick={() => handleReact('sad')}
+                      classes={{
+                        focusHighlight: react === 'sad' ? classes.focusHighlight : null,
+                      }}
+                    >
+                      <CardContent>
+                        <Avatar className={classes.reacts} src="/reacts/sad.svg" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Tooltip>
                 </Grid>
                 <Grid item>
-                  <CardActionArea
-                    onClick={() => handleReact('angry')}
-                    classes={{
-                      focusHighlight: react === 'angry' ? classes.focusHighlight : null,
-                    }}
-                  >
-                    <CardContent>
-                      <Avatar className={classes.reacts} src="/reacts/angry.svg" />
-                    </CardContent>
-                  </CardActionArea>
+                  <Tooltip title="Angry" placement="top" arrow>
+                    <CardActionArea
+                      onClick={() => handleReact('angry')}
+                      classes={{
+                        focusHighlight: react === 'angry' ? classes.focusHighlight : null,
+                      }}
+                    >
+                      <CardContent>
+                        <Avatar className={classes.reacts} src="/reacts/angry.svg" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Tooltip>
                 </Grid>
                 <Grid item>
-                  <CardActionArea
-                    onClick={() => handleReact('disgusted')}
-                    classes={{
-                      focusHighlight: react === 'disgusted' ? classes.focusHighlight : null,
-                    }}
-                  >
-                    <CardContent>
-                      <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
-                    </CardContent>
-                  </CardActionArea>
+                  <Tooltip title="Disgusted" placement="top" arrow>
+                    <CardActionArea
+                      onClick={() => handleReact('disgusted')}
+                      classes={{
+                        focusHighlight: react === 'disgusted' ? classes.focusHighlight : null,
+                      }}
+                    >
+                      <CardContent>
+                        <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Tooltip>
                 </Grid>
                 <Grid item>
-                  <CardActionArea
-                    onClick={() => handleReact('worried')}
-                    classes={{
-                      focusHighlight: react === 'worried' ? classes.focusHighlight : null,
-                    }}
-                  >
-                    <CardContent>
-                      <Avatar className={classes.reacts} src="/reacts/worried.svg" />
-                    </CardContent>
-                  </CardActionArea>
+                  <Tooltip title="Worried" placement="top" arrow>
+                    <CardActionArea
+                      onClick={() => handleReact('worried')}
+                      classes={{
+                        focusHighlight: react === 'worried' ? classes.focusHighlight : null,
+                      }}
+                    >
+                      <CardContent>
+                        <Avatar className={classes.reacts} src="/reacts/worried.svg" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Tooltip>
                 </Grid>
               </Grid>
             </Card>

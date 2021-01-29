@@ -11,14 +11,21 @@ import {
   Grid,
   Divider,
   CircularProgress,
+  Tabs,
+  Tab,
 } from '@material-ui/core';
+
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useTrending } from '@/utils/hooks/useTrending';
 import firebaseAdmin from '@/utils/firebaseAdmin';
 import firebase from '@/utils/firebase';
+import postFetch from '@/utils/postFetch';
 
+import SwipeableViews from 'react-swipeable-views';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ProfileFeed = dynamic(import('@/components/Profile/ProfileFeed'));
@@ -28,6 +35,7 @@ const ShowDetails = dynamic(import('@/components/Profile/ShowDetails'));
 const EditDetails = dynamic(import('@/components/Profile/EditDetails'));
 const EditProfileButton = dynamic(import('@/components/Profile/EditProfileButton'));
 const SocialMediaDetails = dynamic(import('@/components/Profile/SocialMediaDetails'));
+const Article = dynamic(import('@/components/List/Article'));
 
 const DisplayAvatar = dynamic(import('@/components/Profile/DisplayAvatar'));
 
@@ -61,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home({ profile, cdnKey }) {
+export default function Home({ profile, cdnKey, staffArticles }) {
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
@@ -91,6 +99,59 @@ export default function Home({ profile, cdnKey }) {
 
   const [startAt, setStartAt] = React.useState(null);
   const [hasMore, setHasMore] = React.useState(true);
+
+  const [articles, setArticles] = React.useState(staffArticles?.articlesRaw);
+  const [hasMoreArticles, setHasMoreArticles] = React.useState(true);
+  const [cursor, setCursor] = React.useState(null);
+
+  React.useEffect(() => {
+    setArticles(staffArticles?.articlesRaw);
+    setCursor(staffArticles?.pageInfo.endCursor);
+    setHasMoreArticles(staffArticles?.pageInfo.hasNextPage);
+  }, [staffArticles]);
+
+  const nextArticles = () => {
+    postFetch('/api/graphql/getAuthorArticles', {
+      authorId: staffArticles?.wpId,
+      cursor,
+    }).then((res) => res.json()).then((x) => {
+      setHasMore(x.pageInfo.hasNextPage);
+      setCursor(x.pageInfo.endCursor);
+      setArticles([...articles, ...x.articlesRaw]);
+    });
+  };
+
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+  const handleTabChangeIndex = (index) => {
+    setTabValue(index);
+  };
+
+  const TabPanel = (props) => {
+    const {
+      children, value, index, ...other
+    } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <>
+            { children }
+          </>
+        )}
+      </div>
+    );
+  };
 
   React.useEffect(() => {
     if (profile) {
@@ -244,39 +305,88 @@ export default function Home({ profile, cdnKey }) {
               </Grid>
             </Grid>
             <Divider style={{ marginTop: theme.spacing(4), marginBottom: theme.spacing(4) }} />
-            { !loading ? (
-              <InfiniteScroll
-                style={{ overflow: 'hidden' }}
-                dataLength={comments.length}
-                next={next}
-                hasMore={hasMore}
-                loader={(
-                  <div style={{ overflow: 'hidden' }}>
-                    <Grid
-                      container
-                      spacing={0}
-                      alignItems="center"
-                      justify="center"
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+              style={{ marginBottom: theme.spacing(2) }}
+            >
+              { profile?.staff ? (
+                <Tab label="Written Articles" />
+              ) : null }
+              <Tab label="Recent Activities" />
+            </Tabs>
+            <SwipeableViews
+              index={tabValue}
+              onChangeIndex={handleTabChangeIndex}
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+            >
+              { profile?.staff ? (
+                <TabPanel value={tabValue} index={0} dir={theme.direction}>
+                  <InfiniteScroll
+                    dataLength={articles.length}
+                    next={nextArticles}
+                    hasMore={hasMoreArticles}
+                    loader={(
+                      <div style={{ overflow: 'hidden' }}>
+                        <Grid
+                          container
+                          spacing={0}
+                          alignItems="center"
+                          justify="center"
+                        >
+                          <Grid item>
+                            <CircularProgress />
+                          </Grid>
+                        </Grid>
+                      </div>
+                    )}
+                  >
+                    { articles.map((article, index) => (
+                      <Article key={index} article={article} />
+                    ))}
+                  </InfiniteScroll>
+                </TabPanel>
+              ) : null }
+              <TabPanel value={tabValue} index={profile?.staff ? 1 : 0} dir={theme.direction}>
+                <>
+                  { !loading ? (
+                    <InfiniteScroll
+                      style={{ overflow: 'hidden' }}
+                      dataLength={comments.length}
+                      next={next}
+                      hasMore={hasMore}
+                      loader={(
+                        <div style={{ overflow: 'hidden' }}>
+                          <Grid
+                            container
+                            spacing={0}
+                            alignItems="center"
+                            justify="center"
+                          >
+                            <Grid item>
+                              <CircularProgress />
+                            </Grid>
+                          </Grid>
+                        </div>
+                      )}
                     >
+                      {comments.map((comment) => (
+                        <ProfileFeed key={comment.id} comment={comment} />
+                      ))}
+                    </InfiniteScroll>
+                  ) : (
+                    <Grid container justify="center" alignItems="center" spacing={2}>
                       <Grid item>
-                        <CircularProgress />
+                        <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
                       </Grid>
                     </Grid>
-                  </div>
-                )}
-              >
-                {comments.map((comment) => (
-                  <ProfileFeed key={comment.id} comment={comment} />
-                ))}
-              </InfiniteScroll>
-            )
-              : (
-                <Grid container justify="center" alignItems="center" spacing={2}>
-                  <Grid item>
-                    <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
-                  </Grid>
-                </Grid>
-              )}
+                  ) }
+                </>
+              </TabPanel>
+            </SwipeableViews>
             <Trending articles={trending} />
           </>
         ) : (
@@ -305,12 +415,65 @@ export async function getServerSideProps({ params }) {
   try {
     const snapshot = await firebaseAdmin.firestore().collection('users').where('username', '==', params.username).get();
     const keySnapshot = await firebaseAdmin.firestore().collection('keys').doc('custom').get();
+    let wpData = null;
+    let wpId = null;
     if (!snapshot.empty) {
+      if (snapshot.docs[0].data().staff) {
+        const wpSnapshot = await firebaseAdmin.firestore().collection('wordpress').where('id', '==', snapshot.docs[0].id).get();
+        if (!wpSnapshot.empty) {
+          wpId = wpSnapshot.docs[0].id;
+          wpData = (await WPGraphQL.query({
+            query: gql`
+              query Articles {
+                posts(first: 5, where: { author: ${wpId} }) {
+                  pageInfo {
+                    hasNextPage
+                    hasPreviousPage
+                    startCursor
+                    endCursor
+                  }
+                  nodes {
+                    title(format: RENDERED)
+                    slug
+                    date
+                    coauthors {
+                      nodes {
+                        firstName
+                        lastName
+                        databaseId
+                      }
+                    }
+                    excerpt
+                    categories {
+                      nodes {
+                        name
+                        databaseId
+                        slug
+                      }
+                    }
+                    databaseId
+                    featuredImage {
+                      node {
+                        sourceUrl(size: LARGE)
+                      }
+                    }
+                  }
+                }
+              }            
+            `,
+          })).data;
+        }
+      }
       return {
         props: {
           profile: {
             ...snapshot.docs[0].data(),
             id: snapshot.docs[0].id,
+          },
+          staffArticles: {
+            articlesRaw: wpData?.posts.nodes,
+            wpId,
+            pageInfo: wpData?.posts.pageInfo,
           },
           cdnKey: keySnapshot.data().cdn,
         },

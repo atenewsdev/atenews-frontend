@@ -67,7 +67,6 @@ export default function Page({
   const {
     article: { article },
     writerImages: { writerImages },
-    profiles: { profiles },
     comments: { comments, commentsSocialStats },
   } = useArticle();
 
@@ -115,15 +114,12 @@ export default function Page({
         <div className={classes.sideWriter}>
           <SideWriter
             authors={post.coauthors.nodes}
-            profiles={profiles}
             tags={post.categories.nodes}
-            writerImages={writerImages}
           />
         </div>
       </CSSTransition>
       <WriterInfo
         authors={post.coauthors.nodes}
-        profiles={profiles}
         onLeaveViewport={leaveWriterViewport}
         onEnterViewport={enterWriterViewport}
       />
@@ -195,17 +191,9 @@ export default function Page({
         <List component="div">
           {comments.map((comment) => (commentsSocialStats[comment.id] ? (
             <Comment
-              commentId={comment.id}
-              commenterId={comment.userId}
+              details={comment}
               key={comment.id}
-              comment={comment.content}
-              socialStats={{
-                upvoteCount: comment.upvoteCount,
-                downvoteCount: comment.downvoteCount,
-                replyCount: comment.replyCount,
-              }}
               slug={post.slug}
-              timestamp={comment.timestamp.toDate()}
             />
           ) : null)) }
         </List>

@@ -12,6 +12,7 @@ import {
 
 import { useError } from '@/utils/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
+import { useArticle } from '@/utils/hooks/useArticle';
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -20,11 +21,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const IndividualWriter = ({ author, images, profiles }) => {
+const IndividualWriter = ({ author }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const { setError } = useError();
+  const {
+    writerImages: { writerImages: images },
+    profiles: { profiles },
+  } = useArticle();
 
   const [image, setImage] = React.useState('');
 
@@ -39,8 +44,6 @@ const IndividualWriter = ({ author, images, profiles }) => {
     'editor',
   ];
 
-  // TODO: edit to graphql pati na pud tong isa ka indiwriter file
-
   const humanRole = (raw) => raw.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
   return (
@@ -48,7 +51,7 @@ const IndividualWriter = ({ author, images, profiles }) => {
       button
       onClick={() => {
         if (profiles) {
-          if (profiles[author.id]) {
+          if (profiles[author.databaseId]) {
             router.push(`/profile/${profiles[author.databaseId].username}`);
           } else {
             setError('This member has yet to set up his/her profile!');

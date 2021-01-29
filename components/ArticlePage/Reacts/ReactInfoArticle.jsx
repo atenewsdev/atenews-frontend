@@ -57,26 +57,46 @@ const ReactInfo = ({
     <>
       <div
         className={classes.container}
-        onMouseEnter={handlePopoverOpen}
+        onMouseEnter={article?.totalReactCount ? handlePopoverOpen : null}
         onMouseLeave={handlePopoverClose}
-        onClick={handlePopoverOpen}
+        onClick={article?.totalReactCount ? handlePopoverOpen : null}
       >
         <Grid container spacing={1} {...GridProps} alignItems="center" wrap="nowrap">
-          <Grid item>
-            <AvatarGroup style={{ marginRight: theme.spacing(1) }} spacing={5}>
-              <Avatar className={classes.infoReacts} src="/reacts/happy.svg" />
-              <Avatar className={classes.infoReacts} src="/reacts/angry.svg" />
-              <Avatar className={classes.infoReacts} src="/reacts/sad.svg" />
-              <Avatar className={classes.infoReacts} src="/reacts/disgust.svg" />
-              <Avatar className={classes.infoReacts} src="/reacts/worried.svg" />
-            </AvatarGroup>
-          </Grid>
+          { article?.totalReactCount ? (
+            <Grid item>
+              <AvatarGroup style={{ marginRight: theme.spacing(1) }} spacing={5}>
+                { article?.reactCount?.happy ? (
+                  <Avatar className={classes.infoReacts} src="/reacts/happy.svg" />
+                ) : null }
+                { article?.reactCount?.angry ? (
+                  <Avatar className={classes.infoReacts} src="/reacts/angry.svg" />
+                ) : null }
+                { article?.reactCount?.sad ? (
+                  <Avatar className={classes.infoReacts} src="/reacts/sad.svg" />
+                ) : null }
+                { article?.reactCount?.disgusted ? (
+                  <Avatar className={classes.infoReacts} src="/reacts/disgust.svg" />
+                ) : null }
+                { article?.reactCount?.worried ? (
+                  <Avatar className={classes.infoReacts} src="/reacts/worried.svg" />
+                ) : null }
+              </AvatarGroup>
+            </Grid>
+          ) : null }
           <Grid item xs>
-            <Typography variant="body2" {...TextProps}>
-              <b>{article ? article.totalReactCount : 0}</b>
-              {' '}
-              people reacted to this article
-            </Typography>
+            { article?.totalReactCount ? (
+              <Typography variant="body2" {...TextProps}>
+                <b>{article?.totalReactCount}</b>
+                {' '}
+                people reacted to this article
+              </Typography>
+            ) : (
+              <Typography variant="body2" {...TextProps}>
+                <b>Nobody</b>
+                {' '}
+                reacted to this article yet.
+              </Typography>
+            ) }
           </Grid>
         </Grid>
       </div>
@@ -104,7 +124,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/happy.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">{article ? article.reactCount.happy : 0}</Typography>
+                  <Typography variant="subtitle1">{article?.reactCount?.happy || 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -112,7 +132,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/sad.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">{article ? article.reactCount.sad : 0}</Typography>
+                  <Typography variant="subtitle1">{article?.reactCount?.sad || 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -120,7 +140,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/angry.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">{article ? article.reactCount.angry : 0}</Typography>
+                  <Typography variant="subtitle1">{article?.reactCount?.angry || 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -128,7 +148,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">{article ? article.reactCount.disgusted : 0}</Typography>
+                  <Typography variant="subtitle1">{article?.reactCount?.disgusted || 0}</Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="center">
@@ -136,7 +156,7 @@ const ReactInfo = ({
                   <Avatar className={classes.reacts} src="/reacts/worried.svg" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1">{article ? article.reactCount.worried : 0}</Typography>
+                  <Typography variant="subtitle1">{article?.reactCount?.worried || 0}</Typography>
                 </Grid>
               </Grid>
             </CardContent>

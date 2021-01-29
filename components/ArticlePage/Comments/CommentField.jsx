@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ reply, slug, commentId }) {
+export default function Page({ reply, slug, rootDetails }) {
   const classes = useStyles();
   const theme = useTheme();
   const { profile, authUser } = useAuth();
@@ -67,12 +67,12 @@ export default function Page({ reply, slug, commentId }) {
   };
 
   React.useEffect(() => {
-    localforage.getItem(`commentTimer_${commentId}`).then((state) => {
+    localforage.getItem(`commentTimer_${rootDetails?.id}`).then((state) => {
       if (state) {
         setTimer(state);
       }
     });
-    localforage.getItem(`commentTimerRunning_${commentId}`).then((state) => {
+    localforage.getItem(`commentTimerRunning_${rootDetails?.id}`).then((state) => {
       setTimerRunning(state);
       if (state) {
         initiateTimer();
@@ -87,11 +87,11 @@ export default function Page({ reply, slug, commentId }) {
       setContent('');
       setTimer(3);
     }
-    localforage.setItem(`commentTimer_${commentId}`, timer);
+    localforage.setItem(`commentTimer_${rootDetails?.id}`, timer);
   }, [timer]);
 
   React.useEffect(() => {
-    localforage.setItem(`commentTimerRunning_${commentId}`, timerRunning);
+    localforage.setItem(`commentTimerRunning_${rootDetails?.id}`, timerRunning);
   }, [timerRunning]);
 
   React.useEffect(() => {
@@ -131,7 +131,7 @@ export default function Page({ reply, slug, commentId }) {
         if (content.trim()) {
           await firebase.firestore().collection('replies').add({
             articleSlug: slug,
-            commentId,
+            commentId: rootDetails.id,
             content,
             downvoteCount: 0,
             timestamp: new Date(),

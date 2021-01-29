@@ -8,12 +8,8 @@ import Template from '@/components/ArticlePage/Comments/Template';
 const Replies = dynamic(import('@/components/ArticlePage/Comments/Replies'));
 
 export default function Page({
-  comment: commentContent,
-  socialStats: commentSocialStats,
-  commenterId,
-  commentId,
+  details,
   slug,
-  timestamp,
 }) {
   const [showReplies, setShowReplies] = React.useState(false);
 
@@ -27,18 +23,14 @@ export default function Page({
 
   return (
     <Template
-      comment={commentContent}
-      socialStats={commentSocialStats}
+      details={details}
       getReplies={getReplies}
-      timestamp={timestamp}
       slug={slug}
-      commentId={commentId}
-      commenterId={commenterId}
     >
       { showReplies ? (
         <>
-          <CommentField slug={slug} commentId={commentId} reply />
-          <Replies commentId={commentId} slug={slug} count={commentSocialStats.replyCount} />
+          <CommentField slug={slug} rootDetails={details} reply />
+          <Replies rootDetails={details} slug={slug} />
         </>
       ) : null }
     </Template>

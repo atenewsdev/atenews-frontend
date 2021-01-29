@@ -101,7 +101,7 @@ export default function EditDetails({
             error={!(testBio(bio))}
             onChange={(e) => setBio(e.target.value)}
           />
-          <FormHelperText variant="outlined">{`${bio ? bio.length || 0 : 0}/160`}</FormHelperText>
+          <FormHelperText variant="outlined">{`${bio ? bio.length || 0 : 0}/240`}</FormHelperText>
         </FormControl>
       </div>
       <div className={classes.section}>
