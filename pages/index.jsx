@@ -81,7 +81,7 @@ export default function Home({
       switch (mode) {
         case 'resetPassword':
           // Display reset password handler and UI.
-          setError('Reset password has not been implemented yet! Please contact us at dev@atenews.ph for urgent matters.');
+          router.push(`/reset-password?mode=${mode}&oobCode=${oobCode}`);
           break;
         case 'recoverEmail':
           // Display email recovery handler and UI.
@@ -103,7 +103,7 @@ export default function Home({
           break;
       }
     }
-  }, []);
+  }, [setSuccess, mode, oobCode]);
 
   return (
     <div className={classes.container}>
@@ -180,6 +180,14 @@ export default function Home({
 
 export async function getServerSideProps({ query }) {
   try {
+    if ((query ? query.mode : null) === 'resetPassword') {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/reset-password?mode=${query.mode}&oobCode=${query.oobCode}`,
+        },
+      };
+    }
     const { data } = await WPGraphQL.query({
       query: gql`
         query Home {

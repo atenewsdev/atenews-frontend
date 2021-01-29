@@ -13,6 +13,8 @@ import { useError } from '@/utils/hooks/useSnackbar';
 import { useAuth } from '@/utils/hooks/useAuth';
 import firebase from '@/utils/firebase';
 
+import fetch from '@/utils/postFetch';
+
 const useStyles = makeStyles((theme) => ({
   viewContainer: {
     position: 'relative',
@@ -43,7 +45,7 @@ const AuthForm = ({ close, mobile }) => {
     setFormMode,
   } = useAuth();
   const theme = useTheme();
-  const { setError } = useError();
+  const { setError, setSuccess } = useError();
 
   const [loading, setLoading] = React.useState(false);
   const [email, setEmail] = React.useState('');
@@ -97,6 +99,24 @@ const AuthForm = ({ close, mobile }) => {
         close();
       }, () => {
         setLoading(false);
+      });
+    } else {
+      setError('All fields are required!');
+    }
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    if (email) {
+      setLoading(true);
+      fetch('/api/auth/reset', { email }).then(() => {
+        setSuccess('Email sent! Please check your email for further instructions.');
+        setLoading(false);
+        close();
+      }).catch((err) => {
+        setError(err.message);
+        setLoading(false);
+        close();
       });
     } else {
       setError('All fields are required!');
@@ -173,6 +193,9 @@ const AuthForm = ({ close, mobile }) => {
               <Divider style={{ marginBottom: theme.spacing(2) }} />
               <Button onClick={() => { setFormMode('register'); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
             </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button onClick={() => { setFormMode('forgotPassword'); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Forgot Password</Button>
+            </Grid>
           </Grid>
         </form>
       </Paper>
@@ -237,6 +260,38 @@ const AuthForm = ({ close, mobile }) => {
             </Grid>
             <Grid item style={{ width: '100%' }}>
               <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Register</Button>
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Divider style={{ marginBottom: theme.spacing(2) }} />
+              <Button onClick={() => { setFormMode('login'); }} variant="contained" color="primary" size="small" fullWidth disabled={loading}>Login</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    );
+  }
+
+  if (formMode === 'forgotPassword') {
+    return (
+      <Paper variant="outlined" className={classes.viewContainer}>
+        <form onSubmit={handleReset}>
+          { mobile ? null : <div className={classes.arrowUp} /> }
+          <Grid container spacing={2} alignItems="center" direction="column">
+            <Grid item style={{ width: '100%' }}>
+              <TextField
+                variant="outlined"
+                label="Email"
+                fullWidth
+                required
+                error={!(testEmail()) && email !== ''}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+            </Grid>
+            <Grid item style={{ width: '100%' }}>
+              <Button type="submit" variant="contained" color="primary" size="small" fullWidth disabled={loading}>Reset Password</Button>
             </Grid>
             <Grid item style={{ width: '100%' }}>
               <Divider style={{ marginBottom: theme.spacing(2) }} />
