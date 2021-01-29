@@ -99,12 +99,10 @@ const Article = ({ article, topImage }) => {
                     <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title }} /></Link>
                     <Grid
                       container
-                      style={
-                        {
-                          color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
-                          marginTop: theme.spacing(1),
-                        }
-}
+                      style={{
+                        color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                        marginTop: theme.spacing(1),
+                      }}
                       spacing={1}
                     >
                       <Grid item xs>
@@ -134,13 +132,11 @@ const Article = ({ article, topImage }) => {
                     <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt }} />
                     <Grid
                       container
-                      style={
-                      {
+                      style={{
                         color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
                         marginTop: theme.spacing(2),
                         width: '100%',
-                      }
-}
+                      }}
                       spacing={2}
                       justify="space-between"
                     >
@@ -194,12 +190,10 @@ const Article = ({ article, topImage }) => {
                     <Link href={slugGenerator(article)}><Typography variant="h5" component="div" dangerouslySetInnerHTML={{ __html: article.title }} /></Link>
                     <Grid
                       container
-                      style={
-                        {
-                          color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
-                          marginTop: theme.spacing(1),
-                        }
-}
+                      style={{
+                        color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
+                        marginTop: theme.spacing(1),
+                      }}
                       spacing={1}
                     >
                       <Grid item xs={12}>
@@ -229,13 +223,11 @@ const Article = ({ article, topImage }) => {
                     <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: article.excerpt }} />
                     <Grid
                       container
-                      style={
-                      {
+                      style={{
                         color: theme.palette.type === 'light' ? theme.palette.primary.main : 'white',
                         marginTop: theme.spacing(2),
                         width: '100%',
-                      }
-}
+                      }}
                       spacing={2}
                       justify="space-between"
                     >

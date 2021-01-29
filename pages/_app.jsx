@@ -38,6 +38,8 @@ Router.onRouteChangeStart = () => {
 };
 
 Router.onRouteChangeComplete = (url) => {
+  firebase.analytics().setCurrentScreen(window.location.pathname);
+  firebase.analytics().logEvent('screen_view');
   firebase.analytics().logEvent('route_change', {
     url,
   });
