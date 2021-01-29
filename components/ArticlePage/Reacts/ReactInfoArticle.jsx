@@ -119,46 +119,56 @@ const ReactInfo = ({
         <Grow in={Boolean(anchorEl)}>
           <Card elevation={0} variant="outlined">
             <CardContent>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <Avatar className={classes.reacts} src="/reacts/happy.svg" />
+              { article?.reactCount?.happy ? (
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <Avatar className={classes.reacts} src="/reacts/happy.svg" />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{article?.reactCount?.happy}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1">{article?.reactCount?.happy || 0}</Typography>
+              ) : null }
+              { article?.reactCount?.angry ? (
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <Avatar className={classes.reacts} src="/reacts/angry.svg" />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{article?.reactCount?.angry}</Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <Avatar className={classes.reacts} src="/reacts/sad.svg" />
+              ) : null }
+              { article?.reactCount?.sad ? (
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <Avatar className={classes.reacts} src="/reacts/sad.svg" />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{article?.reactCount?.sad}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1">{article?.reactCount?.sad || 0}</Typography>
+              ) : null }
+              { article?.reactCount?.disgusted ? (
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{article?.reactCount?.disgusted}</Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <Avatar className={classes.reacts} src="/reacts/angry.svg" />
+              ) : null }
+              { article?.reactCount?.worried ? (
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <Avatar className={classes.reacts} src="/reacts/worried.svg" />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle1">{article?.reactCount?.worried}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1">{article?.reactCount?.angry || 0}</Typography>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <Avatar className={classes.reacts} src="/reacts/disgust.svg" />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1">{article?.reactCount?.disgusted || 0}</Typography>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item>
-                  <Avatar className={classes.reacts} src="/reacts/worried.svg" />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1">{article?.reactCount?.worried || 0}</Typography>
-                </Grid>
-              </Grid>
+              ) : null }
             </CardContent>
           </Card>
         </Grow>
