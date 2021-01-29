@@ -188,15 +188,33 @@ export default function Page({
 
       <CommentField slug={post.slug} />
       <LazyLoadComponent>
-        <List component="div">
-          {comments.map((comment) => (commentsSocialStats[comment.id] ? (
-            <Comment
-              details={comment}
-              key={comment.id}
-              slug={post.slug}
-            />
-          ) : null)) }
-        </List>
+        { comments.length === 0 ? (
+          <Grid
+            container
+            direction="column"
+            spacing={0}
+            alignItems="center"
+            justify="center"
+            style={{ marginTop: theme.spacing(4) }}
+          >
+            <Grid item>
+              <img src="/reacts/sad.svg" alt="sad" width={40} />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">No comments yet. Start a discussion here!</Typography>
+            </Grid>
+          </Grid>
+        ) : (
+          <List component="div">
+            {comments.map((comment) => (commentsSocialStats[comment.id] ? (
+              <Comment
+                details={comment}
+                key={comment.id}
+                slug={post.slug}
+              />
+            ) : null)) }
+          </List>
+        ) }
       </LazyLoadComponent>
 
       <div style={{ height: theme.spacing(2) }} />
