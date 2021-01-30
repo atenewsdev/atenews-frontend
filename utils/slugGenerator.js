@@ -1,9 +1,9 @@
 const generator = (article) => {
   let category = '';
   switch (
-    'nodes' in article.categories
+    article.categories?.nodes
       ? parseInt(article.categories.nodes[0].databaseId, 10)
-      : parseInt(article.categories.term_id || article.categories.termId, 10)
+      : parseInt(article.categories_detailed?.term_id || article.categories?.termId, 10)
   ) {
     case 3:
     case 20:
