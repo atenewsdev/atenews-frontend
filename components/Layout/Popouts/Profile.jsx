@@ -14,6 +14,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 import AuthForm from '@/components/Auth/AuthForm';
@@ -77,6 +78,25 @@ const PopoutView = ({ close, setDarkMode }) => {
             <ListItemText primary="Logout" />
           </ListItem>
         </List>
+        { profile?.staff ? (
+          <>
+            <Divider />
+            <List
+              subheader={(
+                <ListSubheader component="div">
+                  Admin Settings
+                </ListSubheader>
+            )}
+            >
+              <ListItem button onClick={() => { window.location = 'https://wp.atenews.ph/admin-login'; }}>
+                <ListItemIcon>
+                  <SupervisorAccountIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+            </List>
+          </>
+        ) : null }
         <Divider />
         <List
           subheader={(

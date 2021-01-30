@@ -12,6 +12,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import imageGenerator from '@/utils/imageGenerator';
 import { useAuth } from '@/utils/hooks/useAuth';
@@ -281,6 +282,25 @@ export default function MenuAppBar({ closeButtomNav, setDarkMode }) {
           <ListItemText primary="Logout" />
         </ListItem>
       </List>
+      { profile?.staff ? (
+        <>
+          <Divider />
+          <List
+            subheader={(
+              <ListSubheader component="div">
+                Admin Settings
+              </ListSubheader>
+            )}
+          >
+            <ListItem button onClick={() => { window.location = 'https://wp.atenews.ph/admin-login'; }}>
+              <ListItemIcon>
+                <SupervisorAccountIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          </List>
+        </>
+      ) : null }
       <Divider />
       <List
         subheader={(

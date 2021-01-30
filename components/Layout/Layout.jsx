@@ -28,7 +28,6 @@ import {
   TextField as StockTextField,
   InputAdornment,
   CircularProgress,
-  Snackbar,
   List,
   ListItem,
   ListItemAvatar,

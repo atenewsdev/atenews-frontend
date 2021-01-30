@@ -10,4 +10,18 @@ module.exports = withPWA({
   images: {
     domains: ['wp.atenews.ph'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/admin-login',
+        destination: 'https://wp.atenews.ph/admin-login',
+        permanent: false,
+      },
+      {
+        source: '/wp-admin/:path*',
+        destination: 'https://wp.atenews.ph/wp-admin/:path*',
+        permanent: false,
+      },
+    ];
+  },
 });
