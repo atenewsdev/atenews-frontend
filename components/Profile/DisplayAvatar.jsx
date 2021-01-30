@@ -46,7 +46,7 @@ export default function DisplayAvatar({ editMode, profile, cdnKey }) {
     fd.append('photo', imageFile);
     fd.append('uid', profile.id);
     fd.append('api_key', cdnKey);
-    return fetch('https://atenews.ph/wp-json/atenews/v1/upload', {
+    return fetch('https://wp.atenews.ph/wp-json/atenews/v1/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

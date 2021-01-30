@@ -1,7 +1,7 @@
 const Wordpress = require('wpapi');
 
 const wp = new Wordpress({
-  endpoint: 'https://atenews.ph/wp-json',
+  endpoint: 'https://wp.atenews.ph/wp-json',
 });
 
 wp.relatedPosts = wp.registerRoute('atenews/v1', '/related/(?P<id>\\d+)');

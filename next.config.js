@@ -8,6 +8,6 @@ module.exports = withPWA({
     register: true,
   },
   images: {
-    domains: ['atenews.ph'],
+    domains: ['wp.atenews.ph'],
   },
 });

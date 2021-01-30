@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://atenews.ph/graphql',
+  uri: 'https://wp.atenews.ph/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
