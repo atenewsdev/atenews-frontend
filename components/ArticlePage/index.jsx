@@ -111,28 +111,28 @@ export default function Page({
       </Hidden>
       <Grid container alignItems="center" style={{ marginTop: theme.spacing(2) }} spacing={1} wrap="nowrap">
         <Grid item>
-          <ScheduleIcon />
+          <ScheduleIcon fontSize="small" />
         </Grid>
         <Grid item>
-          <Typography variant="body1">{ format(new Date(post.date), 'MMMM d, yyyy (h:mm a)') }</Typography>
+          <Typography variant="body2">{ format(new Date(post.date), 'MMMM d, yyyy (h:mm a)') }</Typography>
         </Grid>
       </Grid>
       <Grid container alignItems="center" spacing={1} wrap="nowrap">
         <Grid item>
-          <ChromeReaderModeIcon />
+          <ChromeReaderModeIcon fontSize="small" />
         </Grid>
         <Grid item>
-          <Typography variant="body1">
+          <Typography variant="body2">
             {readingTime(post.content).text}
           </Typography>
         </Grid>
       </Grid>
       <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={1} wrap="nowrap">
         <Grid item>
-          <VisibilityIcon />
+          <VisibilityIcon fontSize="small" />
         </Grid>
         <Grid item>
-          <Typography variant="body1">
+          <Typography variant="body2">
             {`${article?.viewsCount || 0} views`}
           </Typography>
         </Grid>
