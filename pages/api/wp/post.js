@@ -36,6 +36,7 @@ export default async (req, res) => {
         sad: 0,
         worried: 0,
       },
+      viewsCount: 0,
       totalReactCount: 0,
       trendScore: trendFunction(0, 0, 0, 0, new Date(date).getTime()),
       votesCount: 0,

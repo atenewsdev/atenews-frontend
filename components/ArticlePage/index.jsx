@@ -3,6 +3,9 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import { format } from 'date-fns';
 
@@ -21,6 +24,10 @@ import {
   Hidden,
   Avatar,
 } from '@material-ui/core';
+
+import readingTime from 'reading-time';
+
+import fetch from '@/utils/postFetch';
 
 const CommentField = dynamic(import('@/components/ArticlePage/Comments/CommentField'));
 
@@ -72,6 +79,16 @@ export default function Page({
 
   const [showSideWriterBlock, setShowSideWriterBlock] = React.useState(false);
 
+  let viewTimer = null;
+
+  React.useEffect(() => {
+    const time = readingTime(post.content).time * 0.7;
+    clearTimeout(viewTimer);
+    viewTimer = setTimeout(() => {
+      fetch('/api/update/viewCount', { slug: post.slug });
+    }, time);
+  }, [post]);
+
   if (post === null) {
     return <Error404 />;
   }
@@ -92,7 +109,34 @@ export default function Page({
       <Hidden mdUp>
         <Typography variant="h4" component="h1" dangerouslySetInnerHTML={{ __html: post.title }} />
       </Hidden>
-      <Typography variant="body2" style={{ marginTop: theme.spacing(1) }}>{ format(new Date(post.date), 'MMMM d, yyyy (h:mm a)') }</Typography>
+      <Grid container alignItems="center" style={{ marginTop: theme.spacing(2) }} spacing={1} wrap="nowrap">
+        <Grid item>
+          <ScheduleIcon />
+        </Grid>
+        <Grid item>
+          <Typography variant="body1">{ format(new Date(post.date), 'MMMM d, yyyy (h:mm a)') }</Typography>
+        </Grid>
+      </Grid>
+      <Grid container alignItems="center" spacing={1} wrap="nowrap">
+        <Grid item>
+          <ChromeReaderModeIcon />
+        </Grid>
+        <Grid item>
+          <Typography variant="body1">
+            {readingTime(post.content).text}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container alignItems="center" style={{ marginBottom: theme.spacing(2) }} spacing={1} wrap="nowrap">
+        <Grid item>
+          <VisibilityIcon />
+        </Grid>
+        <Grid item>
+          <Typography variant="body1">
+            {`${article?.viewsCount || 0} views`}
+          </Typography>
+        </Grid>
+      </Grid>
       <Paper
         elevation={0}
         style={{

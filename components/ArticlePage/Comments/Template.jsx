@@ -207,7 +207,7 @@ const CommentReplyTemplate = ({
       <ListItemAvatar>
         <Avatar
           className={reply ? classes.avatarReply : classes.avatar}
-          src={imageGenerator(users[details.userId].photoURL, 300)}
+          src={imageGenerator(users[details.userId].photoURL, 60)}
         />
       </ListItemAvatar>
       <ListItemText
