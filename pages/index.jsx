@@ -7,16 +7,17 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
+import WPGraphQL from '@/utils/wpgraphql';
+import { gql } from '@apollo/client';
+
 import { useTrending } from '@/utils/hooks/useTrending';
 import { useAuth } from '@/utils/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useError } from '@/utils/hooks/useSnackbar';
 import firebase from '@/utils/firebase';
 
-import useSWR from 'swr';
-
 import {
-  Typography, Grid, CircularProgress,
+  Typography, Grid,
 } from '@material-ui/core';
 
 import RecentArticles from '@/components/Home/RecentArticles';
@@ -54,7 +55,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Home({
+  recentArticles,
+  news,
+  features,
+  featuredPhoto,
+  editorial,
+  columns,
+  mode,
+  oobCode,
+  continueUrl,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const trending = useTrending();
@@ -63,41 +74,7 @@ export default function Home() {
   } = useAuth();
   const router = useRouter();
 
-  const {
-    mode,
-    oobCode,
-    continueUrl,
-  } = router.query;
-
   const { setSuccess, setError } = useError();
-
-  const [loading, setLoading] = React.useState(true);
-
-  const [recentArticles, setRecentArticles] = React.useState([]);
-  const [news, setNews] = React.useState([]);
-  const [features, setFeatures] = React.useState([]);
-  const [featuredPhoto, setFeaturedPhoto] = React.useState({});
-  const [editorial, setEditorial] = React.useState({});
-  const [columns, setColumns] = React.useState([]);
-
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error } = useSWR('/api/graphql/getHome', fetcher);
-  React.useEffect(() => {
-    setLoading(true);
-    if (data) {
-      setRecentArticles(data.data.recentArticles.nodes);
-      setNews(data.data.news.nodes);
-      setFeatures(data.data.features.nodes);
-      setFeaturedPhoto(data.data.featuredPhoto.nodes[0]);
-      setEditorial(data.data.editorial.nodes[0]);
-      setColumns(data.data.columns.nodes);
-      setLoading(false);
-    }
-    if (error) {
-      setError(error);
-      setLoading(false);
-    }
-  }, [data, error]);
 
   React.useEffect(() => {
     if (mode && oobCode) {
@@ -157,42 +134,32 @@ export default function Home() {
             </Typography>
           </div>
           <Trending articles={trending} />
-          { loading ? (
-            <Grid container justify="center" alignItems="center" spacing={2}>
-              <Grid item>
-                <CircularProgress color="primary" style={{ margin: theme.spacing(2) }} />
-              </Grid>
-            </Grid>
-          ) : (
-            <>
-              <RecentArticles articles={recentArticles} />
-              <LazyLoadComponent>
-                <div className={classes.section}>
-                  <Title color={theme.palette.atenews.news}>News</Title>
-                  <ArticleGrid articles={news} />
-                </div>
-              </LazyLoadComponent>
+          <RecentArticles articles={recentArticles} />
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Title color={theme.palette.atenews.news}>News</Title>
+              <ArticleGrid articles={news} />
+            </div>
+          </LazyLoadComponent>
 
-              <LazyLoadComponent>
-                <div className={classes.section}>
-                  <Title color={theme.palette.atenews.features}>Features</Title>
-                  <ArticleGrid articles={features} />
-                </div>
-              </LazyLoadComponent>
+          <LazyLoadComponent>
+            <div className={classes.section}>
+              <Title color={theme.palette.atenews.features}>Features</Title>
+              <ArticleGrid articles={features} />
+            </div>
+          </LazyLoadComponent>
 
-              <LazyLoadComponent>
-                <Hulagway featuredPhoto={featuredPhoto} />
-              </LazyLoadComponent>
+          <LazyLoadComponent>
+            <Hulagway featuredPhoto={featuredPhoto} />
+          </LazyLoadComponent>
 
-              <LazyLoadComponent>
-                <EditorialColumn editorial={editorial} columns={columns} />
-              </LazyLoadComponent>
+          <LazyLoadComponent>
+            <EditorialColumn editorial={editorial} columns={columns} />
+          </LazyLoadComponent>
 
-              <LazyLoadComponent>
-                <LatestRelease />
-              </LazyLoadComponent>
-            </>
-          ) }
+          <LazyLoadComponent>
+            <LatestRelease />
+          </LazyLoadComponent>
         </>
       ) : (
         <Grid
@@ -209,4 +176,209 @@ export default function Home() {
       ) }
     </div>
   );
+}
+
+export async function getServerSideProps({ query }) {
+  try {
+    if ((query ? query.mode : null) === 'resetPassword') {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/reset-password?mode=${query.mode}&oobCode=${query.oobCode}`,
+        },
+      };
+    }
+    const { data } = await WPGraphQL.query({
+      query: gql`
+        query Home {
+          recentArticles: posts(first: 5) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+            }
+          }
+          news: posts(first: 5, where: { categoryName: "news" }) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              excerpt
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          features: posts(first: 5, where: { categoryName: "features" }) {
+            nodes {
+              title(format: RENDERED)
+              slug
+              date
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              excerpt
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          featuredPhoto: posts(first: 1, where: { categoryName: "featured-photos" }) {
+            nodes {
+              databaseId
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              content
+              excerpt
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          editorial: posts(first: 1, where: { categoryName: "editorial" }) {
+            nodes {
+              title(format: RENDERED)
+              databaseId
+              date
+              slug
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              excerpt
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                }
+              }
+            }
+          }
+          columns: posts(first: 4, where: { categoryName: "columns" }) {
+            nodes {
+              title(format: RENDERED)
+              databaseId
+              date
+              slug
+              featuredImage {
+                node {
+                  sourceUrl(size: LARGE)
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  databaseId
+                  slug
+                }
+              }
+              coauthors {
+                nodes {
+                  firstName
+                  lastName
+                  databaseId
+                  avatar {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }        
+      `,
+    });
+    return {
+      props: {
+        recentArticles: data.recentArticles.nodes,
+        news: data.news.nodes,
+        features: data.features.nodes,
+        featuredPhoto: data.featuredPhoto.nodes[0],
+        editorial: data.editorial.nodes[0],
+        columns: data.columns.nodes,
+        mode: 'mode' in query ? query.mode : null,
+        oobCode: 'oobCode' in query ? query.oobCode : null,
+        continueUrl: 'continueUrl' in query ? query.continueUrl : null,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        recentArticles: [], news: [], features: [], featuredPhoto: {}, editorial: {}, columns: [],
+      },
+    };
+  }
 }
