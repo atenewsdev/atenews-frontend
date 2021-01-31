@@ -49,9 +49,10 @@ const listServerSideProps = async (CATEGORY_ID) => {
         category: CATEGORY_ID,
         pageInfo: data.posts.pageInfo,
       },
+      revalidate: 10,
     };
   } catch (err) {
-    return { props: { articlesRaw: [], category: CATEGORY_ID } };
+    return { props: { articlesRaw: [], category: CATEGORY_ID }, revalidate: 1 };
   }
 };
 

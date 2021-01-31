@@ -12,6 +12,6 @@ export default function Page(props) {
 
 const CATEGORY_ID = 18;
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   return listServerSideProps(CATEGORY_ID);
 }

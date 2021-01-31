@@ -26,11 +26,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Page({ mode, oobCode, continueUrl }) {
+export default function Page() {
   const classes = useStyles();
   const theme = useTheme();
   const { loadingAuth } = useAuth();
   const router = useRouter();
+
+  const {
+    mode,
+    oobCode,
+    continueUrl,
+  } = router.query;
 
   const [loading, setLoading] = React.useState(false);
   const [password, setPassword] = React.useState('');
@@ -145,11 +151,3 @@ export default function Page({ mode, oobCode, continueUrl }) {
     </div>
   );
 }
-
-export const getServerSideProps = async ({ query }) => ({
-  props: {
-    mode: 'mode' in query ? query.mode : null,
-    oobCode: 'oobCode' in query ? query.oobCode : null,
-    continueUrl: 'continueUrl' in query ? query.continueUrl : null,
-  },
-});

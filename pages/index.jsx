@@ -62,9 +62,6 @@ export default function Home({
   featuredPhoto,
   editorial,
   columns,
-  mode,
-  oobCode,
-  continueUrl,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -73,6 +70,12 @@ export default function Home({
     loadingAuth,
   } = useAuth();
   const router = useRouter();
+
+  const {
+    mode,
+    oobCode,
+    continueUrl,
+  } = router.query;
 
   const { setSuccess, setError } = useError();
 
@@ -178,16 +181,8 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps({ query }) {
+export async function getStaticProps() {
   try {
-    if ((query ? query.mode : null) === 'resetPassword') {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `/reset-password?mode=${query.mode}&oobCode=${query.oobCode}`,
-        },
-      };
-    }
     const { data } = await WPGraphQL.query({
       query: gql`
         query Home {
@@ -369,16 +364,15 @@ export async function getServerSideProps({ query }) {
         featuredPhoto: data.featuredPhoto.nodes[0],
         editorial: data.editorial.nodes[0],
         columns: data.columns.nodes,
-        mode: 'mode' in query ? query.mode : null,
-        oobCode: 'oobCode' in query ? query.oobCode : null,
-        continueUrl: 'continueUrl' in query ? query.continueUrl : null,
       },
+      revalidate: 5,
     };
   } catch (err) {
     return {
       props: {
         recentArticles: [], news: [], features: [], featuredPhoto: {}, editorial: {}, columns: [],
       },
+      revalidate: 1,
     };
   }
 }
