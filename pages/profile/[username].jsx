@@ -476,7 +476,7 @@ export default function Home({ profile, cdnKey, staffArticles }) {
   );
 }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   try {
     const snapshot = await firebaseAdmin.firestore().collection('users').where('username', '==', params.username).get();
     const keySnapshot = await firebaseAdmin.firestore().collection('keys').doc('custom').get();
@@ -542,18 +542,15 @@ export async function getStaticProps({ params }) {
           },
           cdnKey: keySnapshot.data().cdn,
         },
-        revalidate: 5,
       };
     }
 
     return {
       notFound: true,
-      revalidate: 1,
     };
   } catch (err) {
     return {
       notFound: true,
-      revalidate: 1,
     };
   }
 }
