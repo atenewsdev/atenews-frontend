@@ -20,6 +20,8 @@ import {
   ListItemIcon,
   ListItemText,
   InputAdornment,
+  Grid,
+  Typography,
 } from '@material-ui/core';
 
 const TextField = withStyles({
@@ -166,7 +168,20 @@ export default function Page({ reply, slug, rootDetails }) {
   };
 
   if (!profile) {
-    return null;
+    return (
+      <Grid
+        container
+        direction="column"
+        spacing={0}
+        alignItems="center"
+        justify="center"
+        style={{ marginBottom: theme.spacing(4) }}
+      >
+        <Grid item>
+          <Typography variant="body1">Sign up/Log in to post a comment and join the discussion!</Typography>
+        </Grid>
+      </Grid>
+    );
   }
 
   return (
