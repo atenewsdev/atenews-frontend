@@ -4,7 +4,7 @@ const imageGenerator = (url, width) => {
     return '';
   }
   try {
-    const urlObject = new URL(url);
+    const urlObject = new URL(url.replace('https://atenews.ph', 'https://wp.atenews.ph'));
     if (urlObject.hostname === 'secure.gravatar.com') {
       return url;
     }

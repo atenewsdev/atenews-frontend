@@ -29,6 +29,8 @@ import readingTime from 'reading-time';
 
 import fetch from '@/utils/postFetch';
 
+import parse from 'html-react-parser';
+
 const CommentField = dynamic(import('@/components/ArticlePage/Comments/CommentField'));
 
 const ShareButton = dynamic(import('@/components/ArticlePage/ShareButton'));
@@ -177,16 +179,18 @@ export default function Page({
           color: theme.palette.text.primary,
         }}
       >
-        <Typography
-          style={{
-            marginTop: theme.spacing(2),
-            lineHeight: '1.9em',
-            width: '100%',
-            color: theme.palette.text.primary,
-          }}
-          variant="body1"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        {parse(post.content, {
+          // eslint-disable-next-line consistent-return
+          replace: (domNode) => {
+            if (domNode?.tagName === 'img') {
+              return (
+                <center>
+                  <img style={{ maxWidth: '100%' }} src={imageGenerator(domNode?.attribs.src, 800)} alt={domNode?.attribs.alt} />
+                </center>
+              );
+            }
+          },
+        })}
       </Typography>
 
       <div style={{ height: theme.spacing(4) }} />
