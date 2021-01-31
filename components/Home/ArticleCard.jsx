@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
@@ -153,6 +154,16 @@ const ArticleCard = ({ article }) => {
                         </Grid>
                         <Grid item>
                           <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs>
+                      <Grid container spacing={1} wrap="nowrap">
+                        <Grid item>
+                          <VisibilityIcon style={{ color: 'white' }} />
+                        </Grid>
+                        <Grid item>
+                          <Typography style={{ color: 'white' }} variant="subtitle2">{socialStats ? socialStats.viewsCount || 0 : 0}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

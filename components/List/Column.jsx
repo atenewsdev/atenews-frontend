@@ -6,6 +6,8 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import ClockIcon from '@material-ui/icons/AccessTime';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import ReactInfo from '@/components/Social/ReactInfo';
 
 import { formatDistanceToNow } from 'date-fns';
@@ -137,6 +139,16 @@ const Column = ({ article }) => {
                   </Grid>
                   <Grid item>
                     <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.shareCount || 0 : 0}</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <VisibilityIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.trendingStatsText} variant="subtitle2">{socialStats ? socialStats.viewsCount || 0 : 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

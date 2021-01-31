@@ -4,6 +4,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Tag from '@/components/General/Tag';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import ReactInfo from '@/components/Social/ReactInfo';
 
 import {
@@ -158,7 +160,7 @@ function RecentArticle({ article }) {
             >
               <Grid
                 item
-                xs={4}
+                xs={3}
               >
                 <ReactInfo
                   IconProps={{ className: classes.trendingStatsText }}
@@ -170,7 +172,7 @@ function RecentArticle({ article }) {
               </Grid>
               <Grid
                 item
-                xs={4}
+                xs={3}
               >
                 <Grid
                   container
@@ -192,7 +194,7 @@ function RecentArticle({ article }) {
               </Grid>
               <Grid
                 item
-                xs={4}
+                xs={3}
               >
                 <Grid
                   container
@@ -208,6 +210,28 @@ function RecentArticle({ article }) {
                       variant="subtitle2"
                     >
                       {socialStats ? socialStats.shareCount || 0 : 0}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                xs={3}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <VisibilityIcon className={classes.trendingStatsText} />
+                  </Grid>
+                  <Grid item>
+                    <Typography
+                      className={classes.trendingStatsText}
+                      variant="subtitle2"
+                    >
+                      {socialStats ? socialStats.viewsCount || 0 : 0}
                     </Typography>
                   </Grid>
                 </Grid>
