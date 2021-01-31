@@ -1,6 +1,7 @@
 import admin from '@/utils/firebaseAdmin';
 import fetch from 'node-fetch';
 import trendFunction from '@/utils/trendFunction';
+import slugGenerator from '@/utils/slugGenerator';
 
 export default async (req, res) => {
   const articles = await (await admin.database().ref('articles').once('value')).val();
@@ -8,18 +9,21 @@ export default async (req, res) => {
   const { bearerToken } = (await admin.firestore().collection('keys').doc('twitter').get()).data();
 
   await Promise.all(Object.keys(articles).map(async (slug) => {
-    const article = articles[slug];
+    const article = {
+      ...articles[slug],
+      slug,
+    };
     let data = null;
     let twitterData = null;
     try {
-      const response = await fetch(`https://graph.facebook.com/?id=https://atenews.ph/${slug}&fields=engagement&access_token=${accessToken}`);
+      const response = await fetch(`https://graph.facebook.com/?id=https://atenews.ph${slugGenerator(article)}&fields=engagement&access_token=${accessToken}`);
       data = await response.json();
     } catch (err) {
       data = null;
     }
 
     try {
-      const twitterResponse = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"/${slug}"&tweet.fields=public_metrics`, {
+      const twitterResponse = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"${slugGenerator(article)}"&tweet.fields=public_metrics`, {
         method: 'get',
         headers: new fetch.Headers({
           Authorization: `Bearer ${bearerToken}`,

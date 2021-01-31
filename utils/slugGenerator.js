@@ -3,7 +3,11 @@ const generator = (article) => {
   switch (
     article.categories?.nodes
       ? parseInt(article.categories.nodes[0].databaseId, 10)
-      : parseInt(article.categories_detailed?.term_id || article.categories?.termId, 10)
+      : parseInt(
+        article.categories_detailed?.term_id
+        || article.categories?.termId
+        || article.categories?.term_id, 10,
+      )
   ) {
     case 3:
     case 20:
