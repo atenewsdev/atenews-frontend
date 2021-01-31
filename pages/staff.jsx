@@ -16,6 +16,8 @@ import { Typography, Grid, Hidden } from '@material-ui/core';
 
 import { useAuth } from '@/utils/hooks/useAuth';
 
+import { rolesIgnore as _rolesIgnore } from '@/utils/constants';
+
 const useStyles = makeStyles((theme) => ({
   container: {
   },
@@ -42,14 +44,19 @@ export default function Home({ staffs: staffsRaw }) {
 
   React.useEffect(() => {
     const rolesIgnore = [
-      'subscriber',
-      'contributor',
-      'administrator',
-      'editor',
+      ..._rolesIgnore,
       'editor-in-chief',
       'associate_editor',
       'managing_editor',
     ];
+    const sortByPosition = (a, b) => {
+      const aCleanRoles = a.roles.filter((role) => !rolesIgnore.includes(role));
+      const bCleanRoles = b.roles.filter((role) => !rolesIgnore.includes(role));
+      if (aCleanRoles[0] < bCleanRoles[0]) { return -1; }
+      if (aCleanRoles[0] > bCleanRoles[0]) { return 1; }
+      return 0;
+    };
+
     const nonEICEditors = staffsRaw.filter((staff) => {
       const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
 
@@ -88,7 +95,7 @@ export default function Home({ staffs: staffsRaw }) {
       });
 
       return cleanRoles.length > 0 && isIncluded;
-    }));
+    }).sort(sortByPosition));
 
     setJuniors(staffsRaw.filter((staff) => {
       const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
@@ -101,7 +108,7 @@ export default function Home({ staffs: staffsRaw }) {
       });
 
       return cleanRoles.length > 0 && isIncluded;
-    }));
+    }).sort(sortByPosition));
   }, [staffsRaw]);
 
   return (
@@ -132,8 +139,8 @@ export default function Home({ staffs: staffsRaw }) {
           <Typography variant="h4" style={{ marginBottom: theme.spacing(2) }}>Editorial Board</Typography>
 
           <Grid container spacing={2}>
-            { editors.map((staff, i) => (
-              <Grid item xs={12} sm={6} key={i}>
+            { editors.map((staff) => (
+              <Grid item xs={12} sm={6} key={staff.id}>
                 <Staff details={staff} />
               </Grid>
             )) }
@@ -142,8 +149,8 @@ export default function Home({ staffs: staffsRaw }) {
           <Typography variant="h4" style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>Senior Staff</Typography>
 
           <Grid container spacing={2}>
-            { seniors.map((staff, i) => (
-              <Grid item xs={12} sm={6} key={i}>
+            { seniors.map((staff) => (
+              <Grid item xs={12} sm={6} key={staff.id}>
                 <Staff details={staff} />
               </Grid>
             )) }
@@ -152,8 +159,8 @@ export default function Home({ staffs: staffsRaw }) {
           <Typography variant="h4" style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>Junior Staff</Typography>
 
           <Grid container spacing={2}>
-            { juniors.map((staff, i) => (
-              <Grid item xs={12} sm={6} key={i}>
+            { juniors.map((staff) => (
+              <Grid item xs={12} sm={6} key={staff.id}>
                 <Staff details={staff} />
               </Grid>
             )) }

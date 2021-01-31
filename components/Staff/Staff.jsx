@@ -10,6 +10,7 @@ import {
 import useFirestore from '@/utils/hooks/useFirestore';
 import { useError } from '@/utils/hooks/useSnackbar';
 import imageGenerator from '@/utils/imageGenerator';
+import { rolesIgnore } from '@/utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   trendingItem: {
@@ -50,13 +51,6 @@ const Column = ({ details }) => {
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
-
-  const rolesIgnore = [
-    'subscriber',
-    'contributor',
-    'administrator',
-    'editor',
-  ];
 
   const [image, setImage] = React.useState('');
   const [username, setUsername] = React.useState('');

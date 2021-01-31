@@ -82,7 +82,7 @@ export default function Page({
   let viewTimer = null;
 
   React.useEffect(() => {
-    const time = readingTime(post.content).time * 0.7;
+    const time = readingTime(post.content).time * 0.5;
     clearTimeout(viewTimer);
     viewTimer = setTimeout(() => {
       fetch('/api/update/viewCount', { slug: post.slug });
