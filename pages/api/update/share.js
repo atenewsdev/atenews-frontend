@@ -14,55 +14,95 @@ export default async (req, res) => {
       slug,
     };
     let data = null;
+    let data2 = null;
     let twitterData = null;
+    let twitterData2 = null;
     try {
-      const response = await fetch(`https://graph.facebook.com/?id=https://atenews.ph${slugGenerator(article)}&fields=engagement&access_token=${accessToken}`);
+      const [response, response2] = await Promise.all([
+        fetch(`https://graph.facebook.com/?id=https://atenews.ph${slugGenerator(article)}&fields=engagement&access_token=${accessToken}`),
+        fetch(`https://graph.facebook.com/?id=https://atenews.ph/${slug}&fields=engagement&access_token=${accessToken}`),
+      ]);
       data = await response.json();
+      data2 = await response2.json();
     } catch (err) {
       data = null;
+      data2 = null;
     }
 
     try {
-      const twitterResponse = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"${slugGenerator(article)}"&tweet.fields=public_metrics`, {
-        method: 'get',
-        headers: new fetch.Headers({
-          Authorization: `Bearer ${bearerToken}`,
+      const [twitterResponse, twitterResponse2] = await Promise.all([
+        fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"${slugGenerator(article)}"&tweet.fields=public_metrics`, {
+          method: 'get',
+          headers: new fetch.Headers({
+            Authorization: `Bearer ${bearerToken}`,
+          }),
         }),
-      });
+        fetch(`https://api.twitter.com/2/tweets/search/recent?query=from:atenews url:"/${slug}"&tweet.fields=public_metrics`, {
+          method: 'get',
+          headers: new fetch.Headers({
+            Authorization: `Bearer ${bearerToken}`,
+          }),
+        }),
+      ]);
       twitterData = await twitterResponse.json();
+      twitterData2 = await twitterResponse2.json();
     } catch (err) {
       twitterData = null;
+      twitterData2 = null;
     }
 
     let retweetCount = 0;
+    let update = false;
     try {
-      if (twitterData) {
+      if (twitterData || twitterData2) {
+        if ('data' in twitterData2) {
+          retweetCount += (
+            twitterData2.data[0].public_metrics.retweet_count
+            + twitterData2.data[0].public_metrics.quote_count
+          );
+          update = true;
+        }
         if ('data' in twitterData) {
-          retweetCount = (
+          retweetCount += (
             twitterData.data[0].public_metrics.retweet_count
             + twitterData.data[0].public_metrics.quote_count
           );
+          update = true;
+        }
+        if (update) {
           await admin.database().ref(`articles/${slug}`).update({
             retweetCount,
           });
-        } else {
-          const temp = await admin.database().ref(`articles/${slug}`).once('value');
-          if (temp.exists) {
-            retweetCount = 'retweetCount' in temp.val() ? temp.val().retweetCount : 0;
-          }
+        }
+      } else {
+        const temp = await admin.database().ref(`articles/${slug}`).once('value');
+        if (temp.exists) {
+          retweetCount = 'retweetCount' in temp.val() ? temp.val().retweetCount : 0;
         }
       }
     } catch (err) {
       retweetCount = 0;
     }
 
+    let shareCount = 0;
+    update = false;
     if (data) {
       if (data.engagement) {
+        shareCount += data.engagement.share_count;
+        update = true;
+      }
+
+      if (data2.engagement) {
+        shareCount += data2.engagement.share_count;
+        update = true;
+      }
+
+      if (update) {
         await admin.database().ref(`articles/${slug}`).update({
-          shareCount: data.engagement.share_count + retweetCount,
+          shareCount: shareCount + retweetCount,
           trendScore: trendFunction(
             article.commentCount,
-            data.engagement.share_count + retweetCount,
+            shareCount + retweetCount,
             article.totalReactCount,
             article.votesCount,
             article.timestamp ? new Date(article.timestamp) : 0,
