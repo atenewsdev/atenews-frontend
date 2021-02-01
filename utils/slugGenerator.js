@@ -1,14 +1,18 @@
 const generator = (article) => {
   let category = '';
-  switch (
-    article.categories?.nodes
-      ? parseInt(article.categories.nodes[0].databaseId, 10)
-      : parseInt(
-        article.categories_detailed?.term_id
-        || article.categories?.termId
-        || article.categories?.term_id, 10,
-      )
-  ) {
+  let condition = null;
+  if (article.categories?.nodes) {
+    condition = parseInt(article.categories.nodes[0].databaseId, 10);
+  } else if (article.categories_detailed?.length) {
+    condition = article.categories_detailed[0].term_id;
+  } else if (article.categories?.length) {
+    if (article.categories[0].termId) {
+      condition = article.categories[0].termId;
+    } else if (article.categories[0].term_id) {
+      condition = article.categories[0].term_id;
+    }
+  }
+  switch (condition) {
     case 3:
     case 20:
     case 18:

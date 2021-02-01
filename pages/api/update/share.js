@@ -8,7 +8,7 @@ export default async (req, res) => {
   const { accessToken } = (await admin.firestore().collection('keys').doc('facebook').get()).data();
   const { bearerToken } = (await admin.firestore().collection('keys').doc('twitter').get()).data();
 
-  await Promise.all(Object.keys(articles).map(async (slug) => {
+  await Promise.all(Object.keys(articles).slice(0, 30).map(async (slug) => {
     const article = {
       ...articles[slug],
       slug,
@@ -21,7 +21,7 @@ export default async (req, res) => {
       const [response, response2] = await Promise.all([
         fetch(`https://graph.facebook.com/?id=https://atenews.ph${slugGenerator(article)}&fields=engagement&access_token=${accessToken}`),
         fetch(`https://graph.facebook.com/?id=https://atenews.ph/${slug}&fields=engagement&access_token=${accessToken}`),
-      ]);
+      ].map((p) => p.catch((e) => e)));
       data = await response.json();
       data2 = await response2.json();
     } catch (err) {
@@ -43,7 +43,7 @@ export default async (req, res) => {
             Authorization: `Bearer ${bearerToken}`,
           }),
         }),
-      ]);
+      ].map((p) => p.catch((e) => e)));
       twitterData = await twitterResponse.json();
       twitterData2 = await twitterResponse2.json();
     } catch (err) {
