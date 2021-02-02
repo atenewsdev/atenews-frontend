@@ -61,7 +61,7 @@ export default function Page(args) {
           description: post.excerpt.replace(/<[^>]+>/g, ''),
           images: [
             {
-              url: post.featuredImage.node.sourceUrl,
+              url: post.featuredImage?.node.sourceUrl,
             },
           ],
         }}

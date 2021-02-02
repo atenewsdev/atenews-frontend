@@ -41,7 +41,7 @@ export default function Hulagway({ featuredPhoto }) {
         </Grid>
       </Grid>
       <div style={{ borderRadius: 10, overflow: 'hidden' }}>
-        <LazyLoadImage src={imageGenerator(featuredPhoto.featuredImage.node.sourceUrl, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
+        <LazyLoadImage src={imageGenerator(featuredPhoto.featuredImage?.node.sourceUrl, 800)} alt="Featured" width="100%" style={{ width: '100%' }} effect="blur" />
       </div>
       <Typography variant="body1" component="div" style={{ padding: theme.spacing(2), textAlign: 'center' }}>
         <Grid container justify="center">

@@ -110,7 +110,7 @@ function RecentArticle({ article }) {
       variant="outlined"
       className={classes.trendingItem}
       style={xsDown ? {
-        background: `url(${imageGenerator(article.featuredImage.node.sourceUrl, 600)})`,
+        background: `url(${imageGenerator(article.featuredImage?.node.sourceUrl, 600)})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',

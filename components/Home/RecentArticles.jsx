@@ -151,7 +151,7 @@ function RecentArticles({ articles }) {
           />
           <div
             className={classes.bannerImage}
-            style={{ backgroundImage: `url(${imageGenerator(hoveredData.featuredImage.node.sourceUrl, 800)})` }}
+            style={{ backgroundImage: `url(${imageGenerator(hoveredData.featuredImage?.node.sourceUrl, 800)})` }}
           >
             <div className={classes.bannerDetailsContainer}>
               <div className={classes.bannerDetails}>

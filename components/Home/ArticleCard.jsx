@@ -86,7 +86,7 @@ const ArticleCard = ({ article }) => {
             borderRadius: 10,
             border: 0,
             height: '100%',
-            background: `url(${imageGenerator(article.featuredImage.node.sourceUrl, 600)})`,
+            background: `url(${imageGenerator(article.featuredImage?.node.sourceUrl, 600)})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

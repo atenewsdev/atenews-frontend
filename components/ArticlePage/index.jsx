@@ -145,10 +145,10 @@ export default function Page({
           marginBottom: theme.spacing(2), marginTop: theme.spacing(2), backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : '#F0F2F5', borderRadius: 0,
         }}
       >
-        <LazyLoadImage src={imageGenerator(post.featuredImage.node.sourceUrl, 800)} alt={post.featuredImage.node.caption} width="100%" effect="opacity" />
+        <LazyLoadImage src={imageGenerator(post.featuredImage?.node.sourceUrl, 800)} alt={post.featuredImage?.node.caption} width="100%" effect="opacity" />
         <div style={{ padding: theme.spacing(2) }}>
           {/* eslint-disable-next-line react/no-danger */}
-          <Typography variant="body2"><i dangerouslySetInnerHTML={{ __html: post.featuredImage.node.caption }} /></Typography>
+          <Typography variant="body2"><i dangerouslySetInnerHTML={{ __html: post.featuredImage?.node.caption }} /></Typography>
         </div>
       </Paper>
       <CSSTransition
