@@ -37,6 +37,7 @@ export default function Home({ staffs: staffsRaw }) {
   const [editors, setEditors] = React.useState([]);
   const [seniors, setSeniors] = React.useState([]);
   const [juniors, setJuniors] = React.useState([]);
+  const [trainees, setTrainees] = React.useState([]);
 
   const checkAssocManEd = () => (
     staffsRaw.find((staff) => (staff.roles.includes('associate_editor'))) === staffsRaw.find((staff) => (staff.roles.includes('managing_editor')))
@@ -109,6 +110,19 @@ export default function Home({ staffs: staffsRaw }) {
 
       return cleanRoles.length > 0 && isIncluded;
     }).sort(sortByPosition));
+
+    setTrainees(staffsRaw.filter((staff) => {
+      const cleanRoles = staff.roles.filter((role) => !rolesIgnore.includes(role));
+
+      let isIncluded = false;
+      cleanRoles.forEach((role) => {
+        if (role.toLowerCase().includes('trainee')) {
+          isIncluded = true;
+        }
+      });
+
+      return cleanRoles.length > 0 && isIncluded;
+    }).sort(sortByPosition));
   }, [staffsRaw]);
 
   return (
@@ -165,6 +179,20 @@ export default function Home({ staffs: staffsRaw }) {
               </Grid>
             )) }
           </Grid>
+
+          { trainees?.length ? (
+            <>
+              <Typography variant="h4" style={{ marginBottom: theme.spacing(2), marginTop: theme.spacing(4) }}>Trainees</Typography>
+
+              <Grid container spacing={2}>
+                { trainees.map((staff) => (
+                  <Grid item xs={12} sm={6} key={staff.id}>
+                    <Staff details={staff} />
+                  </Grid>
+                )) }
+              </Grid>
+            </>
+          ) : null }
 
           <Hidden mdUp>
             <Typography variant="h4" style={{ marginBottom: theme.spacing(4), marginTop: theme.spacing(8) }}>Contact Us</Typography>
