@@ -53,10 +53,10 @@ export default function Page(args) {
   return (
     <div className={classes.container}>
       <NextSeo
-        title={`${ReactHtmlParser(post.title)} - Atenews`}
+        title={`${ReactHtmlParser(post.title)}`}
         description={post.excerpt.replace(/<[^>]+>/g, '')}
         openGraph={{
-          title: `${ReactHtmlParser(post.title)} - Atenews`,
+          title: `${ReactHtmlParser(post.title)}`,
           description: post.excerpt.replace(/<[^>]+>/g, ''),
           images: [
             {
