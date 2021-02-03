@@ -44,19 +44,17 @@ export default async (req, res) => {
     };
     await admin.database().ref(`articles/${slug.replace('__trashed', '')}`).set(newArticle);
 
-    if (featured_photo) {
-      await Promise.all(categories_detailed.map(async (category) => {
-        await admin.messaging().send({
-          data: {
-            title: decode(title),
-            description: decode(category.name),
-            featured_photo,
-            slug,
-          },
-          topic: `${category.term_id}`,
-        });
-      }));
-    }
+    await Promise.all(categories_detailed.map(async (category) => {
+      await admin.messaging().send({
+        data: {
+          title: decode(title),
+          description: decode(category.name),
+          featured_photo,
+          slug,
+        },
+        topic: `${category.term_id}`,
+      });
+    }));
     res.status(200).send(newArticle);
   } else {
     res.status(500).send('WP Article is required.');
