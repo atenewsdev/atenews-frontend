@@ -1,7 +1,7 @@
 const withPWA = require('next-pwa');
-require('next/webpack-backwards-compat-require-hook');
 
 module.exports = withPWA({
+  future: { webpack5: true },
   pwa: {
     dest: 'public',
     // importScripts: ['/firebase-messaging-sw.js'],
